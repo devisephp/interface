@@ -38,7 +38,7 @@
 
 <script>
 import User from './components/menu/User';
-import SimpleBar from 'SimpleBar';
+import simplebar from 'simplebar';
 
 import { mapGetters, mapActions, mapMutations } from 'vuex';
 

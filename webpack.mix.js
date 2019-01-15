@@ -71,7 +71,7 @@ if (mix.inProduction()) {
         'jquery',
         'lodash',
         'vue-tippy',
-        'SimpleBar',
+        'simplebar',
         'vue-color',
         'text-clipper',
         'tinycolor2',
