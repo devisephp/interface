@@ -30,12 +30,6 @@ if (mix.inProduction()) {
   });
 }
 
-const webpack = require('webpack');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-mix.webpackConfig({
-  plugins: [new BundleAnalyzerPlugin(), new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)]
-});
-
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -58,6 +52,12 @@ mix
   });
 
 if (mix.inProduction()) {
+  const webpack = require('webpack');
+  const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+  mix.webpackConfig({
+    plugins: [new BundleAnalyzerPlugin(), new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)]
+  });
+
   mix
     .extract(
       [

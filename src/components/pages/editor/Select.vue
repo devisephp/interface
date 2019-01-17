@@ -12,12 +12,12 @@
         v-if="localValue.value === null || localValue.value === ''"
         class="dvs-italic"
       >Currently No Value</span>
-      <div>{{ label }} ({{localValue.value}})</div>
+      <div>{{ }})</div>
     </template>
     <template slot="editor">
       <fieldset class="dvs-fieldset">
         <select ref="focusInput" v-model="localValue.value" v-on:change="updateValue()">
-          <option :value="null">No Selection</option>
+          <option :value="null" v-if="options.allowNull">No Selection</option>
           <option v-for="(option, key) in options.options" :key="key" :value="key">{{ option }}</option>
         </select>
       </fieldset>
@@ -66,7 +66,6 @@ export default {
       this.toggleEditor();
     },
     updateValue: function() {
-      this.localValue.label = this.getLabel(this.localValue.value);
       // Emit the number value through the input event
       this.$emit('input', this.localValue);
       this.$emit('change', this.localValue);
@@ -76,10 +75,12 @@ export default {
       this.localValue.label = null;
       this.localValue.value = null;
       this.updateValue();
-    },
-    getLabel(value) {
-      if (value !== null) {
-        return this.options.options[value];
+    }
+  },
+  computed: {
+    label() {
+      if (this.localValue.value !== null) {
+        return this.options.options[this.localValue.value];
       }
       return 'Select';
     }

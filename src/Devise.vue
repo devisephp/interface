@@ -38,7 +38,9 @@
 
 <script>
 import User from './components/menu/User';
+import Administration from './components/admin/Administration.vue';
 import simplebar from 'simplebar';
+import SettingsIcon from 'vue-ionicons/dist/ios-settings.vue';
 
 import { mapGetters, mapActions, mapMutations } from 'vuex';
 
@@ -134,10 +136,8 @@ export default {
     }
   },
   components: {
-    Administration: () =>
-      import(/* webpackChunkName: "js/devise-administration" */ './components/admin/Administration.vue'),
-    SettingsIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-settings.vue'),
+    Administration,
+    SettingsIcon,
     User
   }
 };

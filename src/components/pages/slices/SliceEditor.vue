@@ -431,8 +431,7 @@ export default {
       import(/* webpackChunkName: "js/devise-editors" */ './../editor/Datetime'),
     CreateIcon: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-create.vue'),
-    draggable: () =>
-      import(/* webpackChunkName: "js/devise-modules-unsure-where-to-put" */ 'vuedraggable'),
+    draggable: () => import(/* webpackChunkName: "js/devise-editors" */ 'vuedraggable'),
     FileEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './../editor/File'),
     ImageEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './../editor/Image'),
     LinkEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './../editor/Link'),

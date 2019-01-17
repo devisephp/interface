@@ -32,17 +32,6 @@ const state = {
       icon: 'CreateIcon',
       routeName: 'devise-page-editor'
     },
-    ...(typeof deviseSettings.$page === 'undefined'
-      ? () => null
-      : [
-          {
-            icon: 'DocumentIcon',
-            routeName: 'devise-pages-view',
-            routeParams: {
-              pageId: deviseSettings.$page.id
-            }
-          }
-        ]),
     {
       icon: 'ImageIcon',
       label: 'Settings',
