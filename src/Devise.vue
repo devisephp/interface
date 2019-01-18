@@ -92,7 +92,7 @@ export default {
     removeBlocker() {
       let blocker = document.getElementById('devise-blocker');
       if (blocker) {
-        blocker.classList.add('fade');
+        blocker.classList.add('fade-fast');
       }
     },
     addWatchers() {

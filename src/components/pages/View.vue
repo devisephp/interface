@@ -25,7 +25,7 @@
           <ul>
             <li @click="href(page.slug)">Go To Page</li>
             <li @click="href(page.slug + '/#/devise/edit-page')">Edit Page Content</li>
-            <li @click="showCopy = true">Copy This Page</li>
+            <!-- <li @click="showCopy = true">Copy This Page</li> -->
             <li @click="showTranslate = true">Translate This Page</li>
             <li
               v-devise-alert-confirm="{callback: requestDeletePage, message: 'Are you sure you want to delete this page?'}"
