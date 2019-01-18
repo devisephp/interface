@@ -20,27 +20,27 @@
 </template>
 
 <script>
-import debounce from "v-debounce";
+import debounce from 'v-debounce';
 
-import { mapActions } from "vuex";
+import { mapActions } from 'vuex';
 
 export default {
-  name: "PageSearch",
+  name: 'PageSearch',
   data() {
     return {
       searchDelay: 1000,
-      searchTerm: "",
+      searchTerm: '',
       autosuggest: {
         data: []
       }
     };
   },
   methods: {
-    ...mapActions("devise", ["searchPages"]),
+    ...mapActions('devise', ['searchPages']),
     updateValue: function(i, id, title) {
-      this.searchTerm = "";
+      this.searchTerm = '';
       this.autosuggest.data = [];
-      this.$emit("selected", {
+      this.$emit('selected', {
         index: i,
         id: id,
         title: title
@@ -48,14 +48,13 @@ export default {
     },
     requestSearch(term) {
       let self = this;
-      if (term !== "") {
-        this.searchPages(term).then(data => {
+      if (term !== '') {
+        this.searchPages({ term: term, multisite: this.multisite }).then(data => {
           self.autosuggest = data;
           if (data.data.length < 1) {
-            devise.$bus.$emit("showMessage", {
-              title: "No Suggestions Found",
-              message:
-                "We couldn't find any values with the term: \"" + term + '".'
+            devise.$bus.$emit('showMessage', {
+              title: 'No Suggestions Found',
+              message: 'We couldn\'t find any values with the term: "' + term + '".'
             });
           }
         });
@@ -72,9 +71,13 @@ export default {
   props: {
     placeholder: {
       type: String,
-      default: ""
+      default: ''
     },
     index: {
+      type: Number,
+      default: 0
+    },
+    multisite: {
       type: Number,
       default: 0
     }

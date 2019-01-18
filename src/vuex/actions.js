@@ -447,10 +447,10 @@ const actions = {
     });
   },
 
-  searchPages(context, search) {
+  searchPages(context, payload) {
     return new Promise((resolve, reject) => {
       window.axios
-        .get(context.state.api.baseUrl + 'pages-suggest/', { params: { term: search } })
+        .get(context.state.api.baseUrl + 'pages-suggest/', { params: payload })
         .then(function(response) {
           resolve(response);
         })
