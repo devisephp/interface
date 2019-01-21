@@ -128,8 +128,8 @@ export default {
         if (settings.includes('s')) {
           dims = height * 0.5;
         }
-        if (settings.includes('l')) {
-          dims = height;
+        if (settings.includes('xs')) {
+          dims = height * 0.25;
         }
 
         styles += `height:${dims}px`;
@@ -148,8 +148,9 @@ export default {
           dims = height * 0.5;
           iconClasses += 'mt-1 ml-1';
         }
-        if (settings.includes('l')) {
-          dims = height;
+        if (settings.includes('xs')) {
+          dims = height * 0.25;
+          iconClasses += 'm-0';
         }
 
         styles += `height:${dims}px;`;
@@ -167,8 +168,9 @@ export default {
           dims = height * 0.5;
           iconClasses += 'mt-1 ml-1';
         }
-        if (settings.includes('l')) {
-          dims = height;
+        if (settings.includes('xs')) {
+          dims = height * 0.25;
+          iconClasses += 'm-0';
         }
 
         styles += `height:${dims}px;`;
@@ -195,6 +197,9 @@ export default {
         }
         if (settings.includes('b')) {
           styles += 'font-weight:700;';
+        }
+        if (settings.includes('i')) {
+          styles += 'font-style:italic';
         }
         if (settings.includes('~')) {
           let re = /~([0-9]*)/g;
