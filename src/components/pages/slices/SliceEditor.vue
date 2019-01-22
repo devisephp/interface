@@ -320,7 +320,7 @@ export default {
     },
     copySlice(slice, referringSlice) {
       if (referringSlice === null) {
-        referringSlice = this.slice;
+        referringSlice = Object.assign({}, this.slice);
       }
 
       if (referringSlice === false) {
