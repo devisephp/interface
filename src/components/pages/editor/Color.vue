@@ -7,6 +7,7 @@
     @toggleShowEditor="toggleEditor"
     @cancel="cancel"
     @resetvalue="resetValue"
+    @change="update"
   >
     <template slot="preview">
       <span v-if="color === null || color === ''" class="dvs-italic">Currently No Value</span>
@@ -23,6 +24,7 @@
 <script>
 var tinycolor = require('tinycolor2');
 import { Sketch } from 'vue-color';
+import Field from './../../../mixins/Field';
 
 export default {
   name: 'ColorEditor',
@@ -42,13 +44,14 @@ export default {
     cancel() {
       let rgba = this.convertColor(this.originalValue);
       this.color = { rgba: rgba };
+      this.enabled = this.originalValue.enabled;
       this.toggleEditor();
     },
     convertColor(color) {
       return tinycolor(color).toRgb();
     },
     resetValue() {
-      this.localValue.enabled = false;
+      this.enabled = false;
       this.color = null;
     }
   },
@@ -64,7 +67,6 @@ export default {
         return tinycolor(this.value.color).toHex();
       },
       set(color) {
-        console.log(color);
         let valueObj = Object.assign(this.value, { color: null });
         if (color !== null) {
           valueObj = Object.assign(this.value, {
@@ -80,6 +82,7 @@ export default {
   components: {
     FieldEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './Field'),
     'sketch-picker': Sketch
-  }
+  },
+  mixins: [Field]
 };
 </script>

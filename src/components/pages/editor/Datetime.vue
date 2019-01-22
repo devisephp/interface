@@ -1,23 +1,21 @@
 <template>
   <field-editor
     :options="options"
-    v-model="localValue"
+    :value="value"
     :showEditor="showEditor"
     @toggleShowEditor="toggleEditor"
     @cancel="cancel"
     @resetvalue="resetValue"
+    @change="update"
   >
     <template slot="preview">
-      <span
-        v-if="localValue.text === null || localValue.text === ''"
-        class="dvs-italic"
-      >Currently No Value</span>
-      <div>{{localValue.text}}</div>
+      <span v-if="value.text === null || value.text === ''" class="dvs-italic">Currently No Value</span>
+      <div>{{value.text}}</div>
     </template>
 
     <template slot="editor">
       <fieldset class="dvs-fieldset">
-        <date-picker ref="datepicker" v-model="localValue.text" :settings="settings"/>
+        <date-picker ref="datepicker" v-model="text" :settings="settings"/>
       </fieldset>
     </template>
   </field-editor>
@@ -25,6 +23,7 @@
 
 <script>
 import DatePicker from './../../utilities/DatePicker';
+import Field from './../../../mixins/Field';
 
 export default {
   name: 'DatetimeEditor',
@@ -60,24 +59,26 @@ export default {
       this.showEditor = !this.showEditor;
     },
     cancel() {
-      this.localValue.text = this.originalValue.text;
+      this.text = this.originalValue.text;
+      this.enabled = this.originalValue.enabled;
       this.toggleEditor();
     },
     resetValue() {
-      this.localValue.enabled = false;
-      this.$refs.datepicker.resetPicker();
-      this.localValue = Object.assign(this.localValue, { text: null });
+      this.enabled = false;
+      this.text = null;
+      console.log(this.text);
     }
   },
   computed: {
-    localValue: {
-      set: function(value) {
-        console.log(value);
-        this.$emit('input', value);
-        this.$emit('change', value);
+    text: {
+      get() {
+        console.log('getting value', this.value.text);
+        return this.value.text;
       },
-      get: function() {
-        return this.value;
+      set(value) {
+        let valueObj = Object.assign(this.value, { text: value });
+        this.$emit('input', valueObj);
+        this.$emit('change', valueObj);
       }
     },
     getMaxLength: function() {
@@ -91,6 +92,7 @@ export default {
   components: {
     FieldEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './Field'),
     DatePicker
-  }
+  },
+  mixins: [Field]
 };
 </script>

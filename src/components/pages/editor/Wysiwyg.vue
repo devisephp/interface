@@ -2,22 +2,20 @@
   <div>
     <field-editor
       :options="options"
-      v-model="localValue"
+      v-model="value"
       :showEditor="showEditor"
       @toggleShowEditor="toggleEditor"
       @cancel="cancel"
       @resetvalue="resetValue"
+      @change="update"
     >
       <template slot="preview">
-        <span
-          v-if="localValue.text === null || localValue.text === ''"
-          class="dvs-italic"
-        >Currently No Value</span>
-        <div v-html="clipString(localValue.text, 200, false)"></div>
+        <span v-if="value.text === null || value.text === ''" class="dvs-italic">Currently No Value</span>
+        <div v-html="clipString(value.text, 200, false)"></div>
       </template>
       <template slot="editor">
         <div style="max-height:80vh" data-simplebar>
-          <wysiwyg ref="editor" v-model="localValue.text"></wysiwyg>
+          <wysiwyg ref="editor" v-model="text"></wysiwyg>
         </div>
       </template>
     </field-editor>
@@ -26,6 +24,7 @@
 
 <script>
 import Strings from './../../../mixins/Strings';
+import Field from './../../../mixins/Field';
 
 export default {
   name: 'WysiwygEditor',
@@ -45,24 +44,30 @@ export default {
       this.showEditor = !this.showEditor;
     },
     cancel() {
-      this.localValue.text = this.originalValue.text;
-      this.$emit('input', this.originalValue);
-      this.$emit('change', this.originalValue);
+      this.text = this.originalValue.text;
+      this.enabled = this.originalValue.enabled;
 
       this.toggleEditor();
     },
-    update(event) {
-      this.localValue.text = event.target.value;
-      this.$emit('input', this.localValue);
-      this.$emit('change', this.localValue);
-    },
     resetValue() {
-      this.localValue.enabled = false;
+      this.enabled = false;
       this.$refs.editor.empty();
     }
   },
+  computed: {
+    text: {
+      get() {
+        return this.value.text;
+      },
+      set(value) {
+        let valueObj = Object.assign(this.value, { text: value });
+        this.$emit('input', valueObj);
+        this.$emit('change', valueObj);
+      }
+    }
+  },
   props: ['value', 'options', 'namekey'],
-  mixins: [Strings],
+  mixins: [Strings, Field],
   components: {
     Toggle: () => import(/* webpackChunkName: "js/devise-utilities" */ './../../utilities/Toggle'),
     FieldEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './Field'),

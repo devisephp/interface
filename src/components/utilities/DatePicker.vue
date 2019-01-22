@@ -16,7 +16,6 @@ import dayjs from 'dayjs';
 export default {
   data() {
     return {
-      localDateTime: null,
       config: {
         noCalendar: !this.settings.date,
         enableTime: this.settings.time,
@@ -24,14 +23,10 @@ export default {
       }
     };
   },
-  mounted() {
-    this.localDateTime = this.value;
-  },
   methods: {
     updateValue(value) {
       value = this.formatValue(value);
-      this.$emit('input', value);
-      this.$emit('update', value);
+      this.localDateTime = value;
     },
     formatValue(value) {
       if (this.settings.format) {
@@ -52,9 +47,17 @@ export default {
       }
 
       return null;
-    },
-    resetPicker() {
-      this.localDateTime = null;
+    }
+  },
+  computed: {
+    localDateTime: {
+      get() {
+        return this.value;
+      },
+      set(value) {
+        this.$emit('input', value);
+        this.$emit('change', value);
+      }
     }
   },
   components: {

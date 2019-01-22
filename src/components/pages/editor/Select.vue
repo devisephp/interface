@@ -1,22 +1,21 @@
 <template>
   <field-editor
     :options="options"
-    v-model="localValue"
+    v-model="value"
     :showEditor="showEditor"
     @toggleShowEditor="toggleEditor"
     @cancel="cancel"
     @resetvalue="resetValue"
+    @change="update"
   >
     <template slot="preview">
-      <span
-        v-if="localValue.value === null || localValue.value === ''"
-        class="dvs-italic"
-      >Currently No Value</span>
+      <span v-if="value.value === null || value.value === ''" class="dvs-italic">Currently No Value</span>
       <div>{{ }})</div>
     </template>
     <template slot="editor">
       <fieldset class="dvs-fieldset">
-        <select ref="focusInput" v-model="localValue.value" v-on:change="updateValue()">
+        {{ selectValue }}
+        <select ref="focusInput" v-model="selectValue">
           <option :value="null" v-if="options.allowNull">No Selection</option>
           <option v-for="(option, key) in options.options" :key="key" :value="key">{{ option }}</option>
         </select>
@@ -27,6 +26,7 @@
 
 <script>
 import Strings from './../../../mixins/Strings';
+import Field from './../../../mixins/Field';
 
 export default {
   name: 'SelectEditor',
@@ -34,8 +34,7 @@ export default {
     return {
       localValue: {
         label: null,
-        value: null,
-        settings: {}
+        value: null
       },
       originalValue: null,
       showEditor: false
@@ -60,33 +59,47 @@ export default {
       }
     },
     cancel() {
-      this.localValue.value = this.originalValue.value;
-      this.localValue.label = this.originalValue.label;
-      this.updateValue();
+      this.selectValue = this.originalValue.value;
+      this.label = this.originalValue.label;
+      this.enabled = this.originalValue.enabled;
       this.toggleEditor();
     },
-    updateValue: function() {
-      // Emit the number value through the input event
-      this.$emit('input', this.localValue);
-      this.$emit('change', this.localValue);
-    },
     resetValue() {
-      this.localValue.enabled = false;
-      this.localValue.label = null;
-      this.localValue.value = null;
-      this.updateValue();
+      this.enabled = false;
+      this.label = null;
+      this.selectValue = null;
     }
   },
   computed: {
-    label() {
-      if (this.localValue.value !== null) {
-        return this.options.options[this.localValue.value];
+    label: {
+      get() {
+        if (this.selectValue !== null) {
+          return this.options.options[this.selectValue];
+        }
+        return 'Select';
+      },
+      set(value) {
+        let valueObj = Object.assign(this.value, { text: value });
+        this.$emit('input', valueObj);
+        this.$emit('change', valueObj);
       }
-      return 'Select';
+    },
+    selectValue: {
+      get() {
+        if (this.value.value === '' || !this.value.value) {
+          return null;
+        }
+        return this.value.value;
+      },
+      set(newSelectValue) {
+        let valueObj = Object.assign(this.value, { value: newSelectValue });
+        this.$emit('input', valueObj);
+        this.$emit('change', valueObj);
+      }
     }
   },
   props: ['value', 'options'],
-  mixins: [Strings],
+  mixins: [Strings, Field],
   components: {
     FieldEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './Field')
   }

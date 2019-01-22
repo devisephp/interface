@@ -1,71 +1,51 @@
 <template>
   <field-editor
     :options="options"
-    v-model="localValue"
+    v-model="value"
     :showEditor="showEditor"
     @toggleShowEditor="toggleEditor"
     @cancel="cancel"
     @resetvalue="resetValue"
+    @change="update"
   >
     <template slot="preview">
-      <span
-        v-if="localValue.text === null || localValue.text === ''"
-        class="dvs-italic"
-      >Currently No Value</span>
+      <span v-if="value.text === null || value.text === ''" class="dvs-italic">Currently No Value</span>
       <div>
-        <a :href="localValue.href" :target="localValue.target">{{localValue.text}}</a>
+        <a :href="value.href" :target="value.target">{{value.text}}</a>
       </div>
     </template>
 
     <template slot="editor">
       <fieldset class="dvs-fieldset">
         <label>Label</label>
-        <input
-          ref="focusInput"
-          type="text"
-          class="dvs-mb-4"
-          v-model="localValue.text"
-          v-on:input="updateValue()"
-        >
+        <input ref="focusInput" type="text" class="dvs-mb-4" v-model="text">
       </fieldset>
 
       <label>Link Mode</label>
       <div class="dvs-flex">
         <label>
-          <input
-            type="radio"
-            class="dvs-w-auto dvs-mr-2"
-            v-model="localValue.mode"
-            value="url"
-            v-on:input="updateValue()"
-          >
+          <input type="radio" class="dvs-w-auto dvs-mr-2" v-model="mode" value="url">
           URL
         </label>
       </div>
       <div class="dvs-flex dvs-mb-4">
         <label>
-          <input
-            type="radio"
-            class="dvs-w-auto dvs-mr-2"
-            v-model="localValue.mode"
-            value="page"
-            v-on:input="updateValue()"
-          >
+          <input type="radio" class="dvs-w-auto dvs-mr-2" v-model="mode" value="page">
           Page
         </label>
       </div>
 
-      <template v-if="localValue.mode === 'url'">
+      <template v-if="mode === 'url'">
         <fieldset class="dvs-fieldset dvs-mb-4">
           <label>URL</label>
-          <input type="text" v-model="localValue.url" v-on:input="updateUrl()">
+          <input type="text" v-model="url">
         </fieldset>
       </template>
-      <template v-if="localValue.mode === 'page'">
+      <template v-if="mode === 'page'">
         <fieldset class="dvs-fieldset dvs-mb-4">
           <label>Page</label>
-          <select v-model="localValue.routeName" @change="selectPage()">
-            <option :value="0">Select a Page</option>
+          <select v-model="routeName" @change="selectPage()">
+            <option :value="null" disabled>Select a Page</option>
             <option
               :value="page.route_name"
               v-for="page in pagesList.data"
@@ -77,7 +57,7 @@
 
       <fieldset class="dvs-fieldset">
         <label>Target</label>
-        <select v-model="localValue.target" @change="updateValue()">
+        <select v-model="target">
           <option value="_self">Same Window</option>
           <option value="_blank">New Tab / Window</option>
           <option value="_parent">Parent</option>
@@ -90,28 +70,17 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import Field from './../../../mixins/Field';
 
 export default {
   name: 'LinkEditor',
   data() {
     return {
-      localValue: {
-        href: '',
-        url: '',
-        text: '',
-        routeName: '',
-        target: '_self'
-      },
       showEditor: false
     };
   },
   mounted() {
     this.originalValue = Object.assign({}, this.value);
-    this.localValue = this.value;
-    if (!this.localValue.target) {
-      this.localValue.target = '_self';
-    }
-
     this.retrieveAllPagesList();
   },
   methods: {
@@ -137,47 +106,98 @@ export default {
         }
       });
     },
-    cancel() {
-      this.localValue.mode = this.originalValue.mode;
-      this.localValue.text = this.originalValue.text;
-      this.localValue.href = this.originalValue.href;
-      this.localValue.routeName = this.originalValue.routeName;
-      this.updateValue();
-      this.toggleEditor();
-    },
-    updateUrl() {
-      this.localValue.href = this.localValue.url;
-      this.updateValue();
-    },
     selectPage(e) {
       let page = this.pagesList.data.find(page => {
-        return page.route_name === this.localValue.routeName;
+        return page.route_name === this.routeName;
       });
-
-      this.localValue.href = page.url;
-      this.updateValue();
+      if (page) {
+        this.url = page.url;
+      }
     },
-    updateValue: function() {
-      // Emit the number value through the input event
-      this.$emit('input', this.localValue);
-      this.$emit('change', this.localValue);
+    cancel() {
+      this.mode = this.originalValue.mode;
+      this.text = this.originalValue.text;
+      this.url = this.originalValue.url;
+      this.href = this.originalValue.href;
+      this.target = this.originalValue.target;
+      this.routeName = this.originalValue.routeName;
+      this.enabled = this.originalValue.enabled;
+      this.toggleEditor();
     },
     resetValue() {
-      this.localValue.enabled = false;
-      this.localValue.href = null;
-      this.localValue.url = null;
-      this.localValue.mode = null;
-      this.localValue.text = null;
-      this.localValue.routeName = null;
-      this.updateValue();
+      this.enabled = false;
+      this.target = null;
+      this.url = null;
+      this.href = null;
+      this.mode = null;
+      this.text = null;
+      this.routeName = null;
     }
   },
   computed: {
-    ...mapGetters('devise', ['pagesList'])
+    ...mapGetters('devise', ['pagesList']),
+    url: {
+      get() {
+        return this.value.url;
+      },
+      set(value) {
+        let valueObj = Object.assign(this.value, { href: value, url: value });
+        this.$emit('input', valueObj);
+        this.$emit('change', valueObj);
+      }
+    },
+    text: {
+      get() {
+        return this.value.text;
+      },
+      set(value) {
+        let valueObj = Object.assign(this.value, { text: value });
+        this.$emit('input', valueObj);
+        this.$emit('change', valueObj);
+      }
+    },
+    target: {
+      get() {
+        if (!this.value.target) {
+          let valueObj = Object.assign(this.value, { target: '_self' });
+          this.$emit('input', valueObj);
+          this.$emit('change', valueObj);
+        }
+        return this.value.target;
+      },
+      set(value) {
+        let valueObj = Object.assign(this.value, { target: value });
+        this.$emit('input', valueObj);
+        this.$emit('change', valueObj);
+      }
+    },
+    routeName: {
+      get() {
+        return this.value.routeName;
+      },
+      set(value) {
+        let valueObj = Object.assign(this.value, { routeName: value });
+        this.$emit('input', valueObj);
+        this.$emit('change', valueObj);
+      }
+    },
+    mode: {
+      get() {
+        return this.value.mode;
+      },
+      set(value) {
+        this.url = null;
+        this.routeName = null;
+        let valueObj = Object.assign(this.value, { mode: value });
+        this.$emit('input', valueObj);
+        this.$emit('change', valueObj);
+      }
+    }
   },
   props: ['value', 'options'],
   components: {
     FieldEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './Field')
-  }
+  },
+  mixins: [Field]
 };
 </script>
