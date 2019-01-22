@@ -128,8 +128,8 @@ export default {
         if (settings.includes('s')) {
           dims = height * 0.5;
         }
-        if (settings.includes('l')) {
-          dims = height;
+        if (settings.includes('xs')) {
+          dims = height * 0.25;
         }
 
         styles += `height:${dims}px`;
@@ -148,8 +148,9 @@ export default {
           dims = height * 0.5;
           iconClasses += 'mt-1 ml-1';
         }
-        if (settings.includes('l')) {
-          dims = height;
+        if (settings.includes('xs')) {
+          dims = height * 0.25;
+          iconClasses += 'm-0';
         }
 
         styles += `height:${dims}px;`;
@@ -167,8 +168,9 @@ export default {
           dims = height * 0.5;
           iconClasses += 'mt-1 ml-1';
         }
-        if (settings.includes('l')) {
-          dims = height;
+        if (settings.includes('xs')) {
+          dims = height * 0.25;
+          iconClasses += 'm-0';
         }
 
         styles += `height:${dims}px;`;
@@ -196,6 +198,9 @@ export default {
         if (settings.includes('b')) {
           styles += 'font-weight:700;';
         }
+        if (settings.includes('i')) {
+          styles += 'font-style:italic';
+        }
         if (settings.includes('~')) {
           let re = /~([0-9]*)/g;
           let textLength = re.exec(settings);
@@ -219,7 +224,7 @@ export default {
         let textArea = `<div style="background-color:rgba(255,255,255,0.2);height:60px;" class="dvs-p-1 dvs-w-full dvs-mb-4"></div>`;
         let submit = `<div style="background-color:rgba(255,255,255,0.4);height:30px;" class="dvs-p-1 dvs-w-full dvs-rounded-sm dvs-mb-4 dvs-flex dvs-justify-center dvs-items-center dvs-uppercase dvs-text-xs">Click Me!</div>`;
 
-        // Form Size: 2 fields by default, "l" = 3 fields, "s" = 1 field
+        // Form Size: 2 fields by default, "l" = 3 fields, "s" = 1 field, "xs" = 0 field
         if (!settings.includes('xs')) {
           finalForm += textField;
         }

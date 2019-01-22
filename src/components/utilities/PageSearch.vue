@@ -49,7 +49,7 @@ export default {
     requestSearch(term) {
       let self = this;
       if (term !== '') {
-        this.searchPages({ term: term, multisite: this.multisite }).then(data => {
+        this.searchPages({ term: term, 'multi-site': this.multisite }).then(data => {
           self.autosuggest = data;
           if (data.data.length < 1) {
             devise.$bus.$emit('showMessage', {
