@@ -127,6 +127,7 @@
       >
         <div v-if="theFields[key]">
           <color-editor
+            @change="editField($event, field, key)"
             v-model="theFields[key]"
             :options="field"
             :namekey="key"
@@ -134,6 +135,7 @@
           ></color-editor>
 
           <checkbox-editor
+            @change="editField($event, field, key)"
             v-model="theFields[key]"
             :options="field"
             :namekey="key"
@@ -141,6 +143,7 @@
           ></checkbox-editor>
 
           <datetime-editor
+            @change="editField($event, field, key)"
             v-model="theFields[key]"
             :options="field"
             :namekey="key"
@@ -148,6 +151,7 @@
           ></datetime-editor>
 
           <image-editor
+            @change="editField($event, field, key)"
             v-model="theFields[key]"
             :options="field"
             :namekey="key"
@@ -155,6 +159,7 @@
           ></image-editor>
 
           <file-editor
+            @change="editField($event, field, key)"
             v-model="theFields[key]"
             :options="field"
             :namekey="key"
@@ -162,6 +167,7 @@
           ></file-editor>
 
           <link-editor
+            @change="editField($event, field, key)"
             v-model="theFields[key]"
             :options="field"
             :namekey="key"
@@ -169,6 +175,7 @@
           ></link-editor>
 
           <number-editor
+            @change="editField($event, field, key)"
             v-model="theFields[key]"
             :options="field"
             :namekey="key"
@@ -176,6 +183,7 @@
           ></number-editor>
 
           <select-editor
+            @change="editField($event, field, key)"
             v-model="theFields[key]"
             :options="field"
             :namekey="key"
@@ -183,6 +191,7 @@
           ></select-editor>
 
           <textarea-editor
+            @change="editField($event, field, key)"
             v-model="theFields[key]"
             :options="field"
             :namekey="key"
@@ -190,6 +199,7 @@
           ></textarea-editor>
 
           <text-editor
+            @change="editField($event, field, key)"
             v-model="theFields[key]"
             :options="field"
             :namekey="key"
@@ -197,6 +207,7 @@
           ></text-editor>
 
           <wysiwyg-editor
+            @change="editField($event, field, key)"
             v-model="theFields[key]"
             :options="field"
             :namekey="key"
@@ -276,7 +287,7 @@ export default {
 
     // Adding, Editing and Removing Slices
     requestInsertSlice() {
-      if (this.slice.metadata.has_child_slot) {
+      if (this.hasChildSlot) {
         this.manageSlice = true;
         this.$nextTick(function() {
           if (this.$refs.manageSlice) {
@@ -309,7 +320,7 @@ export default {
     },
     copySlice(slice, referringSlice) {
       if (referringSlice === null) {
-        referringSlice = this.slice;
+        referringSlice = Object.assign({}, this.slice);
       }
 
       if (referringSlice === false) {
@@ -326,6 +337,13 @@ export default {
       }
       this.$emit('removeSlice', slice, referringSlice);
       this.manageSlice = false;
+    },
+    editField(value, field, key) {
+      // Update the slice field
+      this.slice[key] = Object.assign({}, value);
+
+      // Send out the notification
+      devise.$bus.$emit('devise-field-edited', { field, value });
     }
   },
   computed: {

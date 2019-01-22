@@ -38,8 +38,8 @@
           class="dvs-fixed dvs-pin-b dvs-pin-r dvs-mx-8 dvs-mb-8 dvs-z-40 dvs-max-w-full"
           :panel-style="theme.panel"
         >
-          <div class="dvs-p-8">
-            <h6 class="dvs-text-base dvs-mb-2" :style="{color: theme.panel.color}">
+          <div class="dvs-p-8 dvs-flex dvs-flex-col">
+            <h6 class="dvs-text-base dvs-mb-2 dvs-w-full" :style="{color: theme.panel.color}">
               <span>{{ value.label }}</span>
               <br>
               <small class="dvs-text-xs" v-if="value.instructions">
@@ -52,8 +52,10 @@
 
             <slot name="editor"></slot>
 
-            <div class="dvs-flex dvs-items-center dvs-mt-4 dvs-mb-4 dvs-justify-between">
-              <div class="dvs-flex dvs-items-center">
+            <div
+              class="dvs-flex dvs-flex-col dvs-items-center dvs-mt-4 dvs-mb-4 dvs-justify-between"
+            >
+              <div class="dvs-flex dvs-items-center dvs-mb-6">
                 <button
                   class="dvs-btn dvs-mr-2"
                   @click="toggleShowEditor"
@@ -67,7 +69,7 @@
               </div>
               <div class="dvs-flex dvs-items-center dvs-justify-between" v-if="value.enabler">
                 <label class="dvs-mr-2">Field Enabled</label>
-                <toggle v-model="value.enabled" :id="randomString(8)"></toggle>
+                <toggle v-model="enabled" :id="randomString(8)"></toggle>
               </div>
             </div>
             <div
@@ -94,6 +96,7 @@
 <script>
 import { mapGetters, mapState } from 'vuex';
 import Strings from './../../../mixins/Strings';
+import Field from './../../../mixins/Field';
 
 export default {
   name: 'FieldEditor',
@@ -135,7 +138,7 @@ export default {
     }
   },
   props: ['value', 'options', 'showEditor', 'noReset'],
-  mixins: [Strings],
+  mixins: [Strings, Field],
   components: {
     Panel: () => import(/* webpackChunkName: "js/devise-utilities" */ './../../utilities/Panel'),
     Toggle: () => import(/* webpackChunkName: "js/devise-utilities" */ './../../utilities/Toggle')

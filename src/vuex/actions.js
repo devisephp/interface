@@ -578,6 +578,7 @@ const actions = {
             title: 'Success!',
             message: page.title + ' has been saved.'
           });
+          devise.$bus.$emit('devise-page-saved');
           context.commit('updatePage', { page: page, data: response.data });
           resolve(response);
         })

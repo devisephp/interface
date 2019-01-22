@@ -1,28 +1,20 @@
 <template>
   <field-editor
     :options="options"
-    v-model="localValue"
+    v-model="value"
     :showEditor="showEditor"
     @toggleShowEditor="toggleEditor"
     @cancel="cancel"
     @resetvalue="resetValue"
+    @change="update"
   >
     <template slot="preview">
-      <span
-        v-if="localValue.text === null || localValue.text === ''"
-        class="dvs-italic"
-      >Currently No Value</span>
-      <div>{{ clipString(localValue.text, 200, true) }}</div>
+      <span v-if="value.text === null || value.text === ''" class="dvs-italic">Currently No Value</span>
+      <div>{{ clipString(value.text, 200, true) }}</div>
     </template>
     <template slot="editor">
       <fieldset class="dvs-fieldset">
-        <input
-          ref="focusInput"
-          type="text"
-          v-model="localValue.text"
-          :maxlength="getMaxLength"
-          v-on:input="updateValue()"
-        >
+        <input ref="focusInput" type="text" v-model="text" :maxlength="getMaxLength">
       </fieldset>
     </template>
   </field-editor>
@@ -30,19 +22,18 @@
 
 <script>
 import Strings from './../../../mixins/Strings';
+import Field from './../../../mixins/Field';
 
 export default {
   name: 'TextEditor',
   data() {
     return {
-      localValue: {},
       originalValue: null,
       showEditor: false
     };
   },
   mounted() {
     this.originalValue = Object.assign({}, this.value);
-    this.localValue = this.value;
   },
   methods: {
     toggleEditor() {
@@ -59,19 +50,13 @@ export default {
       }
     },
     cancel() {
-      this.localValue.text = this.originalValue.text;
-      this.updateValue();
+      this.text = this.originalValue.text;
+      this.enabled = this.originalValue.enabled;
       this.toggleEditor();
     },
-    updateValue: function() {
-      // Emit the number value through the input event
-      this.$emit('input', this.localValue);
-      this.$emit('change', this.localValue);
-    },
     resetValue() {
-      this.localValue.text = null;
-      this.localValue.enabled = false;
-      this.updateValue();
+      this.text = null;
+      this.enabled = false;
     }
   },
   computed: {
@@ -80,10 +65,20 @@ export default {
         return this.settings.maxlength;
       }
       return '';
+    },
+    text: {
+      get() {
+        return this.value.text;
+      },
+      set(value) {
+        let valueObj = Object.assign(this.value, { text: value });
+        this.$emit('input', valueObj);
+        this.$emit('change', valueObj);
+      }
     }
   },
   props: ['value', 'options'],
-  mixins: [Strings],
+  mixins: [Strings, Field],
   components: {
     FieldEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './Field')
   }
