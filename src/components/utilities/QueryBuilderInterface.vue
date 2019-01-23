@@ -66,8 +66,6 @@
 <script>
 var qs = require('qs');
 
-import DeviseModal from './Modal';
-import QueryBuilder from './QueryBuilder';
 import Strings from './../../mixins/Strings';
 
 export default {
@@ -153,11 +151,8 @@ export default {
   },
   mixins: [Strings],
   components: {
-    AddIcon,
-    EditIcon,
-    DeviseModal,
-    QueryBuilder,
-    TrashIcon,
+    DeviseModal: () => import(/* webpackChunkName: "js/devise-utilites" */ './Modal'),
+    QueryBuilder: () => import(/* webpackChunkName: "js/devise-utilites" */ './QueryBuilder'),
     AddIcon: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-add-circle.vue'),
     EditIcon: () =>
