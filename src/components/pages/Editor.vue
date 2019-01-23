@@ -121,9 +121,6 @@ export default {
     requestAddSlice() {
       let self = this;
       this.createSlice = true;
-      this.$nextTick(function() {
-        this.$refs.manageSlice.action = 'insert';
-      });
     },
     addSlice(newSlice, referenceSlice) {
       if (typeof referenceSlice !== 'undefined') {
