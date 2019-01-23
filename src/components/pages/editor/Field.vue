@@ -7,8 +7,8 @@
       <div class="dvs-large-label dvs-flex dvs-items-center dvs-mr-2 dvs-font-bold dvs-w-full">
         <div
           class="dvs-rounded-full dvs-mr-2 dvs-w-2 dvs-h-2 dvs-mr-2"
-          @click="value.enabled = !value.enabled"
-          :class="{'dvs-bg-green': value.enabled, 'dvs-bg-white': !value.enabled, 'dvs-invisible': !value.enabler}"
+          @click="toggleEnabled"
+          :class="{'dvs-bg-green': value.enabled, 'dvs-bg-white': !value.enabled, 'dvs-invisible': !options.enabler}"
         ></div>
         <div
           class="dvs-flex dvs-items-center dvs-justify-start dvs-w-full"
@@ -55,7 +55,7 @@
             <div
               class="dvs-flex dvs-flex-col dvs-items-center dvs-mt-4 dvs-mb-4 dvs-justify-between"
             >
-              <div class="dvs-flex dvs-items-center dvs-mb-6">
+              <div class="dvs-flex dvs-items-center" :class="{'dvs-mb-6': options.enabler}">
                 <button
                   class="dvs-btn dvs-mr-2"
                   @click="toggleShowEditor"
@@ -67,7 +67,7 @@
                   :style="theme.actionButtonGhost"
                 >Cancel</button>
               </div>
-              <div class="dvs-flex dvs-items-center dvs-justify-between" v-if="value.enabler">
+              <div class="dvs-flex dvs-items-center dvs-justify-between" v-if="options.enabler">
                 <label class="dvs-mr-2">Field Enabled</label>
                 <toggle v-model="enabled" :id="randomString(8)"></toggle>
               </div>
@@ -122,13 +122,18 @@ export default {
       }
       return 'This field is not enabled. Edit the field and toggle the enable switch to turn it on.';
     },
+    toggleEnabled(e) {
+      if (!this.options.enabler) {
+        e.preventDefault();
+      }
+      this.value.enabled = !this.value.enabled;
+    },
     resetValue() {
       this.showErase = false;
       this.$emit('resetvalue');
     }
   },
   computed: {
-    ...mapGetters('devise', ['fieldConfig']),
     ...mapState('devise', ['devMode']),
     devLabel() {
       if (this.devMode) {
