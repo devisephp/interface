@@ -35,8 +35,13 @@
         </div>
       </fieldset>
       <fieldset class="dvs-fieldset" v-else>
-        <div @click="launchMediaManager($event)" class="dvs-mb-8">
-          <button class="dvs-btn" :style="theme.actionButton">Select New Media</button>
+        <div class="flex">
+          <div v-if="value.url" @click="launchMediaEditor($event)" class="dvs-mb-8 dvs-mr-4">
+            <button class="dvs-btn" :style="theme.actionButton">Edit Current Media</button>
+          </div>
+          <div @click="launchMediaManager($event)" class="dvs-mb-8 dvs-mr-4">
+            <button class="dvs-btn" :style="theme.actionButton">Select New Media</button>
+          </div>
         </div>
         <div class="dvs-flex dvs-items-center">
           <div v-if="hasMedia">
@@ -49,7 +54,11 @@
                 class="dvs-uppercase dvs-text-center dvs-mr-4 dvs-mb-4 dvs-p-4"
                 :style="theme.panelCard"
               >
-                <img :src="media" class="mb-2" style="width:100px; height:auto">
+                <img
+                  :src="media + '?buster=' +new Date().getTime()"
+                  class="mb-2"
+                  style="width:100px; height:auto"
+                >
                 <div class="dvs-text-xs">{{ size }} {{ getDimensions(size) }}</div>
               </div>
             </div>
@@ -118,6 +127,15 @@ export default {
       } else {
         this.url = imagesAndSettings;
       }
+    },
+    launchMediaEditor() {
+      this.options.type = 'image';
+      devise.$bus.$emit('devise-launch-media-editor', {
+        callback: this.mediaSelected,
+        options: this.options,
+        image: this.value.media.original,
+        settings: this.settings
+      });
     },
     getDimensions(size) {
       if (this.value.sizes && this.value.sizes[size])

@@ -4,7 +4,7 @@
     :class="{'dvs-pointer-events-none': !loaded}"
     v-if="show"
   >
-    <div class="dvs-blocker dvs-z-30" @click="show = false"></div>
+    <div class="dvs-blocker dvs-z-30" @click="close"></div>
     <div class="media-manager dvs-min-w-4/5">
       <div v-if="!loaded" class="media-manager-interface">
         <div class="dvs-absolute dvs-absolute-center dvs-w-1/2">
@@ -294,6 +294,7 @@
           <media-editor
             :source="selectedFile.url"
             :sizes="options.sizes"
+            :imageSettings="imageSettings"
             @cancel="selectedFile = null"
             @done="generateAndSetFile"
           />
@@ -302,6 +303,7 @@
         <div v-else>
           <media-editor
             :source="selectedFile.url"
+            :imageSettings="imageSettings"
             @cancel="selectedFile = null"
             @done="generateAndSetFile"
           />
@@ -336,7 +338,8 @@ export default {
       searchResultsLimit: 100,
       currentlyOpenFile: null,
       options: null,
-      cookieSettings: false
+      cookieSettings: false,
+      imageSettings: {}
     };
   },
   mounted() {
@@ -365,21 +368,45 @@ export default {
         self.target = target;
         self.options = options;
 
-        let cookieLocation = Cookies.get('devise-mediamanager-location');
-        if (cookieLocation) {
-          self.changeDirectories(cookieLocation);
-          self.cookieSettings = true;
-        } else {
-          self.changeDirectories('');
-        }
-
-        let cookieMode = Cookies.get('devise-mediamanager-mode');
-        if (cookieMode) {
-          self.mode = cookieMode;
-        }
+        self.loadInitialLocation();
 
         self.show = true;
       });
+
+      deviseSettings.$bus.$on('devise-launch-media-editor', function({
+        target,
+        callback,
+        options,
+        image,
+        settings
+      }) {
+        self.callback = callback;
+        self.target = target;
+        self.options = options;
+        self.imageSettings = settings;
+        self.selectedFile = {
+          url: image,
+          type: 'image'
+        };
+
+        self.loadInitialLocation();
+
+        self.show = true;
+      });
+    },
+    loadInitialLocation() {
+      let cookieLocation = Cookies.get('devise-mediamanager-location');
+      if (cookieLocation) {
+        this.changeDirectories(cookieLocation);
+        this.cookieSettings = true;
+      } else {
+        this.changeDirectories('');
+      }
+
+      let cookieMode = Cookies.get('devise-mediamanager-mode');
+      if (cookieMode) {
+        this.mode = cookieMode;
+      }
     },
     changeDirectories(directory) {
       let self = this;
@@ -435,8 +462,7 @@ export default {
           this.callback(this.selectedFile.url);
         }
 
-        this.show = false;
-        this.$set(this, 'selectedFile', null);
+        this.close();
       }
     },
     generateAndSetFile(edits) {
@@ -461,8 +487,7 @@ export default {
         return true;
       });
 
-      this.show = false;
-      this.$set(this, 'selectedFile', null);
+      this.close();
     },
     confirmedDeleteFile(file) {
       var self = this;
@@ -507,6 +532,11 @@ export default {
     closeSearch() {
       this.searchTerms = null;
       this.$set(this, 'searchResults', []);
+    },
+    close() {
+      this.show = false;
+      this.imageSettings = Object.assign({});
+      this.$set(this, 'selectedFile', null);
     }
   },
   computed: {

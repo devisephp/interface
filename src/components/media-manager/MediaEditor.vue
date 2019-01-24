@@ -28,12 +28,12 @@
               <option value="crop">Crop Center</option>
               <option value="crop-left">Crop Center Left</option>
               <option value="crop-right">Crop Center Right</option>
-              <option value="crop-top">Crop Top</option>
-              <option value="crop-top-left">Crop Top Left</option>
-              <option value="crop-top-right">Crop Top Right</option>
-              <option value="crop-bottom">Crop Bottom</option>
-              <option value="crop-bottom-left">Crop Bottom Left</option>
-              <option value="crop-bottom-right">Crop Bottom Right</option>
+              <option value="crop-top">Crop Bottom</option>
+              <option value="crop-top-left">Crop Bottom Left</option>
+              <option value="crop-top-right">Crop Bottom Right</option>
+              <option value="crop-bottom">Crop Top</option>
+              <option value="crop-bottom-left">Crop Top Left</option>
+              <option value="crop-bottom-right">Crop Top Right</option>
             </select>
           </fieldset>
           <fieldset class="dvs-fieldset dvs-mb-4">
@@ -243,6 +243,7 @@ export default {
   mounted() {
     this.imagesLoaded = 0;
     this.loadOriginalDimentions();
+    this.loadImageSettings();
   },
   methods: {
     done() {
@@ -301,6 +302,9 @@ export default {
       }
 
       return obj;
+    },
+    loadImageSettings() {
+      this.edits = Object.assign(this.edits, this.imageSettings);
     }
   },
   computed: {
@@ -358,6 +362,10 @@ export default {
       required: true
     },
     sizes: {
+      type: Object,
+      required: false
+    },
+    imageSettings: {
       type: Object,
       required: false
     }
