@@ -8112,7 +8112,7 @@ vue-upload-component@^2.8.15:
   resolved "https://registry.yarnpkg.com/vue-upload-component/-/vue-upload-component-2.8.19.tgz#3638c3fed036410b7919590b0c712a0d2c72580e"
   integrity sha512-l6x/EL2eFbBiFFSfZsx1RB7H8lm89agVfijXX+eIjMT8BUiNk3kglD+pXSUzBOr5yUQb7rPydmIYROgr7R3sMQ==
 
-vue@^2.5.*:
+vue@^2.*:
   version "2.5.22"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.22.tgz#3bf88041af08b8539c37b268b70ca79245e9cc30"
   integrity sha512-pxY3ZHlXNJMFQbkjEgGVMaMMkSV1ONpz+4qB55kZuJzyJOhn6MSy/YZdzhdnumegNzVTL/Dn3Pp4UrVBYt1j/g==
