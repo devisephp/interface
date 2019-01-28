@@ -27,7 +27,6 @@ export default function(el, binding, vnode) {
 
     if (background) {
       el.style.backgroundImage = `url(${theImage})`;
-      console.log('loaded');
     } else {
       el[srcAttribute] = theImage;
 
@@ -62,7 +61,7 @@ export default function(el, binding, vnode) {
     return { size: defaultSize, settings: sizes[defaultSize] };
   };
 
-  if (lazy) {
+  if (lazy && 'IntersectionObserver' in window) {
     let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
       entries.forEach(function(entry) {
         if (entry.isIntersecting) {
