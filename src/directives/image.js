@@ -39,7 +39,7 @@ export default function(el, binding, vnode) {
         el.alt = image.alt;
       }
 
-      if (!noSize && theSize) {
+      if (!noSize && typeof theSize !== 'undefined') {
         el.width = theSize.settings.w;
         el.height = theSize.settings.h;
       }

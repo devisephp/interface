@@ -67,7 +67,6 @@ import Table from 'trumbowyg/dist/plugins/table/trumbowyg.table.min.js';
 import 'trumbowyg/dist/ui/icons.svg';
 import 'trumbowyg/dist/ui/trumbowyg.css';
 import 'trumbowyg/dist/plugins/table/ui/trumbowyg.table.css';
-import Trumbowyg from 'vue-trumbowyg';
 import Strings from './../../mixins/Strings';
 
 export default {
@@ -225,7 +224,7 @@ export default {
     }
   },
   components: {
-    Trumbowyg
+    Trumbowyg: () => import(/* webpackChunkName: "js/devise-editors" */ 'vue-trumbowyg')
   },
   mixins: [Strings],
   props: ['id', 'value']
