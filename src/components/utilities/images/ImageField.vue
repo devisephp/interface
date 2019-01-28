@@ -1,12 +1,33 @@
 <template>
   <div>
     <div class="dvs-flex dvs-items-center">
-      <input type="text" v-model="value" :maxlength="getMaxLength" disabled>
+      <input v-if="typeof image === 'object'" type="text" :value="image.url" disabled>
+      <input v-else type="text" :value="image" disabled>
       <div @click="showMediaManager()">
         <images-icon class="dvs-ml-4 dvs-cursor-pointer" w="30px" h="30px"/>
       </div>
       <div @click="loadPreview" v-bind:class="{ ' dvs-opacity-25': !previewEnabled }">
         <search-icon class="dvs-ml-4 dvs-cursor-pointer" w="30px" h="30px"/>
+      </div>
+    </div>
+    <div class="dvs-flex dvs-items-center">
+      <div v-if="hasMedia" class="dvs-mt-6">
+        <div class="dvs-mb-4 uppercase font-bold text-sm">Media sizes</div>
+        <div class="dvs-flex dvs-flex-wrap">
+          <div
+            v-for="(media, size) in image.media"
+            :key="size"
+            class="dvs-uppercase dvs-text-center dvs-mr-4 dvs-mb-4 dvs-p-4"
+            :style="theme.panelCard"
+          >
+            <img
+              :src="media + '?buster=' +new Date().getTime()"
+              class="mb-2"
+              style="width:100px; height:auto"
+            >
+            <div class="dvs-text-xs">{{ size }} {{ getDimensions(size) }}</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -55,11 +76,27 @@ export default {
   methods: {
     showMediaManager(event) {
       devise.$bus.$emit('devise-launch-media-manager', {
-        callback: this.mediaSelected
+        callback: this.mediaSelected,
+        options: {
+          sizes: this.sizes
+        }
       });
     },
-    mediaSelected(url) {
-      this.image = url;
+    mediaSelected(imagesAndSettings) {
+      let value = {
+        url: imagesAndSettings.images.orig_optimized
+      };
+
+      if (typeof imagesAndSettings === 'object') {
+        value.media = imagesAndSettings.images;
+        value.settings = imagesAndSettings.settings;
+      }
+
+      this.image = value;
+    },
+    getDimensions(size) {
+      if (this.value.sizes && this.value.sizes[size])
+        return `(${this.value.sizes[size].w} x ${this.value.sizes[size].h})`;
     },
     loadPreview() {
       if (this.previewEnabled) this.showPreview = true;
@@ -68,12 +105,23 @@ export default {
   computed: {
     image: {
       get() {
+        if (this.value === null) {
+          return {
+            url: null
+          };
+        }
         return this.value;
       },
       set(newValue) {
-        this.$emit('input', newValue.images.orig_optimized);
-        this.$emit('change', newValue.images.orig_optimized);
+        this.$emit('input', newValue);
+        this.$emit('change', newValue);
       }
+    },
+    hasMedia() {
+      if (this.image.media) {
+        return Object.keys(this.image.media).length > 0;
+      }
+      return false;
     },
     fileName() {
       let parts = this.value.split('/');
@@ -81,15 +129,15 @@ export default {
     },
     previewEnabled() {
       return this.value !== '' && this.value !== null;
-    },
-    getMaxLength: function() {
-      if (typeof this.settings !== 'undefined' && typeof this.settings.maxlength !== 'undefined') {
-        return this.settings.maxlength;
-      }
-      return '';
     }
   },
-  props: ['value'],
+  props: {
+    value: {},
+    sizes: {
+      type: Object,
+      default: null
+    }
+  },
   components: {
     ImagesIcon: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-images.vue'),

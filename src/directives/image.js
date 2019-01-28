@@ -10,19 +10,24 @@ export default function(el, binding, vnode) {
   srcAttribute = srcAttribute ? srcAttribute : 'src';
 
   let setImage = () => {
-    // Get the image size
-    let theSize = theImageSize();
-
     // Default the image the url but if it does have a size match
     // set that instead
     let theImage = image.url;
-    if (theSize) {
-      // In the case where sizes are set but the url is manual
-      // (or maybe the image media wasn't generated) this will ensure
-      // the url is at least present from the media property
-      if (image.media[theSize.size]) {
-        theImage = image.media[theSize.size];
+
+    // Get the image size if sizes are present
+    if (image.sizes) {
+      let theSize = theImageSize();
+
+      if (theSize) {
+        // In the case where sizes are set but the url is manual
+        // (or maybe the image media wasn't generated) this will ensure
+        // the url is at least present from the media property
+        if (image.media[theSize.size]) {
+          theImage = image.media[theSize.size];
+        }
       }
+    } else {
+      noSize = true;
     }
 
     if (background) {
