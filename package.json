@@ -39,7 +39,7 @@
     "text-clipper": "^1.2.2",
     "tinycolor2": "^1.4.1",
     "v-debounce": "^0.1.2",
-    "vue": "^2.*",
+    "vue": "2.6.0-beta.1",
     "vue-chartjs": "^3.4.0",
     "vue-color": "^2.4.4",
     "vue-flatpickr-component": "^6.2.0",
