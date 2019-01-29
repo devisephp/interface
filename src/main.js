@@ -1,8 +1,5 @@
 import Vue from 'vue';
 import VueTippy from 'vue-tippy';
-import Devise from './Devise';
-import Help from './components/utilities/Help';
-import Slices from './components/slices/Slices';
 import DeviseStore from './vuex/store';
 import PortalVue from 'portal-vue';
 import { DeviseBus } from './event-bus.js';
@@ -83,9 +80,14 @@ const DevisePlugin = {
     Vue.use(VueScrollactive);
 
     // Register global components
-    Vue.component('Devise', Devise);
-    Vue.component('Help', Help);
-    Vue.component('Slices', Slices);
+    Vue.component('devise', () => import(/* webpackChunkName: "app-devise" */ './Devise.vue'));
+    Vue.component('help', () =>
+      import(/* webpackChunkName: "app-devise-utilities" */ './components/utilities/Help')
+    );
+    Vue.component('slices', () =>
+      import(/* webpackChunkName: "app-devise-slices" */ './components/slices/Slices')
+    );
+
     // Vue.component('Sidebar', Sidebar);
 
     if (typeof store.state.adminMenu !== 'undefined') {
