@@ -1,4 +1,4 @@
-import Vue from "vue";
+import Vue from 'vue';
 
 function insertBefore(el, referenceNode) {
   return referenceNode.parentNode.insertBefore(el, referenceNode);
@@ -38,22 +38,19 @@ export default {
           },
           close() {
             this.show = false;
-            el.removeEventListener("click", clickHandler, true);
+            el.removeEventListener('click', clickHandler, true);
             insertedElement.remove();
           }
         }
       });
 
-      let deviseAdmin = document.querySelector("#devise-admin");
-      var newEl = document.createElement("devise-confirm");
-      var insertedElement = deviseAdmin.parentNode.insertBefore(
-        newEl,
-        deviseAdmin.nextSibling
-      );
+      let deviseAdmin = document.querySelector('#devise-admin');
+      var newEl = document.createElement('devise-confirm');
+      var insertedElement = deviseAdmin.parentNode.insertBefore(newEl, deviseAdmin.nextSibling);
 
       new Confirm().$mount(insertedElement);
     };
 
-    el.addEventListener("click", clickHandler);
+    el.addEventListener('click', clickHandler);
   }
 };
