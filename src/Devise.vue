@@ -37,8 +37,6 @@
 </template>
 
 <script>
-import simplebar from 'simplebar';
-
 import { mapGetters, mapActions, mapMutations } from 'vuex';
 
 export default {

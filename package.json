@@ -27,7 +27,6 @@
     "default-passive-events": "^1.0.10",
     "faker": "^4.1.0",
     "gsap": "^2.0.1",
-    "jquery": "^3.3.1",
     "js-cookie": "^2.2.0",
     "lodash.debounce": "^4.0.8",
     "lorem-ipsum": "^1.0.6",
@@ -39,7 +38,6 @@
     "text-clipper": "^1.2.2",
     "tinycolor2": "^1.4.1",
     "v-debounce": "^0.1.2",
-    "vue": "2.6.0-beta.1",
     "vue-chartjs": "^3.4.0",
     "vue-color": "^2.4.4",
     "vue-flatpickr-component": "^6.2.0",
@@ -52,6 +50,10 @@
     "vuedraggable": "^2.16.0",
     "vuex": "^3.0.1",
     "vuex-router-sync": "^5.0.0"
+  },
+  "peerDependencies": {
+    "vue": "2.6.0-beta.1",
+    "jquery": "^3.3.1"
   },
   "devDependencies": {
     "babel-plugin-syntax-dynamic-import": "^6.18.0",

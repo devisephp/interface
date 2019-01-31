@@ -1,4 +1,4 @@
-export default function(el, binding, vnode) {
+export default function(el, binding) {
   let image = binding.value.image;
   let srcAttribute = binding.value.srcAttr;
   let breakpoint = binding.value.breakpoint;
@@ -9,39 +9,45 @@ export default function(el, binding, vnode) {
   breakpoint = breakpoint !== null ? breakpoint : 'desktop';
   srcAttribute = srcAttribute ? srcAttribute : 'src';
 
+  if (typeof binding.value === 'string') {
+    image = { url: binding.value };
+  }
+
   let setImage = () => {
-    // Default the image the url but if it does have a size match
-    // set that instead
-    let theImage = image.url;
+    if (typeof image !== 'undefined') {
+      // Default the image the url but if it does have a size match
+      // set that instead
+      let theImage = image.url;
 
-    // Get the image size if sizes are present
-    if (image.sizes) {
-      let theSize = theImageSize();
+      // Get the image size if sizes are present
+      if (image.sizes) {
+        let theSize = theImageSize();
 
-      if (theSize) {
-        // In the case where sizes are set but the url is manual
-        // (or maybe the image media wasn't generated) this will ensure
-        // the url is at least present from the media property
-        if (image.media[theSize.size]) {
-          theImage = image.media[theSize.size];
+        if (theSize) {
+          // In the case where sizes are set but the url is manual
+          // (or maybe the image media wasn't generated) this will ensure
+          // the url is at least present from the media property
+          if (image.media[theSize.size]) {
+            theImage = image.media[theSize.size];
+          }
         }
-      }
-    } else {
-      noSize = true;
-    }
-
-    if (background) {
-      el.style.backgroundImage = `url(${theImage})`;
-    } else {
-      el[srcAttribute] = theImage;
-
-      if (image.alt) {
-        el.alt = image.alt;
+      } else {
+        noSize = true;
       }
 
-      if (!noSize && typeof theSize !== 'undefined') {
-        el.width = theSize.settings.w;
-        el.height = theSize.settings.h;
+      if (background) {
+        el.style.backgroundImage = `url(${theImage})`;
+      } else {
+        el[srcAttribute] = theImage;
+
+        if (image.alt) {
+          el.alt = image.alt;
+        }
+
+        if (!noSize && typeof theSize !== 'undefined') {
+          el.width = theSize.settings.w;
+          el.height = theSize.settings.h;
+        }
       }
     }
   };

@@ -1,11 +1,8 @@
 import Vue from 'vue';
-import VueTippy from 'vue-tippy';
 import DeviseStore from './vuex/store';
 import PortalVue from 'portal-vue';
 import { DeviseBus } from './event-bus.js';
 import routes from './router/route.config.js';
-import alertConfirm from './directives/alert-confirm';
-import Tuck from './directives/tuck';
 import Image from './directives/image';
 import Link from './directives/link';
 
@@ -69,21 +66,11 @@ const DevisePlugin = {
       deviseSettings.__proto__.$bus = bus;
     }
 
-    // Tooltips
-    Vue.use(VueTippy);
-
     // Portals to render items outside of their component
     Vue.use(PortalVue);
 
-    // For administration sidebars
-    var VueScrollactive = require('vue-scrollactive');
-    Vue.use(VueScrollactive);
-
     // Register global components
     Vue.component('devise', () => import(/* webpackChunkName: "app-devise" */ './Devise.vue'));
-    Vue.component('help', () =>
-      import(/* webpackChunkName: "app-devise-utilities" */ './components/utilities/Help')
-    );
     Vue.component('slices', () =>
       import(/* webpackChunkName: "app-devise-slices" */ './components/slices/Slices')
     );
@@ -111,12 +98,6 @@ const DevisePlugin = {
 
     // Register devise vuex module and sync it with the store
     store.registerModule('devise', DeviseStore);
-
-    // Register alert / confirm directive
-    Vue.directive('devise-alert-confirm', alertConfirm);
-
-    // Register tuck directive
-    Vue.directive('tuck', Tuck);
 
     // Register image directive
     Vue.directive('devise-image', Image);
