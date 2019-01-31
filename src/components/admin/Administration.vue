@@ -58,6 +58,9 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex';
+import VueTippy from 'vue-tippy';
+import alertConfirm from './../../directives/alert-confirm';
+import Tuck from './../../directives/tuck';
 
 export default {
   name: 'Administration',
@@ -67,6 +70,23 @@ export default {
     };
   },
   mounted() {
+    // For administration sidebars
+    var VueScrollactive = require('vue-scrollactive');
+    Vue.use(VueScrollactive);
+
+    // Tooltips
+    Vue.use(VueTippy);
+
+    // Register alert / confirm directive
+    Vue.directive('devise-alert-confirm', alertConfirm);
+
+    // Register tuck directive
+    Vue.directive('tuck', Tuck);
+
+    Vue.component('help', () =>
+      import(/* webpackChunkName: "app-devise-utilities" */ './../utilities/Help')
+    );
+
     setTimeout(() => {
       this.everythingIsLoaded = true;
     }, 2000);
