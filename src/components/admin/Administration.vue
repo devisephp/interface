@@ -61,6 +61,7 @@ import { mapGetters, mapState } from 'vuex';
 import VueTippy from 'vue-tippy';
 import alertConfirm from './../../directives/alert-confirm';
 import Tuck from './../../directives/tuck';
+import 'simplebar';
 
 export default {
   name: 'Administration',
