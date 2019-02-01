@@ -13,7 +13,7 @@
         <button class="dvs-btn" @click="cancel" :style="theme.actionButtonGhost">Cancel</button>
       </div>
     </div>
-    <div class="dvs-flex dvs-items-stretch dvs-h-full">
+    <div class="dvs-flex dvs-items-stretch dvs-h-full overflow-hidden">
       <div class="dvs-min-w-1/3 dvs-border-r dvs-border-lighter dvs-bg-grey-light" data-simplebar>
         <div class="dvs-h-full dvs-p-8 dvs-flex dvs-flex-col dvs-justify-between">
           <h3 class="dvs-mb-4">Image Edits</h3>
