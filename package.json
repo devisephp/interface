@@ -1,6 +1,6 @@
 {
   "name": "devisephp-interface",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Content Management System",
   "author": "Gary Williams <gary@lbm.co>, Mauro Velez <mauro@lbm.co>",
   "license": "MIT",
@@ -52,7 +52,7 @@
     "vuex-router-sync": "^5.0.0"
   },
   "peerDependencies": {
-    "vue": "2.6.0-beta.1",
+    "vue": "2.6.0^",
     "jquery": "^3.3.1"
   },
   "devDependencies": {
