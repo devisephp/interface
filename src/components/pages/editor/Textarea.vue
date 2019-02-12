@@ -86,7 +86,7 @@ export default {
   props: ['value', 'options'],
   mixins: [Strings, Field],
   components: {
-    FieldEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './Field'),
+    FieldEditor: () => import(/* webpackChunkName: "/devise-editors" */ './Field'),
   },
 };
 </script>

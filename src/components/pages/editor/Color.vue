@@ -81,7 +81,7 @@ export default {
   },
   props: ['value', 'options'],
   components: {
-    FieldEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './Field'),
+    FieldEditor: () => import(/* webpackChunkName: "/devise-editors" */ './Field'),
     'sketch-picker': Sketch,
   },
   mixins: [Field],

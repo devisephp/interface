@@ -69,8 +69,8 @@ export default {
   props: ['value', 'options', 'namekey'],
   mixins: [Strings, Field],
   components: {
-    FieldEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './Field'),
-    Wysiwyg: () => import(/* webpackChunkName: "js/devise-utilities" */ '../../utilities/Wysiwyg'),
+    FieldEditor: () => import(/* webpackChunkName: "/devise-editors" */ './Field'),
+    Wysiwyg: () => import(/* webpackChunkName: "/devise-utilities" */ '../../utilities/Wysiwyg'),
   },
 };
 </script>

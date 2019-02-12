@@ -437,35 +437,35 @@ export default {
   },
   components: {
     AddIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-add.vue'),
-    CheckboxEditor: () => import(/* webpackChunkName: "js/devise-editors" */ '../editor/Checkbox'),
+      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/ios-add.vue'),
+    CheckboxEditor: () => import(/* webpackChunkName: "/devise-editors" */ '../editor/Checkbox'),
     CogIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-cog.vue'),
+      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/ios-cog.vue'),
     CopyIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-copy.vue'),
-    ColorEditor: () => import(/* webpackChunkName: "js/devise-editors" */ '../editor/Color'),
-    DatetimeEditor: () => import(/* webpackChunkName: "js/devise-editors" */ '../editor/Datetime'),
+      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/ios-copy.vue'),
+    ColorEditor: () => import(/* webpackChunkName: "/devise-editors" */ '../editor/Color'),
+    DatetimeEditor: () => import(/* webpackChunkName: "/devise-editors" */ '../editor/Datetime'),
     CreateIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-create.vue'),
-    draggable: () => import(/* webpackChunkName: "js/devise-editors" */ 'vuedraggable'),
-    FileEditor: () => import(/* webpackChunkName: "js/devise-editors" */ '../editor/File'),
-    ImageEditor: () => import(/* webpackChunkName: "js/devise-editors" */ '../editor/Image'),
-    LinkEditor: () => import(/* webpackChunkName: "js/devise-editors" */ '../editor/Link'),
+      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/ios-create.vue'),
+    draggable: () => import(/* webpackChunkName: "/devise-editors" */ 'vuedraggable'),
+    FileEditor: () => import(/* webpackChunkName: "/devise-editors" */ '../editor/File'),
+    ImageEditor: () => import(/* webpackChunkName: "/devise-editors" */ '../editor/Image'),
+    LinkEditor: () => import(/* webpackChunkName: "/devise-editors" */ '../editor/Link'),
     LocateIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-locate.vue'),
-    ManageSlice: () => import(/* webpackChunkName: "js/devise-editors" */ './ManageSlice'),
+      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/ios-locate.vue'),
+    ManageSlice: () => import(/* webpackChunkName: "/devise-editors" */ './ManageSlice'),
     MenuIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-menu.vue'),
+      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/ios-menu.vue'),
     MoreIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-more.vue'),
-    NumberEditor: () => import(/* webpackChunkName: "js/devise-editors" */ '../editor/Number'),
+      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/ios-more.vue'),
+    NumberEditor: () => import(/* webpackChunkName: "/devise-editors" */ '../editor/Number'),
     RemoveIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-trash.vue'),
-    SelectEditor: () => import(/* webpackChunkName: "js/devise-editors" */ '../editor/Select'),
-    SliceEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './SliceEditor'),
-    TextareaEditor: () => import(/* webpackChunkName: "js/devise-editors" */ '../editor/Textarea'),
-    TextEditor: () => import(/* webpackChunkName: "js/devise-editors" */ '../editor/Text'),
-    WysiwygEditor: () => import(/* webpackChunkName: "js/devise-editors" */ '../editor/Wysiwyg'),
+      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/ios-trash.vue'),
+    SelectEditor: () => import(/* webpackChunkName: "/devise-editors" */ '../editor/Select'),
+    SliceEditor: () => import(/* webpackChunkName: "/devise-editors" */ './SliceEditor'),
+    TextareaEditor: () => import(/* webpackChunkName: "/devise-editors" */ '../editor/Textarea'),
+    TextEditor: () => import(/* webpackChunkName: "/devise-editors" */ '../editor/Text'),
+    WysiwygEditor: () => import(/* webpackChunkName: "/devise-editors" */ '../editor/Wysiwyg'),
   },
 };
 </script>

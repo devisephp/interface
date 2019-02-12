@@ -302,7 +302,7 @@ export default {
   mixins: [Strings],
   components: {
     CloseIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-close.vue'),
+      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/ios-close.vue'),
     ColumnControls,
     ToggleColumns,
     Pagination,

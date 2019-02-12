@@ -206,9 +206,9 @@ export default {
   },
   mixins: [Strings],
   components: {
-    AdminDesigner: () => import(/* webpackChunkName: "js/devise-sites" */ './AdminDesigner'),
+    AdminDesigner: () => import(/* webpackChunkName: "/devise-sites" */ './AdminDesigner'),
     QueryBuilderInterface: () =>
-      import(/* webpackChunkName: "js/devise-utilities" */ '../utilities/QueryBuilderInterface'),
+      import(/* webpackChunkName: "/devise-utilities" */ '../utilities/QueryBuilderInterface'),
   },
 };
 </script>

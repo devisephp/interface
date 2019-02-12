@@ -564,15 +564,15 @@ export default {
     Breadcrumbs,
     MediaEditor,
     FolderIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-folder.vue'),
+      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/ios-folder.vue'),
     TrashIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-trash.vue'),
+      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/md-trash.vue'),
     CloseIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-close.vue'),
+      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/ios-close.vue'),
     LinkIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-link.vue'),
+      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/ios-link.vue'),
     DownloadIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-cloud-download.vue'),
+      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/ios-cloud-download.vue'),
     Uploader,
   },
 };

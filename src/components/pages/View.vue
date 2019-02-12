@@ -577,18 +577,18 @@ export default {
   },
   components: {
     DatePicker: () =>
-      import(/* webpackChunkName: "js/devise-utilities" */ '../utilities/DatePicker'),
-    DeviseModal: () => import(/* webpackChunkName: "js/devise-utilities" */ '../utilities/Modal'),
+      import(/* webpackChunkName: "/devise-utilities" */ '../utilities/DatePicker'),
+    DeviseModal: () => import(/* webpackChunkName: "/devise-utilities" */ '../utilities/Modal'),
     TrashIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-trash.vue'),
+      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/md-trash.vue'),
     CopyIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-copy.vue'),
+      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/ios-copy.vue'),
     EditIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-create.vue'),
+      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/md-create.vue'),
     CheckmarkIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-checkmark.vue'),
-    LineChart: () => import(/* webpackChunkName: "js/devise-charts" */ './analytics/Line'),
-    MetaForm: () => import(/* webpackChunkName: "js/devise-meta" */ '../meta/MetaForm'),
+      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/md-checkmark.vue'),
+    LineChart: () => import(/* webpackChunkName: "/devise-charts" */ './analytics/Line'),
+    MetaForm: () => import(/* webpackChunkName: "/devise-meta" */ '../meta/MetaForm'),
   },
   mixins: [Dates, AdministrationMixin],
 };

@@ -78,9 +78,9 @@ export default {
   },
   props: ['value', 'options'],
   components: {
-    FieldEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './Field'),
+    FieldEditor: () => import(/* webpackChunkName: "/devise-editors" */ './Field'),
     DocumentIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-document.vue'),
+      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/ios-document.vue'),
   },
   mixins: [Field],
 };

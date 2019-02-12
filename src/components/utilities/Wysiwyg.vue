@@ -222,7 +222,7 @@ export default {
     },
   },
   components: {
-    Trumbowyg: () => import(/* webpackChunkName: "js/devise-editors" */ 'vue-trumbowyg'),
+    Trumbowyg: () => import(/* webpackChunkName: "/devise-editors" */ 'vue-trumbowyg'),
   },
   mixins: [Strings],
   props: ['id', 'value'],

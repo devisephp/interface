@@ -456,19 +456,19 @@ export default {
     },
   },
   components: {
-    ColorEditor: () => import(/* webpackChunkName: "js/devise-editors" */ '../pages/editor/Color'),
+    ColorEditor: () => import(/* webpackChunkName: "/devise-editors" */ '../pages/editor/Color'),
     CogIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-cog.vue'),
+      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/md-cog.vue'),
     CubeIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-cube.vue'),
+      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/md-cube.vue'),
     DocumentIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-document.vue'),
+      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/md-document.vue'),
     MenuIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-menu.vue'),
+      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/ios-menu.vue'),
     PowerIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-power.vue'),
+      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/ios-power.vue'),
     ImagesIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-images.vue'),
+      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/ios-images.vue'),
   },
   props: ['value', 'domain'],
 };

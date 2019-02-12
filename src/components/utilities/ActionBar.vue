@@ -30,7 +30,7 @@ export default {
     };
   },
   components: {
-    FlashIcon: () => import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-flash.vue'),
+    FlashIcon: () => import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/ios-flash.vue'),
   },
 };
 </script>

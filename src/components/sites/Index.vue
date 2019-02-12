@@ -227,7 +227,7 @@ export default {
     },
   },
   components: {
-    DeviseModal: () => import(/* webpackChunkName: "js/devise-utilities" */ '../utilities/Modal'),
+    DeviseModal: () => import(/* webpackChunkName: "/devise-utilities" */ '../utilities/Modal'),
   },
 };
 </script>

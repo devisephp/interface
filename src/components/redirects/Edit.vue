@@ -89,8 +89,8 @@ export default {
     ...mapGetters('devise', ['redirect']),
   },
   components: {
-    ActionBar: () => import(/* webpackChunkName: "js/devise-utilities" */ '../utilities/ActionBar'),
-    Administration: () => import(/* webpackChunkName: "js/devise-administration" */ '../admin/Administration.vue'),
+    ActionBar: () => import(/* webpackChunkName: "/devise-utilities" */ '../utilities/ActionBar'),
+    Administration: () => import(/* webpackChunkName: "/devise-administration" */ '../admin/Administration.vue'),
   },
 };
 </script>

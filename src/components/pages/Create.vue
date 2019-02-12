@@ -135,7 +135,7 @@ export default {
   },
   components: {
     PageSearch: () =>
-      import(/* webpackChunkName: "js/devise-utilities" */ '../utilities/PageSearch'),
+      import(/* webpackChunkName: "/devise-utilities" */ '../utilities/PageSearch'),
   },
   directives: {
     debounce,

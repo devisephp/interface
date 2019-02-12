@@ -361,13 +361,13 @@ export default {
     },
   },
   components: {
-    BarChart: () => import(/* webpackChunkName: "js/devise-charts" */ '../pages/analytics/Bar'),
-    PieChart: () => import(/* webpackChunkName: "js/devise-charts" */ '../pages/analytics/Pie'),
-    LineChart: () => import(/* webpackChunkName: "js/devise-charts" */ '../pages/analytics/Line'),
+    BarChart: () => import(/* webpackChunkName: "/devise-charts" */ '../pages/analytics/Bar'),
+    PieChart: () => import(/* webpackChunkName: "/devise-charts" */ '../pages/analytics/Pie'),
+    LineChart: () => import(/* webpackChunkName: "/devise-charts" */ '../pages/analytics/Line'),
     DatePicker: () =>
-      import(/* webpackChunkName: "js/devise-utilities" */ '../utilities/DatePicker'),
+      import(/* webpackChunkName: "/devise-utilities" */ '../utilities/DatePicker'),
     SimpleTable: () =>
-      import(/* webpackChunkName: "js/devise-tables" */ '../utilities/tables/SimpleTable'),
+      import(/* webpackChunkName: "/devise-tables" */ '../utilities/tables/SimpleTable'),
   },
   mixins: [Dates],
 };

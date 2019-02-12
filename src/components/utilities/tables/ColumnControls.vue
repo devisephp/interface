@@ -84,11 +84,11 @@ export default {
   },
   components: {
     CloseIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-close.vue'),
+      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/ios-close.vue'),
     SettingsIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-settings.vue'),
+      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/ios-settings.vue'),
     Search: () =>
-      import(/* webpackChunkName: "js/devise-tables" */ 'vue-ionicons/dist/ios-settings.vue'),
+      import(/* webpackChunkName: "/devise-tables" */ 'vue-ionicons/dist/ios-settings.vue'),
   },
 };
 </script>

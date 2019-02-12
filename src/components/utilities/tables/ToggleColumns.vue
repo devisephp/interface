@@ -90,7 +90,7 @@ export default {
   },
   components: {
     SwitchIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-switch.vue'),
+      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/md-switch.vue'),
   },
 };
 </script>

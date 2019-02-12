@@ -119,9 +119,9 @@ export default {
   },
   components: {
     ArrowDown: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-arrow-down.vue'),
+      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/ios-arrow-down.vue'),
     ArrowUp: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-arrow-up.vue'),
+      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/ios-arrow-up.vue'),
   },
 };
 </script>
