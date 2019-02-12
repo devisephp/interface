@@ -46,7 +46,7 @@ export default {
   components: {
     Panel,
     PowerIcon: () =>
-      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/ios-power.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-power.vue'),
   },
 };
 </script>

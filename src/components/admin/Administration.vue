@@ -137,34 +137,34 @@ export default {
     },
   },
   components: {
-    Loadbar: () => import(/* webpackChunkName: "/devise-utilities" */ '../utilities/Loadbar'),
+    Loadbar: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/Loadbar'),
     LoadingScreen: () =>
-      import(/* webpackChunkName: "/devise-utilities" */ '../utilities/LoadingScreen'),
-    Messages: () => import(/* webpackChunkName: "/devise-utilities" */ '../utilities/Messages'),
+      import(/* webpackChunkName: "devise-utilities" */ '../utilities/LoadingScreen'),
+    Messages: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/Messages'),
     MediaEditor: () =>
-      import(/* webpackChunkName: "/devise-media" */ '../media-manager/MediaEditor'),
+      import(/* webpackChunkName: "devise-media" */ '../media-manager/MediaEditor'),
     MediaManager: () =>
-      import(/* webpackChunkName: "/devise-media" */ '../media-manager/MediaManager'),
-    PreviewMode: () => import(/* webpackChunkName: "/devise-pages" */ '../pages/PreviewMode'),
+      import(/* webpackChunkName: "devise-media" */ '../media-manager/MediaManager'),
+    PreviewMode: () => import(/* webpackChunkName: "devise-pages" */ '../pages/PreviewMode'),
     BackIcon: () =>
-      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/md-arrow-round-back.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-arrow-round-back.vue'),
     CogIcon: () =>
-      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/md-cog.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-cog.vue'),
     CreateIcon: () =>
-      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/md-create.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-create.vue'),
     CubeIcon: () =>
-      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/md-cube.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-cube.vue'),
     DocumentIcon: () =>
-      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/md-document.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-document.vue'),
     ImageIcon: () =>
-      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/md-image.vue'),
-    Panel: () => import(/* webpackChunkName: "/devise-utilities" */ '../utilities/Panel'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-image.vue'),
+    Panel: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/Panel'),
     PowerIcon: () =>
-      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/ios-power.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-power.vue'),
     SaveIcon: () =>
-      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/md-save.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-save.vue'),
     SliceSettings: () =>
-      import(/* webpackChunkName: "/devise-pages" */ '../slices/SliceSettings'),
+      import(/* webpackChunkName: "devise-pages" */ '../slices/SliceSettings'),
   },
 };
 </script>

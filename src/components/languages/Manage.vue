@@ -112,7 +112,7 @@ export default {
   },
   components: {
     CreateIcon: () =>
-      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/md-create.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-create.vue'),
   },
 };
 </script>

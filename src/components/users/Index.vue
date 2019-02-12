@@ -126,8 +126,8 @@ export default {
   },
   components: {
     ActionBar: () =>
-      import(/* webpackChunkName: "/devise-utilities" */ '../utilities/ActionBar.vue'),
-    DeviseModal: () => import(/* webpackChunkName: "/devise-utilities" */ '../utilities/Modal'),
+      import(/* webpackChunkName: "devise-utilities" */ '../utilities/ActionBar.vue'),
+    DeviseModal: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/Modal'),
   },
 };
 </script>

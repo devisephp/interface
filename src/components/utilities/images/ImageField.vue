@@ -140,9 +140,9 @@ export default {
   },
   components: {
     ImagesIcon: () =>
-      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/ios-images.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-images.vue'),
     SearchIcon: () =>
-      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/ios-search.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-search.vue'),
   },
 };
 </script>

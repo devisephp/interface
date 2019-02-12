@@ -94,7 +94,7 @@ export default {
     ...mapGetters('devise', ['storeModels', 'modelSettings']),
   },
   components: {
-    SuperTable: () => import(/* webpackChunkName: "/devise-tables" */ './tables/SuperTable'),
+    SuperTable: () => import(/* webpackChunkName: "devise-tables" */ './tables/SuperTable'),
   },
   props: ['value', 'editData'],
 };

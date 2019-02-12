@@ -71,8 +71,8 @@ export default {
     },
   },
   components: {
-    Panel: () => import(/* webpackChunkName: "/devise-utilities" */ '../utilities/Panel'),
-    StatBlockDoughnut: () => import(/* webpackChunkName: "/devise-charts" */ './analytics/StatBlockDoughnut'),
+    Panel: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/Panel'),
+    StatBlockDoughnut: () => import(/* webpackChunkName: "devise-charts" */ './analytics/StatBlockDoughnut'),
   },
   mixins: [Dates],
 };

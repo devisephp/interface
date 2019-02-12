@@ -200,7 +200,7 @@ export default {
   mixins: [Strings],
   components: {
     CloseIcon: () =>
-      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/ios-close.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-close.vue'),
   },
 };
 </script>

@@ -143,8 +143,8 @@ export default {
   props: ['value', 'options', 'showEditor', 'noReset'],
   mixins: [Strings, Field],
   components: {
-    Panel: () => import(/* webpackChunkName: "/devise-utilities" */ '../../utilities/Panel'),
-    Toggle: () => import(/* webpackChunkName: "/devise-utilities" */ '../../utilities/Toggle'),
+    Panel: () => import(/* webpackChunkName: "devise-utilities" */ '../../utilities/Panel'),
+    Toggle: () => import(/* webpackChunkName: "devise-utilities" */ '../../utilities/Toggle'),
   },
 };
 </script>

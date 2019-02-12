@@ -156,9 +156,9 @@ export default {
   },
   components: {
     TrashIcon: () =>
-      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/md-trash.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-trash.vue'),
     EditIcon: () =>
-      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/md-create.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-create.vue'),
   },
 };
 </script>

@@ -112,13 +112,13 @@ export default {
   },
   components: {
     DesktopIcon: () =>
-      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/md-desktop.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-desktop.vue'),
     TabletIcon: () =>
-      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/md-tablet-portrait.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-tablet-portrait.vue'),
     PhonePortraitIcon: () =>
-      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/md-phone-portrait.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-phone-portrait.vue'),
     PhoneLandscapeIcon: () =>
-      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/md-phone-landscape.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-phone-landscape.vue'),
   },
 };
 </script>

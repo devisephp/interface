@@ -116,7 +116,7 @@ export default {
   components: {
     DeviseModal,
     ActionBar: () =>
-      import(/* webpackChunkName: "/devise-utilities" */ '../utilities/ActionBar'),
+      import(/* webpackChunkName: "devise-utilities" */ '../utilities/ActionBar'),
   },
 };
 </script>

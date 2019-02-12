@@ -105,7 +105,7 @@ export default {
     ...mapGetters('devise', ['user']),
   },
   components: {
-    ActionBar: () => import(/* webpackChunkName: "/devise-utilities" */ '../utilities/ActionBar'),
+    ActionBar: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/ActionBar'),
   },
 };
 </script>

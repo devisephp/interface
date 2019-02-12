@@ -151,14 +151,14 @@ export default {
   },
   mixins: [Strings],
   components: {
-    DeviseModal: () => import(/* webpackChunkName: "/devise-utilities" */ './Modal'),
-    QueryBuilder: () => import(/* webpackChunkName: "/devise-utilities" */ './QueryBuilder'),
+    DeviseModal: () => import(/* webpackChunkName: "devise-utilities" */ './Modal'),
+    QueryBuilder: () => import(/* webpackChunkName: "devise-utilities" */ './QueryBuilder'),
     AddIcon: () =>
-      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/ios-add-circle.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-add-circle.vue'),
     EditIcon: () =>
-      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/md-create.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-create.vue'),
     TrashIcon: () =>
-      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/md-trash.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-trash.vue'),
   },
   props: ['value'],
 };

@@ -188,9 +188,9 @@ export default {
   },
   components: {
     ActionBar: () =>
-      import(/* webpackChunkName: "/devise-utilities" */ '../utilities/ActionBar'),
+      import(/* webpackChunkName: "devise-utilities" */ '../utilities/ActionBar'),
     Pagination: () =>
-      import(/* webpackChunkName: "/devise-tables" */ '../utilities/tables/Pagination'),
+      import(/* webpackChunkName: "devise-tables" */ '../utilities/tables/Pagination'),
   },
   directives: {
     debounce,

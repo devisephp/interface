@@ -149,7 +149,7 @@ export default {
   },
   components: {
     CloseIcon: () =>
-      import(/* webpackChunkName: "/devise-icons" */ 'vue-ionicons/dist/ios-close.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-close.vue'),
     VueUpload,
   },
   props: {
