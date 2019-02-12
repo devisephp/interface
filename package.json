@@ -7,6 +7,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
+  "main": "./src/main.js",
   "dependencies": {
     "axios": "^0.18.0",
     "chart.js": "^2.7.3",
