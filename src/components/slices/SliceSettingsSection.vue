@@ -117,12 +117,12 @@
 </template>
 
 <script>
-import { Photoshop, Sketch } from 'vue-color';
+import { Sketch } from 'vue-color';
 
 export default {
   data() {
     return {
-      showBackgroundColor: false
+      showBackgroundColor: false,
     };
   },
   props: ['value', 'responsiveMode', 'backgroundColor'],
@@ -133,26 +133,26 @@ export default {
       },
       set(color) {
         this.$emit('setbackground', color);
-      }
-    }
+      },
+    },
   },
   methods: {
     setMargin(position, event) {
-      let value = event.target.value;
+      const { value } = event.target;
       this.$emit('setmarginpadding', {
         responsiveMode: this.responsiveMode,
         type: 'margin',
-        position: position,
-        value: value
+        position,
+        value,
       });
     },
     setPadding(position, event) {
-      let value = event.target.value;
+      const { value } = event.target;
       this.$emit('setmarginpadding', {
         responsiveMode: this.responsiveMode,
         type: 'padding',
-        position: position,
-        value: value
+        position,
+        value,
       });
     },
 
@@ -160,7 +160,7 @@ export default {
       if (type === 'margin' || type === 'padding') {
         let prefix = '';
         if (this.responsiveMode !== 'desktop') {
-          prefix = this.responsiveMode + '_';
+          prefix = `${this.responsiveMode}_`;
         }
 
         if (typeof this.value[prefix + type] !== 'undefined') {
@@ -168,15 +168,15 @@ export default {
             return this.value[prefix + type][position];
           }
         }
-        return 0;
       }
+      return 0;
     },
     resetStyles() {
       this.$emit('resetstyles', this.responsiveMode);
-    }
+    },
   },
   components: {
-    'sketch-picker': Sketch
-  }
+    'sketch-picker': Sketch,
+  },
 };
 </script>

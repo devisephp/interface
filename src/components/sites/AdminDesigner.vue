@@ -142,7 +142,7 @@
               class="dvs-absolute dvs-pin-t dvs-pin-l z-10 dvs-text-center dvs-rounded dvs-mt-8 dvs-ml-8 dvs-shadow dvs-min-w-64 dvs-flex dvs-items-stretch"
               :style="`
                 background-image: radial-gradient(ellipse at top, ${localValue.panelTop.color} 0%, ${localValue.panelBottom.color} 100%);
-                color: ${localValue.panelText.color}  
+                color: ${localValue.panelText.color}
               `"
             >
               <div
@@ -279,17 +279,17 @@
 </template>
 
 <script>
-var lineData = {
+const lineData = {
   data: {
     labels: ['May 16', 'May 17', 'May 18', 'May 19', 'May 20', 'May 21', 'May 22', 'May 23'],
     datasets: [
       { label: 'Page Views', data: [33, 41, 19, 5, 4, 23, 30, 11] },
       { label: 'Sessions', data: [25, 24, 14, 4, 4, 10, 17, 9] },
       { label: 'Avg. Time On Page', data: [64, 38, 155, 10, 7, 26, 145, 6] },
-      { label: 'Bounce Rate', data: [48, 45, 57, 50, 25, 10, 47, 22] }
-    ]
+      { label: 'Bounce Rate', data: [48, 45, 57, 50, 25, 10, 47, 22] },
+    ],
   },
-  releases: ['Apr 25', 'Apr 24', 'May 2']
+  releases: ['Apr 25', 'Apr 24', 'May 2'],
 };
 
 export default {
@@ -317,7 +317,7 @@ export default {
         chartColor3: { color: null },
         chartColor4: { color: null },
         chartColor5: { color: null },
-        chartColor6: { color: null }
+        chartColor6: { color: null },
       },
       presets: {
         Default: {
@@ -341,36 +341,36 @@ export default {
           chartColor3: { color: 'rgba(255, 206, 86, 1)' },
           chartColor4: { color: 'rgba(255,99,132,1)' },
           chartColor5: { color: 'rgba(153, 102, 255, 1)' },
-          chartColor6: { color: 'rgba(255, 159, 64, 1)' }
-        }
+          chartColor6: { color: 'rgba(255, 159, 64, 1)' },
+        },
       },
       chartColors: [
         {
           background: 'rgba(54, 162, 235, 0.5)',
-          border: 'rgba(54, 162, 235, 1)'
+          border: 'rgba(54, 162, 235, 1)',
         },
         {
           background: 'rgba(75, 192, 192, 0.2)',
-          border: 'rgba(75, 192, 192, 1)'
+          border: 'rgba(75, 192, 192, 1)',
         },
         {
           background: 'rgba(255, 206, 86, 0.2)',
-          border: 'rgba(255, 206, 86, 1)'
+          border: 'rgba(255, 206, 86, 1)',
         },
         {
           background: 'rgba(255, 99, 132, 0.2)',
-          border: 'rgba(255,99,132,1)'
+          border: 'rgba(255,99,132,1)',
         },
         {
           background: 'rgba(153, 102, 255, 0.2)',
-          border: 'rgba(153, 102, 255, 1)'
+          border: 'rgba(153, 102, 255, 1)',
         },
         {
           background: 'rgba(255, 159, 64, 0.2)',
-          border: 'rgba(255, 159, 64, 1)'
-        }
+          border: 'rgba(255, 159, 64, 1)',
+        },
       ],
-      placeholderLineData: lineData
+      placeholderLineData: lineData,
     };
   },
   mounted() {
@@ -385,9 +385,9 @@ export default {
   },
   methods: {
     applyStyles(styles) {
-      for (var propt in styles) {
+      for (const propt in styles) {
         if (typeof this.localValue[propt] !== 'undefined') {
-          for (var att in styles[propt]) {
+          for (const att in styles[propt]) {
             if (typeof this.localValue[propt][att] !== 'undefined') {
               this.localValue[propt][att] = styles[propt][att];
             }
@@ -397,14 +397,14 @@ export default {
     },
     selectPreset(e) {
       if (e.target.value !== '') {
-        let preset = e.target.value;
+        const preset = e.target.value;
         this.applyStyles(this.presets[preset]);
         e.target.value = '';
       }
     },
     setLineGraphStyles() {
-      let self = this;
-      this.placeholderLineData.data.datasets.map(function(dataset, index) {
+      const self = this;
+      this.placeholderLineData.data.datasets.map((dataset, index) => {
         dataset.backgroundColor = [self.chartColors[index].background];
         dataset.fontColor = self.localValue.panelText.color;
         dataset.borderColor = [self.chartColors[index].border];
@@ -414,7 +414,7 @@ export default {
 
         return dataset;
       });
-    }
+    },
   },
   computed: {
     options() {
@@ -423,44 +423,42 @@ export default {
         legend: {
           labels: {
             fontColor: this.localValue.panelText.color,
-            fontSize: 14
-          }
+            fontSize: 14,
+          },
         },
         scales: {
           yAxes: [
             {
               ticks: {
                 fontColor: this.localValue.panelText.color,
-                fontSize: 12
-              }
-            }
+                fontSize: 12,
+              },
+            },
           ],
           xAxes: [
             {
               ticks: {
                 fontColor: this.localValue.panelText.color,
-                fontSize: 12
-              }
-            }
-          ]
-        }
+                fontSize: 12,
+              },
+            },
+          ],
+        },
       };
-    }
+    },
   },
   watch: {
     localValue: {
-      handler(val) {
+      handler() {
         this.$emit('input', this.localValue);
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
   components: {
-    ColorEditor: () =>
-      import(/* webpackChunkName: "js/devise-editors" */ './../pages/editor/Color'),
-    TextEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './../pages/editor/Text'),
-    LineChart: () => import(/* webpackChunkName: "js/devise-charts" */ './../pages/analytics/Line'),
-    CogIcon: () => import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-cog.vue'),
+    ColorEditor: () => import(/* webpackChunkName: "js/devise-editors" */ '../pages/editor/Color'),
+    CogIcon: () =>
+      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-cog.vue'),
     CubeIcon: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-cube.vue'),
     DocumentIcon: () =>
@@ -471,9 +469,7 @@ export default {
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-power.vue'),
     ImagesIcon: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-images.vue'),
-    ArrowRoundBackIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-arrow-round-back.vue')
   },
-  props: ['value', 'domain']
+  props: ['value', 'domain'],
 };
 </script>

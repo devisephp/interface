@@ -68,7 +68,7 @@
           >
             <label>Default Layout</label>
             <select v-model="localValue.settings.defaultLayout">
-              <option v-for="(path, name) in layouts" :value="path">{{ name }}</option>
+              <option v-for="(path, name) in layouts" :value="path" :key="name">{{ name }}</option>
             </select>
           </fieldset>
 
@@ -102,9 +102,8 @@
 </template>
 
 <script>
-import Strings from './../../mixins/Strings';
-
 import { mapActions, mapGetters } from 'vuex';
+import Strings from '../../mixins/Strings';
 
 export default {
   name: 'SitesEdit',
@@ -116,12 +115,12 @@ export default {
         settings: {
           defaultLayout: '',
           colors: {},
-          googleAnalytics: ''
-        }
+          googleAnalytics: '',
+        },
       },
       loadedSettings: false,
       modulesToLoad: 2,
-      editAddLanguage: null
+      editAddLanguage: null,
     };
   },
   mounted() {
@@ -131,8 +130,7 @@ export default {
   methods: {
     ...mapActions('devise', ['getLanguages', 'getSites', 'updateSite']),
     requestEditSite() {
-      let self = this;
-      this.updateSite({ site: this.site, data: this.localValue }).then(function() {
+      this.updateSite({ site: this.site, data: this.localValue }).then(() => {
         // var site = self.siteById(self.site.id)
         // self.goToPage('devise-sites-index')
       });
@@ -155,40 +153,40 @@ export default {
     },
     retrieveAllSites(loadbar = true) {
       this.getSites().then(() => {
-        var colors = {};
-        var googleAnalytics = '';
+        let colors = {};
+        let googleAnalytics = '';
 
         if (this.site.settings === null) {
           this.$set(this.site, 'settings', {});
         }
 
         if (typeof this.site.settings.colors !== 'undefined') {
-          colors = this.site.settings.colors;
+          ({ colors } = this.site.settings);
         }
         if (typeof this.site.settings.googleAnalytics !== 'undefined') {
-          googleAnalytics = this.site.settings.googleAnalytics;
+          ({ googleAnalytics } = this.site.settings);
         }
         this.localValue = Object.assign({}, this.localValue, this.site, {
           settings: {
-            colors: colors,
-            googleAnalytics: googleAnalytics
-          }
+            colors,
+            googleAnalytics,
+          },
         });
 
         this.loadedSettings = true;
 
         if (loadbar) {
-          devise.$bus.$emit('incrementLoadbar', this.modulesToLoad);
+          window.deviseSettings.$bus.$emit('incrementLoadbar', this.modulesToLoad);
         }
       });
     },
     retrieveAllLanguages(loadbar = true) {
       this.getLanguages().then(() => {
         if (loadbar) {
-          devise.$bus.$emit('incrementLoadbar', this.modulesToLoad);
+          window.deviseSettings.$bus.$emit('incrementLoadbar', this.modulesToLoad);
         }
       });
-    }
+    },
   },
   computed: {
     ...mapGetters('devise', ['languages', 'site', 'siteById', 'settingsMenu']),
@@ -196,21 +194,21 @@ export default {
       return this.localValue.name === null || this.localValue.domain === null;
     },
     languagesNotInEditSite() {
-      var self = this;
+      const self = this;
       return this.languages.data.filter(language => {
-        var match = self.localValue.languages.filter(l => l.id === language.id);
+        const match = self.localValue.languages.filter(l => l.id === language.id);
         return match.length === 0;
       });
     },
     layouts() {
-      return deviseSettings.$config.layouts;
-    }
+      return window.deviseSettings.$config.layouts;
+    },
   },
   mixins: [Strings],
   components: {
     AdminDesigner: () => import(/* webpackChunkName: "js/devise-sites" */ './AdminDesigner'),
     QueryBuilderInterface: () =>
-      import(/* webpackChunkName: "js/devise-utilities" */ './../utilities/QueryBuilderInterface')
-  }
+      import(/* webpackChunkName: "js/devise-utilities" */ '../utilities/QueryBuilderInterface'),
+  },
 };
 </script>

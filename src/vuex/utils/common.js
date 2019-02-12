@@ -1,5 +1,4 @@
 import Vue from 'vue';
-const qs = require('qs');
 
 const funcs = {
   // Build the parameters for the GET based on the filters.repertoire
@@ -8,46 +7,44 @@ const funcs = {
       return null;
     }
 
-    let filters = JSON.parse(JSON.stringify(filter));
+    const filters = JSON.parse(JSON.stringify(filter));
     let params = {};
-    let sortParams = funcs.buildSortParams(filters.sort);
-    let relatedParams = funcs.buildRelatedParams(filters.related);
-    let scopeParams = funcs.buildScopeParams(filters.scopes);
-    let searchParams = filters.search;
-    let pageParams = filters.page;
-    let paginated = filters.paginated;
-    let limit = filters.limit;
-    let single = filters.single;
+    const sortParams = funcs.buildSortParams(filters.sort);
+    const relatedParams = funcs.buildRelatedParams(filters.related);
+    const scopeParams = funcs.buildScopeParams(filters.scopes);
+    const searchParams = filters.search;
+    const pageParams = filters.page;
+    const { paginated, limit, single } = filters.paginated;
 
     if (single) {
-      params['single'] = single;
+      params.single = single;
     }
 
     if (limit) {
-      params['limit'] = limit;
+      params.limit = limit;
     }
 
     if (paginated) {
-      params['paginated'] = true;
+      params.paginated = true;
     }
 
     if (pageParams !== '') {
-      params['page'] = pageParams;
+      params.page = pageParams;
     }
 
     if (sortParams !== '') {
-      params['sort'] = sortParams;
+      params.sort = sortParams;
     }
 
     if (scopeParams !== '') {
-      params['scopes'] = scopeParams;
+      params.scopes = scopeParams;
     }
 
     if (filters.dates && Object.keys(filters.dates).length > 0) {
-      let datesParams = {};
-      for (let param in filters.dates) {
+      const datesParams = {};
+      for (const param in filters.dates) {
         if (filters.dates[param].after || filters.dates[param].before) {
-          datesParams[param] = filters.dates[param].after + ',' + filters.dates[param].before;
+          datesParams[param] = `${filters.dates[param].after},${filters.dates[param].before}`;
         }
       }
 
@@ -55,11 +52,11 @@ const funcs = {
         Vue.set(params, 'filters', {});
       }
 
-      Vue.set(params['filters'], 'dates', datesParams);
+      Vue.set(params.filters, 'dates', datesParams);
     }
 
     if (relatedParams && Object.keys(relatedParams).length > 0) {
-      for (let param in relatedParams) {
+      for (const param in relatedParams) {
         if (relatedParams.hasOwnProperty(param)) {
           if (relatedParams[param] === '') {
             Vue.delete(relatedParams, param);
@@ -70,11 +67,11 @@ const funcs = {
         Vue.set(params, 'filters', {});
       }
 
-      Vue.set(params['filters'], 'related', relatedParams);
+      Vue.set(params.filters, 'related', relatedParams);
     }
 
     if (searchParams && Object.keys(searchParams).length > 0) {
-      for (let param in searchParams) {
+      for (const param in searchParams) {
         if (searchParams.hasOwnProperty(param)) {
           if (searchParams[param] === '') {
             Vue.delete(searchParams, param);
@@ -85,7 +82,7 @@ const funcs = {
         Vue.set(params, 'filters', {});
       }
 
-      Vue.set(params['filters'], 'search', searchParams);
+      Vue.set(params.filters, 'search', searchParams);
     }
 
     params = funcs.serialize(params);
@@ -95,11 +92,13 @@ const funcs = {
 
   // Build the sort parameters
   buildSortParams(sorts) {
-    var sortString = '';
+    let sortString = '';
 
     for (const prop in sorts) {
-      sortString += sorts[prop] === 'desc' ? '-' + prop : prop;
-      sortString += ',';
+      if (sorts.hasOwnProperty(prop)) {
+        sortString += sorts[prop] === 'desc' ? `-${prop}` : prop;
+        sortString += ',';
+      }
     }
 
     sortString = sortString.substr(0, sortString.length - 1);
@@ -109,10 +108,12 @@ const funcs = {
 
   // Build the related parameters
   buildRelatedParams(related) {
-    var relatedParams = {};
+    const relatedParams = {};
 
     for (const prop in related) {
-      relatedParams[prop] = related[prop].join();
+      if (related.hasOwnProperty(prop)) {
+        relatedParams[prop] = related[prop].join();
+      }
     }
 
     return relatedParams;
@@ -120,10 +121,12 @@ const funcs = {
 
   // Build the related parameters
   buildSearchParams(search) {
-    var searchParams = {};
+    const searchParams = {};
 
     for (const prop in search) {
-      searchParams[prop] = search[prop].join();
+      if (search.hasOwnProperty(prop)) {
+        searchParams[prop] = search[prop].join();
+      }
     }
 
     return searchParams;
@@ -131,30 +134,32 @@ const funcs = {
 
   // Build the scope parameters
   buildScopeParams(scopes) {
-    var scopeParams = [];
+    const scopeParams = [];
 
     for (const prop in scopes) {
-      var obj = {};
-      obj[prop] = scopes[prop];
-      scopeParams.push(obj);
+      if (scopes.hasOwnProperty(prop)) {
+        const obj = {};
+        obj[prop] = scopes[prop];
+        scopeParams.push(obj);
+      }
     }
 
     return scopeParams;
   },
 
   serialize(obj, prefix) {
-    var str = [];
-    var p;
+    const str = [];
+    let p;
 
     for (p in obj) {
       if (obj.hasOwnProperty(p)) {
-        var k = prefix ? prefix + '[' + p + ']' : p;
-        var v = obj[p];
+        const k = prefix ? `${prefix}[${p}]` : p;
+        const v = obj[p];
 
         str.push(
           v !== null && typeof v === 'object'
             ? funcs.serialize(v, k)
-            : encodeURIComponent(k) + '=' + encodeURIComponent(v)
+            : `${encodeURIComponent(k)}=${encodeURIComponent(v)}`
         );
       }
     }
@@ -164,39 +169,34 @@ const funcs = {
 
   formatMoney(n) {
     let j = 0;
-    let c = 2;
-    let d = '.';
-    let t = ',';
-    let s = n < 0 ? '-' : '';
-    let i = String(parseInt((n = Math.abs(Number(n) || 0).toFixed(c))));
+    const c = 2;
+    const d = '.';
+    const t = ',';
+    const s = n < 0 ? '-' : '';
+    const i = String(parseInt((n = Math.abs(Number(n) || 0).toFixed(c)), 0));
 
-    j = (j = i.length) > 3 ? j % 3 : 0;
+    j = (j = i.length) > 3 ? j % 3 : 0; // eslint-disable-line
 
-    return (
-      '$' +
-      (s +
-        (j ? i.substr(0, j) + t : '') +
-        i.substr(j).replace(/(\d{3})(?=\d)/g, '$1' + t) +
-        (c
-          ? d +
-            Math.abs(n - i)
-              .toFixed(c)
-              .slice(2)
-          : ''))
-    );
+    return `$${s +
+      (j ? i.substr(0, j) + t : '') +
+      i.substr(j).replace(/(\d{3})(?=\d)/g, `$1${t}`) +
+      (c
+        ? d +
+          Math.abs(n - i)
+            .toFixed(c)
+            .slice(2)
+        : '')}`;
   },
 
   sanitizeField(field) {
-    switch (field.type) {
-      case 'link':
-        delete field.href;
-        break;
+    if (field.type === 'link') {
+      delete field.href;
     }
     return field;
   },
 
   sanitizeSlice(slice) {
-    for (var property in slice) {
+    for (const property in slice) {
       if (
         slice.hasOwnProperty(property) &&
         slice[property].hasOwnProperty('type') &&
@@ -206,16 +206,12 @@ const funcs = {
       }
     }
 
-    slice.slices.map(slice => {
-      return this.sanitizeSlice(slice);
-    });
+    slice.slices.map(s => this.sanitizeSlice(s));
   },
 
   sanitizePageData(data) {
-    return data.slices.map(slice => {
-      return this.sanitizeSlice(slice);
-    });
-  }
+    return data.slices.map(slice => this.sanitizeSlice(slice));
+  },
 };
 
 export default funcs;

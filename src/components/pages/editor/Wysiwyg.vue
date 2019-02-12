@@ -23,8 +23,8 @@
 </template>
 
 <script>
-import Strings from './../../../mixins/Strings';
-import Field from './../../../mixins/Field';
+import Strings from '../../../mixins/Strings';
+import Field from '../../../mixins/Field';
 
 export default {
   name: 'WysiwygEditor',
@@ -32,7 +32,7 @@ export default {
     return {
       localValue: {},
       originalValue: null,
-      showEditor: false
+      showEditor: false,
     };
   },
   mounted() {
@@ -52,7 +52,7 @@ export default {
     resetValue() {
       this.enabled = false;
       this.$refs.editor.empty();
-    }
+    },
   },
   computed: {
     text: {
@@ -60,18 +60,17 @@ export default {
         return this.value.text;
       },
       set(value) {
-        let valueObj = Object.assign(this.value, { text: value });
+        const valueObj = Object.assign(this.value, { text: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
-      }
-    }
+      },
+    },
   },
   props: ['value', 'options', 'namekey'],
   mixins: [Strings, Field],
   components: {
-    Toggle: () => import(/* webpackChunkName: "js/devise-utilities" */ './../../utilities/Toggle'),
     FieldEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './Field'),
-    Wysiwyg: () => import(/* webpackChunkName: "js/devise-utilities" */ './../../utilities/Wysiwyg')
-  }
+    Wysiwyg: () => import(/* webpackChunkName: "js/devise-utilities" */ '../../utilities/Wysiwyg'),
+  },
 };
 </script>

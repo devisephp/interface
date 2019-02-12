@@ -34,7 +34,7 @@ export default {
   data() {
     return {
       sortBy: null,
-      sortDir: null
+      sortDir: null,
     };
   },
   methods: {
@@ -61,27 +61,28 @@ export default {
       return a - b;
     },
     sortString(a, b, direction) {
-      var A = a.toUpperCase(); // ignore upper and lowercase
-      var B = b.toUpperCase(); // ignore upper and lowercase
+      const A = a.toUpperCase(); // ignore upper and lowercase
+      const B = b.toUpperCase(); // ignore upper and lowercase
 
       if (A < B) {
         return direction === 'desc' ? -1 : 1;
       }
-      if (A > B) {
-        return direction === 'desc' ? 1 : -1;
-      }
-    }
+
+      return direction === 'desc' ? 1 : -1;
+    },
   },
   computed: {
     sortedData() {
-      let self = this;
-      var sortable = [];
-      for (var record in this.data) {
-        sortable.push([record, this.data[record]]);
+      const self = this;
+      const sortable = [];
+      for (const record in this.data) {
+        if (this.data.hasOwnProperty(record)) {
+          sortable.push([record, this.data[record]]);
+        }
       }
 
       if (this.sortBy !== null) {
-        sortable.sort(function(a, b) {
+        sortable.sort((a, b) => {
           if (self.sortBy.property) {
             if (typeof a[1][self.sortBy.name] === 'string') {
               return self.sortString(
@@ -89,41 +90,38 @@ export default {
                 b[1][self.sortBy.property],
                 self.sortDir
               );
-            } else {
-              return self.sortNumber(
-                a[1][self.sortBy.property],
-                b[1][self.sortBy.property],
-                self.sortDir
-              );
             }
-          } else {
-            if (typeof a[0] === 'string') {
-              return self.sortString(a[0], b[0], self.sortDir);
-            } else {
-              return self.sortNumber(a[0], b[0], self.sortDir);
-            }
+            return self.sortNumber(
+              a[1][self.sortBy.property],
+              b[1][self.sortBy.property],
+              self.sortDir
+            );
           }
+          if (typeof a[0] === 'string') {
+            return self.sortString(a[0], b[0], self.sortDir);
+          }
+          return self.sortNumber(a[0], b[0], self.sortDir);
         });
       }
 
       return sortable;
-    }
+    },
   },
   props: {
     columns: {
       required: true,
-      type: Array
+      type: Array,
     },
     data: {
       required: true,
-      type: Object | Array
-    }
+      type: Object || Array,
+    },
   },
   components: {
     ArrowDown: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-arrow-down.vue'),
     ArrowUp: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-arrow-up.vue')
-  }
+      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-arrow-up.vue'),
+  },
 };
 </script>

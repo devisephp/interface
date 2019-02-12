@@ -19,11 +19,11 @@ export default {
   data() {
     return {
       show: false,
-      message: null
+      message: null,
     };
   },
   mounted() {
-    deviseSettings.$bus.$on('showLoadScreen', message => {
+    window.deviseSettings.$bus.$on('showLoadScreen', (message) => {
       this.message = message;
       this.show = true;
 
@@ -33,10 +33,10 @@ export default {
       }, 15000);
     });
 
-    deviseSettings.$bus.$on('hideLoadScreen', () => {
+    window.deviseSettings.$bus.$on('hideLoadScreen', () => {
       this.show = false;
       this.message = null;
     });
-  }
+  },
 };
 </script>

@@ -25,8 +25,8 @@
 </template>
 
 <script>
-import Strings from './../../../mixins/Strings';
-import Field from './../../../mixins/Field';
+import Strings from '../../../mixins/Strings';
+import Field from '../../../mixins/Field';
 
 export default {
   name: 'SelectEditor',
@@ -34,10 +34,10 @@ export default {
     return {
       localValue: {
         label: null,
-        value: null
+        value: null,
       },
       originalValue: null,
-      showEditor: false
+      showEditor: false,
     };
   },
   mounted() {
@@ -68,7 +68,7 @@ export default {
       this.enabled = false;
       this.label = null;
       this.selectValue = null;
-    }
+    },
   },
   computed: {
     label: {
@@ -79,10 +79,10 @@ export default {
         return 'Select';
       },
       set(value) {
-        let valueObj = Object.assign(this.value, { text: value });
+        const valueObj = Object.assign(this.value, { text: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
-      }
+      },
     },
     selectValue: {
       get() {
@@ -92,16 +92,16 @@ export default {
         return this.value.value;
       },
       set(newSelectValue) {
-        let valueObj = Object.assign(this.value, { value: newSelectValue });
+        const valueObj = Object.assign(this.value, { value: newSelectValue });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
-      }
-    }
+      },
+    },
   },
   props: ['value', 'options'],
   mixins: [Strings, Field],
   components: {
-    FieldEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './Field')
-  }
+    FieldEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './Field'),
+  },
 };
 </script>

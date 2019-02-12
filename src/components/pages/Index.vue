@@ -71,7 +71,7 @@
 import debounce from 'v-debounce';
 
 import { mapActions, mapGetters } from 'vuex';
-import AdministrationMixin from './../../mixins/Administration';
+import AdministrationMixin from '../../mixins/Administration';
 
 export default {
   name: 'PagesIndex',
@@ -79,13 +79,13 @@ export default {
     return {
       modulesToLoad: 3,
       filters: {
-        page: '1'
+        page: '1',
       },
       showCreate: false,
       searchDelay: 1000,
       searchTerm: '',
       autosuggest: {
-        data: []
+        data: [],
       },
       newPage: {
         layout: null,
@@ -100,8 +100,8 @@ export default {
         published: false,
         copy_page: false,
         copy_page_id: 0,
-        copy_page_title: 'Search Page'
-      }
+        copy_page_title: 'Search Page',
+      },
     };
   },
   mounted() {
@@ -111,8 +111,8 @@ export default {
   methods: {
     ...mapActions('devise', ['getPages', 'searchPages', 'getLanguages', 'createPage']),
     requestCreatePage() {
-      let self = this;
-      this.createPage(this.newPage).then(function() {
+      const self = this;
+      this.createPage(this.newPage).then(() => {
         self.newPage.template_id = null;
         self.newPage.language_id = null;
         self.newPage.title = null;
@@ -122,30 +122,29 @@ export default {
       });
     },
     retrieveAllPages(loadbar = true) {
-      this.getPages(this.filters).then(function() {
+      this.getPages(this.filters).then(() => {
         if (loadbar) {
-          devise.$bus.$emit('incrementLoadbar', self.modulesToLoad);
+          window.deviseSettings.$bus.$emit('incrementLoadbar', this.modulesToLoad);
         }
       });
     },
     retrieveAllLanguages() {
-      let self = this;
-      this.getLanguages().then(function() {
-        devise.$bus.$emit('incrementLoadbar', self.modulesToLoad);
+      this.getLanguages().then(() => {
+        window.deviseSettings.$bus.$emit('incrementLoadbar', this.modulesToLoad);
       });
     },
     loadPage(id) {
       this.$router.push({ name: 'devise-pages-view', params: { pageId: id } });
     },
     requestSearch(term) {
-      let self = this;
+      const self = this;
       if (term !== '') {
         this.searchPages(term).then(data => {
           self.autosuggest = data;
           if (data.data.length < 1) {
-            devise.$bus.$emit('showMessage', {
+            window.deviseSettings.$bus.$emit('showMessage', {
               title: 'No Suggestions Found',
-              message: 'We couldn\'t find any pages with the term: "' + term + '".'
+              message: `We couldn't find any pages with the term: "${term}".`,
             });
           }
         });
@@ -164,14 +163,15 @@ export default {
       }
 
       if (page.versions) {
-        return page.slug + '?version_id=' + page.versions[0].id;
+        return `${page.slug}?version_id=${page.versions[0].id}`;
       }
-    }
+      return false;
+    },
   },
   watch: {
     searchTerm(newValue) {
       this.requestSearch(newValue);
-    }
+    },
   },
   computed: {
     ...mapGetters('devise', ['pages', 'languages']),
@@ -184,20 +184,17 @@ export default {
         this.newPage.language_id === null ||
         this.newPage.slug === null
       );
-    }
+    },
   },
   components: {
     ActionBar: () =>
-      import(/* webpackChunkName: "js/devise-utilities" */ './../utilities/ActionBar'),
-    DeviseModal: () => import(/* webpackChunkName: "js/devise-utilities" */ './../utilities/Modal'),
-    PageSearch: () =>
-      import(/* webpackChunkName: "js/devise-utilities" */ './../utilities/PageSearch'),
+      import(/* webpackChunkName: "js/devise-utilities" */ '../utilities/ActionBar'),
     Pagination: () =>
-      import(/* webpackChunkName: "js/devise-tables" */ './../utilities/tables/Pagination')
+      import(/* webpackChunkName: "js/devise-tables" */ '../utilities/tables/Pagination'),
   },
   directives: {
-    debounce
+    debounce,
   },
-  mixins: [AdministrationMixin]
+  mixins: [AdministrationMixin],
 };
 </script>

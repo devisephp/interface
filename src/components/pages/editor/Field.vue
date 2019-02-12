@@ -94,19 +94,16 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex';
-import Strings from './../../../mixins/Strings';
-import Field from './../../../mixins/Field';
+import { mapState } from 'vuex';
+import Strings from '../../../mixins/Strings';
+import Field from '../../../mixins/Field';
 
 export default {
   name: 'FieldEditor',
   data() {
     return {
-      showErase: false
+      showErase: false,
     };
-  },
-  mounted() {
-    let self = this;
   },
   methods: {
     toggleShowEditor() {
@@ -131,22 +128,23 @@ export default {
     resetValue() {
       this.showErase = false;
       this.$emit('resetvalue');
-    }
+    },
   },
   computed: {
     ...mapState('devise', ['devMode']),
+    /* eslint-disable */
     devLabel() {
       if (this.devMode) {
-        //TO DO - NEED THE INSTANCE ID OF THE FIELD
+        // TO DO - NEED THE INSTANCE ID OF THE FIELD
         // return ``;
       }
-    }
+    },
   },
   props: ['value', 'options', 'showEditor', 'noReset'],
   mixins: [Strings, Field],
   components: {
-    Panel: () => import(/* webpackChunkName: "js/devise-utilities" */ './../../utilities/Panel'),
-    Toggle: () => import(/* webpackChunkName: "js/devise-utilities" */ './../../utilities/Toggle')
-  }
+    Panel: () => import(/* webpackChunkName: "js/devise-utilities" */ '../../utilities/Panel'),
+    Toggle: () => import(/* webpackChunkName: "js/devise-utilities" */ '../../utilities/Toggle'),
+  },
 };
 </script>

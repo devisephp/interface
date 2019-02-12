@@ -10,35 +10,35 @@
 
 <script>
 
-  import {mapGetters, mapActions} from 'vuex'
+import { mapGetters, mapActions } from 'vuex';
 
-  export default {
-    name: 'MothershipChanges',
-    data() {
-      return {
-        analytics: null,
-        minimized: false,
-        localValue: null
-      }
+export default {
+  name: 'MothershipChanges',
+  data() {
+    return {
+      analytics: null,
+      minimized: false,
+      localValue: null,
+    };
+  },
+  mounted() {
+    this.retrieveChanges();
+  },
+  methods: {
+    ...mapActions('devise', [
+      'getPendingChanges',
+    ]),
+    retrieveChanges() {
+      const self = this;
+      this.getPendingChanges().then((response) => {
+        self.$set(self, 'localValue', response.data);
+      });
     },
-    mounted() {
-      this.retrieveChanges()
-    },
-    methods: {
-      ...mapActions('devise', [
-        'getPendingChanges'
-      ]),
-      retrieveChanges() {
-        let self = this
-        this.getPendingChanges().then(function (response) {
-          self.$set(self, 'localValue', response.data)
-        })
-      },
-    },
-    computed: {
-      ...mapGetters('devise', [
-        'changes'
-      ])
-    }
-  }
+  },
+  computed: {
+    ...mapGetters('devise', [
+      'changes',
+    ]),
+  },
+};
 </script>

@@ -24,7 +24,7 @@
 
 <script>
 
-  export default {
-    name: 'MothershipIndex'
-  }
+export default {
+  name: 'MothershipIndex',
+};
 </script>

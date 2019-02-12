@@ -76,7 +76,7 @@ export default {
     return {
       localValue: {},
       modulesToLoad: 1,
-      showPassword: false
+      showPassword: false,
     };
   },
   mounted() {
@@ -88,25 +88,24 @@ export default {
       this.updateUser({ user: this.user, data: this.localValue });
     },
     requestDeleteUser() {
-      let self = this;
-      this.deleteUser(this.user).then(function() {
+      const self = this;
+      this.deleteUser(this.user).then(() => {
         self.goToPage('devise-users-index');
       });
     },
     retrieveAllUsers() {
-      let self = this;
-      this.getUsers().then(function() {
+      const self = this;
+      this.getUsers().then(() => {
         self.localValue = Object.assign({}, self.localValue, self.user);
-        devise.$bus.$emit('incrementLoadbar', self.modulesToLoad);
+        window.deviseSettings.$bus.$emit('incrementLoadbar', self.modulesToLoad);
       });
-    }
+    },
   },
   computed: {
-    ...mapGetters('devise', ['user'])
+    ...mapGetters('devise', ['user']),
   },
   components: {
-    ActionBar: () =>
-      import(/* webpackChunkName: "js/devise-utilities" */ './../utilities/ActionBar')
-  }
+    ActionBar: () => import(/* webpackChunkName: "js/devise-utilities" */ '../utilities/ActionBar'),
+  },
 };
 </script>

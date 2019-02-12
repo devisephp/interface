@@ -43,22 +43,20 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
-
 export default {
   name: 'ImageField',
   data() {
     return {
-      showPreview: false
+      showPreview: false,
     };
   },
   methods: {
-    showMediaManager(event) {
-      devise.$bus.$emit('devise-launch-media-manager', {
+    showMediaManager() {
+      window.deviseSettings.$bus.$emit('devise-launch-media-manager', {
         callback: this.mediaSelected,
         options: {
-          type: 'file'
-        }
+          type: 'file',
+        },
       });
     },
     mediaSelected(url) {
@@ -66,7 +64,7 @@ export default {
     },
     loadPreview() {
       if (this.previewEnabled) this.showPreview = true;
-    }
+    },
   },
   computed: {
     file: {
@@ -76,28 +74,28 @@ export default {
       set(newValue) {
         this.$emit('input', newValue);
         this.$emit('change', newValue);
-      }
+      },
     },
     fileName() {
-      let parts = this.value.split('/');
+      const parts = this.value.split('/');
       return parts[parts.length - 1];
     },
     previewEnabled() {
       return this.value !== '' && this.value !== null;
     },
-    getMaxLength: function() {
+    getMaxLength() {
       if (typeof this.settings !== 'undefined' && typeof this.settings.maxlength !== 'undefined') {
         return this.settings.maxlength;
       }
       return '';
-    }
+    },
   },
   props: ['value'],
   components: {
     DocumentIcon: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-document.vue'),
     SearchIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-search.vue')
-  }
+      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-search.vue'),
+  },
 };
 </script>

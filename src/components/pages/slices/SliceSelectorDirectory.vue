@@ -22,9 +22,8 @@
 </template>
 
 <script>
-import SliceSelectorSlice from './SliceSelectorSlice';
-
 import { mapGetters } from 'vuex';
+import SliceSelectorSlice from './SliceSelectorSlice.vue';
 
 export default {
   methods: {
@@ -33,13 +32,13 @@ export default {
         if (file.value === this.value.value) {
           return {
             color: this.theme.panelCard.background,
-            backgroundColor: this.theme.actionButton.background
+            backgroundColor: this.theme.actionButton.background,
           };
         }
       }
 
       return {
-        backgroundColor: this.theme.panelCard.background
+        backgroundColor: this.theme.panelCard.background,
       };
     },
     toggleSelectSlice(slice) {
@@ -48,7 +47,7 @@ export default {
       } else {
         this.$emit('input', null);
       }
-    }
+    },
   },
   computed: {
     ...mapGetters('devise', ['componentFromView']),
@@ -57,19 +56,19 @@ export default {
     },
     name() {
       return this.directory.path.trim().replace('.', ' ');
-    }
+    },
   },
   props: {
     directory: {
       required: true,
-      type: Object
+      type: Object,
     },
     value: {
-      required: true
-    }
+      required: true,
+    },
   },
   components: {
-    SliceSelectorSlice
-  }
+    SliceSelectorSlice,
+  },
 };
 </script>

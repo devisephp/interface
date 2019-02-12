@@ -19,9 +19,8 @@
 </template>
 
 <script>
-import SliceDiagram from './SliceDiagram';
-
 import { mapGetters } from 'vuex';
+import SliceDiagram from './SliceDiagram.vue';
 
 export default {
   computed: {
@@ -53,20 +52,20 @@ export default {
       }
 
       return false;
-    }
+    },
   },
   props: {
     file: {
       required: true,
-      type: Object
-    }
+      type: Object,
+    },
   },
   components: {
     CubeIcon: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-cube.vue'),
     InformationCircleIcon: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-information-circle.vue'),
-    SliceDiagram
-  }
+    SliceDiagram,
+  },
 };
 </script>

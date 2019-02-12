@@ -71,14 +71,14 @@
 </template>
 
 <script>
-import { TweenMax, CSSPlugin } from 'gsap';
+import { TweenMax } from 'gsap';
 import { mapActions } from 'vuex';
 
 export default {
   data() {
     return {
       previewMode: 'desktop',
-      previewSelector: null
+      previewSelector: null,
     };
   },
   mounted() {
@@ -89,12 +89,12 @@ export default {
     ...mapActions('devise', ['setPreviewModeInCurrentPage']),
     closePreviewSelector() {
       TweenMax.to(this.previewSelector, 0.5, {
-        maxHeight: `0px`
+        maxHeight: '0px',
       });
     },
     openPreviewSelector() {
       TweenMax.to(this.previewSelector, 0.5, {
-        maxHeight: `500px`
+        maxHeight: '500px',
       });
     },
     setPreviewMode(mode) {
@@ -104,13 +104,13 @@ export default {
     onStyle(type) {
       if (this.previewMode === type) {
         return {
-          color: this.theme.panelSidebar.secondaryColor
+          color: this.theme.panelSidebar.secondaryColor,
         };
       }
-    }
+      return {};
+    },
   },
   components: {
-    Panel: () => import(/* webpackChunkName: "js/devise-utilities" */ './../utilities/Panel'),
     DesktopIcon: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-desktop.vue'),
     TabletIcon: () =>
@@ -118,7 +118,7 @@ export default {
     PhonePortraitIcon: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-phone-portrait.vue'),
     PhoneLandscapeIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-phone-landscape.vue')
-  }
+      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-phone-landscape.vue'),
+  },
 };
 </script>

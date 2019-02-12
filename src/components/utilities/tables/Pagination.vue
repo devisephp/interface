@@ -22,34 +22,34 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'SuperTablePagination',
   methods: {
     ...mapActions([
-      'updateFilters'
+      'updateFilters',
     ]),
-    changePage (page) {
+    changePage(page) {
       if (page > 0 && page <= this.meta.last_page) {
-        this.$emit('changePage', page)
+        this.$emit('changePage', page);
       }
     },
-    isCurrentPage (page) {
-      return page === this.meta.current_page
+    isCurrentPage(page) {
+      return page === this.meta.current_page;
     },
-    decideStyle (page) {
+    decideStyle(page) {
       if (this.isCurrentPage(page)) {
-        return this.theme.actionButton
-      } 
-      return this.theme.actionButtonGhost
-    }
+        return this.theme.actionButton;
+      }
+      return this.theme.actionButtonGhost;
+    },
   },
   computed: {
     ...mapGetters([
-      'filters'
-    ])
+      'filters',
+    ]),
   },
-  props: ['meta', 'listMode']
-}
+  props: ['meta', 'listMode'],
+};
 </script>

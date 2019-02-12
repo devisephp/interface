@@ -64,9 +64,9 @@
 </template>
 
 <script>
-var qs = require('qs');
+import Strings from '../../mixins/Strings';
 
-import Strings from './../../mixins/Strings';
+const qs = require('qs');
 
 export default {
   name: 'QueryBuilderInterface',
@@ -77,13 +77,13 @@ export default {
       editData: {
         key: null,
         model: null,
-        filters: {}
+        filters: {},
       },
       newData: {
         name: null,
         model: null,
-        modelQuery: null
-      }
+        modelQuery: null,
+      },
     };
   },
   methods: {
@@ -93,7 +93,7 @@ export default {
         this.newData.model = null;
         this.newData.modelQuery = null;
       } else {
-        devise.$bus.$emit('showError', 'You must provide a variable name');
+        window.deviseSettings.$bus.$emit('showError', 'You must provide a variable name');
       }
     },
     addNewData() {
@@ -107,15 +107,15 @@ export default {
       this.newData = {
         name: null,
         model: null,
-        modelQuery: null
+        modelQuery: null,
       };
     },
     requestEditData(key) {
-      let modelQuery = qs.parse(this.modelQueries[key]);
+      const modelQuery = qs.parse(this.modelQueries[key]);
       this.editData = {
-        key: key,
+        key,
         model: modelQuery.class,
-        filters: modelQuery
+        filters: modelQuery,
       };
       this.showEditData = true;
     },
@@ -126,18 +126,18 @@ export default {
       this.editData = {
         key: null,
         model: null,
-        filters: {}
+        filters: {},
       };
 
       this.newData = {
         name: null,
         model: null,
-        modelQuery: null
+        modelQuery: null,
       };
     },
     removeData(key) {
       this.$delete(this.modelQueries, key);
-    }
+    },
   },
   computed: {
     modelQueries: {
@@ -146,20 +146,17 @@ export default {
       },
       set(newValue) {
         this.$emit('input', newValue);
-      }
-    }
+      },
+    },
   },
   mixins: [Strings],
   components: {
     DeviseModal: () => import(/* webpackChunkName: "js/devise-utilites" */ './Modal'),
     QueryBuilder: () => import(/* webpackChunkName: "js/devise-utilites" */ './QueryBuilder'),
-    AddIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-add-circle.vue'),
-    EditIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-create.vue'),
-    TrashIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-trash.vue')
+    AddIcon: () => import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-add-circle.vue'),
+    EditIcon: () => import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-create.vue'),
+    TrashIcon: () => import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-trash.vue'),
   },
-  props: ['value']
+  props: ['value'],
 };
 </script>

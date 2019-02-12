@@ -28,7 +28,7 @@ export default {
     return {
       pageSlices: [],
       pageSettingsOpen: false,
-      pageContentOpen: true
+      pageContentOpen: true,
     };
   },
   mounted() {
@@ -52,7 +52,7 @@ export default {
     },
     closeSlice(slice) {
       this.$set(slice.metadata, 'open', false);
-    }
+    },
   },
   computed: {
     ...mapGetters('devise', ['sliceConfig', 'fieldConfig']),
@@ -62,12 +62,9 @@ export default {
       },
       set(newValue) {
         this.$emit('updatePage', newValue);
-      }
-    }
+      },
+    },
   },
   props: ['page'],
-  components: {
-    AnalyticTotals: () => import(/* webpackChunkName: "js/devise-pages" */ './AnalyticTotals')
-  }
 };
 </script>

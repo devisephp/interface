@@ -5,12 +5,12 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-import Dates from './../../mixins/Dates';
+// import { mapGetters, mapActions } from 'vuex';
+// import Dates from '../../mixins/Dates';
 // import StatBlockDoughnut from './analytics/StatBlockDoughnut'
 
 export default {
-  name: 'MothershipHealthReports'
+  name: 'MothershipHealthReports',
   //   data () {
   //     return {
   //       analytics: null,

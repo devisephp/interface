@@ -14,16 +14,17 @@
 </template>
 
 <script>
-import ResizeObserver from 'resize-observer-polyfill';
-var tinycolor = require('tinycolor2');
-import { Photoshop, Sketch } from 'vue-color';
+import ResizeObserver from 'resize-observer-polyfill'; // eslint-disable-line
+import { Sketch } from 'vue-color';
 
 import mezr from 'mezr';
 
-import Slice from './Slice';
 import { mapGetters, mapActions } from 'vuex';
 
-import Strings from './../../mixins/Strings';
+import Strings from '../../mixins/Strings';
+import Slice from './Slice.vue'; // eslint-disable-line
+
+const tinycolor = require('tinycolor2');
 
 export default {
   name: 'DeviseSlice',
@@ -34,7 +35,7 @@ export default {
       showEditor: false,
       sliceEl: null,
       sliceComponent: null,
-      resizeObserver: null
+      resizeObserver: null,
     };
   },
   created() {
@@ -44,7 +45,6 @@ export default {
     this.sliceComponent = this.component(this.devise.metadata.name);
   },
   mounted() {
-    let self = this;
     this.mounted = true;
     this.sliceEl = this.$refs.component.$el;
 
@@ -62,52 +62,54 @@ export default {
   methods: {
     ...mapActions('devise', ['regenerateMedia']),
     addListeners() {
-      deviseSettings.$bus.$on('jumpToSlice', this.attemptJumpToSlice);
-      deviseSettings.$bus.$on('openSliceSettings', this.attemptOpenSliceSettings);
-      deviseSettings.$bus.$on('markSlice', this.markSlice);
+      window.deviseSettings.$bus.$on('jumpToSlice', this.attemptJumpToSlice);
+      window.deviseSettings.$bus.$on('openSliceSettings', this.attemptOpenSliceSettings);
+      window.deviseSettings.$bus.$on('markSlice', this.markSlice);
 
       this.addVisibilityScrollListeners();
     },
     hydrateMissingProperties() {
-      let fields = this.sliceConfig(this.devise).fields;
+      const { fields } = this.sliceConfig(this.devise);
 
       if (fields) {
         // Loop through the fields for this slice and check to see that all the
         // fields are present. If they aren't it's just because they haven't been
         // hydrated via the editor yet.
-        for (var field in fields) {
-          // Ok, so the property is missing from the slice.fields object so we're
-          // going to add in a stub for the render.
-          this.addMissingProperty(field);
+        for (const field in fields) {
+          if (fields.hasOwnProperty(field)) {
+            // Ok, so the property is missing from the slice.fields object so we're
+            // going to add in a stub for the render.
+            this.addMissingProperty(field);
 
-          // The property is present but we need to make sure all the custom set properties are moved over
-          this.addFieldConfigurations(fields, field);
+            // The property is present but we need to make sure all the custom set properties are moved over
+            this.addFieldConfigurations(fields, field);
+          }
         }
       }
     },
     addMissingProperty(field) {
       // We just add all the properties to ensure there are not undefined props down the line
-      let defaultProperties = {
+      const defaultProperties = {
         text: null,
         url: null,
         media: {},
         target: null,
         color: null,
         checked: null,
-        enabled: false
+        enabled: false,
       };
 
-      let mergedData = Object.assign({}, defaultProperties, this.deviseForSlice[field]);
+      const mergedData = Object.assign({}, defaultProperties, this.deviseForSlice[field]);
       this.$set(this.deviseForSlice, field, mergedData);
     },
     checkDefaults() {
-      let fields = this.sliceConfig(this.devise).fields;
+      const { fields } = this.sliceConfig(this.devise);
 
       if (fields) {
         // Loop through the fields for this slice and check to see that all the
         // fields are present. If they aren't it's just because they haven't been
         // hydrated via the editor yet.
-        for (var field in fields) {
+        for (const field in fields) {
           if (this.deviseForSlice.hasOwnProperty(field)) {
             // If defaults are set then set them on top of the placeholder missing properties
             if (fields[field].default) {
@@ -118,7 +120,7 @@ export default {
       }
     },
     addFieldConfigurations(fields, field) {
-      for (var pp in fields[field]) {
+      for (const pp in fields[field]) {
         if (!this.deviseForSlice[field].hasOwnProperty(pp)) {
           this.$set(this.deviseForSlice[field], pp, fields[field][pp]);
         }
@@ -126,7 +128,7 @@ export default {
     },
     setDefaults(property, defaults) {
       // loop through the defaults and apply them to the field
-      for (var d in defaults) {
+      for (const d in defaults) {
         if (
           typeof this.deviseForSlice[property][d] === 'undefined' ||
           this.deviseForSlice[property][d] === null
@@ -138,21 +140,23 @@ export default {
     checkMediaSizesForRegeneration() {
       // If the current slice even has fields
       if (typeof this.currentView.fields !== 'undefined') {
-        for (var fieldName in this.currentView.fields) {
-          const field = this.currentView.fields[fieldName];
+        for (const fieldName in this.currentView.fields) {
+          if (this.currentView.fields.hasOwnProperty(fieldName)) {
+            const field = this.currentView.fields[fieldName];
 
-          // If the field is an image
-          if (field.type === 'image' && this.devise[fieldName].url !== null) {
-            // If sizes are defined on the image configuration and an image has already been selected
-            if (
-              typeof field.sizes !== 'undefined' &&
-              typeof this.devise[fieldName].media === 'object' &&
-              !this.mediaAlreadyRequested({
-                component: this.devise.metadata.name,
-                fieldName: fieldName
-              })
-            ) {
-              this.determineMediaRegenerationNeeds(field, fieldName);
+            // If the field is an image
+            if (field.type === 'image' && this.devise[fieldName].url !== null) {
+              // If sizes are defined on the image configuration and an image has already been selected
+              if (
+                typeof field.sizes !== 'undefined' &&
+                typeof this.devise[fieldName].media === 'object' &&
+                !this.mediaAlreadyRequested({
+                  component: this.devise.metadata.name,
+                  fieldName,
+                })
+              ) {
+                this.determineMediaRegenerationNeeds(field, fieldName);
+              }
             }
           }
         }
@@ -160,45 +164,46 @@ export default {
     },
     determineMediaRegenerationNeeds(field, fieldName) {
       // Build the sizes needed
-      let mediaRequest = { sizes: {} };
+      const mediaRequest = { sizes: {} };
 
       // Check if all the sizes in the configuration are present in the media property
-      for (var sizeName in field.sizes) {
+      for (const sizeName in field.sizes) {
         if (typeof this.devise[fieldName].media[sizeName] === 'undefined') {
           mediaRequest.sizes[sizeName] = field.sizes[sizeName];
         }
       }
 
       // Check to see if any of the sizes have changed
-      for (var sizeName in field.sizes) {
-        let storedSize = this.devise[fieldName].sizes[sizeName];
-        let fieldSize = field.sizes[sizeName];
-        if (!storedSize || storedSize.w !== fieldSize.w || storedSize.h !== fieldSize.h) {
-          mediaRequest.sizes[sizeName] = fieldSize;
+      for (const sizeName in field.sizes) {
+        if (field.sizes.hasOwnProperty(sizeName)) {
+          const storedSize = this.devise[fieldName].sizes[sizeName];
+          const fieldSize = field.sizes[sizeName];
+          if (!storedSize || storedSize.w !== fieldSize.w || storedSize.h !== fieldSize.h) {
+            mediaRequest.sizes[sizeName] = fieldSize;
+          }
         }
       }
 
       // If there are any sizes needed
       if (Object.keys(mediaRequest.sizes).length > 0) {
         // Build the request payload
-        let payload = {
+        const payload = {
           allSizes: field.sizes,
           sizes: mediaRequest,
           instanceId: this.devise.metadata.instance_id,
-          fieldName: fieldName,
-          component: this.devise.metadata.name
+          fieldName,
+          component: this.devise.metadata.name,
         };
         this.makeMediaRegenerationRequest(payload);
       }
     },
     makeMediaRegenerationRequest(payload) {
-      this.regenerateMedia(payload).then(function() {
-        devise.$bus.$emit('showMessage', {
+      this.regenerateMedia(payload).then(() => {
+        window.deviseSettings.$bus.$emit('showMessage', {
           title: 'New Images Generated',
-          message:
-            'Pro tip: Some new sizes were generated for a slice you were working on (Field: ' +
-            payload.fieldName +
-            ') You may need to refresh.'
+          message: `Pro tip: Some new sizes were generated for a slice you were working on (Field: ${
+            payload.fieldName
+          }) You may need to refresh.`,
         });
       });
     },
@@ -206,12 +211,13 @@ export default {
       if (this.devise.metadata && slice.metadata) {
         if (this.devise.metadata.instance_id === slice.metadata.instance_id) {
           try {
-            let offset = mezr.offset(this.sliceEl, 'margin');
+            const offset = mezr.offset(this.sliceEl, 'margin');
             window.scrollTo({
               top: offset.top,
-              behavior: 'smooth'
+              behavior: 'smooth',
             });
           } catch (error) {
+            /* eslint-disable no-console */
             console.warn(
               'Devise Warning: There may be a problem with this slice. Try wrapping the template in a single <div> to resolve and prevent children components to be at the root level.'
             );
@@ -222,25 +228,25 @@ export default {
     attemptOpenSliceSettings(slice) {
       if (this.devise.metadata && slice.metadata) {
         if (this.devise.metadata.instance_id === slice.metadata.instance_id) {
-          deviseSettings.$bus.$emit('open-slice-settings', this.deviseForSlice);
+          window.deviseSettings.$bus.$emit('open-slice-settings', this.deviseForSlice);
         }
       }
     },
     markSlice(slice, on) {
       if (this.devise.metadata && slice.metadata) {
         if (this.devise.metadata.instance_id === slice.metadata.instance_id) {
-          var markers = document.getElementsByClassName('devise-component-marker');
+          const markers = document.getElementsByClassName('devise-component-marker');
           while (markers.length > 0) {
             markers[0].parentNode.removeChild(markers[0]);
           }
 
           if (on) {
             try {
-              let offset = mezr.offset(this.sliceEl, 'margin');
-              let width = mezr.width(this.sliceEl, 'margin');
-              let height = mezr.height(this.sliceEl, 'margin');
+              const offset = mezr.offset(this.sliceEl, 'margin');
+              const width = mezr.width(this.sliceEl, 'margin');
+              const height = mezr.height(this.sliceEl, 'margin');
 
-              let marker = document.createElement('div');
+              const marker = document.createElement('div');
               marker.innerHTML = `
               <div class="dvs-absolute-center dvs-absolute">
                 <h1 class="dvs-text-grey-light dvs-font-hairline dvs-font-sans dvs-p-4 dvs-bg-abs-black dvs-rounded dvs-shadow-lg">
@@ -273,17 +279,18 @@ export default {
             if (this.$refs.component && typeof this.$refs.component.isVisible !== 'undefined') {
               this.$refs.component.isVisible();
             }
-          } else {
-            if (this.$refs.component && typeof this.$refs.component.isHidden !== 'undefined') {
-              this.$refs.component.isHidden();
-            }
+          } else if (
+            this.$refs.component &&
+            typeof this.$refs.component.isHidden !== 'undefined'
+          ) {
+            this.$refs.component.isHidden();
           }
         });
       }
     },
     checkVisible(elm) {
-      var rect = elm.getBoundingClientRect();
-      var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
+      const rect = elm.getBoundingClientRect();
+      const viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
       return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
     },
     buildStyles(styles, margin, padding) {
@@ -318,7 +325,7 @@ export default {
       }
 
       return styles;
-    }
+    },
   },
   computed: {
     ...mapGetters('devise', ['component', 'sliceConfig', 'breakpoint', 'mediaAlreadyRequested']),
@@ -329,17 +336,19 @@ export default {
       return this.devise;
     },
     styles() {
-      var styles = {};
+      const styles = {};
 
       if (typeof this.deviseForSlice.settings === 'undefined') {
         this.$set(this.deviseForSlice, 'settings', {});
       }
 
-      let backgroundColor = this.deviseForSlice.settings.backgroundColor;
-      let margin = this.deviseForSlice.settings.margin;
-      let mobileMargin = this.deviseForSlice.settings.mobile_margin;
-      let padding = this.deviseForSlice.settings.padding;
-      let mobilePadding = this.deviseForSlice.settings.mobile_padding;
+      const {
+        backgroundColor,
+        margin,
+        mobileMargin,
+        padding,
+        mobilePadding,
+      } = this.deviseForSlice.settings.backgroundColor;
 
       if (typeof backgroundColor !== 'undefined') {
         styles.backgroundColor = backgroundColor;
@@ -353,10 +362,10 @@ export default {
     },
     currentView() {
       if (this.devise.config) {
-        return deviseSettings.$deviseComponents[this.devise.name];
+        return window.deviseSettings.$deviseComponents[this.devise.name];
       }
-      return deviseSettings.$deviseComponents[this.devise.metadata.name];
-    }
+      return window.deviseSettings.$deviseComponents[this.devise.metadata.name];
+    },
   },
   props: ['editorMode'],
   mixins: [Strings],
@@ -364,7 +373,7 @@ export default {
     Slice,
     SettingsIcon: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-settings.vue'),
-    'sketch-picker': Sketch
-  }
+    'sketch-picker': Sketch,
+  },
 };
 </script>

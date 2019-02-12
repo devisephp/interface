@@ -72,24 +72,23 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapMutations } from 'vuex';
-import Strings from './../../mixins/Strings';
+import { mapGetters, mapActions } from 'vuex';
+import Strings from '../../mixins/Strings';
+
 export default {
   name: 'PageEditor',
   data() {
     return {
       saving: false,
-      createSlice: false
+      createSlice: false,
     };
   },
   mounted() {
     setTimeout(() => {
       this.$watch(
         'currentPage',
-        function(newValue, oldValue) {
-          window.onbeforeunload = () => {
-            return 'Changes you made may not be saved';
-          };
+        () => {
+          window.onbeforeunload = () => 'Changes you made may not be saved';
         },
         { deep: true }
       );
@@ -119,12 +118,11 @@ export default {
       this.$set(slice.metadata, 'open', false);
     },
     requestAddSlice() {
-      let self = this;
       this.createSlice = true;
     },
     addSlice(newSlice, referenceSlice) {
       if (typeof referenceSlice !== 'undefined') {
-        let config = this.sliceConfig(referenceSlice);
+        const config = this.sliceConfig(referenceSlice);
         if (config.has_child_slot === true) {
           if (typeof referenceSlice.slices === 'undefined') {
             this.$set(referenceSlice, 'slices', []);
@@ -138,9 +136,10 @@ export default {
       this.createSlice = false;
     },
     findReferenceSliceInSlices(slices, referenceSlice) {
+      /* eslint-disable array-callback-return,consistent-return */
       return slices.find(slice => {
         if (slice === referenceSlice) return slice;
-        else if (slice.slices) return this.findReferenceSliceInSlices(slice.slices, referenceSlice);
+        if (slice.slices) return this.findReferenceSliceInSlices(slice.slices, referenceSlice);
       });
       // this.currentPage.slices[this.currentPage.slices.indexOf(referenceSlice)]
     },
@@ -152,7 +151,7 @@ export default {
       );
     },
     setSubSliceInstaceToZero(slices) {
-      for (let i = 0; i < slices.length; i++) {
+      for (let i = 0; i < slices.length; i += 1) {
         slices[i].metadata.instance_id = 0;
 
         if (typeof slices[i].slices === 'object' && slices[i].slices.length > 0) {
@@ -167,7 +166,7 @@ export default {
         referenceSlice = this.currentPage;
       }
 
-      var newSlice = JSON.parse(JSON.stringify(sliceToCopy));
+      const newSlice = JSON.parse(JSON.stringify(sliceToCopy));
       newSlice.metadata.instance_id = 0;
 
       if (typeof newSlice.slices === 'object' && newSlice.slices.length > 0) {
@@ -182,13 +181,13 @@ export default {
       }
       referenceSlice.slices.splice(referenceSlice.slices.indexOf(deletingSlice), 1);
     },
-    selectVersion(version) {
+    selectVersion() {
       // pass version_id through the url
       // location.href=
-    }
+    },
   },
   computed: {
-    ...mapGetters('devise', ['currentPage', 'sliceConfig'])
+    ...mapGetters('devise', ['currentPage', 'sliceConfig']),
   },
   mixins: [Strings],
   components: {
@@ -200,7 +199,7 @@ export default {
     draggable: () => import(/* webpackChunkName: "js/devise-editors" */ 'vuedraggable'),
     ManageSlice: () => import(/* webpackChunkName: "js/devise-editors" */ './slices/ManageSlice'),
     SliceEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './slices/SliceEditor'),
-    Toggle: () => import(/* webpackChunkName: "js/devise-utilities" */ './../utilities/Toggle')
-  }
+    Toggle: () => import(/* webpackChunkName: "js/devise-utilities" */ '../utilities/Toggle'),
+  },
 };
 </script>

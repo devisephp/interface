@@ -82,8 +82,8 @@ export default {
         name: null,
         email: null,
         password: null,
-        password_confirmation: null
-      }
+        password_confirmation: null,
+      },
     };
   },
   mounted() {
@@ -92,8 +92,8 @@ export default {
   methods: {
     ...mapActions('devise', ['getUsers', 'createUser']),
     requestCreateUser() {
-      let self = this;
-      this.createUser(this.newUser).then(function() {
+      const self = this;
+      this.createUser(this.newUser).then(() => {
         self.newUser.name = null;
         self.newUser.email = null;
         self.newUser.password = null;
@@ -102,15 +102,15 @@ export default {
       });
     },
     retrieveAllUsers(loadbar = true) {
-      this.getUsers().then(function() {
+      this.getUsers().then(() => {
         if (loadbar) {
-          devise.$bus.$emit('incrementLoadbar', self.modulesToLoad);
+          window.deviseSettings.$bus.$emit('incrementLoadbar', this.modulesToLoad);
         }
       });
     },
     loadUser(id) {
       this.$router.push({ name: 'devise-users-edit', params: { userId: id } });
-    }
+    },
   },
   computed: {
     ...mapGetters('devise', ['users']),
@@ -122,12 +122,12 @@ export default {
         this.newUser.password_confirmation === null ||
         this.newUser.password !== this.newUser.password_confirmation
       );
-    }
+    },
   },
   components: {
     ActionBar: () =>
-      import(/* webpackChunkName: "js/devise-utilities" */ './../utilities/ActionBar.vue'),
-    DeviseModal: () => import(/* webpackChunkName: "js/devise-utilities" */ './../utilities/Modal')
-  }
+      import(/* webpackChunkName: "js/devise-utilities" */ '../utilities/ActionBar.vue'),
+    DeviseModal: () => import(/* webpackChunkName: "js/devise-utilities" */ '../utilities/Modal'),
+  },
 };
 </script>

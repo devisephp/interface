@@ -86,27 +86,27 @@ export default {
         published: false,
         copy_page: false,
         copy_page_id: 0,
-        copy_page_title: 'Search Page'
-      }
+        copy_page_title: 'Search Page',
+      },
     };
   },
   mounted() {
-    if (deviseSettings.$page.site.settings.hasOwnProperty('defaultLayout')) {
-      this.newPage.layout = deviseSettings.$page.site.settings.defaultLayout;
+    if (window.deviseSettings.$page.site.settings.hasOwnProperty('defaultLayout')) {
+      this.newPage.layout = window.deviseSettings.$page.site.settings.defaultLayout;
     }
   },
   methods: {
     ...mapActions('devise', ['getPages', 'searchPages', 'getLanguages', 'createPage']),
     requestCreatePage() {
-      let self = this;
-      this.createPage(this.newPage).then(function() {
+      const self = this;
+      this.createPage(this.newPage).then(() => {
         self.goToPage('devise-pages-index');
       });
     },
     retrieveAllLanguages() {
-      let self = this;
-      this.getLanguages().then(function() {
-        devise.$bus.$emit('incrementLoadbar', self.modulesToLoad);
+      const self = this;
+      this.getLanguages().then(() => {
+        window.deviseSettings.$bus.$emit('incrementLoadbar', self.modulesToLoad);
       });
     },
     setCopyPage(page) {
@@ -115,7 +115,7 @@ export default {
     },
     loadPage(id) {
       this.$router.push({ name: 'devise-pages-view', params: { pageId: id } });
-    }
+    },
   },
   computed: {
     ...mapGetters('devise', ['languages']),
@@ -130,18 +130,15 @@ export default {
       );
     },
     layouts() {
-      return deviseSettings.$config.layouts;
-    }
+      return window.deviseSettings.$config.layouts;
+    },
   },
   components: {
-    DeviseModal: () => import(/* webpackChunkName: "js/devise-utilities" */ './../utilities/Modal'),
     PageSearch: () =>
-      import(/* webpackChunkName: "js/devise-utilities" */ './../utilities/PageSearch'),
-    Pagination: () =>
-      import(/* webpackChunkName: "js/devise-tables" */ './../utilities/tables/Pagination')
+      import(/* webpackChunkName: "js/devise-utilities" */ '../utilities/PageSearch'),
   },
   directives: {
-    debounce
-  }
+    debounce,
+  },
 };
 </script>

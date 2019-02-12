@@ -2,7 +2,7 @@
   <div
     id="dvs-admin-sidebar"
     :style="{
-    borderColor:theme.panelCard.background, 
+    borderColor:theme.panelCard.background,
     background:theme.panelCard.background
   }"
   >
@@ -25,8 +25,9 @@
 </template>
 
 <script>
-import AdministrationMixin from './../../mixins/Administration';
+import AdministrationMixin from '../../mixins/Administration';
+
 export default {
-  mixins: [AdministrationMixin]
+  mixins: [AdministrationMixin],
 };
 </script>

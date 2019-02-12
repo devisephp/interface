@@ -71,21 +71,19 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
-
 export default {
   name: 'ImagesField',
   data() {
     return {
       showPreview: false,
       previewImageName: '',
-      previewImagePath: ''
+      previewImagePath: '',
     };
   },
   methods: {
-    showMediaManager(event) {
-      devise.$bus.$emit('devise-launch-media-manager', {
-        callback: this.mediaSelected
+    showMediaManager() {
+      window.deviseSettings.$bus.$emit('devise-launch-media-manager', {
+        callback: this.mediaSelected,
       });
     },
     mediaSelected(images) {
@@ -95,14 +93,14 @@ export default {
       this.images.splice(index, 1);
     },
     getName(path) {
-      let parts = path.split('/');
+      const parts = path.split('/');
       return parts[parts.length - 1];
     },
     loadPreview(imagePath) {
       this.showPreview = true;
       this.previewImageName = this.getName(imagePath);
       this.previewImagePath = imagePath;
-    }
+    },
   },
   computed: {
     images: {
@@ -112,27 +110,29 @@ export default {
       set(newValue) {
         this.$emit('input', newValue);
         this.$emit('change', newValue);
-      }
+      },
     },
     labelText() {
       return this.label ? this.label : 'Images';
-    }
+    },
   },
   props: {
     value: {
       type: Array,
-      default: []
+      default: () => {
+        return [];
+      },
     },
     label: {
       type: String,
-      default: 'Images'
-    }
+      default: 'Images',
+    },
   },
   components: {
     ImagesIcon: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-images.vue'),
     SearchIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-search.vue')
-  }
+      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-search.vue'),
+  },
 };
 </script>

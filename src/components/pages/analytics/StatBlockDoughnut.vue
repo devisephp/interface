@@ -1,87 +1,94 @@
 <template>
   <div class="dvs-flex dvs-flex-col dvs-items-center">
     <div class="dvs-relative" :style="{width: currentWidth}">
-      <doughnut 
+      <doughnut
         :chart-data="{
           datasets: [{
             data: chartData,
-            backgroundColor: [theme.panel.color], 
+            backgroundColor: [theme.panel.color],
             borderWidth: 0
           }],
           labels: [``, ``]
-        }" 
-        :options="doughnutOptions"></doughnut>
+        }"
+        :options="doughnutOptions"
+      ></doughnut>
       <div class="dvs-absolute dvs-absolute-center dvs-text-lg">{{ yesterday }}</div>
     </div>
     <div class="dvs-mt-4 dvs-text-center dvs-text-xs dvs-uppercase">
-      <strong>{{ stat }}</strong>: {{ change }}% <i :class="changeIcon"></i> 
+      <strong>{{ stat }}</strong>
+      : {{ change }}%
+      <i :class="changeIcon"></i>
     </div>
   </div>
 </template>
 
 <script>
-import Doughnut from './Doughnut'
+import Doughnut from './Doughnut.vue';
 
 export default {
   computed: {
-    doughnutOptions () {
+    doughnutOptions() {
       return {
         cutoutPercentage: 88,
-        legend: false
-      }
+        legend: false,
+      };
     },
-    chartData () {
-      let weekAgoKey = Object.keys(this.analytics)[0]
-      let yesterdayKey = Object.keys(this.analytics)[1]
-      let sumOfSample = this.analytics[yesterdayKey][this.stat] + this.analytics[weekAgoKey][this.stat]
-      var yesterday = this.analytics[yesterdayKey][this.stat] / sumOfSample
-      var weekAgo = this.analytics[weekAgoKey][this.stat] / sumOfSample
+    chartData() {
+      const weekAgoKey = Object.keys(this.analytics)[0];
+      const yesterdayKey = Object.keys(this.analytics)[1];
+      const sumOfSample =
+        this.analytics[yesterdayKey][this.stat] + this.analytics[weekAgoKey][this.stat];
+      let yesterday = this.analytics[yesterdayKey][this.stat] / sumOfSample;
+      let weekAgo = this.analytics[weekAgoKey][this.stat] / sumOfSample;
 
-      if (isNaN(yesterday)) {
-        yesterday = 0
+      /* eslint-disable-line */ if (isNaN(yesterday)) {
+        yesterday = 0;
       }
 
-      if (isNaN(weekAgo)) {
-        weekAgo = 1
+      /* eslint-disable-line */ if (isNaN(weekAgo)) {
+        weekAgo = 1;
       }
 
-      if(yesterday / weekAgo > 1) {
-        yesterday = 0
-        weekAgo = 1
+      if (yesterday / weekAgo > 1) {
+        yesterday = 0;
+        weekAgo = 1;
       }
 
-      return [weekAgo, yesterday]
+      return [weekAgo, yesterday];
     },
-    yesterday () {
-      let yesterdayKey = Object.keys(this.analytics)[1]
-      return this.analytics[yesterdayKey][this.stat]
+    yesterday() {
+      const yesterdayKey = Object.keys(this.analytics)[1];
+      return this.analytics[yesterdayKey][this.stat];
     },
-    change () {
-      let weekAgoKey = Object.keys(this.analytics)[0]
-      let yesterdayKey = Object.keys(this.analytics)[1]
+    change() {
+      const weekAgoKey = Object.keys(this.analytics)[0];
+      const yesterdayKey = Object.keys(this.analytics)[1];
 
-      var change = Math.round(((this.analytics[yesterdayKey][this.stat] / this.analytics[weekAgoKey][this.stat]) * 100) - 100)
-      
-      if (isNaN(change)) {
-        change = 0
+      let change = Math.round(
+        (this.analytics[yesterdayKey][this.stat] / this.analytics[weekAgoKey][this.stat]) * 100 -
+          100
+      );
+
+      /* eslint-disable-line */ if (isNaN(change)) {
+        change = 0;
       }
 
-      return change
+      return change;
     },
-    changeIcon () {
+    changeIcon() {
       if (this.change < 0) {
-        return 'ion-arrow-down-b'
+        return 'ion-arrow-down-b';
       }
 
-      return 'ion-arrow-up-b'
+      return 'ion-arrow-up-b';
     },
-    currentWidth () {
-        return '50px'
-    }
+    currentWidth() {
+      return '50px';
+    },
   },
   components: {
-    Doughnut
+    Doughnut,
   },
-  props: ['analytics', 'stat']
-}
+  props: ['analytics', 'stat'],
+};
 </script>

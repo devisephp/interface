@@ -52,7 +52,7 @@
               class="dvs-btn dvs-mr-2"
               v-if="language.editCode"
               :style="theme.actionButton"
-              @click="requestUpdateLanguage(localValue.data[key])"
+              @click="localValue.data[key].editCode = requestUpdateLanguage(localValue.data[key])"
             >Save Language Code</button>
             <button
               class="dvs-btn"
@@ -68,8 +68,6 @@
 </template>
 
 <script>
-import Administration from './../admin/Administration';
-
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
@@ -77,12 +75,12 @@ export default {
   data() {
     return {
       localValue: {
-        data: []
+        data: [],
       },
       modulesToLoad: 1,
       newLanguage: {
-        code: null
-      }
+        code: null,
+      },
     };
   },
   mounted() {
@@ -94,29 +92,27 @@ export default {
       this.createLanguage(this.newLanguage);
     },
     requestUpdateLanguage(language) {
-      this.updateLanguage(language).then(function() {
-        language.editCode = false;
+      this.updateLanguage(language).then(() => {
+        return false;
       });
     },
     retrieveAllLanguages() {
-      let self = this;
-      this.getLanguages().then(function() {
-        self.localValue = Object.assign({}, self.localValue, self.languages);
-        self.localValue.data.map(language => {
-          self.$set(language, 'editCode', false);
+      this.getLanguages().then(() => {
+        this.localValue = Object.assign({}, this.localValue, this.languages);
+        this.localValue.data.map(language => {
+          this.$set(language, 'editCode', false);
+          return language;
         });
-        devise.$bus.$emit('incrementLoadbar', self.modulesToLoad);
+        window.deviseSettings.$bus.$emit('incrementLoadbar', this.modulesToLoad);
       });
-    }
+    },
   },
   computed: {
-    ...mapGetters('devise', ['languages', 'settingsMenu'])
+    ...mapGetters('devise', ['languages', 'settingsMenu']),
   },
   components: {
-    Administration: () =>
-      import(/* webpackChunkName: "js/devise-administration" */ './../admin/Administration.vue'),
     CreateIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-create.vue')
-  }
+      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-create.vue'),
+  },
 };
 </script>

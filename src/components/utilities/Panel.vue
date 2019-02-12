@@ -14,8 +14,8 @@ export default {
   props: {
     panelStyle: {
       default: null,
-      type: Object
-    }
-  }
+      type: Object,
+    },
+  },
 };
 </script>

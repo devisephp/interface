@@ -60,14 +60,9 @@
 </template>
 
 <script>
-import mezr from 'mezr';
-import Table from 'trumbowyg/dist/plugins/table/trumbowyg.table.min.js';
-
 // Import editor cs
 import 'trumbowyg/dist/ui/icons.svg';
-import 'trumbowyg/dist/ui/trumbowyg.css';
-import 'trumbowyg/dist/plugins/table/ui/trumbowyg.table.css';
-import Strings from './../../mixins/Strings';
+import Strings from '../../mixins/Strings';
 
 export default {
   name: 'Wysiwyg',
@@ -89,7 +84,7 @@ export default {
           ['removeformat'],
           ['table'],
           ['floats'],
-          ['undo', 'redo']
+          ['undo', 'redo'],
         ],
         autogrow: true,
         btnsDef: {
@@ -98,26 +93,26 @@ export default {
             tag: 'mediamanager',
             title: 'Media Manager',
             text: 'Media Manager',
-            isSupported: function() {
+            isSupported() {
               return true;
             },
             key: 'M',
             param: '',
             forceCSS: true,
             ico: 'insert-image',
-            hasIcon: true
-          }
+            hasIcon: true,
+          },
         },
         imageWidthModalEdit: false,
-        imgDblClickHandler: this.imageManager
+        imgDblClickHandler: this.imageManager,
       },
       plugins: {
         table: {
           rows: 8,
           columns: 8,
-          styler: 'table'
-        }
-      }
+          styler: 'table',
+        },
+      },
     };
   },
   mounted() {
@@ -125,10 +120,10 @@ export default {
     this.theEditor = this.$refs.theEditor;
 
     this.$nextTick(() => {
-      let fieldPanel = document.querySelector('#field-panel');
+      const fieldPanel = document.querySelector('#field-panel');
 
       if (fieldPanel) {
-        let container = fieldPanel.querySelector('.simplebar-scroll-content');
+        const container = fieldPanel.querySelector('.simplebar-scroll-content');
         this.buttonPane = fieldPanel.querySelector('.trumbowyg-button-pane');
 
         if (container) {
@@ -150,14 +145,14 @@ export default {
     });
   },
   methods: {
-    launchMediaManager(event) {
-      devise.$bus.$emit('devise-launch-media-manager', {
-        callback: this.mediaSelected
+    launchMediaManager() {
+      window.deviseSettings.$bus.$emit('devise-launch-media-manager', {
+        callback: this.mediaSelected,
       });
     },
     mediaSelected(imagesAndSettings) {
       if (typeof imagesAndSettings === 'object') {
-        let html = this.theEditor.el.trumbowyg('html');
+        const html = this.theEditor.el.trumbowyg('html');
         this.theEditor.el.trumbowyg(
           'html',
           `${html}<img src="${imagesAndSettings.images.orig_optimized}" width="${
@@ -186,7 +181,10 @@ export default {
     imageManager(image) {
       this.imageToManage = image;
       this.$nextTick(() => {
-        this.$refs.marginsetting.value = this.imageToManage.currentTarget.style.margin.slice(0, -2);
+        this.$refs.marginsetting.value = this.imageToManage.currentTarget.style.margin.slice(
+          0,
+          -2
+        );
       });
     },
     setImageFloat(direction) {
@@ -202,7 +200,7 @@ export default {
       this.updateAndCloseImageEditor();
     },
     removeImage() {
-      let newHTML = this.theEditor.el
+      const newHTML = this.theEditor.el
         .trumbowyg('html')
         .replace(this.imageToManage.currentTarget.outerHTML, '');
       this.theEditor.el.trumbowyg('html', newHTML);
@@ -216,17 +214,17 @@ export default {
       this.update();
     },
     checkInView() {
-      let fieldPanel = document.querySelector('#field-panel');
-      let container = fieldPanel.querySelector('.simplebar-scroll-content');
-      let contTop = container.scrollTop;
+      const fieldPanel = document.querySelector('#field-panel');
+      const container = fieldPanel.querySelector('.simplebar-scroll-content');
+      const contTop = container.scrollTop;
 
       return contTop < 100;
-    }
+    },
   },
   components: {
-    Trumbowyg: () => import(/* webpackChunkName: "js/devise-editors" */ 'vue-trumbowyg')
+    Trumbowyg: () => import(/* webpackChunkName: "js/devise-editors" */ 'vue-trumbowyg'),
   },
   mixins: [Strings],
-  props: ['id', 'value']
+  props: ['id', 'value'],
 };
 </script>

@@ -10,7 +10,6 @@
 
 <script>
 import flatPickr from 'vue-flatpickr-component';
-import 'flatpickr/dist/flatpickr.min.css';
 import dayjs from 'dayjs';
 
 export default {
@@ -19,8 +18,8 @@ export default {
       config: {
         noCalendar: !this.settings.date,
         enableTime: this.settings.time,
-        onChange: this.updateValue
-      }
+        onChange: this.updateValue,
+      },
     };
   },
   methods: {
@@ -47,7 +46,7 @@ export default {
       }
 
       return null;
-    }
+    },
   },
   computed: {
     localDateTime: {
@@ -57,12 +56,12 @@ export default {
       set(value) {
         this.$emit('input', value);
         this.$emit('change', value);
-      }
-    }
+      },
+    },
   },
   components: {
-    flatPickr
+    flatPickr,
   },
-  props: ['value', 'settings', 'placeholder']
+  props: ['value', 'settings', 'placeholder'],
 };
 </script>

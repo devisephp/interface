@@ -22,16 +22,17 @@
 </template>
 
 <script>
-var tinycolor = require('tinycolor2');
 import { Sketch } from 'vue-color';
-import Field from './../../../mixins/Field';
+import Field from '../../../mixins/Field';
+
+const tinycolor = require('tinycolor2');
 
 export default {
   name: 'ColorEditor',
   data() {
     return {
       showEditor: false,
-      originalValue: null
+      originalValue: null,
     };
   },
   mounted() {
@@ -42,8 +43,8 @@ export default {
       this.showEditor = !this.showEditor;
     },
     cancel() {
-      let rgba = this.convertColor(this.originalValue);
-      this.color = { rgba: rgba };
+      const rgba = this.convertColor(this.originalValue);
+      this.color = { rgba };
       this.enabled = this.originalValue.enabled;
       this.toggleEditor();
     },
@@ -53,10 +54,10 @@ export default {
     resetValue() {
       this.enabled = false;
       this.color = null;
-    }
+    },
   },
   computed: {
-    getMaxLength: function() {
+    getMaxLength() {
       if (typeof this.settings !== 'undefined' && typeof this.settings.maxlength !== 'undefined') {
         return this.settings.maxlength;
       }
@@ -70,19 +71,19 @@ export default {
         let valueObj = Object.assign(this.value, { color: null });
         if (color !== null) {
           valueObj = Object.assign(this.value, {
-            color: `rgba(${color.rgba.r},${color.rgba.g},${color.rgba.b},${color.rgba.a})`
+            color: `rgba(${color.rgba.r},${color.rgba.g},${color.rgba.b},${color.rgba.a})`,
           });
         }
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
-      }
-    }
+      },
+    },
   },
   props: ['value', 'options'],
   components: {
     FieldEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './Field'),
-    'sketch-picker': Sketch
+    'sketch-picker': Sketch,
   },
-  mixins: [Field]
+  mixins: [Field],
 };
 </script>

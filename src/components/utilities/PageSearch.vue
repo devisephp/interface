@@ -31,59 +31,59 @@ export default {
       searchDelay: 1000,
       searchTerm: '',
       autosuggest: {
-        data: []
-      }
+        data: [],
+      },
     };
   },
   methods: {
     ...mapActions('devise', ['searchPages']),
-    updateValue: function(i, id, title) {
+    updateValue(i, id, title) {
       this.searchTerm = '';
       this.autosuggest.data = [];
       this.$emit('selected', {
         index: i,
-        id: id,
-        title: title
+        id,
+        title,
       });
     },
     requestSearch(term) {
-      let self = this;
+      const self = this;
       if (term !== '') {
-        this.searchPages({ term: term, 'multi-site': this.multisite }).then(data => {
+        this.searchPages({ term, 'multi-site': this.multisite }).then((data) => {
           self.autosuggest = data;
           if (data.data.length < 1) {
-            devise.$bus.$emit('showMessage', {
+            window.deviseSettings.$bus.$emit('showMessage', {
               title: 'No Suggestions Found',
-              message: 'We couldn\'t find any values with the term: "' + term + '".'
+              message: `We couldn't find any values with the term: "${term}".`,
             });
           }
         });
       } else {
         this.autosuggest = Object.assign({}, {});
       }
-    }
+    },
   },
   watch: {
     searchTerm(newValue) {
       this.requestSearch(newValue);
-    }
+    },
   },
   props: {
     placeholder: {
       type: String,
-      default: ''
+      default: '',
     },
     index: {
       type: Number,
-      default: 0
+      default: 0,
     },
     multisite: {
       type: Number,
-      default: 0
-    }
+      default: 0,
+    },
   },
   directives: {
-    debounce
-  }
+    debounce,
+  },
 };
 </script>

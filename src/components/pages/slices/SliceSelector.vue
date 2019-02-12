@@ -36,15 +36,14 @@
 </template>
 
 <script>
-import SliceSelectorDirectory from './SliceSelectorDirectory';
-
 import { mapGetters } from 'vuex';
+import SliceSelectorDirectory from './SliceSelectorDirectory.vue';
 
 export default {
   data() {
     return {
       directoryStack: [],
-      filter: null
+      filter: null,
     };
   },
   mounted() {
@@ -64,21 +63,23 @@ export default {
         if (dir.directories && dir.directories.length > 0) {
           dirs = dirs.concat(this.getDirectories(dir.directories));
         }
+        return dir;
       });
 
       return dirs;
     },
     filteredFiles(directory) {
-      let filter = this.filter.toLowerCase();
+      const filter = this.filter.toLowerCase();
       return directory.files.filter(file => {
         if (file.name.toLowerCase().includes(filter)) {
           return true;
         }
+        return false;
       });
     },
     update(newValue) {
       this.$emit('input', newValue);
-    }
+    },
   },
   computed: {
     ...mapGetters('devise', ['slicesDirectories']),
@@ -87,11 +88,14 @@ export default {
         return this.filteredDirectories;
       }
 
-      return this.getDirectories(JSON.parse(JSON.stringify(this.slicesDirectories.directories)), 0);
+      return this.getDirectories(
+        JSON.parse(JSON.stringify(this.slicesDirectories.directories)),
+        0
+      );
     },
     filteredDirectories() {
-      let filters = this.filter.toLowerCase().split(' ');
-      let directories = this.getDirectories(
+      const filters = this.filter.toLowerCase().split(' ');
+      const directories = this.getDirectories(
         JSON.parse(JSON.stringify(this.slicesDirectories.directories)),
         0
       ).filter(directory => {
@@ -103,32 +107,30 @@ export default {
         ) {
           return true;
         }
-
-        let files = directory.files;
+        let { files } = directory;
         files = files.filter(file => {
           return filters.every(filter => {
             // console.log(file.value.toLowerCase().includes(filter));
             return file.value.toLowerCase().includes(filter);
           });
         });
-
         if (files.length) {
           // console.log(files);
           directory.files = files;
           return true;
         }
+        return false;
       });
-
       return directories;
-    }
+    },
   },
   props: {
     value: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   components: {
-    SliceSelectorDirectory
-  }
+    SliceSelectorDirectory,
+  },
 };
 </script>

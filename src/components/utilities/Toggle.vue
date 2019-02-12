@@ -10,24 +10,24 @@ export default {
   name: 'DeviseToggle',
   data() {
     return {
-      localValue: true
+      localValue: true,
     };
   },
   mounted() {
     this.localValue = this.value;
   },
   methods: {
-    updateValue: function() {
+    updateValue() {
       // Emit the number value through the input event
       this.$emit('input', this.localValue);
       this.$emit('change', this.localValue);
-    }
+    },
   },
   watch: {
-    value(newValue) {
+    value() {
       this.localValue = this.value;
-    }
+    },
   },
-  props: ['value', 'id', 'mini']
+  props: ['value', 'id', 'mini'],
 };
 </script>

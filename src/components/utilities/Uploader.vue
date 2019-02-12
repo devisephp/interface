@@ -85,7 +85,7 @@ const VueUpload = require('vue-upload-component');
 export default {
   data() {
     return {
-      uploadingFiles: []
+      uploadingFiles: [],
     };
   },
   methods: {
@@ -95,7 +95,7 @@ export default {
      * @param  Object|undefined   oldFile   Read only
      * @return undefined
      */
-    inputFile: function(newFile, oldFile) {
+    inputFile(newFile, oldFile) {
       if (newFile && oldFile && !newFile.active && oldFile.active) {
         // Get response data
         if (newFile.xhr) {
@@ -104,9 +104,9 @@ export default {
             this.removeFileFromQueue(newFile);
 
             if (this.uploadingFiles.length < 1) {
-              deviseSettings.$bus.$emit('showMessage', {
+              window.deviseSettings.$bus.$emit('showMessage', {
                 title: 'Upload Complete',
-                message: 'Your upload has been successfully completed'
+                message: 'Your upload has been successfully completed',
               });
               this.$emit('all-files-uploaded', newFile);
             }
@@ -121,10 +121,10 @@ export default {
      * @param  Function           prevent   Prevent changing
      * @return undefined
      */
-    inputFilter: function(newFile, oldFile, prevent) {
+    inputFilter(newFile) {
       // Create a blob field
       newFile.blob = '';
-      let URL = window.URL || window.webkitURL;
+      const URL = window.URL || window.webkitURL;
       if (URL && URL.createObjectURL) {
         newFile.blob = URL.createObjectURL(newFile.file);
       }
@@ -137,26 +137,26 @@ export default {
     },
     removeFileFromQueue(file) {
       this.uploadingFiles.splice(this.uploadingFiles.indexOf(file), 1);
-    }
+    },
   },
   computed: {
     uploadHeaders() {
-      let token = document.head.querySelector('meta[name="csrf-token"]');
+      const token = document.head.querySelector('meta[name="csrf-token"]');
       return {
-        'X-CSRF-TOKEN': token.content
+        'X-CSRF-TOKEN': token.content,
       };
-    }
+    },
   },
   components: {
     CloseIcon: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-close.vue'),
-    VueUpload
+    VueUpload,
   },
   props: {
     currentDirectory: {
       type: String,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 };
 </script>

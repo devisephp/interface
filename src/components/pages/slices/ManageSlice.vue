@@ -119,28 +119,27 @@
 </template>
 
 <script>
-import Panel from './../../utilities/Panel';
-import QueryBuilder from './../../utilities/QueryBuilder';
-import SlicesMixin from './../../../mixins/Slices';
-import SliceSelector from './SliceSelector';
-
 import { mapGetters, mapActions } from 'vuex';
+import Panel from '../../utilities/Panel.vue';
+import QueryBuilder from '../../utilities/QueryBuilder.vue';
+import SlicesMixin from '../../../mixins/Slices';
+import SliceSelector from './SliceSelector.vue';
 
-let defaultInsertSlice = {
+const defaultInsertSlice = {
   type: null,
   slice: null,
   data: {
     name: 'modelData',
     model: null,
-    modelQuery: null
-  }
+    modelQuery: null,
+  },
 };
 
 export default {
   data() {
     return {
       action: 'insert',
-      insertSlice: Object.assign({}, defaultInsertSlice)
+      insertSlice: Object.assign({}, defaultInsertSlice),
     };
   },
   mounted() {
@@ -161,10 +160,10 @@ export default {
       this.action = 'insert';
     },
     buildSlice() {
-      let component = this.componentFromView(this.insertSlice.slice.value);
-      var finalSlice = {
+      const component = this.componentFromView(this.insertSlice.slice.value);
+      const finalSlice = {
         settings: {
-          enabled: true
+          enabled: true,
         },
         metadata: {
           instance_id: 0,
@@ -175,12 +174,12 @@ export default {
           name: component.name,
           type: this.insertSlice.type,
           view: component.view,
-          has_child_slot: component.has_child_slot
-        }
+          has_child_slot: component.has_child_slot,
+        },
       };
       for (const field in component.fields) {
         if (component.fields.hasOwnProperty(field)) {
-          let defaults = component.fields[field].default;
+          const defaults = component.fields[field].default;
           finalSlice[field] = {};
           this.addMissingProperty(finalSlice, field);
           this.setDefaults(finalSlice, field, defaults);
@@ -197,13 +196,15 @@ export default {
         target: null,
         color: null,
         checked: null,
-        enabled: null
+        enabled: null,
       });
     },
     setDefaults(slice, field, defaults) {
       // loop through the defaults and apply them to the field
-      for (var d in defaults) {
-        this.$set(slice[field], d, defaults[d]);
+      for (const d in defaults) {
+        if (defaults.hasOwnProperty(d)) {
+          this.$set(slice[field], d, defaults[d]);
+        }
       }
     },
     addSlice() {
@@ -217,21 +218,21 @@ export default {
     removeSlice() {
       this.$emit('removeSlice');
       this.action = 'selectAction';
-    }
+    },
   },
   computed: {
-    ...mapGetters('devise', ['componentFromView', 'slicesDirectories'])
+    ...mapGetters('devise', ['componentFromView', 'slicesDirectories']),
   },
   props: {
     slice: {
-      type: Object | String
-    }
+      type: Object | String /* eslint-disable-line */,
+    },
   },
   components: {
     Panel,
     QueryBuilder,
-    SliceSelector
+    SliceSelector,
   },
-  mixins: [SlicesMixin]
+  mixins: [SlicesMixin],
 };
 </script>

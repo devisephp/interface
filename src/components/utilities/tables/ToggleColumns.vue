@@ -7,7 +7,8 @@
       v-show="show"
       class="dvs-absolute dvs-pin-t dvs-pin-r dvs-mt-1 dvs-z-40 dvs-shadow-lg dvs-border-t-2"
     >
-      <div class="dvs-pt-4 dvs-pb-2 dvs-px-4">Toggle Columns
+      <div class="dvs-pt-4 dvs-pb-2 dvs-px-4">
+        Toggle Columns
         <span @click="show = false">
           <switch-icon class="dvs-cursor-pointer dvs-float-right"/>
         </span>
@@ -21,7 +22,6 @@
               class="dvs-mr-4 dvs-flex dvs-mb-2"
               v-for="(column) in columns"
               :key="column.key"
-              v-if="!column.toggleColumns"
             >
               <div class="dvs-flex dvs-items-center">
                 <input type="checkbox" v-model="column.show" @change="update">
@@ -43,13 +43,13 @@ export default {
   data() {
     return {
       show: false,
-      columns: []
+      columns: [],
     };
   },
   mounted() {
     this.columns = this.value;
 
-    for (let i = 0; i < this.columns.length; i++) {
+    for (let i = 0; i < this.columns.length; i + 1) {
       if (typeof this.columns[i].show === 'undefined') {
         this.$set(this.columns[i], 'show', true);
       }
@@ -61,24 +61,36 @@ export default {
       // local.set(this.type + '-columns-' + this.currentTeam.id, this.columns)
 
       this.$emit('input', this.columns);
-    }
+    },
   },
   computed: {
-    ...mapGetters(['currentTeam'])
+    ...mapGetters(['currentTeam']),
+    tableColumns() {
+      let columns = [];
+
+      columns = this.columns.filter(c => {
+        if (this.showColumn(c)) {
+          return true;
+        }
+        return false;
+      });
+
+      return columns;
+    },
   },
   props: {
     value: {
       type: Array,
-      required: true
+      required: true,
     },
     type: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   components: {
     SwitchIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-switch.vue')
-  }
+      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-switch.vue'),
+  },
 };
 </script>

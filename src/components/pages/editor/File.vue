@@ -28,14 +28,14 @@
 </template>
 
 <script>
-import Field from './../../../mixins/Field';
+import Field from '../../../mixins/Field';
 
 export default {
   name: 'FileEditor',
   data() {
     return {
       originalValue: null,
-      showEditor: false
+      showEditor: false,
     };
   },
   mounted() {
@@ -50,10 +50,10 @@ export default {
       this.enabled = this.originalValue.enabled;
       this.toggleEditor();
     },
-    launchMediaManager(event) {
-      devise.$bus.$emit('devise-launch-media-manager', {
+    launchMediaManager() {
+      window.deviseSettings.$bus.$emit('devise-launch-media-manager', {
         callback: this.mediaSelected,
-        options: this.options
+        options: this.options,
       });
     },
     mediaSelected(url) {
@@ -62,7 +62,7 @@ export default {
     resetValue() {
       this.enabled = false;
       this.url = null;
-    }
+    },
   },
   computed: {
     url: {
@@ -70,20 +70,18 @@ export default {
         return this.value.url;
       },
       set(value) {
-        let valueObj = Object.assign(this.value, { url: value });
+        const valueObj = Object.assign(this.value, { url: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
-      }
-    }
+      },
+    },
   },
   props: ['value', 'options'],
   components: {
-    CreateIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-create.vue'),
     FieldEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './Field'),
     DocumentIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-document.vue')
+      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-document.vue'),
   },
-  mixins: [Field]
+  mixins: [Field],
 };
 </script>

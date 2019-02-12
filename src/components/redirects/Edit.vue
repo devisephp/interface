@@ -60,7 +60,7 @@ export default {
     return {
       localValue: {},
       modulesToLoad: 1,
-      showPassword: false
+      showPassword: false,
     };
   },
   mounted() {
@@ -72,27 +72,25 @@ export default {
       this.updateRedirect({ redirect: this.redirect, data: this.localValue });
     },
     requestDeleteRedirect() {
-      let self = this;
-      this.deleteRedirect(this.redirect).then(function() {
+      const self = this;
+      this.deleteRedirect(this.redirect).then(() => {
         self.goToPage('devise-redirects-index');
       });
     },
     retrieveAllRedirects() {
-      let self = this;
-      this.getRedirects().then(function() {
+      const self = this;
+      this.getRedirects().then(() => {
         self.localValue = Object.assign({}, self.localValue, self.redirect);
-        devise.$bus.$emit('incrementLoadbar', self.modulesToLoad);
+        window.deviseSettings.$bus.$emit('incrementLoadbar', self.modulesToLoad);
       });
-    }
+    },
   },
   computed: {
-    ...mapGetters('devise', ['redirect'])
+    ...mapGetters('devise', ['redirect']),
   },
   components: {
-    ActionBar: () =>
-      import(/* webpackChunkName: "js/devise-utilities" */ './../utilities/ActionBar'),
-    Administration: () =>
-      import(/* webpackChunkName: "js/devise-administration" */ './../admin/Administration.vue')
-  }
+    ActionBar: () => import(/* webpackChunkName: "js/devise-utilities" */ '../utilities/ActionBar'),
+    Administration: () => import(/* webpackChunkName: "js/devise-administration" */ '../admin/Administration.vue'),
+  },
 };
 </script>

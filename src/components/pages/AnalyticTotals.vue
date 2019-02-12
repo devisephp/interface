@@ -30,13 +30,13 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import Dates from './../../mixins/Dates';
+import Dates from '../../mixins/Dates';
 
 export default {
   data() {
     return {
       analytics: null,
-      minimized: false
+      minimized: false,
     };
   },
   mounted() {
@@ -45,36 +45,35 @@ export default {
   methods: {
     ...mapActions('devise', ['getPageAnalyticsTotals']),
     retrieveAnalytics() {
-      let self = this;
+      const self = this;
       if (this.mothershipApiKey) {
-        var yesterday = new Date();
+        const yesterday = new Date();
         yesterday.setDate(yesterday.getDate() - 1);
 
         this.getPageAnalyticsTotals({
           slug: this.currentPage.slug,
-          date: this.formatDate(yesterday)
-        }).then(function(response) {
+          date: this.formatDate(yesterday),
+        }).then((response) => {
           self.$set(self, 'analytics', response.data);
         });
       }
-    }
+    },
   },
   computed: {
     ...mapGetters('devise', ['mothershipApiKey', 'currentPage']),
     anlyticsHasData() {
-      for (var date in this.analytics) {
+      for (const date in this.analytics) {
         if (this.analytics[date] === null) {
           return false;
         }
       }
       return true;
-    }
+    },
   },
   components: {
-    Panel: () => import(/* webpackChunkName: "js/devise-utilities" */ './../utilities/Panel'),
-    StatBlockDoughnut: () =>
-      import(/* webpackChunkName: "js/devise-charts" */ './analytics/StatBlockDoughnut')
+    Panel: () => import(/* webpackChunkName: "js/devise-utilities" */ '../utilities/Panel'),
+    StatBlockDoughnut: () => import(/* webpackChunkName: "js/devise-charts" */ './analytics/StatBlockDoughnut'),
   },
-  mixins: [Dates]
+  mixins: [Dates],
 };
 </script>

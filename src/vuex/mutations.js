@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 export default {
   // Breakpoints
   setBreakpoint(state, payload) {
@@ -123,24 +124,18 @@ export default {
   },
 
   deletePageVersion(state, { page, version }) {
-    let theVersion = page.versions.find(ver => {
-      return ver.id === version.id;
-    });
+    const theVersion = page.versions.find(ver => ver.id === version.id);
     page.versions.splice(page.versions.indexOf(theVersion), 1);
   },
 
   updatePageVersion(state, { page, version, data }) {
-    let theVersion = page.versions.find(ver => {
-      return ver.id === version.id;
-    });
+    let theVersion = page.versions.find(ver => ver.id === version.id);
     theVersion = data;
     return theVersion;
   },
 
   updatePageVersionAnalytics(state, { page, version, data }) {
-    let theVersion = page.versions.find(ver => {
-      return ver.id === version.id;
-    });
+    let theVersion = page.versions.find(ver => ver.id === version.id);
     theVersion = Object.assign({}, theVersion, { analytics: data });
     return theVersion;
   },
@@ -217,5 +212,5 @@ export default {
 
   deleteUser(state, user) {
     state.users.data.splice(state.users.data.indexOf(user), 1);
-  }
+  },
 };

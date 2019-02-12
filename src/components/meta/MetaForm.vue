@@ -105,12 +105,12 @@ export default {
         site_id: 0,
         attribute_name: null,
         attribute_value: null,
-        content: null
-      }
+        content: null,
+      },
     };
   },
   mounted() {
-    this.newMeta.site_id = deviseSettings.$page.site_id;
+    this.newMeta.site_id = window.$page.site_id;
   },
   methods: {
     requestCreateMeta() {
@@ -129,7 +129,7 @@ export default {
       } else {
         meta.edit = !meta.edit;
       }
-    }
+    },
   },
   computed: {
     isInvalid() {
@@ -145,20 +145,20 @@ export default {
         this.newMeta.attribute_value !== null ||
         this.newMeta.content !== null
       );
-    }
+    },
   },
   props: {
     value: {},
     globalForm: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   components: {
     TrashIcon: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-trash.vue'),
     EditIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-create.vue')
-  }
+      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-create.vue'),
+  },
 };
 </script>

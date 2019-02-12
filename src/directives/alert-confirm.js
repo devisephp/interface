@@ -1,14 +1,13 @@
 import Vue from 'vue';
 
-function insertBefore(el, referenceNode) {
-  return referenceNode.parentNode.insertBefore(el, referenceNode);
-}
-
 export default {
-  bind: function(el, binding, vnode) {
-    var clickHandler = function(e) {
-      // create constructor
-      var Confirm = Vue.extend({
+  bind(el, binding) {
+    const clickHandler = function clickHandler() {
+      const deviseAdmin = document.querySelector('#devise-admin');
+      const newEl = document.createElement('devise-confirm');
+      const insertedElement = deviseAdmin.parentNode.insertBefore(newEl, deviseAdmin.nextSibling);
+
+      const Confirm = Vue.extend({
         template: `
         <div v-if="show" class="dvs-fixed dvs-pin dvs-z-9999">
           <div class="dvs-blocker"></div>
@@ -22,10 +21,10 @@ export default {
           </div>
         </div>
         `,
-        data: function() {
+        data() {
           return {
             clicks: 0,
-            show: true
+            show: true,
           };
         },
         methods: {
@@ -40,17 +39,13 @@ export default {
             this.show = false;
             el.removeEventListener('click', clickHandler, true);
             insertedElement.remove();
-          }
-        }
+          },
+        },
       });
-
-      let deviseAdmin = document.querySelector('#devise-admin');
-      var newEl = document.createElement('devise-confirm');
-      var insertedElement = deviseAdmin.parentNode.insertBefore(newEl, deviseAdmin.nextSibling);
 
       new Confirm().$mount(insertedElement);
     };
 
     el.addEventListener('click', clickHandler);
-  }
+  },
 };

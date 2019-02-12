@@ -74,14 +74,14 @@
 </template>
 
 <script>
-import Field from './../../../mixins/Field';
+import Field from '../../../mixins/Field';
 
 export default {
   name: 'ImageEditor',
   data() {
     return {
       originalValue: null,
-      showEditor: false
+      showEditor: false,
     };
   },
   mounted() {
@@ -112,11 +112,11 @@ export default {
       this.settings = {};
       this.mode = 'media';
     },
-    launchMediaManager(event) {
+    launchMediaManager() {
       this.options.type = 'image';
-      devise.$bus.$emit('devise-launch-media-manager', {
+      window.deviseSettings.$bus.$emit('devise-launch-media-manager', {
         callback: this.mediaSelected,
-        options: this.options
+        options: this.options,
       });
     },
     mediaSelected(imagesAndSettings) {
@@ -130,17 +130,19 @@ export default {
     },
     launchMediaEditor() {
       this.options.type = 'image';
-      devise.$bus.$emit('devise-launch-media-editor', {
+      window.deviseSettings.$bus.$emit('devise-launch-media-editor', {
         callback: this.mediaSelected,
         options: this.options,
         image: this.value.media.original,
-        settings: this.settings
+        settings: this.settings,
       });
     },
     getDimensions(size) {
       if (this.value.sizes && this.value.sizes[size])
         return `(${this.value.sizes[size].w} x ${this.value.sizes[size].h})`;
-    }
+
+      return false;
+    },
   },
   computed: {
     url: {
@@ -148,68 +150,64 @@ export default {
         return this.value.url;
       },
       set(value) {
-        let valueObj = Object.assign(this.value, { url: value });
+        const valueObj = Object.assign(this.value, { url: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
-      }
+      },
     },
     alt: {
       get() {
         return this.value.alt;
       },
       set(value) {
-        let valueObj = Object.assign(this.value, { alt: value });
+        const valueObj = Object.assign(this.value, { alt: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
-      }
+      },
     },
     mode: {
       get() {
         if (this.value.mode !== 'media' && this.value.mode !== 'manual') {
-          let valueObj = Object.assign(this.value, { mode: 'media' });
+          const valueObj = Object.assign(this.value, { mode: 'media' });
           this.$emit('input', valueObj);
           this.$emit('change', valueObj);
         }
         return this.value.mode;
       },
       set(value) {
-        let valueObj = Object.assign(this.value, { mode: value });
+        const valueObj = Object.assign(this.value, { mode: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
-      }
+      },
     },
     media: {
       get() {
         return this.value.media;
       },
       set(value) {
-        let valueObj = Object.assign(this.value, { media: value });
+        const valueObj = Object.assign(this.value, { media: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
-      }
+      },
     },
     settings: {
       get() {
         return this.value.settings;
       },
       set(value) {
-        let valueObj = Object.assign(this.value, { settings: value });
+        const valueObj = Object.assign(this.value, { settings: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
-      }
+      },
     },
     hasMedia() {
       return Object.keys(this.media).length > 0;
-    }
+    },
   },
   props: ['value', 'options'],
   components: {
-    CreateIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-create.vue'),
     FieldEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './Field'),
-    ImagesIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-images.vue')
   },
-  mixins: [Field]
+  mixins: [Field],
 };
 </script>

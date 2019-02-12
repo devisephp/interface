@@ -1,2 +1,3 @@
 import Vue from 'vue';
-export const DeviseBus = new Vue();
+
+export default new Vue();

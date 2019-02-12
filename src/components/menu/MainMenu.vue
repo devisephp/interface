@@ -7,34 +7,31 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import MenuItem from './MenuItem'
+import { mapGetters } from 'vuex';
+import MenuItem from './MenuItem.vue';
 
 export default {
   name: 'MainMenu',
-  data () {
-    return {
-    }
+  data() {
+    return {};
   },
   computed: {
-    ...mapGetters('devise', [
-      'adminMenu'
-    ]),
-    menu () {
+    ...mapGetters('devise', ['adminMenu']),
+    menu() {
       if (this.menuItems !== null) {
-        return this.menuItems
+        return this.menuItems;
       }
 
-      return this.adminMenu
-    }
+      return this.adminMenu;
+    },
   },
   components: {
-    MenuItem
+    MenuItem,
   },
   props: {
     menuItems: {
-      default: null
-    }
-  }
-}
+      default: null,
+    },
+  },
+};
 </script>

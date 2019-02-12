@@ -57,22 +57,24 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex';
+import Vue from 'vue';
+import { mapState } from 'vuex';
 import VueTippy from 'vue-tippy';
-import alertConfirm from './../../directives/alert-confirm';
-import Tuck from './../../directives/tuck';
-import 'simplebar';
+import alertConfirm from '../../directives/alert-confirm';
+import Tuck from '../../directives/tuck';
+import 'simplebar'; // eslint-disable-line
+const VueScrollactive = require('vue-scrollactive');
 
 export default {
   name: 'Administration',
   data() {
     return {
-      everythingIsLoaded: false
+      everythingIsLoaded: false,
     };
   },
   mounted() {
     // For administration sidebars
-    var VueScrollactive = require('vue-scrollactive');
+
     Vue.use(VueScrollactive);
 
     // Tooltips
@@ -85,7 +87,7 @@ export default {
     Vue.directive('tuck', Tuck);
 
     Vue.component('help', () =>
-      import(/* webpackChunkName: "app-devise-utilities" */ './../utilities/Help')
+      import(/* webpackChunkName: "app-devise-utilities" */ '../utilities/Help')
     );
 
     setTimeout(() => {
@@ -95,7 +97,7 @@ export default {
   methods: {
     loadAdminPage(menuItem) {
       if (menuItem.routeName === 'media-manager') {
-        devise.$bus.$emit('devise-launch-media-manager', {});
+        window.deviseSettings.$bus.$emit('devise-launch-media-manager', {});
       } else if (typeof menuItem.routeParams !== 'undefined') {
         this.goToPage(menuItem.routeName, menuItem.routeParams);
       } else {
@@ -103,7 +105,7 @@ export default {
       }
     },
     checkActivePanelSidebar(menuItem) {
-      var styles = Object.assign({}, this.theme.panelSidebar);
+      const styles = Object.assign({}, this.theme.panelSidebar);
       if (this.$route.meta && this.$route.meta.parentRouteName) {
         if (
           this.$route.name === 'devise-pages-view' &&
@@ -123,30 +125,31 @@ export default {
       }
 
       return styles;
-    }
+    },
   },
   computed: {
     ...mapState('devise', ['adminMenu']),
     user() {
-      return deviseSettings.$user;
+      return window.deviseSettings.$user;
     },
     csrf_field() {
       return window.axios.defaults.headers.common['X-CSRF-TOKEN'];
-    }
+    },
   },
   components: {
-    Loadbar: () => import(/* webpackChunkName: "js/devise-utilities" */ './../utilities/Loadbar'),
+    Loadbar: () => import(/* webpackChunkName: "js/devise-utilities" */ '../utilities/Loadbar'),
     LoadingScreen: () =>
-      import(/* webpackChunkName: "js/devise-utilities" */ './../utilities/LoadingScreen'),
-    Messages: () => import(/* webpackChunkName: "js/devise-utilities" */ './../utilities/Messages'),
+      import(/* webpackChunkName: "js/devise-utilities" */ '../utilities/LoadingScreen'),
+    Messages: () => import(/* webpackChunkName: "js/devise-utilities" */ '../utilities/Messages'),
     MediaEditor: () =>
-      import(/* webpackChunkName: "js/devise-media" */ './../media-manager/MediaEditor'),
+      import(/* webpackChunkName: "js/devise-media" */ '../media-manager/MediaEditor'),
     MediaManager: () =>
-      import(/* webpackChunkName: "js/devise-media" */ './../media-manager/MediaManager'),
-    PreviewMode: () => import(/* webpackChunkName: "js/devise-pages" */ './../pages/PreviewMode'),
+      import(/* webpackChunkName: "js/devise-media" */ '../media-manager/MediaManager'),
+    PreviewMode: () => import(/* webpackChunkName: "js/devise-pages" */ '../pages/PreviewMode'),
     BackIcon: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-arrow-round-back.vue'),
-    CogIcon: () => import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-cog.vue'),
+    CogIcon: () =>
+      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-cog.vue'),
     CreateIcon: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-create.vue'),
     CubeIcon: () =>
@@ -155,13 +158,13 @@ export default {
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-document.vue'),
     ImageIcon: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-image.vue'),
-    Panel: () => import(/* webpackChunkName: "js/devise-utilities" */ './../utilities/Panel'),
+    Panel: () => import(/* webpackChunkName: "js/devise-utilities" */ '../utilities/Panel'),
     PowerIcon: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-power.vue'),
     SaveIcon: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-save.vue'),
     SliceSettings: () =>
-      import(/* webpackChunkName: "js/devise-pages" */ './../slices/SliceSettings')
-  }
+      import(/* webpackChunkName: "js/devise-pages" */ '../slices/SliceSettings'),
+  },
 };
 </script>

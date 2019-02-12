@@ -1,27 +1,45 @@
 export default function(el, binding) {
-  let image = binding.value.image;
-  let srcAttribute = binding.value.srcAttr;
-  let breakpoint = binding.value.breakpoint;
-  let background = binding.modifiers.background;
-  let lazy = binding.modifiers.lazy;
-  let noSize = binding.modifiers.nosize;
+  let { image, srcAttr, breakpoint } = binding.value;
+  const { lazy, background } = binding.modifiers;
+  let { noSize } = binding.modifiers;
 
   breakpoint = breakpoint !== null ? breakpoint : 'desktop';
-  srcAttribute = srcAttribute ? srcAttribute : 'src';
+  srcAttr = srcAttr || 'src';
 
   if (typeof binding.value === 'string') {
     image = { url: binding.value };
   }
 
-  let setImage = () => {
+  const theImageSize = () => {
+    const { sizes } = image;
+
+    // Search the sizes for the right size based on the current breakpoint
+    for (const size in sizes) {
+      if (sizes.hasOwnProperty(size)) {
+        const sizeSettings = sizes[size];
+
+        if (sizeSettings.breakpoints && sizeSettings.breakpoints.includes(breakpoint)) {
+          return { size, settings: sizeSettings };
+        }
+        // If breakpoints isn't set assume only one size and return it
+      }
+    }
+
+    // We couldn't find the size so return the first one
+    const defaultSize = Object.keys(sizes)[0];
+    return { size: defaultSize, settings: sizes[defaultSize] };
+  };
+
+  const setImage = () => {
     if (typeof image !== 'undefined') {
       // Default the image the url but if it does have a size match
       // set that instead
       let theImage = image.url;
+      let theSize = null;
 
       // Get the image size if sizes are present
       if (image.sizes) {
-        let theSize = theImageSize();
+        theSize = theImageSize();
 
         if (theSize) {
           // In the case where sizes are set but the url is manual
@@ -38,13 +56,13 @@ export default function(el, binding) {
       if (background) {
         el.style.backgroundImage = `url(${theImage})`;
       } else {
-        el[srcAttribute] = theImage;
+        el[srcAttr] = theImage;
 
         if (image.alt) {
           el.alt = image.alt;
         }
 
-        if (!noSize && typeof theSize !== 'undefined') {
+        if (!noSize && theSize !== null) {
           el.width = theSize.settings.w;
           el.height = theSize.settings.h;
         }
@@ -52,29 +70,9 @@ export default function(el, binding) {
     }
   };
 
-  let theImageSize = () => {
-    let sizes = image.sizes;
-
-    // Search the sizes for the right size based on the current breakpoint
-    for (const size in sizes) {
-      if (sizes.hasOwnProperty(size)) {
-        const sizeSettings = sizes[size];
-
-        if (sizeSettings.breakpoints && sizeSettings.breakpoints.includes(breakpoint)) {
-          return { size: size, settings: sizeSettings };
-        }
-        // If breakpoints isn't set assume only one size and return it
-      }
-    }
-
-    // We couldn't find the size so return the first one
-    let defaultSize = Object.keys(sizes)[0];
-    return { size: defaultSize, settings: sizes[defaultSize] };
-  };
-
   if (lazy && 'IntersectionObserver' in window) {
-    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
-      entries.forEach(function(entry) {
+    const lazyImageObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
         if (entry.isIntersecting) {
           setImage();
 

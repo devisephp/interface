@@ -26,12 +26,11 @@
 export default {
   data() {
     return {
-      show: false
+      show: false,
     };
   },
   components: {
-    FlashIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-flash.vue')
-  }
+    FlashIcon: () => import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-flash.vue'),
+  },
 };
 </script>

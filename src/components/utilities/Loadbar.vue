@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       loadbarPercentage: 0,
-      modulesLoaded: 0
+      modulesLoaded: 0,
     };
   },
   mounted() {
@@ -39,34 +39,34 @@ export default {
   },
   methods: {
     addListeners() {
-      deviseSettings.$bus.$on("incrementLoadbar", this.incrementLoadbar);
+      window.deviseSettings.$bus.$on('incrementLoadbar', this.incrementLoadbar);
     },
     incrementLoadbar(numberOfModulesToLoad) {
-      this.modulesLoaded++;
+      this.modulesLoaded += 1;
       this.loadbarPercentage = this.modulesLoaded / numberOfModulesToLoad;
       this.checkIfLoaded();
     },
     checkIfLoaded() {
-      let self = this;
+      const self = this;
       if (this.loadbarPercentage >= 1) {
         this.showLoadbar = false;
-        setTimeout(function() {
+        setTimeout(() => {
           self.loadbarPercentage = 0;
           self.modulesLoaded = 0;
         }, 1000);
       }
-    }
+    },
   },
   watch: {
     percentage(newValue) {
       this.loadbarPercentage = newValue;
-    }
+    },
   },
   props: {
     percentage: {
       type: Number,
-      default: -1
-    }
-  }
+      default: -1,
+    },
+  },
 };
 </script>

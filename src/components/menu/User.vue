@@ -28,9 +28,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-
-import Panel from './../utilities/Panel';
+import Panel from '../utilities/Panel.vue';
 
 export default {
   name: 'DeviseUser',
@@ -39,16 +37,16 @@ export default {
   },
   computed: {
     user() {
-      return deviseSettings.$user;
+      return window.deviseSettings.$user;
     },
     csrf_field() {
       return window.axios.defaults.headers.common['X-CSRF-TOKEN'];
-    }
+    },
   },
   components: {
     Panel,
     PowerIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-power.vue')
-  }
+      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-power.vue'),
+  },
 };
 </script>

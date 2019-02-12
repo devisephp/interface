@@ -64,27 +64,25 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
-
 export default {
   name: 'ImageField',
   data() {
     return {
-      showPreview: false
+      showPreview: false,
     };
   },
   methods: {
-    showMediaManager(event) {
-      devise.$bus.$emit('devise-launch-media-manager', {
+    showMediaManager() {
+      window.deviseSettings.$bus.$emit('devise-launch-media-manager', {
         callback: this.mediaSelected,
         options: {
-          sizes: this.sizes
-        }
+          sizes: this.sizes,
+        },
       });
     },
     mediaSelected(imagesAndSettings) {
-      let value = {
-        url: imagesAndSettings.images.orig_optimized
+      const value = {
+        url: imagesAndSettings.images.orig_optimized,
       };
 
       if (typeof imagesAndSettings === 'object') {
@@ -97,17 +95,19 @@ export default {
     getDimensions(size) {
       if (this.value.sizes && this.value.sizes[size])
         return `(${this.value.sizes[size].w} x ${this.value.sizes[size].h})`;
+
+      return false;
     },
     loadPreview() {
       if (this.previewEnabled) this.showPreview = true;
-    }
+    },
   },
   computed: {
     image: {
       get() {
         if (this.value === null) {
           return {
-            url: null
+            url: null,
           };
         }
         return this.value;
@@ -115,7 +115,7 @@ export default {
       set(newValue) {
         this.$emit('input', newValue);
         this.$emit('change', newValue);
-      }
+      },
     },
     hasMedia() {
       if (this.image.media) {
@@ -124,25 +124,25 @@ export default {
       return false;
     },
     fileName() {
-      let parts = this.value.split('/');
+      const parts = this.value.split('/');
       return parts[parts.length - 1];
     },
     previewEnabled() {
       return this.value !== '' && this.value !== null;
-    }
+    },
   },
   props: {
     value: {},
     sizes: {
       type: Object,
-      default: null
-    }
+      default: null,
+    },
   },
   components: {
     ImagesIcon: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-images.vue'),
     SearchIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-search.vue')
-  }
+      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-search.vue'),
+  },
 };
 </script>

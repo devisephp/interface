@@ -14,42 +14,37 @@
 </template>
 
 <script>
-import Administration from './Administration';
 import { mapState } from 'vuex';
 
 export default {
   name: 'DeviseIndex',
   methods: {
     findMenu(menu) {
+      let safeMenu = menu;
       if (typeof menu === 'object') {
-        var safeMenu = Object.keys(menu).map(i => menu[i]);
-      } else {
-        var safeMenu = menu;
+        safeMenu = Object.keys(menu).map(i => menu[i]);
       }
 
-      for (let i = 0; i < safeMenu.length; i++) {
+      for (let i = 0; i < safeMenu.length; i += 1) {
         const m = safeMenu[i];
         if (m.routeName === this.$route.name) {
           return m;
         }
         if (m.menu) {
-          var foundMenu = this.findMenu(m.menu);
+          const foundMenu = this.findMenu(m.menu);
           if (foundMenu) {
             return foundMenu;
           }
         }
       }
-    }
+      return false;
+    },
   },
   computed: {
     ...mapState('devise', ['adminMenu']),
     currentMenu() {
       return this.findMenu(this.adminMenu);
-    }
+    },
   },
-  components: {
-    Administration: () =>
-      import(/* webpackChunkName: "js/devise-administration" */ './/Administration.vue')
-  }
 };
 </script>

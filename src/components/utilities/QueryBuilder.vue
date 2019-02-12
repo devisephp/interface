@@ -23,14 +23,14 @@
         @input="update"
       />
     </div>
-    
+
 
     <button @click="save" class="dvs-btn" :style="theme.actionButton">Save</button>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   data() {
@@ -41,22 +41,22 @@ export default {
       model: null,
       modelQuery: null,
       name: null,
-      filters: {}
+      filters: {},
     };
   },
   mounted() {
-    let self = this;
+    const self = this;
 
-    if (typeof this.editData === "undefined") {
+    if (typeof this.editData === 'undefined') {
       this.model = this.value.model;
       this.name = this.value.name;
       this.modelQuery = this.value.modelQuery;
     }
 
-    this.getModels().then(function() {
-      if (typeof self.editData !== "undefined") {
+    this.getModels().then(() => {
+      if (typeof self.editData !== 'undefined') {
         self.model = self.storeModels.find(
-          model => model.class === self.editData.filters.class
+          model => model.class === self.editData.filters.class,
         );
         self.name = self.editData.key;
         self.modelQuery = self.editData.filters.class;
@@ -65,38 +65,37 @@ export default {
     });
   },
   methods: {
-    ...mapActions("devise", ["getModels", "getModelSettings"]),
+    ...mapActions('devise', ['getModels', 'getModelSettings']),
     save() {
       this.update();
-      this.$emit("save");
+      this.$emit('save');
     },
     update() {
-      this.$emit("input", {
+      this.$emit('input', {
         model: this.model,
         name: this.name,
-        modelQuery: this.modelQuery
+        modelQuery: this.modelQuery,
       });
     },
     updateModelQueryModel() {
-      let self = this;
+      const self = this;
       if (this.model !== null) {
         this.modelQuery = this.model.class;
       }
       if (this.model === null) {
         this.modelQuery = null;
       }
-      this.$nextTick(function() {
+      this.$nextTick(() => {
         self.update();
       });
-    }
+    },
   },
   computed: {
-    ...mapGetters("devise", ["storeModels", "modelSettings"])
+    ...mapGetters('devise', ['storeModels', 'modelSettings']),
   },
   components: {
-    SuperTable: () =>
-      import(/* webpackChunkName: "js/devise-tables" */ "./../utilities/tables/SuperTable")
+    SuperTable: () => import(/* webpackChunkName: "js/devise-tables" */ './tables/SuperTable'),
   },
-  props: ["value", "editData"]
+  props: ['value', 'editData'],
 };
 </script>

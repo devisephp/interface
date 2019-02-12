@@ -4,7 +4,7 @@
       <div
         id="dvs-admin-sidebar"
         :style="{
-          borderColor:theme.panelCard.background, 
+          borderColor:theme.panelCard.background,
           background:theme.panelCard.background
         }"
       >
@@ -351,8 +351,8 @@
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex';
 
-import AdministrationMixin from './../../mixins/Administration';
-import Dates from './../../mixins/Dates';
+import AdministrationMixin from '../../mixins/Administration';
+import Dates from '../../mixins/Dates';
 
 export default {
   name: 'PagesView',
@@ -361,7 +361,7 @@ export default {
       analytics: {},
       analyticsDateRange: {
         start: null,
-        end: null
+        end: null,
       },
       localValue: {},
       modulesToLoad: 2,
@@ -369,40 +369,40 @@ export default {
       showTranslate: false,
       pageToCopy: {
         title: null,
-        slug: null
+        slug: null,
       },
       translateLanguage: {},
       pageToTranslate: {
         title: null,
         slug: null,
-        language_id: null
+        language_id: null,
       },
       colors: [
         {
           background: 'rgba(54, 162, 235, 0.5)',
-          border: 'rgba(54, 162, 235, 1)'
+          border: 'rgba(54, 162, 235, 1)',
         },
         {
           background: 'rgba(75, 192, 192, 0.2)',
-          border: 'rgba(75, 192, 192, 1)'
+          border: 'rgba(75, 192, 192, 1)',
         },
         {
           background: 'rgba(255, 206, 86, 0.2)',
-          border: 'rgba(255, 206, 86, 1)'
+          border: 'rgba(255, 206, 86, 1)',
         },
         {
           background: 'rgba(255, 99, 132, 0.2)',
-          border: 'rgba(255,99,132,1)'
+          border: 'rgba(255,99,132,1)',
         },
         {
           background: 'rgba(153, 102, 255, 0.2)',
-          border: 'rgba(153, 102, 255, 1)'
+          border: 'rgba(153, 102, 255, 1)',
         },
         {
           background: 'rgba(255, 159, 64, 0.2)',
-          border: 'rgba(255, 159, 64, 1)'
-        }
-      ]
+          border: 'rgba(255, 159, 64, 1)',
+        },
+      ],
     };
   },
   mounted() {
@@ -421,29 +421,29 @@ export default {
       'getLanguages',
       'translatePage',
       'updatePage',
-      'updatePageVersion'
+      'updatePageVersion',
     ]),
     requestSavePage() {
       this.updatePage({ data: this.localValue });
     },
     requestCopyPage() {
-      let self = this;
-      this.copyPage({ data: this.pageToCopy }).then(function() {
+      const self = this;
+      this.copyPage({ data: this.pageToCopy }).then(() => {
         self.pageToCopy.title = null;
         self.pageToCopy.slug = null;
         self.showCopy = false;
       });
     },
     requestTranslatePage() {
-      let self = this;
+      const self = this;
 
       // set the language id
       this.pageToTranslate.language_id = this.translateLanguage.id;
 
       // Append the language code to the front of the slug
-      this.pageToTranslate.slug = '/' + this.translateLanguage.code + this.pageToTranslate.slug;
+      this.pageToTranslate.slug = `/${this.translateLanguage.code}${this.pageToTranslate.slug}`;
 
-      this.translatePage({ page: this.localValue, data: this.pageToTranslate }).then(function() {
+      this.translatePage({ page: this.localValue, data: this.pageToTranslate }).then(() => {
         self.pageToTranslate.title = null;
         self.pageToTranslate.slug = null;
         self.pageToTranslate.language_id = null;
@@ -451,64 +451,66 @@ export default {
       });
     },
     requestSaveVersion(version) {
-      this.updatePageVersion({ page: this.localValue, version: version });
+      this.updatePageVersion({ page: this.localValue, version });
     },
     requestCopyVersion(version) {
-      this.copyPageVersion({ page: this.localValue, version: version });
+      this.copyPageVersion({ page: this.localValue, version });
     },
     requestDeleteVersion(version) {
-      this.deletePageVersion({ page: this.localValue, version: version });
+      this.deletePageVersion({ page: this.localValue, version });
     },
     requestCreateMeta(newMeta) {
       this.localValue.meta.push(newMeta);
     },
     requestUpdateMeta(meta) {
-      let theMeta = this.localValue.meta.indexOf(meta);
-      theMeta = meta;
       meta.edit = false;
     },
     requestDeleteMeta(meta) {
       this.localValue.meta.splice(this.localValue.meta.indexOf(meta), 1);
     },
     requestDeletePage() {
-      let self = this;
-      this.deletePage(this.localValue).then(function() {
+      const self = this;
+      this.deletePage(this.localValue).then(() => {
         self.goToPage('devise-pages-index');
       });
     },
     retrievePage() {
-      let self = this;
-      this.getPage(this.$route.params.pageId).then(function(response) {
+      const self = this;
+      this.getPage(this.$route.params.pageId).then(response => {
         self.localValue = Object.assign({}, self.localValue, response.data.page);
 
+        /* eslint-disable array-callback-return */
         self.localValue.versions.map(version => {
           self.$set(version, 'editName', false);
         });
         self.pageToTranslate.slug = self.localValue.slug;
-        devise.$bus.$emit('incrementLoadbar', self.modulesToLoad);
+        window.deviseSettings.$bus.$emit('incrementLoadbar', self.modulesToLoad);
 
         self.retrieveAnalytics();
       });
     },
     retrieveAllLanguages() {
-      let self = this;
-      this.getLanguages().then(function() {
-        devise.$bus.$emit('incrementLoadbar', self.modulesToLoad);
+      const self = this;
+      this.getLanguages().then(() => {
+        window.deviseSettings.$bus.$emit('incrementLoadbar', self.modulesToLoad);
       });
     },
     setDefaultAnalytics() {
-      var today = new Date();
-      var oneWeekAgo = new Date();
+      const today = new Date();
+      const oneWeekAgo = new Date();
       oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
 
       this.analyticsDateRange.end = this.formatDate(today);
       this.analyticsDateRange.start = this.formatDate(oneWeekAgo);
     },
-    retrieveAnalytics(version) {
-      let self = this;
+    retrieveAnalytics() {
+      const self = this;
 
       if (this.mothershipApiKey) {
-        if (typeof this.analyticsDateRange.start !== 'string' && this.analyticsDateRange.start[0]) {
+        if (
+          typeof this.analyticsDateRange.start !== 'string' &&
+          this.analyticsDateRange.start[0]
+        ) {
           this.analyticsDateRange.start = this.formatDate(
             new Date(this.analyticsDateRange.start[0])
           );
@@ -519,8 +521,8 @@ export default {
         }
 
         this.getPageAnalytics({ slug: this.localValue.slug, dates: self.analyticsDateRange }).then(
-          function(response) {
-            response.data.data.datasets.map(function(dataset, index) {
+          response => {
+            response.data.data.datasets.map((dataset, index) => {
               dataset.backgroundColor = [self.colors[index].background];
               dataset.fontColor = self.theme.panel.color;
               dataset.borderColor = [self.colors[index].border];
@@ -538,7 +540,7 @@ export default {
     },
     toggleVersionSettings(version) {
       this.$set(version, 'showSettings', !version.showSettings);
-    }
+    },
   },
   computed: {
     ...mapGetters('devise', ['languages', 'mothershipApiKey']),
@@ -549,34 +551,34 @@ export default {
         legend: {
           labels: {
             fontColor: this.theme.panel.color,
-            fontSize: 14
-          }
+            fontSize: 14,
+          },
         },
         scales: {
           yAxes: [
             {
               ticks: {
                 fontColor: this.theme.panel.color,
-                fontSize: 12
-              }
-            }
+                fontSize: 12,
+              },
+            },
           ],
           xAxes: [
             {
               ticks: {
                 fontColor: this.theme.panel.color,
-                fontSize: 12
-              }
-            }
-          ]
-        }
+                fontSize: 12,
+              },
+            },
+          ],
+        },
       };
-    }
+    },
   },
   components: {
     DatePicker: () =>
-      import(/* webpackChunkName: "js/devise-utilities" */ './../utilities/DatePicker'),
-    DeviseModal: () => import(/* webpackChunkName: "js/devise-utilities" */ './../utilities/Modal'),
+      import(/* webpackChunkName: "js/devise-utilities" */ '../utilities/DatePicker'),
+    DeviseModal: () => import(/* webpackChunkName: "js/devise-utilities" */ '../utilities/Modal'),
     TrashIcon: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-trash.vue'),
     CopyIcon: () =>
@@ -586,8 +588,8 @@ export default {
     CheckmarkIcon: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-checkmark.vue'),
     LineChart: () => import(/* webpackChunkName: "js/devise-charts" */ './analytics/Line'),
-    MetaForm: () => import(/* webpackChunkName: "js/devise-meta" */ './../meta/MetaForm')
+    MetaForm: () => import(/* webpackChunkName: "js/devise-meta" */ '../meta/MetaForm'),
   },
-  mixins: [Dates, AdministrationMixin]
+  mixins: [Dates, AdministrationMixin],
 };
 </script>

@@ -22,14 +22,14 @@
 </template>
 
 <script>
-import Field from './../../../mixins/Field';
+import Field from '../../../mixins/Field';
 
 export default {
   name: 'NumberEditor',
   data() {
     return {
       originalValue: {},
-      showEditor: false
+      showEditor: false,
     };
   },
   mounted() {
@@ -57,7 +57,7 @@ export default {
     resetValue() {
       this.enabled = false;
       this.text = null;
-    }
+    },
   },
   computed: {
     text: {
@@ -65,16 +65,16 @@ export default {
         return this.value.text;
       },
       set(value) {
-        let valueObj = Object.assign(this.value, { text: value });
+        const valueObj = Object.assign(this.value, { text: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
-      }
-    }
+      },
+    },
   },
   props: ['value', 'options'],
   components: {
-    FieldEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './Field')
+    FieldEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './Field'),
   },
-  mixins: [Field]
+  mixins: [Field],
 };
 </script>

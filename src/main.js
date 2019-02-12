@@ -1,17 +1,13 @@
-import Vue from 'vue';
+import PortalVue from 'portal-vue';
+import { mapGetters } from 'vuex';
 import Devise from './Devise.vue';
 import DeviseStore from './vuex/store';
-import { DeviseBus } from './event-bus.js';
+import DeviseBus from './event-bus';
 import EditPage from './components/pages/Editor.vue';
 import Image from './directives/image';
 import Link from './directives/link';
-import PortalVue from 'portal-vue';
-import routes from './router/route.config.js';
+import routes from './router/route.config';
 import Slices from './components/slices/Slices.vue';
-
-Vue.config.productionTip = false;
-
-import { mapGetters } from 'vuex';
 
 const DevisePlugin = {
   install(Vue, { store, router, bus, options }) {
@@ -33,12 +29,14 @@ const DevisePlugin = {
       if (!route.components.hasOwnProperty('devise')) {
         route.components.devise = EditPage;
       }
+
+      return route;
     });
 
     for (const route in routes) {
       if (routes.hasOwnProperty(route)) {
         const routeToCheck = routes[route];
-        var canAdd = true;
+        let canAdd = true;
 
         for (const customRoute in router.options.routes) {
           if (router.options.routes.hasOwnProperty(customRoute)) {
@@ -55,15 +53,15 @@ const DevisePlugin = {
       }
     }
 
-    if (typeof deviseSettings === 'undefined') {
-      window.deviseSettings = function() {};
+    if (typeof window.deviseSettings === 'undefined') {
+      window.deviseSettings = () => {};
     }
 
     // If the bus isn't set we'll use our own bus
     if (typeof bus === 'undefined') {
-      deviseSettings.__proto__.$bus = DeviseBus;
+      window.deviseSettings.prototype.$bus = DeviseBus;
     } else {
-      deviseSettings.__proto__.$bus = bus;
+      window.deviseSettings.prototype.$bus = bus;
     }
 
     // Portals to render items outside of their component
@@ -89,10 +87,10 @@ const DevisePlugin = {
     DeviseStore.state.currentPage = Object.assign(
       {},
       DeviseStore.state.currentPage,
-      deviseSettings.$page
+      window.deviseSettings.$page
     );
     DeviseStore.state.sites = Object.assign({}, DeviseStore.state.sites, {
-      data: deviseSettings.$sites
+      data: window.deviseSettings.$sites,
     });
 
     // Register devise vuex module and sync it with the store
@@ -104,14 +102,14 @@ const DevisePlugin = {
     // Register link directive
     Vue.directive('devise-link', Link);
 
-    let deviseOptions = Object.assign(
+    const deviseOptions = Object.assign(
       {
         breakpoints: {
           mobile: 575,
           tablet: 768,
           desktop: 991,
-          largeDesktop: 1199
-        }
+          largeDesktop: 1199,
+        },
       },
       options
     );
@@ -123,7 +121,7 @@ const DevisePlugin = {
     Vue.mixin({
       data() {
         return {
-          deviseOptions: deviseOptions,
+          deviseOptions,
           tippyConfiguration: {
             interactive: true,
             animation: 'shift-toward',
@@ -132,61 +130,63 @@ const DevisePlugin = {
             interactiveBorder: 20,
             maxWidth: '300px',
             theme: 'devise',
-            trigger: 'mouseenter focus'
-          }
+            trigger: 'mouseenter focus',
+          },
         };
       },
       methods: {
         // Convienience method to push things into the router from templates
         goToPage(pageName, params) {
-          this.$router.push({ name: pageName, params: params });
+          this.$router.push({ name: pageName, params });
         },
         href(url) {
           window.open(url, '_self');
         },
         launchMediaManager(callbackObject, callbackProperty) {
-          deviseSettings.$bus.$emit('devise-launch-media-manager', {
-            callback: function(media) {
+          window.deviseSettings.$bus.$emit('devise-launch-media-manager', {
+            callback(media) {
               callbackObject[callbackProperty] = media.url;
-            }
+            },
           });
         },
         can(permission) {
-          let toCheck = !Array.isArray(permission) ? [permission] : permission;
-          let allowed = deviseSettings.$user.permissions_list
-            ? deviseSettings.$user.permissions_list
+          const toCheck = !Array.isArray(permission) ? [permission] : permission;
+          const allowed = window.deviseSettings.$user.permissions_list
+            ? window.deviseSettings.$user.permissions_list
             : [];
-          for (let i = 0; i < toCheck.length; i++) {
-            let found = allowed.find(function(perm) {
-              return perm === toCheck[i];
-            });
+          for (let i = 0; i < toCheck.length; i += 1) {
+            const found = allowed.find(perm => perm === toCheck[i]);
 
             if (found) return true;
           }
-        }
+          return false;
+        },
       },
       computed: {
-        ...mapGetters('devise', ['breakpoint', 'currentPage', 'currentUser', 'lang', 'theme'])
+        ...mapGetters('devise', ['breakpoint', 'currentPage', 'currentUser', 'lang', 'theme']),
       },
       // This sets a prop to be accepted by all components in a custom Vue
       // app that resides within Devise. Makes it a little easier to pass
       // down any data to custom child components
       props: ['devise', 'slices', 'models'],
-      store: store
+      store,
     });
 
     if (
-      deviseSettings.$config &&
-      typeof deviseSettings.$config.mothership !== 'undefined' &&
-      deviseSettings.$config.mothership !== null
+      window.deviseSettings.$config &&
+      typeof window.deviseSettings.$config.mothership !== 'undefined' &&
+      window.deviseSettings.$config.mothership !== null
     ) {
-      store.commit('devise/setMothership', deviseSettings.$config.mothership);
+      store.commit('devise/setMothership', window.deviseSettings.$config.mothership);
     }
 
-    if (deviseSettings.$config && typeof deviseSettings.$config.layouts !== 'undefined') {
-      store.commit('devise/setLayouts', deviseSettings.$config.layouts);
+    if (
+      window.deviseSettings.$config &&
+      typeof window.deviseSettings.$config.layouts !== 'undefined'
+    ) {
+      store.commit('devise/setLayouts', window.deviseSettings.$config.layouts);
     }
-  }
+  },
 };
 
 export default DevisePlugin;

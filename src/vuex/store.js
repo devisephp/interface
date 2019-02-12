@@ -11,7 +11,7 @@ Vue.use(Vuex);
 const state = {
   // Application State
   api: {
-    baseUrl: '/api/devise/'
+    baseUrl: '/api/devise/',
   },
   // Admin Menu can be overridden in your own store
   // Note: routeName property take precidence over url property
@@ -30,12 +30,12 @@ const state = {
   adminMenu: [
     {
       icon: 'CreateIcon',
-      routeName: 'devise-page-editor'
+      routeName: 'devise-page-editor',
     },
     {
       icon: 'ImageIcon',
       label: 'Settings',
-      routeName: 'media-manager'
+      routeName: 'media-manager',
     },
     {
       icon: 'CogIcon',
@@ -46,12 +46,12 @@ const state = {
         {
           label: 'Pages',
           routeName: 'devise-pages-index',
-          permissions: 'manage pages'
+          permissions: 'manage pages',
         },
         {
           label: 'Users',
           routeName: 'devise-users-index',
-          permissions: 'manage users'
+          permissions: 'manage users',
         },
         // {
         //   label: 'Mothership',
@@ -61,32 +61,32 @@ const state = {
         {
           label: 'Global Meta',
           routeName: 'devise-meta-manage',
-          permissions: 'manage meta'
+          permissions: 'manage meta',
         },
         {
           label: 'Sites',
           routeName: 'devise-sites-index',
-          permissions: 'manage sites'
+          permissions: 'manage sites',
         },
         {
           label: 'Languages',
           routeName: 'devise-languages-manage',
-          permissions: 'manage languages'
+          permissions: 'manage languages',
         },
         {
           label: 'Redirects',
           routeName: 'devise-redirects-index',
-          permissions: 'manage redirects'
-        }
-      ]
-    }
+          permissions: 'manage redirects',
+        },
+      ],
+    },
   ],
   breakpoint: {
     breakpoint: null,
     diminsions: {
       width: null,
-      height: null
-    }
+      height: null,
+    },
   },
   // DevMode
   devMode: false,
@@ -97,18 +97,18 @@ const state = {
   directories: [],
   files: [],
   searchableMedia: {
-    data: []
+    data: [],
   },
   languages: {
-    data: []
+    data: [],
   },
   layouts: [],
   mediaRegenerationRequests: [],
   meta: {
-    data: []
+    data: [],
   },
   models: {
-    data: []
+    data: [],
   },
   modelSettings: {},
   mothership: null,
@@ -117,29 +117,29 @@ const state = {
     slices: [],
     meta: [],
     versions: [],
-    previewMode: 'desktop'
+    previewMode: 'desktop',
   },
   pages: {
-    data: []
+    data: [],
   },
   pagesList: {
-    data: []
+    data: [],
   },
   site: {},
   sites: {
-    data: []
+    data: [],
   },
   slices: [],
   slicesDirectories: [],
   templates: {
-    data: []
+    data: [],
   },
   redirects: {
-    data: []
+    data: [],
   },
   users: {
-    data: []
-  }
+    data: [],
+  },
 };
 
 // A Vuex instance is created by combining the state, the actions,
@@ -155,5 +155,5 @@ export default {
   state,
   mutations,
   actions,
-  getters
+  getters,
 };

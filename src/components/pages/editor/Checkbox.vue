@@ -22,15 +22,15 @@
 </template>
 
 <script>
-import Strings from './../../../mixins/Strings';
-import Field from './../../../mixins/Field';
+import Strings from '../../../mixins/Strings';
+import Field from '../../../mixins/Field';
 
 export default {
   name: 'CheckboxEditor',
   data() {
     return {
       originalValue: null,
-      showEditor: false
+      showEditor: false,
     };
   },
   mounted() {
@@ -44,7 +44,7 @@ export default {
       this.checked = this.originalValue.checked;
       this.enabled = this.originalValue.enabled;
       this.toggleEditor();
-    }
+    },
   },
   computed: {
     checked: {
@@ -52,17 +52,17 @@ export default {
         return this.value.checked;
       },
       set(value) {
-        let valueObj = Object.assign({}, this.value, { checked: value });
+        const valueObj = Object.assign({}, this.value, { checked: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
-      }
-    }
+      },
+    },
   },
   props: ['value', 'options'],
   mixins: [Strings, Field],
   components: {
     FieldEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './Field'),
-    Toggle: () => import(/* webpackChunkName: "js/devise-utilities" */ './../../utilities/Toggle')
-  }
+    Toggle: () => import(/* webpackChunkName: "js/devise-utilities" */ '../../utilities/Toggle'),
+  },
 };
 </script>

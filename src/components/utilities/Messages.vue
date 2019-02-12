@@ -46,30 +46,30 @@
 
 
 <script>
-import Strings from '../../mixins/Strings';
 import debounce from 'lodash.debounce';
+import Strings from '../../mixins/Strings';
 
 export default {
   data() {
     return {
       title: null,
       messages: [],
-      messageErrors: []
+      messageErrors: [],
     };
   },
   mounted() {
-    let self = this;
-    deviseSettings.$bus.$on('showError', function(error) {
+    const self = this;
+    window.deviseSettings.$bus.$on('showError', error => {
       self.addError(error);
     });
 
-    deviseSettings.$bus.$on('showMessage', function(payload) {
+    window.deviseSettings.$bus.$on('showMessage', payload => {
       self.addMessage(payload);
     });
   },
   methods: {
     addError(error) {
-      let self = this;
+      const self = this;
 
       // Error came from axios most likely
       if (
@@ -78,14 +78,14 @@ export default {
         typeof error.response.data.errors !== 'undefined'
       ) {
         this.title = error.response.data.message;
-        for (var property in error.response.data.errors) {
+        for (const property in error.response.data.errors) {
           if (error.response.data.errors.hasOwnProperty(property)) {
-            let e = error.response.data.errors[property];
+            const e = error.response.data.errors[property];
             self.appendError({
               id: this.genUniqueKey(error),
               code: error.response.status,
               title: error.response.statusText,
-              message: e[0]
+              message: e[0],
             });
           }
         }
@@ -99,53 +99,53 @@ export default {
           id: this.genUniqueKey(error),
           code: error.response.status,
           title: error.response.data.exception,
-          message: error.response.data.message
+          message: error.response.data.message,
         });
       } else if (typeof error.data !== 'undefined' && error.data !== null) {
         self.appendError({
           id: this.genUniqueKey(error),
           code: error.status,
           title: error.data.error,
-          message: error.data.message
+          message: error.data.message,
         });
       } else if (typeof error === 'string') {
         self.appendError({
           id: this.genUniqueKey(error),
           code: '',
           title: 'Uh-Oh!',
-          message: error
+          message: error,
         });
       } else if (typeof error.message !== 'undefined' && error.message !== null) {
         self.appendError({
           id: this.genUniqueKey(error),
           code: '',
           title: 'Uh-Oh!',
-          message: error.message
+          message: error.message,
         });
       } else {
         self.appendError({
           id: this.genUniqueKey(error),
           code: error.status,
           title: 'Unable to reach server',
-          message: 'Please check your internet connection'
+          message: 'Please check your internet connection',
         });
       }
     },
     appendError(payload) {
-      let self = this;
-      let existingError = this.messageErrors.find(error => error.message === payload.message);
+      const self = this;
+      const existingError = this.messageErrors.find(error => error.message === payload.message);
 
       if (!existingError) {
-        let error = {
+        const error = {
           id: this.genUniqueKey(payload),
           code: payload.code,
           title: payload.title,
           message: payload.message,
-          active: true
+          active: true,
         };
         this.messageErrors.unshift(error);
 
-        debounce(function() {
+        debounce(() => {
           error.active = false;
 
           setTimeout(() => {
@@ -158,19 +158,19 @@ export default {
       this.messageErrors.splice(0);
     },
     addMessage(payload) {
-      let self = this;
-      let existingMessage = this.messages.find(message => message.message === payload.message);
+      const self = this;
+      const existingMessage = this.messages.find(message => message.message === payload.message);
 
       if (!existingMessage) {
-        let message = {
+        const message = {
           id: this.genUniqueKey(payload),
           title: payload.title,
           message: payload.message,
-          active: true
+          active: true,
         };
         this.messages.unshift(message);
 
-        debounce(function() {
+        debounce(() => {
           message.active = false;
 
           setTimeout(() => {
@@ -181,27 +181,26 @@ export default {
     },
     closeMessages() {
       this.messages.splice(0);
-    }
+    },
   },
   computed: {
     mainTitle() {
       if (this.title === null) {
         return 'There was a Problem';
-      } else {
-        return this.title;
       }
+      return this.title;
     },
     activeErrors() {
-      this.errors.filter(error => error.active === true);
+      return this.errors.filter(error => error.active === true);
     },
     activeMessages() {
-      this.messages.filter(message => message.active === true);
-    }
+      return this.messages.filter(message => message.active === true);
+    },
   },
   mixins: [Strings],
   components: {
     CloseIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-close.vue')
-  }
+      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-close.vue'),
+  },
 };
 </script>

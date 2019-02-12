@@ -103,9 +103,9 @@ export default {
       pulledReleases: [],
       newRelease: {
         message: null,
-        ids: []
+        ids: [],
       },
-      recentUpdates: []
+      recentUpdates: [],
     };
   },
   mounted() {
@@ -116,21 +116,21 @@ export default {
       'getPushedReleases',
       'getPulledReleases',
       'getPendingChanges',
-      'initReleases'
+      'initReleases',
     ]),
     fetchAllReleases() {
-      let self = this;
-      this.getPulledReleases().then(function(first) {
+      const self = this;
+      this.getPulledReleases().then(first => {
         self.pulledReleases = first.data;
-        self.getPushedReleases().then(function(second) {
+        self.getPushedReleases().then(second => {
           self.pushedReleases = second.data;
           self.releasesLoaded = true;
         });
       });
     },
     initiateReleases(force) {
-      let self = this;
-      this.initReleases(force).then(function(response) {
+      const self = this;
+      this.initReleases(force).then(response => {
         if (response.hasOwnProperty('response') && response.response.status === 422) {
           self.showForceRequiredMessage();
         } else {
@@ -139,7 +139,8 @@ export default {
       });
     },
     showForceRequiredMessage() {
-      let force = confirm(
+      /* eslint-disable no-alert,no-restricted-globals */
+      const force = confirm(
         'You have uncommitted changes. Are you sure you want to create a release without committing your source?'
       );
       if (force) {
@@ -147,37 +148,37 @@ export default {
       }
     },
     trucatedHash(hash) {
-      return hash.substring(0, 6) + '...';
+      return `${hash.substring(0, 6)}...`;
     },
     releaseWasPulled(id) {
       return this.pulledReleases.indexOf(id) > -1;
     },
-    pullRelease(id) {
-      console.log('go');
+    /* eslint-disable-line */ pullRelease(id) {
+      console.log('go'); // eslint-disable-line
     },
     showCreateForm() {
       this.showCreate = true;
       this.loadPendingChanges();
     },
     loadPendingChanges() {
-      let self = this;
-      self.getPendingChanges().then(function(response) {
+      const self = this;
+      self.getPendingChanges().then(response => {
         self.recentUpdates = response.data.data;
       });
     },
     requestCreateRelease() {
-      console.log('go');
-    }
+      console.log('go'); // eslint-disable-line
+    },
   },
   computed: {
     createInvalid() {
       return this.newRelease.message === null;
-    }
+    },
   },
   components: {
     ActionBar: () =>
-      import(/* webpackChunkName: "js/devise-utilities" */ './../utilities/ActionBar'),
-    DeviseModal: () => import(/* webpackChunkName: "js/devise-utilities" */ './../utilities/Modal')
-  }
+      import(/* webpackChunkName: "js/devise-utilities" */ '../utilities/ActionBar'),
+    DeviseModal: () => import(/* webpackChunkName: "js/devise-utilities" */ '../utilities/Modal'),
+  },
 };
 </script>

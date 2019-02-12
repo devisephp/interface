@@ -210,8 +210,9 @@
 </template>
 
 <script>
-var tinycolor = require('tinycolor2');
 import { Sketch } from 'vue-color';
+
+const tinycolor = require('tinycolor2');
 
 export default {
   data() {
@@ -228,16 +229,16 @@ export default {
         sharp: 5,
         pixel: null,
         filt: null,
-        bg: null
+        bg: null,
       },
       customSize: {
         w: null,
-        h: null
+        h: null,
       },
       originalDims: {
         w: null,
-        h: null
-      }
+        h: null,
+      },
     };
   },
   mounted() {
@@ -247,40 +248,39 @@ export default {
   },
   methods: {
     done() {
-      let edits = Object.assign({}, this.edits);
-      var cleanEdits = this.clean(edits);
+      const edits = Object.assign({}, this.edits);
+      const cleanEdits = this.clean(edits);
       this.$emit('done', cleanEdits);
     },
     cancel() {
       this.$emit('cancel');
     },
     loadOriginalDimentions() {
-      let file = `/styled/preview/${this.source}`;
-      let self = this;
-      let img = new Image();
+      const file = `/styled/preview/${this.source}`;
+      const img = new Image();
 
-      img.onload = function() {
-        self.originalDims.w = this.width;
-        self.originalDims.h = this.height;
+      img.onload = () => {
+        this.originalDims.w = this.width;
+        this.originalDims.h = this.height;
 
-        self.setCustomSizeToOriginal();
+        this.setCustomSizeToOriginal();
       };
 
-      img.onerror = function() {
-        alert('not a valid file: ' + file.type);
+      img.onerror = () => {
+        alert(`not a valid file: ${file.type}`); // eslint-disable-line
       };
 
       img.src = file;
     },
-    addToImagesLoaded(something) {
-      this.imagesLoaded++;
+    addToImagesLoaded() {
+      this.imagesLoaded += 1;
     },
     setCustomSizeToOriginal() {
       this.customSize.w = this.originalDims.w;
       this.customSize.h = this.originalDims.h;
     },
     encodedSize(size) {
-      var encodedString = '';
+      let encodedString = '';
       if (this.encodedEdits.length > 0) {
         encodedString += '&';
       }
@@ -288,7 +288,7 @@ export default {
       return `${encodedString}w=${size.w}&h=${size.h}`;
     },
     clean(obj) {
-      for (var propName in obj) {
+      for (const propName in obj) {
         if (obj[propName] === null || obj[propName] === undefined) {
           delete obj[propName];
         } else if (propName === 'bg') {
@@ -305,7 +305,7 @@ export default {
     },
     loadImageSettings() {
       this.edits = Object.assign(this.edits, this.imageSettings);
-    }
+    },
   },
   computed: {
     editorColor: {
@@ -317,18 +317,18 @@ export default {
       },
       set(newValue) {
         this.edits.bg = newValue.hex;
-      }
+      },
     },
     encodedEdits() {
-      var encodedString = '';
+      let encodedString = '';
 
-      for (var property in this.edits) {
+      for (const property in this.edits) {
         if (this.edits[property] !== null) {
           if (encodedString !== '') {
             encodedString += '&';
           }
 
-          var propertyValue = this.edits[property];
+          let propertyValue = this.edits[property];
 
           // Chop off the hash for Glide
           if (property === 'bg') {
@@ -342,7 +342,7 @@ export default {
       return encodedString;
     },
     allImagesLoaded() {
-      let numberOfImages = this.imagesRequiredToLoad;
+      const numberOfImages = this.imagesRequiredToLoad;
       if (this.imagesLoaded >= numberOfImages) {
         return true;
       }
@@ -354,24 +354,24 @@ export default {
       }
 
       return 1;
-    }
+    },
   },
   props: {
     source: {
       type: String,
-      required: true
+      required: true,
     },
     sizes: {
       type: Object,
-      required: false
+      required: false,
     },
     imageSettings: {
       type: Object,
-      required: false
-    }
+      required: false,
+    },
   },
   components: {
-    'sketch-picker': Sketch
-  }
+    'sketch-picker': Sketch,
+  },
 };
 </script>

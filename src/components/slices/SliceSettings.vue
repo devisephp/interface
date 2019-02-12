@@ -13,7 +13,7 @@
           bottom: 'auto',
           width:'175px',
           margin:0,
-          borderColor:theme.panelCard.background, 
+          borderColor:theme.panelCard.background,
           background:theme.panelCard.background
         }"
       >
@@ -62,12 +62,13 @@
 </template>
 
 <script>
-var tinycolor = require('tinycolor2');
+import { mapGetters } from 'vuex';
 
-import { mapGetters, mapActions } from 'vuex';
+import Vue from 'vue';
+import Strings from '../../mixins/Strings';
+import SliceSettingsSection from './SliceSettingsSection.vue';
 
-import Strings from './../../mixins/Strings';
-import SliceSettingsSection from './SliceSettingsSection';
+const tinycolor = require('tinycolor2');
 
 export default {
   name: 'SliceSettings',
@@ -78,22 +79,20 @@ export default {
       slice: {},
       controlStyles: {
         right: null,
-        top: null
+        top: null,
       },
-      showType: 'desktop'
+      showType: 'desktop',
     };
   },
   created() {
     this.backgroundColor = tinycolor('#fff').toRgb();
   },
   mounted() {
-    let self = this;
-
     this.addListeners();
   },
   methods: {
     addListeners() {
-      deviseSettings.$bus.$on('open-slice-settings', slice => {
+      window.deviseSettings.$bus.$on('open-slice-settings', slice => {
         this.showEditor = true;
         Vue.set(this, 'slice', slice);
         if (this.slice.settings.backgroundColor) {
@@ -103,7 +102,7 @@ export default {
         }
       });
 
-      deviseSettings.$bus.$on('devise-close-sidebar', () => {
+      window.deviseSettings.$bus.$on('devise-close-sidebar', () => {
         this.closeEditor();
       });
     },
@@ -144,7 +143,7 @@ export default {
         this.$set(this.slice.settings, 'mobile_padding', {});
       }
 
-      this.$set(this.slice.settings['mobile_' + payload.type], payload.position, payload.value);
+      this.$set(this.slice.settings[`mobile_${payload.type}`], payload.position, payload.value);
     },
     setBackground(color) {
       this.$set(
@@ -152,15 +151,14 @@ export default {
         'backgroundColor',
         `rgba(${color.rgba.r},${color.rgba.g},${color.rgba.b},${color.rgba.a})`
       );
-    }
+    },
   },
   computed: {
-    ...mapGetters('devise', ['component', 'sliceConfig'])
+    ...mapGetters('devise', ['component', 'sliceConfig']),
   },
   mixins: [Strings],
   components: {
-    SliceSettingsSection
-  }
+    SliceSettingsSection,
+  },
 };
 </script>
-

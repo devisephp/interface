@@ -123,13 +123,13 @@ export default {
         id: null,
         name: null,
         domain: null,
-        languages: []
+        languages: [],
       },
       newSite: {
         name: null,
         domain: null,
-        language_id: null
-      }
+        language_id: null,
+      },
     };
   },
   mounted() {
@@ -143,54 +143,50 @@ export default {
       'getLanguages',
       'createSite',
       'updateSite',
-      'deleteSite'
+      'deleteSite',
     ]),
     requestSyncSites() {
       if (this.mothershipApiKey !== null) {
-        let self = this;
         this.syncSites(this.sites.data);
       }
     },
     requestCreateSite() {
-      let self = this;
-      this.createSite(this.newSite).then(function() {
-        self.newSite.name = null;
-        self.newSite.domain = null;
-        self.showCreate = false;
-        self.requestSyncSites();
+      this.createSite(this.newSite).then(() => {
+        this.newSite.name = null;
+        this.newSite.domain = null;
+        this.showCreate = false;
+        this.requestSyncSites();
       });
     },
     showEditSite(site) {
       this.$router.push({ name: 'devise-sites-edit', params: { siteId: site.id } });
     },
     requestEditSite() {
-      let self = this;
       this.updateSite({ site: this.originalSite(this.editSite.id), data: this.editSite }).then(
-        function() {
-          self.editSite.id = null;
-          self.editSite.name = null;
-          self.editSite.domain = null;
-          self.showEdit = false;
+        () => {
+          this.editSite.id = null;
+          this.editSite.name = null;
+          this.editSite.domain = null;
+          this.showEdit = false;
         }
       );
     },
     requestDeleteSite(site) {
-      let self = this;
-      this.deleteSite(site).then(function() {
-        self.retrieveAllSites();
+      this.deleteSite(site).then(() => {
+        this.retrieveAllSites();
       });
     },
     retrieveAllSites(loadbar = true) {
-      this.getSites().then(function() {
+      this.getSites().then(() => {
         if (loadbar) {
-          devise.$bus.$emit('incrementLoadbar', self.modulesToLoad);
+          window.deviseSettings.$bus.$emit('incrementLoadbar', this.modulesToLoad);
         }
       });
     },
     retrieveAllLanguages(loadbar = true) {
-      this.getLanguages().then(function() {
+      this.getLanguages().then(() => {
         if (loadbar) {
-          devise.$bus.$emit('incrementLoadbar', self.modulesToLoad);
+          window.deviseSettings.$bus.$emit('incrementLoadbar', this.modulesToLoad);
         }
       });
     },
@@ -212,7 +208,7 @@ export default {
     },
     originalSite(id) {
       return this.sites.data.find(site => site.id === id);
-    }
+    },
   },
   computed: {
     ...mapGetters('devise', ['sites', 'languages', 'mothershipApiKey', 'settingsMenu']),
@@ -223,15 +219,15 @@ export default {
       return this.editSite.name === null || this.editSite.domain === null;
     },
     languagesNotInEditSite() {
-      var self = this;
+      const self = this;
       return this.languages.data.filter(language => {
-        var match = self.editSite.languages.filter(l => l.id === language.id);
+        const match = self.editSite.languages.filter(l => l.id === language.id);
         return match.length === 0;
       });
-    }
+    },
   },
   components: {
-    DeviseModal: () => import(/* webpackChunkName: "js/devise-utilities" */ './../utilities/Modal')
-  }
+    DeviseModal: () => import(/* webpackChunkName: "js/devise-utilities" */ '../utilities/Modal'),
+  },
 };
 </script>

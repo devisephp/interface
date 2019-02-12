@@ -22,8 +22,8 @@
 </template>
 
 <script>
-import DatePicker from './../../utilities/DatePicker';
-import Field from './../../../mixins/Field';
+import DatePicker from '../../utilities/DatePicker.vue';
+import Field from '../../../mixins/Field';
 
 export default {
   name: 'DatetimeEditor',
@@ -31,7 +31,7 @@ export default {
     return {
       showEditor: false,
       settings: { date: true, time: false },
-      originalValue: {}
+      originalValue: {},
     };
   },
   mounted() {
@@ -40,7 +40,7 @@ export default {
   methods: {
     setSettings() {
       if (this.options && this.options.settings) {
-        let settings = this.options.settings;
+        const { settings } = this.options;
         if (settings.date) {
           this.settings.date = settings.date;
         }
@@ -66,33 +66,31 @@ export default {
     resetValue() {
       this.enabled = false;
       this.text = null;
-      console.log(this.text);
-    }
+    },
   },
   computed: {
     text: {
       get() {
-        console.log('getting value', this.value.text);
         return this.value.text;
       },
       set(value) {
-        let valueObj = Object.assign(this.value, { text: value });
+        const valueObj = Object.assign(this.value, { text: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
-      }
+      },
     },
-    getMaxLength: function() {
+    getMaxLength() {
       if (typeof this.settings !== 'undefined' && typeof this.settings.maxlength !== 'undefined') {
         return this.settings.maxlength;
       }
       return '';
-    }
+    },
   },
   props: ['value', 'options'],
   components: {
     FieldEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './Field'),
-    DatePicker
+    DatePicker,
   },
-  mixins: [Field]
+  mixins: [Field],
 };
 </script>

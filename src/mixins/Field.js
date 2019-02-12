@@ -3,7 +3,7 @@ export default {
     update(value) {
       this.$emit('input', value);
       this.$emit('change', value);
-    }
+    },
   },
   computed: {
     enabled: {
@@ -11,9 +11,9 @@ export default {
         return this.value.enabled;
       },
       set(enabled) {
-        let valueObj = Object.assign(this.value, { enabled: enabled });
+        const valueObj = Object.assign(this.value, { enabled });
         this.update(valueObj);
-      }
-    }
-  }
+      },
+    },
+  },
 };

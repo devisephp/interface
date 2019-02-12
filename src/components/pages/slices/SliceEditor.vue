@@ -259,7 +259,7 @@ export default {
       manageSlice: false,
       pageSlices: [],
       moreHovered: false,
-      sliceOpen: false
+      sliceOpen: false,
     };
   },
   mounted() {
@@ -275,21 +275,21 @@ export default {
       this.slice.metadata.tools = !this.slice.metadata.tools;
     },
     // Marking Slice
-    markSlice(on, slice) {
-      window.devise.$bus.$emit('markSlice', this.slice, on);
+    markSlice(on) {
+      window.window.deviseSettings.$bus.$emit('markSlice', this.slice, on);
     },
     jumpToSlice() {
-      window.devise.$bus.$emit('jumpToSlice', this.slice);
+      window.window.deviseSettings.$bus.$emit('jumpToSlice', this.slice);
     },
     sliceSettings() {
-      window.devise.$bus.$emit('openSliceSettings', this.slice);
+      window.window.deviseSettings.$bus.$emit('openSliceSettings', this.slice);
     },
 
     // Adding, Editing and Removing Slices
     requestInsertSlice() {
       if (this.hasChildSlot) {
         this.manageSlice = true;
-        this.$nextTick(function() {
+        this.$nextTick(() => {
           if (this.$refs.manageSlice) {
             this.$refs.manageslice.action = 'insert';
           }
@@ -305,7 +305,7 @@ export default {
     },
     requestEditSlice() {
       this.manageSlice = true;
-      this.$nextTick(function() {
+      this.$nextTick(() => {
         if (this.$refs.manageSlice) {
           this.$refs.manageslice.action = 'edit';
         }
@@ -331,7 +331,7 @@ export default {
     },
     removeSlice(slice, referringSlice) {
       if (typeof slice === 'undefined') {
-        slice = this.slice;
+        slice = this.slice; // eslint-disable-line
       } else if (typeof referringSlice === 'undefined') {
         referringSlice = this.slice;
       }
@@ -343,8 +343,8 @@ export default {
       this.slice[key] = Object.assign({}, value);
 
       // Send out the notification
-      devise.$bus.$emit('devise-field-edited', { field, value });
-    }
+      window.deviseSettings.$bus.$emit('devise-field-edited', { field, value });
+    },
   },
   computed: {
     ...mapGetters('devise', ['component', 'fieldConfig', 'sliceConfig']),
@@ -353,8 +353,8 @@ export default {
       return this.devise;
     },
     theFields() {
-      var fields = {};
-      for (var potentialField in this.slice) {
+      const fields = {};
+      for (const potentialField in this.slice) {
         if (
           this.slice.hasOwnProperty(potentialField) &&
           potentialField !== 'slices' &&
@@ -379,7 +379,7 @@ export default {
       return count > 0;
     },
     hasChildSlot() {
-      let component = this.component(this.slice.metadata.name);
+      const component = this.component(this.slice.metadata.name);
 
       if (component.has_child_slot) {
         return true;
@@ -388,13 +388,13 @@ export default {
       return false;
     },
     editorLabel() {
-      let acceptedFieldTypes = {
+      const acceptedFieldTypes = {
         text: 'text',
         number: 'text',
         datetime: 'text',
         image: 'url',
         link: 'text',
-        select: 'value'
+        select: 'value',
       };
 
       let devMode = '';
@@ -428,31 +428,29 @@ export default {
       return `${devMode}<div class="dvs-capitalize">${
         this.slice.metadata.label
       }</div><div class="dvs-text-xs dvs-opacity-25 dvs-uppercase">&nbsp;</div>`;
-    }
+    },
   },
   props: {
     child: {
-      default: false
-    }
+      default: false,
+    },
   },
   components: {
     AddIcon: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-add.vue'),
-    CheckboxEditor: () =>
-      import(/* webpackChunkName: "js/devise-editors" */ './../editor/Checkbox'),
+    CheckboxEditor: () => import(/* webpackChunkName: "js/devise-editors" */ '../editor/Checkbox'),
     CogIcon: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-cog.vue'),
     CopyIcon: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-copy.vue'),
-    ColorEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './../editor/Color'),
-    DatetimeEditor: () =>
-      import(/* webpackChunkName: "js/devise-editors" */ './../editor/Datetime'),
+    ColorEditor: () => import(/* webpackChunkName: "js/devise-editors" */ '../editor/Color'),
+    DatetimeEditor: () => import(/* webpackChunkName: "js/devise-editors" */ '../editor/Datetime'),
     CreateIcon: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-create.vue'),
     draggable: () => import(/* webpackChunkName: "js/devise-editors" */ 'vuedraggable'),
-    FileEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './../editor/File'),
-    ImageEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './../editor/Image'),
-    LinkEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './../editor/Link'),
+    FileEditor: () => import(/* webpackChunkName: "js/devise-editors" */ '../editor/File'),
+    ImageEditor: () => import(/* webpackChunkName: "js/devise-editors" */ '../editor/Image'),
+    LinkEditor: () => import(/* webpackChunkName: "js/devise-editors" */ '../editor/Link'),
     LocateIcon: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-locate.vue'),
     ManageSlice: () => import(/* webpackChunkName: "js/devise-editors" */ './ManageSlice'),
@@ -460,15 +458,14 @@ export default {
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-menu.vue'),
     MoreIcon: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-more.vue'),
-    NumberEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './../editor/Number'),
+    NumberEditor: () => import(/* webpackChunkName: "js/devise-editors" */ '../editor/Number'),
     RemoveIcon: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-trash.vue'),
-    SelectEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './../editor/Select'),
+    SelectEditor: () => import(/* webpackChunkName: "js/devise-editors" */ '../editor/Select'),
     SliceEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './SliceEditor'),
-    TextareaEditor: () =>
-      import(/* webpackChunkName: "js/devise-editors" */ './../editor/Textarea'),
-    TextEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './../editor/Text'),
-    WysiwygEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './../editor/Wysiwyg')
-  }
+    TextareaEditor: () => import(/* webpackChunkName: "js/devise-editors" */ '../editor/Textarea'),
+    TextEditor: () => import(/* webpackChunkName: "js/devise-editors" */ '../editor/Text'),
+    WysiwygEditor: () => import(/* webpackChunkName: "js/devise-editors" */ '../editor/Wysiwyg'),
+  },
 };
 </script>

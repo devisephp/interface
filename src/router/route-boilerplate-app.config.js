@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-var routes = [];
+const routes = [];
 
 Vue.use(VueRouter);
 
@@ -9,7 +9,7 @@ const router = new VueRouter({
   mode: 'abstract',
   history: true,
   transitionOnLoad: true,
-  routes: routes
+  routes,
 });
 
 router.beforeEach((to, from, next) => {

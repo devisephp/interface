@@ -36,17 +36,12 @@
 </template>
 
 <script>
-import Search from './Search';
-import Sort from './Sort';
-import Related from './Related';
-import Dates from './Dates';
-
 export default {
   name: 'ColumnControls',
   data() {
     return {
       show: false,
-      localFilters: null
+      localFilters: null,
     };
   },
   mounted() {
@@ -63,39 +58,37 @@ export default {
         search: {},
         sort: {},
         dates: {},
-        page: '1'
+        page: '1',
       };
       this.updateValue();
     },
     hide() {
-      let self = this;
+      const self = this;
       // hacky need to find a better way to have the column clickable
-      this.$nextTick(function() {
+      this.$nextTick(() => {
         self.show = false;
       });
-    }
+    },
   },
   computed: {
     shouldDisplayControls() {
       return typeof this.column.sort !== 'undefined' || typeof this.column.search !== 'undefined';
-    }
+    },
   },
   props: {
     column: {
       type: Object,
-      required: true
+      required: true,
     },
-    value: {}
+    value: {},
   },
   components: {
     CloseIcon: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-close.vue'),
     SettingsIcon: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-settings.vue'),
-    Dates,
-    Related,
-    Search,
-    Sort
-  }
+    Search: () =>
+      import(/* webpackChunkName: "js/devise-tables" */ 'vue-ionicons/dist/ios-settings.vue'),
+  },
 };
 </script>

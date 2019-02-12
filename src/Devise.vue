@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapMutations } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'Devise',
@@ -45,7 +45,7 @@ export default {
     return {
       showLoadbar: false,
       loadbarPercentage: 0,
-      pageMode: false
+      pageMode: false,
     };
   },
   created() {
@@ -53,7 +53,7 @@ export default {
   },
   mounted() {
     window.devise = this;
-    devise.$bus = deviseSettings.$bus;
+    window.deviseSettings.$bus = window.deviseSettings.$bus;
 
     this.initDevise();
   },
@@ -63,29 +63,30 @@ export default {
       try {
         if (!this.isPreviewFrame) {
           this.currentPage.previewMode = 'desktop';
-          this.page = deviseSettings.$page;
+          this.page = window.deviseSettings.$page;
           this.$router.push({ name: 'devise-page-editor' });
         } else {
           this.page = window.parent.deviseSettings.$page;
         }
       } catch (e) {
+        /* eslint-disable no-console */
         console.warn(
-          'Devise: deviseSettings.$page or window.parent.deviseSettings.$page not found. Nothing to render'
+          'Devise: window.deviseSettings.$page or window.parent.deviseSettings.$page not found. Nothing to render'
         );
       }
 
       this.addWatchers();
 
-      let self = this;
-      this.$nextTick(function() {
-        setTimeout(function() {
+      const self = this;
+      this.$nextTick(() => {
+        setTimeout(() => {
           self.removeBlocker();
-          devise.$bus.$emit('devise-loaded');
+          window.deviseSettings.$bus.$emit('devise-loaded');
         }, 10);
       });
     },
     removeBlocker() {
-      let blocker = document.getElementById('devise-blocker');
+      const blocker = document.getElementById('devise-blocker');
       if (blocker) {
         blocker.classList.add('fade');
       }
@@ -94,17 +95,17 @@ export default {
       window.onresize = this.setSizeAndBreakpoint;
     },
     setSizeAndBreakpoint() {
-      let width = window.innerWidth;
-      let height = window.innerHeight;
-      let breakpoint = this.findBreakpoint(width);
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      const breakpoint = this.findBreakpoint(width);
 
       this.setBreakpoint({
-        breakpoint: breakpoint,
-        diminsions: { width: width, height: height }
+        breakpoint,
+        diminsions: { width, height },
       });
     },
     findBreakpoint(width) {
-      for (var breakpoint in this.deviseOptions.breakpoints) {
+      for (const breakpoint in this.deviseOptions.breakpoints) {
         if (this.deviseOptions.breakpoints.hasOwnProperty(breakpoint)) {
           if (width < this.deviseOptions.breakpoints[breakpoint]) {
             return breakpoint;
@@ -112,7 +113,7 @@ export default {
         }
       }
       return 'ultraWideDesktop';
-    }
+    },
   },
   computed: {
     ...mapGetters('devise', ['breakpoint', 'currentUser', 'currentPage']),
@@ -128,14 +129,11 @@ export default {
     },
     isLoggedIn() {
       return this.currentUser;
-    }
+    },
   },
   components: {
     Administration: () =>
       import(/* webpackChunkName: "js/devise-admin" */ './components/admin/Administration.vue'),
-    SettingsIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-settings.vue'),
-    User: () => import(/* webpackChunkName: "js/devise-menu" */ './components/menu/User')
-  }
+  },
 };
 </script>

@@ -316,12 +316,12 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 
-import Loadbar from './../utilities/Loadbar';
-import Uploader from './../utilities/Uploader';
-import MediaEditor from './MediaEditor';
-import Breadcrumbs from './Breadcrumbs';
+import Loadbar from '../utilities/Loadbar.vue';
+import Uploader from '../utilities/Uploader.vue';
+import MediaEditor from './MediaEditor.vue';
+import Breadcrumbs from './Breadcrumbs.vue';
 
-let Cookies = require('js-cookie');
+const Cookies = require('js-cookie');
 
 export default {
   data() {
@@ -339,7 +339,7 @@ export default {
       currentlyOpenFile: null,
       options: null,
       cookieSettings: false,
-      imageSettings: {}
+      imageSettings: {},
     };
   },
   mounted() {
@@ -354,48 +354,44 @@ export default {
       'mediaSearch',
       'deleteFile',
       'createDirectory',
-      'deleteDirectory'
+      'deleteDirectory',
     ]),
     startOpenerListener() {
-      var self = this;
+      const self = this;
 
-      deviseSettings.$bus.$on('devise-launch-media-manager', function({
-        target,
-        callback,
-        options
-      }) {
-        self.callback = callback;
-        self.target = target;
-        self.options = options;
+      window.deviseSettings.$bus.$on(
+        'devise-launch-media-manager',
+        ({ target, callback, options }) => {
+          self.callback = callback;
+          self.target = target;
+          self.options = options;
 
-        self.loadInitialLocation();
+          self.loadInitialLocation();
 
-        self.show = true;
-      });
+          self.show = true;
+        }
+      );
 
-      deviseSettings.$bus.$on('devise-launch-media-editor', function({
-        target,
-        callback,
-        options,
-        image,
-        settings
-      }) {
-        self.callback = callback;
-        self.target = target;
-        self.options = options;
-        self.imageSettings = settings;
-        self.selectedFile = {
-          url: image,
-          type: 'image'
-        };
+      window.deviseSettings.$bus.$on(
+        'devise-launch-media-editor',
+        ({ target, callback, options, image, settings }) => {
+          self.callback = callback;
+          self.target = target;
+          self.options = options;
+          self.imageSettings = settings;
+          self.selectedFile = {
+            url: image,
+            type: 'image',
+          };
 
-        self.loadInitialLocation();
+          self.loadInitialLocation();
 
-        self.show = true;
-      });
+          self.show = true;
+        }
+      );
     },
     loadInitialLocation() {
-      let cookieLocation = Cookies.get('devise-mediamanager-location');
+      const cookieLocation = Cookies.get('devise-mediamanager-location');
       if (cookieLocation) {
         this.changeDirectories(cookieLocation);
         this.cookieSettings = true;
@@ -403,20 +399,20 @@ export default {
         this.changeDirectories('');
       }
 
-      let cookieMode = Cookies.get('devise-mediamanager-mode');
+      const cookieMode = Cookies.get('devise-mediamanager-mode');
       if (cookieMode) {
         this.mode = cookieMode;
       }
     },
     changeDirectories(directory) {
-      let self = this;
+      const self = this;
       self.loaded = false;
       this.searchTerms = null;
       this.$set(this, 'searchResults', []);
 
-      self.setCurrentDirectory(directory).then(function() {
-        self.getCurrentFiles(self.options).then(function() {
-          self.getCurrentDirectories().then(function() {
+      self.setCurrentDirectory(directory).then(() => {
+        self.getCurrentFiles(self.options).then(() => {
+          self.getCurrentDirectories().then(() => {
             self.loaded = true;
 
             if (self.cookieSettings) {
@@ -432,23 +428,23 @@ export default {
     refreshDirectory() {
       this.changeDirectories(this.currentDirectory);
     },
-    uploadError(file, message) {
-      deviseSettings.$bus.$emit('showError', {
+    uploadError() {
+      window.deviseSettings.$bus.$emit('showError', {
         title: 'Upload Error',
         message:
-          'There was a problem uploading your file. The file may be too large to be uploaded.'
+          'There was a problem uploading your file. The file may be too large to be uploaded.',
       });
     },
     getUrlParam(paramName) {
-      var reParam = new RegExp('(?:[?&]|&)' + paramName + '=([^&]+)', 'i');
-      var match = window.location.search.match(reParam);
+      const reParam = new RegExp(`(?:[?&]|&)${paramName}=([^&]+)`, 'i');
+      const match = window.location.search.match(reParam);
 
       return match && match.length > 1 ? match[1] : null;
     },
     openFile(file) {
       this.$set(this, 'currentlyOpenFile', file);
     },
-    closeFile(file) {
+    closeFile() {
       this.$set(this, 'currentlyOpenFile', null);
     },
     selectSourceFile(file) {
@@ -466,61 +462,57 @@ export default {
       }
     },
     generateAndSetFile(edits) {
-      let self = this;
+      const self = this;
 
       if (this.options && this.options.sizes) {
         edits.sizes = this.options.sizes;
       }
 
-      devise.$bus.$emit('showLoadScreen', 'Images being generated');
+      window.deviseSettings.$bus.$emit('showLoadScreen', 'Images being generated');
 
-      this.generateImages({ original: this.selectedFile.url, settings: edits }).then(function(
-        response
-      ) {
+      this.generateImages({ original: this.selectedFile.url, settings: edits }).then(response => {
         if (typeof self.target !== 'undefined') {
           self.target.value = response.data;
         }
         if (typeof self.callback !== 'undefined') {
           self.callback(response.data);
         }
-        devise.$bus.$emit('hideLoadScreen');
+        window.deviseSettings.$bus.$emit('hideLoadScreen');
         return true;
       });
 
       this.close();
     },
     confirmedDeleteFile(file) {
-      var self = this;
-      this.deleteFile(file).then(function() {
+      const self = this;
+      this.deleteFile(file).then(() => {
         self.changeDirectories(self.currentDirectory);
       });
     },
     requestCreateDirectory() {
-      var self = this;
+      const self = this;
 
       // check to see if the directory already exists in the current location
-      var existingMatches = this.directories.filter(function(dir) {
-        return dir.name === self.directoryToCreate;
-      });
+      const existingMatches = this.directories.filter(dir => dir.name === self.directoryToCreate);
 
       if (existingMatches.length === 0) {
         this.createDirectory({
           directory: self.currentDirectory,
-          name: self.directoryToCreate
-        }).then(function() {
+          name: self.directoryToCreate,
+        }).then(() => {
           self.changeDirectories(self.currentDirectory);
           self.directoryToCreate = '';
         });
       } else {
-        deviseSettings.$bus.$emit('showError', {
+        window.deviseSettings.$bus.$emit('showError', {
           title: 'Duplicate Name',
-          message: 'There was already a directory with this name created in the current location.'
+          message: 'There was already a directory with this name created in the current location.',
         });
       }
     },
     requestDeleteDirectory() {
-      var self = this;
-      this.deleteDirectory(self.currentDirectory).then(function() {
+      const self = this;
+      this.deleteDirectory(self.currentDirectory).then(() => {
         self.changeDirectories('');
       });
     },
@@ -537,7 +529,7 @@ export default {
       this.show = false;
       this.imageSettings = Object.assign({});
       this.$set(this, 'selectedFile', null);
-    }
+    },
   },
   computed: {
     ...mapGetters('devise', ['files', 'directories', 'currentDirectory', 'searchableMedia']),
@@ -548,11 +540,11 @@ export default {
       return this.files;
     },
     uploadHeaders() {
-      let token = document.head.querySelector('meta[name="csrf-token"]');
+      const token = document.head.querySelector('meta[name="csrf-token"]');
       return {
-        'X-CSRF-TOKEN': token.content
+        'X-CSRF-TOKEN': token.content,
       };
-    }
+    },
   },
   watch: {
     cookieSettings: newValue => {
@@ -561,11 +553,11 @@ export default {
         Cookies.remove('devise-mediamanager-mode');
       }
     },
-    mode: function(newValue) {
+    mode(newValue) {
       if (this.cookieSettings) {
         Cookies.set('devise-mediamanager-mode', newValue);
       }
-    }
+    },
   },
   components: {
     Loadbar,
@@ -577,13 +569,11 @@ export default {
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-trash.vue'),
     CloseIcon: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-close.vue'),
-    AttachIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/md-attach.vue'),
     LinkIcon: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-link.vue'),
     DownloadIcon: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-cloud-download.vue'),
-    Uploader
-  }
+    Uploader,
+  },
 };
 </script>

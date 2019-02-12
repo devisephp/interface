@@ -20,18 +20,18 @@
 </template>
 
 <script>
-import Panel from './Panel';
+import Panel from './Panel.vue';
 
 export default {
   methods: {
     close() {
       this.$emit('close');
-    }
+    },
   },
   components: {
     CloseIcon: () =>
       import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-close.vue'),
-    Panel
-  }
+    Panel,
+  },
 };
 </script>

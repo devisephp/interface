@@ -70,13 +70,13 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import Field from './../../../mixins/Field';
+import Field from '../../../mixins/Field';
 
 export default {
   name: 'LinkEditor',
   data() {
     return {
-      showEditor: false
+      showEditor: false,
     };
   },
   mounted() {
@@ -99,17 +99,15 @@ export default {
       }
     },
     retrieveAllPagesList(loadbar = true) {
-      let filters = { language_id: deviseSettings.$page.language.id };
-      this.getPagesList(filters).then(function() {
+      const filters = { language_id: window.deviseSettings.$page.language.id };
+      this.getPagesList(filters).then(() => {
         if (loadbar) {
-          devise.$bus.$emit('incrementLoadbar', self.modulesToLoad);
+          window.deviseSettings.$bus.$emit('incrementLoadbar', this.modulesToLoad);
         }
       });
     },
-    selectPage(e) {
-      let page = this.pagesList.data.find(page => {
-        return page.route_name === this.routeName;
-      });
+    selectPage() {
+      const page = this.pagesList.data.find(p => p.route_name === this.routeName);
       if (page) {
         this.url = page.url;
       }
@@ -132,7 +130,7 @@ export default {
       this.mode = null;
       this.text = null;
       this.routeName = null;
-    }
+    },
   },
   computed: {
     ...mapGetters('devise', ['pagesList']),
@@ -141,45 +139,45 @@ export default {
         return this.value.url;
       },
       set(value) {
-        let valueObj = Object.assign(this.value, { href: value, url: value });
+        const valueObj = Object.assign(this.value, { href: value, url: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
-      }
+      },
     },
     text: {
       get() {
         return this.value.text;
       },
       set(value) {
-        let valueObj = Object.assign(this.value, { text: value });
+        const valueObj = Object.assign(this.value, { text: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
-      }
+      },
     },
     target: {
       get() {
         if (!this.value.target) {
-          let valueObj = Object.assign(this.value, { target: '_self' });
+          const valueObj = Object.assign(this.value, { target: '_self' });
           this.$emit('input', valueObj);
           this.$emit('change', valueObj);
         }
         return this.value.target;
       },
       set(value) {
-        let valueObj = Object.assign(this.value, { target: value });
+        const valueObj = Object.assign(this.value, { target: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
-      }
+      },
     },
     routeName: {
       get() {
         return this.value.routeName;
       },
       set(value) {
-        let valueObj = Object.assign(this.value, { routeName: value });
+        const valueObj = Object.assign(this.value, { routeName: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
-      }
+      },
     },
     mode: {
       get() {
@@ -188,16 +186,16 @@ export default {
       set(value) {
         this.url = null;
         this.routeName = null;
-        let valueObj = Object.assign(this.value, { mode: value });
+        const valueObj = Object.assign(this.value, { mode: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
-      }
-    }
+      },
+    },
   },
   props: ['value', 'options'],
   components: {
-    FieldEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './Field')
+    FieldEditor: () => import(/* webpackChunkName: "js/devise-editors" */ './Field'),
   },
-  mixins: [Field]
+  mixins: [Field],
 };
 </script>

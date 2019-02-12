@@ -3,9 +3,8 @@
     <table class="dvs-table dvs-mb-8">
       <tr>
         <th
-          v-for="(column, key) in columns"
+          v-for="(column, key) in tableColumns"
           :key="key"
-          v-if="showColumn(column)"
           :class="{'dvs-hidden md:dvs-table-cell': column.hideMobile}"
           @click="showControls(column.key)"
         >
@@ -20,7 +19,7 @@
         </th>
       </tr>
       <tr v-for="(record, rkey) in theRecords" :key="rkey">
-        <template v-for="(column, index) in columns" v-if="showColumn(column)">
+        <template v-for="(column, index) in tableColumns">
           <td :key="index" :class="{'dvs-hidden lg:dvs-table-cell': column.hideMobile}">
             <cell
               v-if="column.template"
@@ -98,23 +97,22 @@
 </template>
 
 <script>
-import commonUtils from './../../../vuex/utils/common';
-
-import Cell from './Cell';
-import ColumnControls from './ColumnControls';
-import Pagination from './Pagination';
-import Strings from './../../../mixins/Strings';
-import Toggle from './../Toggle';
-import ToggleColumns from './ToggleColumns';
-
 import { mapActions } from 'vuex';
+import commonUtils from '../../../vuex/utils/common';
+
+import Cell from './Cell.vue';
+import ColumnControls from './ColumnControls.vue';
+import Pagination from './Pagination.vue';
+import Strings from '../../../mixins/Strings';
+import Toggle from '../Toggle.vue';
+import ToggleColumns from './ToggleColumns.vue';
 
 export default {
   name: 'SuperTable',
   data() {
     return {
       theOptions: {
-        showLinks: true
+        showLinks: true,
       },
       filters: {
         related: {},
@@ -125,23 +123,23 @@ export default {
         page: '1',
         limit: 5,
         single: false,
-        scopes: {}
+        scopes: {},
       },
       refreshRecords: null,
       records: [],
       meta: {},
       newScope: '',
-      newScopeProperties: ''
+      newScopeProperties: '',
     };
   },
-  mounted: function() {
+  mounted() {
     // Merge options
     this.theOptions.showLinks = this.showLinks;
 
     if (typeof this.editData !== 'undefined') {
       for (const scope in this.editData.filters.scopes) {
         if (this.editData.filters.scopes.hasOwnProperty(scope)) {
-          let s = this.editData.filters.scopes[scope];
+          const s = this.editData.filters.scopes[scope];
           for (const scopeProp in s) {
             if (s.hasOwnProperty(scopeProp)) {
               this.filters.scopes[scopeProp] = s[scopeProp];
@@ -161,10 +159,10 @@ export default {
   methods: {
     ...mapActions('devise', ['getModelRecords']),
     updateValue() {
-      let modelQuery = this.model.class + '&' + commonUtils.buildFilterParams(this.filters);
+      const modelQuery = `${this.model.class}&${commonUtils.buildFilterParams(this.filters)}`;
       this.$emit('input', modelQuery);
       this.$emit('change', modelQuery);
-      this.$nextTick(function() {
+      this.$nextTick(() => {
         this.$emit('done', modelQuery);
       });
     },
@@ -172,19 +170,19 @@ export default {
       this.$emit('cancel');
     },
     requestRefreshRecords() {
-      let self = this;
+      const self = this;
 
       this.updateValue();
 
       clearTimeout(this.refreshRecords);
 
-      this.refreshRecords = setTimeout(function() {
+      this.refreshRecords = setTimeout(() => {
         self
           .getModelRecords({
             model: self.value,
-            filters: self.filters
+            filters: self.filters,
           })
-          .then(function(response) {
+          .then(response => {
             self.records = response.data;
           });
       }, 500);
@@ -202,33 +200,30 @@ export default {
     getRecordColumn(record, key) {
       if (!key.includes('.')) {
         return record[key];
-      } else {
-        return this.getRecordColumnTraversal(record, key);
       }
+      return this.getRecordColumnTraversal(record, key);
     },
     // Get in there and get the property at the bottom of the stack
     getRecordColumnTraversal(record, key) {
-      let parts = key.split('.[].');
+      const parts = key.split('.[].');
 
-      for (let i = 0; i < parts.length; i++) {
-        var part = parts[i];
+      for (let i = 0; i < parts.length; i + 1) {
+        const part = parts[i];
 
         // If it's the array part
         if (i % 2 === 1) {
           record = this.getFormattedStringFromArray(record, part);
         } else {
-          record = [record].concat(part.split('.')).reduce(function(a, b) {
-            return a[b];
-          });
+          record = [record].concat(part.split('.')).reduce((a, b) => a[b]);
         }
       }
 
       return record;
     },
     getFormattedStringFromArray(record, part) {
-      var finalString = '';
+      let finalString = '';
 
-      for (let i = 0; i < record.length; i++) {
+      for (let i = 0; i < record.length; i + 1) {
         if (i > 0) {
           finalString += ', ';
         }
@@ -253,18 +248,30 @@ export default {
       this.$delete(this.filters.scopes, key);
       this.requestRefreshRecords();
       this.updateValue();
-    }
+    },
   },
   computed: {
     theRecords() {
       if (typeof this.records.data !== 'undefined') {
         return this.records.data;
-      } else if (!this.filters.single) {
-        return this.records;
-      } else {
-        return [this.records];
       }
-    }
+      if (!this.filters.single) {
+        return this.records;
+      }
+      return [this.records];
+    },
+    tableColumns() {
+      let columns = [];
+
+      columns = this.columns.filter(c => {
+        if (this.showColumn(c)) {
+          return true;
+        }
+        return false;
+      });
+
+      return columns;
+    },
   },
   watch: {
     model() {
@@ -272,25 +279,25 @@ export default {
     },
     filters() {
       this.requestRefreshRecords();
-    }
+    },
   },
   props: {
     value: {
-      type: String
+      type: String,
     },
     model: {
-      type: Object
+      type: Object,
     },
     columns: {
       type: Array,
-      required: true
+      required: true,
     },
     showLinks: {
-      type: Boolean
+      type: Boolean,
     },
     editData: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   mixins: [Strings],
   components: {
@@ -300,7 +307,7 @@ export default {
     ToggleColumns,
     Pagination,
     Cell,
-    Toggle
-  }
+    Toggle,
+  },
 };
 </script>

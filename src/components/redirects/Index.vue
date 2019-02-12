@@ -62,9 +62,8 @@
 </template>
 
 <script>
-import DeviseModal from './../utilities/Modal';
-
 import { mapActions, mapGetters } from 'vuex';
+import DeviseModal from '../utilities/Modal.vue';
 
 export default {
   name: 'RedirectsIndex',
@@ -74,8 +73,8 @@ export default {
       showCreate: false,
       newRedirect: {
         from_url: null,
-        to_url: null
-      }
+        to_url: null,
+      },
     };
   },
   mounted() {
@@ -84,23 +83,23 @@ export default {
   methods: {
     ...mapActions('devise', ['getRedirects', 'createRedirect']),
     requestCreateRedirect() {
-      let self = this;
-      this.createRedirect(this.newRedirect).then(function() {
+      const self = this;
+      this.createRedirect(this.newRedirect).then(() => {
         self.newRedirect.from_url = null;
         self.newRedirect.to_url = null;
         self.showCreate = false;
       });
     },
     retrieveAllRedirects(loadbar = true) {
-      this.getRedirects().then(function() {
+      this.getRedirects().then(() => {
         if (loadbar) {
-          devise.$bus.$emit('incrementLoadbar', self.modulesToLoad);
+          window.deviseSettings.$bus.$emit('incrementLoadbar', this.modulesToLoad);
         }
       });
     },
     loadRedirect(id) {
       this.$router.push({ name: 'devise-redirects-edit', params: { redirectId: id } });
-    }
+    },
   },
   computed: {
     ...mapGetters('devise', ['redirects']),
@@ -112,14 +111,12 @@ export default {
         this.newRedirect.password_confirmation === null ||
         this.newRedirect.password !== this.newRedirect.password_confirmation
       );
-    }
+    },
   },
   components: {
     DeviseModal,
     ActionBar: () =>
-      import(/* webpackChunkName: "js/devise-utilities" */ './../utilities/ActionBar'),
-    ArrowIcon: () =>
-      import(/* webpackChunkName: "js/devise-icons" */ 'vue-ionicons/dist/ios-arrow-dropright-circle.vue')
-  }
+      import(/* webpackChunkName: "js/devise-utilities" */ '../utilities/ActionBar'),
+  },
 };
 </script>
