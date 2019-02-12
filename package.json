@@ -1,6 +1,6 @@
 {
   "name": "devisephp-interface",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "Content Management System",
   "author": "Gary Williams <gary@lbm.co>, Mauro Velez <mauro@lbm.co>",
   "license": "MIT",
@@ -38,12 +38,14 @@
     "text-clipper": "^1.2.2",
     "tinycolor2": "^1.4.1",
     "v-debounce": "^0.1.2",
+    "vue": "2.6.2^",
     "vue-chartjs": "^3.4.0",
     "vue-color": "^2.4.4",
     "vue-flatpickr-component": "^6.2.0",
     "vue-ionicons": "^2.2.1",
     "vue-router": "^3.0.1",
     "vue-scrollactive": "^0.8.0",
+    "vue-template-compiler": "^2.6.2",
     "vue-tippy": "^2.0.8",
     "vue-trumbowyg": "^3.4.0",
     "vue-upload-component": "^2.8.15",
@@ -52,7 +54,6 @@
     "vuex-router-sync": "^5.0.0"
   },
   "peerDependencies": {
-    "vue": "2.6.0^",
     "jquery": "^3.3.1"
   },
   "devDependencies": {
@@ -64,6 +65,7 @@
     "browser-sync": "^2.23.6",
     "browser-sync-webpack-plugin": "^2.0.1",
     "cross-env": "^5.1",
+    "css-loader": "^2.1.0",
     "eslint-config-prettier": "^3.3.0",
     "eslint-friendly-formatter": "^4.0.0",
     "eslint-plugin-prettier": "^3.0.0",
@@ -80,7 +82,7 @@
     "sass-loader": "^6.0.6",
     "tailwindcss": "^0.7.2",
     "uglifyjs-webpack-plugin": "^1.2.4",
-    "webpack": "^3.6.0",
+    "webpack": "^3",
     "webpack-bundle-analyzer": "^3.0.3",
     "webpack-laravel-mix-manifest": "^1.0.4"
   },

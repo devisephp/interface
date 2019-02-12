@@ -1,13 +1,13 @@
 import Vue from 'vue';
+import Devise from './Devise.vue';
 import DeviseStore from './vuex/store';
-import PortalVue from 'portal-vue';
 import { DeviseBus } from './event-bus.js';
-import routes from './router/route.config.js';
+import EditPage from './components/pages/Editor.vue';
 import Image from './directives/image';
 import Link from './directives/link';
-
-const EditPage = () =>
-  import(/* webpackChunkName: "js/devise-pages" */ './components/pages/Editor.vue');
+import PortalVue from 'portal-vue';
+import routes from './router/route.config.js';
+import Slices from './components/slices/Slices.vue';
 
 Vue.config.productionTip = false;
 
@@ -70,10 +70,9 @@ const DevisePlugin = {
     Vue.use(PortalVue);
 
     // Register global components
-    Vue.component('devise', () => import(/* webpackChunkName: "app-devise" */ './Devise.vue'));
-    Vue.component('slices', () =>
-      import(/* webpackChunkName: "app-devise-slices" */ './components/slices/Slices')
-    );
+
+    Vue.component('devise', Devise);
+    Vue.component('slices', Slices);
 
     // Vue.component('Sidebar', Sidebar);
 
