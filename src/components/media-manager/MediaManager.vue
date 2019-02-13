@@ -316,11 +316,6 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 
-import Loadbar from '../utilities/Loadbar.vue';
-import Uploader from '../utilities/Uploader.vue';
-import MediaEditor from './MediaEditor.vue';
-import Breadcrumbs from './Breadcrumbs.vue';
-
 const Cookies = require('js-cookie');
 
 export default {
@@ -560,9 +555,10 @@ export default {
     },
   },
   components: {
-    Loadbar,
-    Breadcrumbs,
-    MediaEditor,
+    Loadbar: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/Loadbar.vue'),
+    Breadcrumbs: () => import(/* webpackChunkName: "devise-media" */ './Breadcrumbs.vue'),
+    MediaEditor: () => import(/* webpackChunkName: "devise-media" */ './MediaEditor.vue'),
+    Uploader: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/Uploader.vue'),
     FolderIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-folder.vue'),
     TrashIcon: () =>
@@ -573,7 +569,6 @@ export default {
       import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-link.vue'),
     DownloadIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-cloud-download.vue'),
-    Uploader,
   },
 };
 </script>

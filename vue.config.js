@@ -4,7 +4,7 @@ module.exports = {
   pluginOptions: {
     'style-resources-loader': {
       preProcessor: 'scss',
-      patterns: ['/Users/garywilliams/Code/devise-interface-cli/src/sass/devise.scss'],
+      patterns: [path.resolve(__dirname, './src/styles/global.scss')],
     },
   },
 };

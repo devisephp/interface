@@ -120,10 +120,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import Panel from '../../utilities/Panel.vue';
-import QueryBuilder from '../../utilities/QueryBuilder.vue';
 import SlicesMixin from '../../../mixins/Slices';
-import SliceSelector from './SliceSelector.vue';
 
 const defaultInsertSlice = {
   type: null,
@@ -229,9 +226,10 @@ export default {
     },
   },
   components: {
-    Panel,
-    QueryBuilder,
-    SliceSelector,
+    Panel: () => import(/* webpackChunkName: "devise-utilities" */ '../../utilities/Panel.vue'),
+    QueryBuilder: () =>
+      import(/* webpackChunkName: "devise-utilities" */ '../../utilities/QueryBuilder.vue'),
+    SliceSelector: () => import(/* webpackChunkName: "devise-slices" */ './SliceSelector.vue'),
   },
   mixins: [SlicesMixin],
 };
