@@ -236,7 +236,7 @@
                       </div>
                       <a
                         class="dvs-mr-4"
-                        href="file.url"
+                        :href="file.url"
                         target="_blank"
                         :style="{color: theme.actionButton.background}"
                       >
@@ -274,7 +274,7 @@
                       <ul class="dvs-list-reset">
                         <li v-for="field in file.fields" :key="field.id" class="dvs-py-2">
                           <a
-                            href="field.page_slug"
+                            :href="field.page_slug"
                             target="_blank"
                             class="dvs-btn dvs-btn-sm"
                           >{{ field.page_title }} - {{ field.field_name }}</a>

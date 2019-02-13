@@ -11,9 +11,9 @@ const getters = {
   // configuration.
   component: name => window.deviseSettings.$deviseComponents[name],
 
-  componentFromView: view => {
+  componentFromView: state => view => {
     for (const component in window.deviseSettings.$deviseComponents) {
-      if (window.$deviseComponents[component].view === `slices.${view}`) {
+      if (window.deviseSettings.$deviseComponents[component].view === `slices.${view}`) {
         return window.deviseSettings.$deviseComponents[component];
       }
     }

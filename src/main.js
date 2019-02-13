@@ -59,9 +59,9 @@ const DevisePlugin = {
 
     // If the bus isn't set we'll use our own bus
     if (typeof bus === 'undefined') {
-      window.deviseSettings.prototype.$bus = DeviseBus;
+      window.deviseSettings.$bus = DeviseBus;
     } else {
-      window.deviseSettings.prototype.$bus = bus;
+      window.deviseSettings.$bus = bus;
     }
 
     // Portals to render items outside of their component

@@ -348,7 +348,7 @@ export default {
         mobileMargin,
         padding,
         mobilePadding,
-      } = this.deviseForSlice.settings.backgroundColor;
+      } = this.deviseForSlice.settings;
 
       if (typeof backgroundColor !== 'undefined') {
         styles.backgroundColor = backgroundColor;
