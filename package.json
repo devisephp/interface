@@ -33,6 +33,7 @@
     "vue-tippy": "^2.1.0",
     "vue-trumbowyg": "^3.4.1",
     "vue-upload-component": "^2.8.19",
+    "vuebar": "^0.0.20",
     "vuedraggable": "^2.17.0",
     "vuex": "^3.0.1"
   },

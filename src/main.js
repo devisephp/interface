@@ -2,6 +2,7 @@
 
 import PortalVue from 'portal-vue';
 import { mapGetters } from 'vuex';
+import Vuebar from 'vuebar';
 import Devise from './Devise.vue';
 import DeviseStore from './vuex/store';
 import DeviseBus from './event-bus';
@@ -68,6 +69,9 @@ const DevisePlugin = {
 
     // Portals to render items outside of their component
     Vue.use(PortalVue);
+
+    // VueBar - custom scrollbars
+    Vue.use(Vuebar);
 
     // Register global components
 
