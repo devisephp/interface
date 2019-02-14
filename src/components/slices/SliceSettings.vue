@@ -31,7 +31,7 @@
         </div>
       </div>
       <div class="dvs-p-8">
-        <div data-simplebar style="height: calc(100vh - 150px);">
+        <div v-bar style="height: calc(100vh - 150px);">
           <div class="dvs-pl-8">
             <div>
               <slice-settings-section

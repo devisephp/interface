@@ -14,7 +14,7 @@
         <div v-html="clipString(value.text, 200, false)"></div>
       </template>
       <template slot="editor">
-        <div style="max-height:80vh" data-simplebar>
+        <div style="max-height:80vh" v-bar>
           <wysiwyg ref="editor" v-model="text"></wysiwyg>
         </div>
       </template>

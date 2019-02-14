@@ -38,7 +38,7 @@
           class="dvs-max-h-screen dvs-flex-grow"
           id="dvs-admin-content-container"
           ref="admin-route-wrapper"
-          data-simplebar
+          v-bar
         >
           <transition name="dvs-fade" mode="out-in">
             <router-view name="devise"></router-view>

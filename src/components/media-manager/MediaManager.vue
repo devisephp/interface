@@ -58,7 +58,7 @@
         </div>
 
         <div class="dvs-flex dvs-items-stretch dvs-h-full dvs-overflow-hidden">
-          <div data-simplebar class="dvs-min-w-1/3">
+          <div v-bar class="dvs-min-w-1/3">
             <div
               class="dvs-h-full dvs-p-8 dvs-bg-grey-lightest dvs-flex dvs-flex-col dvs-justify-between dvs-border-r dvs-border-lighter"
             >
