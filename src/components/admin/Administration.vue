@@ -61,7 +61,6 @@ import Vue from 'vue';
 import { mapState } from 'vuex';
 import alertConfirm from '../../directives/alert-confirm';
 import Tuck from '../../directives/tuck';
-import 'simplebar'; // eslint-disable-line
 const VueScrollactive = require('vue-scrollactive');
 
 export default {
