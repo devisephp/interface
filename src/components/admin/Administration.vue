@@ -59,7 +59,6 @@
 <script>
 import Vue from 'vue';
 import { mapState } from 'vuex';
-import VueTippy from 'vue-tippy';
 import alertConfirm from '../../directives/alert-confirm';
 import Tuck from '../../directives/tuck';
 import 'simplebar'; // eslint-disable-line
@@ -74,11 +73,7 @@ export default {
   },
   mounted() {
     // For administration sidebars
-
     Vue.use(VueScrollactive);
-
-    // Tooltips
-    Vue.use(VueTippy);
 
     // Register alert / confirm directive
     Vue.directive('devise-alert-confirm', alertConfirm);

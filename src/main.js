@@ -1,5 +1,3 @@
-import './sass/devise.scss';
-
 import PortalVue from 'portal-vue';
 import { mapGetters } from 'vuex';
 import Devise from './Devise.vue';

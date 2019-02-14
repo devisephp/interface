@@ -9,7 +9,7 @@ const getters = {
   // This takes a component name and returns the corresponding component from
   // window.deviseSettings.$deviseComponents. This contains the name, template, and field
   // configuration.
-  component: name => window.deviseSettings.$deviseComponents[name],
+  component: state => name => window.deviseSettings.$deviseComponents[name],
 
   componentFromView: state => view => {
     for (const component in window.deviseSettings.$deviseComponents) {
