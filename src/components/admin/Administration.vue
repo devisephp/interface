@@ -38,7 +38,7 @@
           class="dvs-max-h-screen dvs-flex-grow"
           id="dvs-admin-content-container"
           ref="admin-route-wrapper"
-          v-bar
+          v-bar="{preventParentScroll: true}"
         >
           <transition name="dvs-fade" mode="out-in">
             <router-view name="devise"></router-view>
@@ -61,6 +61,7 @@ import Vue from 'vue';
 import { mapState } from 'vuex';
 import alertConfirm from '../../directives/alert-confirm';
 import Tuck from '../../directives/tuck';
+
 const VueScrollactive = require('vue-scrollactive');
 
 export default {

@@ -13,11 +13,8 @@
         </div>
       </fieldset>
     </div>
-    <div class="dvs-flex dvs-pb-8 dvs-py-8 dvs-max-h-screen dvs-overflow-y" v-bar>
-      <div
-        class="dvs-w-full dvs-flex dvs-flex-wrap dvs-items-stretch flex-grow dvs-justify-start dvs-my-4"
-        v-if=" this.allDirectories.length > 0"
-      >
+    <div style="height:70vh" v-bar="{preventParentScroll: true}">
+      <div v-if=" this.allDirectories.length > 0">
         <slice-selector-directory
           v-for="(directory, n) in this.allDirectories"
           :key="n"
