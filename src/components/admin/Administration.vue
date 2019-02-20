@@ -40,9 +40,13 @@
           ref="admin-route-wrapper"
           v-bar="{preventParentScroll: true}"
         >
-          <transition name="dvs-fade" mode="out-in">
-            <router-view name="devise"></router-view>
-          </transition>
+          <div>
+            <div>
+              <transition name="dvs-fade" mode="out-in">
+                <router-view name="devise"></router-view>
+              </transition>
+            </div>
+          </div>
         </div>
       </div>
     </panel>

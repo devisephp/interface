@@ -1,14 +1,12 @@
 <template>
   <div class="dvs-w-full dvs-flex dvs-flex-wrap dvs-items-center">
     <template v-if="currentDirectory !== ''">
-      <span class="dvs-cursor-pointer dvs-mr-1 dvs-mb-1" @click="goToHome()">Home</span>
+      <div class="dvs-cursor-pointer dvs-mr-1 dvs-mb-1" @click="goToHome()">Home</div>
       <template v-for="(dir, key) in directoriesObj">
-        <span class="dvs-mr-1 dvs-mb-1" :key="key">&gt;</span>
-        <span
-          class="dvs-cursor-pointer dvs-mr-1 dvs-mb-1"
-          @click="chooseDirectory(key)"
-          :key="key"
-        >{{ dir }}</span>
+        <div :key="key">
+          <span class="dvs-mr-1 dvs-mb-1">&gt;</span>
+          <span class="dvs-cursor-pointer dvs-mr-1 dvs-mb-1" @click="chooseDirectory(key)">{{ dir }}</span>
+        </div>
       </template>
     </template>
   </div>

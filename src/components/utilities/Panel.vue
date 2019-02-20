@@ -1,6 +1,6 @@
 <template>
   <div class="dvs-panel">
-    <div class="dvs-panel-contents dvs-max-h-screen dvs-overflow-hidden" :style="panelStyle">
+    <div class="dvs-panel-contents dvs-max-h-screenpad dvs-overflow-hidden" :style="panelStyle">
       <div>
         <slot/>
       </div>

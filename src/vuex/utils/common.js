@@ -14,7 +14,7 @@ const funcs = {
     const scopeParams = funcs.buildScopeParams(filters.scopes);
     const searchParams = filters.search;
     const pageParams = filters.page;
-    const { paginated, limit, single } = filters.paginated;
+    const { paginated, limit, single } = filters;
 
     if (single) {
       params.single = single;

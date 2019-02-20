@@ -5,7 +5,7 @@
     >Media Editor
       <div>
         <button
-          class="dvs-btn"
+          class="dvs-btn dvs-mr-2"
           @click="done"
           :disabled="!allImagesLoaded"
           :style="theme.actionButton"
@@ -245,6 +245,9 @@ export default {
     this.imagesLoaded = 0;
     this.loadOriginalDimentions();
     this.loadImageSettings();
+    this.$nextTick(() => {
+      this.setCustomSizeToOriginal();
+    });
   },
   methods: {
     done() {
@@ -256,14 +259,15 @@ export default {
       this.$emit('cancel');
     },
     loadOriginalDimentions() {
+      const self = this;
       const file = `/styled/preview/${this.source}`;
       const img = new Image();
 
-      img.onload = () => {
-        this.originalDims.w = this.width;
-        this.originalDims.h = this.height;
+      img.onload = function() {
+        self.originalDims.w = this.width;
+        self.originalDims.h = this.height;
 
-        this.setCustomSizeToOriginal();
+        self.setCustomSizeToOriginal();
       };
 
       img.onerror = () => {

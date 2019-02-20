@@ -1,8 +1,10 @@
 <template>
   <div>
     <div class="dvs-flex dvs-items-center">
-      <input v-if="typeof image === 'object'" type="text" :value="image.url" disabled>
-      <input v-else type="text" :value="image" disabled>
+      <fieldset class="dvs-fieldset">
+        <input v-if="typeof image === 'object'" type="text" :value="image.url" disabled>
+        <input v-else type="text" :value="image" disabled>
+      </fieldset>
       <div @click="showMediaManager()">
         <images-icon class="dvs-ml-4 dvs-cursor-pointer" w="30px" h="30px"/>
       </div>
@@ -25,7 +27,7 @@
               class="mb-2"
               style="width:100px; height:auto"
             >
-            <div class="dvs-text-xs">{{ size }} {{ getDimensions(size) }}</div>
+            <div class="dvs-text-xs">{{ getSizeName(size) }} {{ getDimensions(size) }}</div>
           </div>
         </div>
       </div>
@@ -38,14 +40,17 @@
           :style="{backgroundColor: 'transparent'}"
           @click="showPreview = false"
         ></div>
-        <div class="dvs-modal dvs-fixed dvs-pin-b dvs-pin-r dvs-mx-8 dvs-mb-8 dvs-z-40 dvs-w-1/2">
-          <img :src="value">
+        <div
+          class="dvs-modal dvs-fixed dvs-pin-b dvs-pin-r dvs-mx-8 dvs-mb-8 dvs-z-40 dvs-w-1/2"
+          :style="theme.panel"
+        >
+          <img :src="value.url">
           <h6 class="dvs-text-base dvs-mb-4 dvs-mt-4" :style="{color: theme.panel.color}">
             <span>{{ fileName }}</span>
             <br>
             <small class="dvs-text-xs">
               Location:
-              <span class="dvs-italic dvs-font-normal">{{ value }}</span>
+              <span class="dvs-italic dvs-font-normal">{{ value.url }}</span>
             </small>
           </h6>
           <div class="dvs-flex dvs-items-center dvs-mt-4 dvs-justify-between">
@@ -90,13 +95,23 @@ export default {
         value.settings = imagesAndSettings.settings;
       }
 
-      this.image = value;
+      this.image = Object.assign({}, value);
+    },
+    getSizeName(size) {
+      if (size === 'orig_optimized') return `Optimized`;
+
+      return size;
     },
     getDimensions(size) {
       if (this.value.sizes && this.value.sizes[size])
         return `(${this.value.sizes[size].w} x ${this.value.sizes[size].h})`;
 
-      return false;
+      if (this.sizes && this.sizes[size]) return `(${this.sizes[size].w} x ${this.sizes[size].h})`;
+
+      if (size !== 'original' && this.value.settings.w)
+        return `(${this.value.settings.w} x ${this.value.settings.h})`;
+
+      return null;
     },
     loadPreview() {
       if (this.previewEnabled) this.showPreview = true;
@@ -105,7 +120,7 @@ export default {
   computed: {
     image: {
       get() {
-        if (this.value === null) {
+        if (typeof this.value === 'undefined' || this.value === null) {
           return {
             url: null,
           };
@@ -124,7 +139,7 @@ export default {
       return false;
     },
     fileName() {
-      const parts = this.value.split('/');
+      const parts = this.value.url.split('/');
       return parts[parts.length - 1];
     },
     previewEnabled() {

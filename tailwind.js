@@ -544,6 +544,7 @@ module.exports = {
     '1/6': '16.66667%',
     '5/6': '83.33333%',
     full: '100%',
+    'screen-90': '90vh',
     screen: '100vw',
   },
 
@@ -564,6 +565,7 @@ module.exports = {
   minHeight: {
     '0': '0',
     full: '100%',
+    'screen-90': '90vh',
     screen: '100vh',
   },
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="dvs-mb-8">
+  <div class="dvs-mb-8 dvs-w-full">
     <div class="dvs-flex dvs-items-center dvs-mb-4">
       <h3 :style="{color: theme.panel.color}">{{ labelText }}</h3>
       <div @click="showMediaManager">
@@ -7,7 +7,7 @@
       </div>
     </div>
 
-    <div class="dvs-flex dvs-flex-wrap">
+    <div class="dvs-flex dvs-flex-wrap dvs-w-full">
       <div
         class="dvs-w-1/5 dvs-max-w-1/4 dvs-pr-4 dvs-pb-4"
         v-for="(image, key) in images"
@@ -29,7 +29,7 @@
       </div>
     </div>
 
-    <help v-if="value.length === 0">
+    <help v-if="value === null || value.length === 0">
       <p>No images found. Add images using the button above.</p>
     </help>
 
