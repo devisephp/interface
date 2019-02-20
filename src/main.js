@@ -1,4 +1,4 @@
-// import './sass/devise.scss';
+import './sass/devise.scss';
 
 import PortalVue from 'portal-vue';
 import { mapGetters } from 'vuex';
