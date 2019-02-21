@@ -2,8 +2,11 @@
   <div>
     <portal-target name="app-root"></portal-target>
 
-    <div id="devise-container" :class="[breakpoint, isPreviewFrame ? 'preview-frame' : '']">
-      <administration v-if="isLoggedIn && !isPreviewFrame"/>
+    <div
+      id="devise-container"
+      :class="[breakpoint, isPreviewFrame ? 'preview-frame' : '']"
+    >
+      <administration v-if="isLoggedIn && !isPreviewFrame" />
 
       <div id="dvs-app-content">
         <!-- Desktop mode in editor or just viewing page -->
@@ -15,14 +18,20 @@
           <slot name="static-content"></slot>
 
           <template v-if="typeof currentPage !== 'undefined' && currentPage.slices">
-            <slices :slices="currentPage.slices" :editor-mode="isLoggedIn && !isPreviewFrame"></slices>
+            <slices
+              :slices="currentPage.slices"
+              :editor-mode="isLoggedIn && !isPreviewFrame"
+            ></slices>
           </template>
 
           <slot name="static-content-bottom"></slot>
           <slot name="on-bottom"></slot>
         </div>
 
-        <div id="devise-iframe-editor" v-if="typeof currentPage !== 'undefined' && !isPreviewFrame">
+        <div
+          id="devise-iframe-editor"
+          v-if="typeof currentPage !== 'undefined' && !isPreviewFrame"
+        >
           <!-- Preview mode in editor -->
           <iframe
             v-if="currentPage.previewMode !== 'desktop' && isLoggedIn"
@@ -41,17 +50,17 @@ import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'Devise',
-  data() {
+  data () {
     return {
       showLoadbar: false,
       loadbarPercentage: 0,
       pageMode: false,
     };
   },
-  created() {
+  created () {
     this.setSizeAndBreakpoint();
   },
-  mounted() {
+  mounted () {
     window.devise = this;
     window.deviseSettings.$bus = window.deviseSettings.$bus;
 
@@ -59,7 +68,7 @@ export default {
   },
   methods: {
     ...mapActions('devise', ['setBreakpoint']),
-    initDevise() {
+    initDevise () {
       try {
         if (!this.isPreviewFrame) {
           this.currentPage.previewMode = 'desktop';
@@ -85,16 +94,16 @@ export default {
         }, 10);
       });
     },
-    removeBlocker() {
+    removeBlocker () {
       const blocker = document.getElementById('devise-blocker');
       if (blocker) {
         blocker.classList.add('fade');
       }
     },
-    addWatchers() {
+    addWatchers () {
       window.onresize = this.setSizeAndBreakpoint;
     },
-    setSizeAndBreakpoint() {
+    setSizeAndBreakpoint () {
       const width = window.innerWidth;
       const height = window.innerHeight;
       const breakpoint = this.findBreakpoint(width);
@@ -104,7 +113,7 @@ export default {
         diminsions: { width, height },
       });
     },
-    findBreakpoint(width) {
+    findBreakpoint (width) {
       for (const breakpoint in this.deviseOptions.breakpoints) {
         if (this.deviseOptions.breakpoints.hasOwnProperty(breakpoint)) {
           if (width < this.deviseOptions.breakpoints[breakpoint]) {
@@ -117,17 +126,17 @@ export default {
   },
   computed: {
     ...mapGetters('devise', ['breakpoint', 'currentUser', 'currentPage']),
-    currentUrl() {
+    currentUrl () {
       return window.location.href;
     },
-    isPreviewFrame() {
+    isPreviewFrame () {
       try {
         return window.self !== window.top;
       } catch (e) {
         return true;
       }
     },
-    isLoggedIn() {
+    isLoggedIn () {
       return this.currentUser;
     },
   },

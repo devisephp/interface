@@ -1,5 +1,3 @@
-// import './sass/devise.scss';
-
 import PortalVue from 'portal-vue';
 import { mapGetters } from 'vuex';
 import Vuebar from 'vuebar';
@@ -11,9 +9,13 @@ import Image from './directives/image';
 import Link from './directives/link';
 import routes from './router/route.config';
 import Slices from './components/slices/Slices.vue';
+import Tuck from './directives/tuck';
 
 const DevisePlugin = {
   install(Vue, { store, router, bus, options }) {
+    // Register tuck directive
+    Vue.directive('tuck', Tuck);
+
     if (typeof store === 'undefined') {
       throw new Error('Please provide a vuex store.');
     }

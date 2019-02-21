@@ -9,7 +9,7 @@
     </h3>
     <div class="dvs-flex dvs-flex-wrap dvs-items-stretch">
       <div
-        class="dvs-cursor-pointer dvs-w-1/3 dvs-mb-1 dvs-flex dvs-justify-stretch dvs-items-stretch dvs-p-2 dvs-rounded-sm dvs-self-stretch"
+        class="dvs-cursor-pointer dvs-w-1/3 dvs-mb-1 dvs-flex dvs-justify-stretch dvs-items-stretch dvs-p-2 dvs-rounded-sm dvs-self-stretch dvs-border-box"
         @click="toggleSelectSlice(file)"
         :style="isSelected(file)"
         v-for="(file, key) in currentDirectoryFiles"
@@ -27,7 +27,7 @@ import SliceSelectorSlice from './SliceSelectorSlice.vue';
 
 export default {
   methods: {
-    isSelected(file) {
+    isSelected (file) {
       if (this.value !== null) {
         if (file.value === this.value.value) {
           return {
@@ -41,7 +41,7 @@ export default {
         backgroundColor: this.theme.panelCard.background,
       };
     },
-    toggleSelectSlice(slice) {
+    toggleSelectSlice (slice) {
       if (!this.value || slice.value !== this.value.value) {
         this.$emit('input', slice);
       } else {
@@ -51,10 +51,10 @@ export default {
   },
   computed: {
     ...mapGetters('devise', ['componentFromView']),
-    currentDirectoryFiles() {
+    currentDirectoryFiles () {
       return this.directory.files;
     },
-    name() {
+    name () {
       return this.directory.path.trim().replace('.', ' ');
     },
   },

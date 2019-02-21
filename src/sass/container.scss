@@ -5,6 +5,7 @@
 #devise-admin {
   @apply dvs-font-sans  dvs-relative dvs-z-9999;
   
+  box-sizing: border-box;
   font-size:16px;
 }
 
@@ -120,7 +121,6 @@
 
   transition: opacity 0.3s;
 
-
   &.bottom-padding-16 {
     padding-bottom:20em;
   }
@@ -168,3 +168,6 @@
   height:100vh;
 }
 
+.dvs-border-box {
+  box-sizing:border-box;  
+}

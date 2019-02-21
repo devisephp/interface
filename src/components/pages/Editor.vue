@@ -1,19 +1,33 @@
 <template>
-  <div>
+  <div class="dvs-pb-16">
     <div class="dvs-absolute dvs-pin-t dvs-pin-r dvs-mt-4 dvs-mr-4">
-      <toggle :mini="true" @change="setDevMode" :id="randomString(8)"></toggle>
+      <toggle
+        :mini="true"
+        @change="setDevMode"
+        :id="randomString(8)"
+      ></toggle>
     </div>
 
     <div class="dvs-p-8">
       <fieldset class="dvs-fieldset">
-        <label>Page Version</label>
-        <select onchange="selectVersion" class="dvs-small" :style="theme.panelCard">
-          <option :value="version" v-for="version in currentPage.versions" :key="version.id">
-            {{ version.name }}
-            <template v-if="version.current">(Currently Viewing)</template>
-            <template v-if="version.is_live">(Live)</template>
-          </option>
-        </select>
+        <div class="flex flex-col items-stretch">
+          <label>Page Version</label>
+          <select
+            onchange="selectVersion"
+            class="dvs-small"
+            :style="theme.panelCard"
+          >
+            <option
+              :value="version"
+              v-for="version in currentPage.versions"
+              :key="version.id"
+            >
+              {{ version.name }}
+              <template v-if="version.current">(Currently Viewing)</template>
+              <template v-if="version.is_live">(Live)</template>
+            </option>
+          </select>
+        </div>
       </fieldset>
     </div>
 
@@ -24,7 +38,11 @@
     </div>
 
     <div class="dvs-flex dvs-flex-col dvs-items-center dvs-px-8 dvs-pb-8">
-      <draggable v-model="currentPage.slices" element="ul" class="dvs-list-reset dvs-w-full">
+      <draggable
+        v-model="currentPage.slices"
+        element="ul"
+        class="dvs-list-reset dvs-w-full"
+      >
         <template v-for="slice in currentPage.slices">
           <slice-editor
             @opened="openSlice(slice)"
@@ -45,28 +63,42 @@
         @cancel="createSlice = false"
       />
 
-      <div class="dvs-flex dvs-justify-center">
-        <button
-          :style="theme.actionButtonGhost"
-          class="dvs-rounded-full dvs-my-4 dvs-flex dvs-justify-center dvs-items-center dvs-p-2 dvs-pr-4 dvs-uppercase dvs-text-xs dvs-font-bold"
-          @click.prevent="requestAddSlice"
-        >
-          <add-icon w="20" h="20"/>Add Slice
-        </button>
-      </div>
-
-      <button
-        :style="theme.actionButton"
-        class="dvs-btn dvs-mt-8 dvs-block dvs-w-full dvs-flex dvs-justify-center dvs-items-center"
-        @click.prevent="requestSavePage()"
+      <div
+        class="dvs-absolute dvs-pin-b dvs-pin-l dvs-pin-r dvs-flex dvs-justify-around dvs-p-2"
+        :style="theme.panelSidebar"
       >
-        <refresh-icon w="15" h="15" v-if="saving" animate="rotate"/>
-        <span class="dvs-ml-2">Save Page</span>
-      </button>
+
+        <div
+          :style="theme.actionButton"
+          class="dvs-btn dvs-btn-sm dvs-flex-grow dvs-flex dvs-justify-center dvs-items-center"
+          @click.prevent="requestSavePage()"
+        >
+          <refresh-icon
+            w="15"
+            h="15"
+            v-if="saving"
+            animate="rotate"
+          />
+          <span class="dvs-ml-2">Save Page</span>
+        </div>
+
+        <div class="dvs-flex dvs-justify-center">
+          <button
+            :style="{color: theme.actionButtonGhost.color}"
+            class="dvs-rounded dvs-btn dvs-btn-sm dvs-flex dvs-justify-center dvs-items-center dvs-uppercase dvs-text-xs dvs-font-bold"
+            @click.prevent="requestAddSlice"
+          >
+            <add-icon
+              w="20"
+              h="20"
+            />Add Slice
+          </button>
+        </div>
+      </div>
     </div>
 
     <portal to="devise-root">
-      <analytic-totals/>
+      <analytic-totals />
     </portal>
   </div>
 </template>
@@ -77,13 +109,13 @@ import Strings from '../../mixins/Strings';
 
 export default {
   name: 'PageEditor',
-  data() {
+  data () {
     return {
       saving: false,
       createSlice: false,
     };
   },
-  mounted() {
+  mounted () {
     setTimeout(() => {
       this.$watch(
         'currentPage',
@@ -96,31 +128,31 @@ export default {
   },
   methods: {
     ...mapActions('devise', ['savePage', 'setDevMode']),
-    requestSavePage() {
+    requestSavePage () {
       this.saving = true;
       this.savePage(this.currentPage).then(() => {
         this.saving = false;
         window.onbeforeunload = null;
       });
     },
-    toggleSlice(slice) {
+    toggleSlice (slice) {
       if (slice.metadata.open) {
         this.closeSlice(slice);
       } else {
         this.openSlice(slice);
       }
     },
-    openSlice(sliceToOpen) {
+    openSlice (sliceToOpen) {
       this.currentPage.slices.map(s => this.closeSlice(s));
       this.$set(sliceToOpen.metadata, 'open', true);
     },
-    closeSlice(slice) {
+    closeSlice (slice) {
       this.$set(slice.metadata, 'open', false);
     },
-    requestAddSlice() {
+    requestAddSlice () {
       this.createSlice = true;
     },
-    addSlice(newSlice, referenceSlice) {
+    addSlice (newSlice, referenceSlice) {
       if (typeof referenceSlice !== 'undefined') {
         const config = this.sliceConfig(referenceSlice);
         if (config.has_child_slot === true) {
@@ -135,7 +167,7 @@ export default {
 
       this.createSlice = false;
     },
-    findReferenceSliceInSlices(slices, referenceSlice) {
+    findReferenceSliceInSlices (slices, referenceSlice) {
       /* eslint-disable array-callback-return,consistent-return */
       return slices.find(slice => {
         if (slice === referenceSlice) return slice;
@@ -143,14 +175,14 @@ export default {
       });
       // this.currentPage.slices[this.currentPage.slices.indexOf(referenceSlice)]
     },
-    editSlice(editedSlice, referenceSlice) {
+    editSlice (editedSlice, referenceSlice) {
       this.currentPage.slices.splice(
         this.currentPage.slices.indexOf(referenceSlice),
         1,
         editedSlice
       );
     },
-    setSubSliceInstaceToZero(slices) {
+    setSubSliceInstaceToZero (slices) {
       for (let i = 0; i < slices.length; i += 1) {
         slices[i].metadata.instance_id = 0;
 
@@ -161,7 +193,7 @@ export default {
 
       return slices;
     },
-    copySlice(sliceToCopy, referenceSlice) {
+    copySlice (sliceToCopy, referenceSlice) {
       if (referenceSlice === null) {
         referenceSlice = this.currentPage;
       }
@@ -175,13 +207,13 @@ export default {
 
       referenceSlice.slices.push(newSlice);
     },
-    removeSlice(deletingSlice, referenceSlice) {
+    removeSlice (deletingSlice, referenceSlice) {
       if (typeof referenceSlice === 'undefined') {
         referenceSlice = this.currentPage;
       }
       referenceSlice.slices.splice(referenceSlice.slices.indexOf(deletingSlice), 1);
     },
-    selectVersion() {
+    selectVersion () {
       // pass version_id through the url
       // location.href=
     },

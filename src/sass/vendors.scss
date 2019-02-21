@@ -4,6 +4,12 @@
 @import "./../../node_modules/trumbowyg/dist/plugins/table/ui/trumbowyg.table.css";
 
 // Vuebar
+.vb-content {
+    &::-webkit-scrollbar { 
+        display: none; 
+    }    
+}
+
 .vb > .vb-dragger {
     z-index: 5;
     width: 12px;

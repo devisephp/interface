@@ -1,10 +1,17 @@
 <template>
   <div class="dvs-relative dvs-mt-8 dvs-mb-8">
-    <div class="dvs-fixed dvs-pin-t dvs-pin-l dvs-pin-r dvs-p-8 z-10" :style="theme.panelCard">
+    <div
+      class="dvs-fixed dvs-pin-t dvs-pin-l dvs-pin-r dvs-p-4  dvs-px-6 z-10"
+      :style="theme.panelCard"
+    >
       <fieldset class="dvs-fieldset">
-        <label>Filter</label>
         <div class="dvs-flex">
-          <input type="text" ref="filter" v-model="filter">
+          <input
+            type="text"
+            ref="filter"
+            placeholder="Filter Slices"
+            v-model="filter"
+          >
           <button
             class="dvs-btn dvs-ml-2 dvs-min-w-64"
             @click="filter=null"
@@ -13,7 +20,10 @@
         </div>
       </fieldset>
     </div>
-    <div style="height:70vh" v-bar="{preventParentScroll: true}">
+    <div
+      style="height:70vh"
+      v-bar="{preventParentScroll: true}"
+    >
       <div v-if=" this.allDirectories.length > 0">
         <slice-selector-directory
           v-for="(directory, n) in this.allDirectories"
@@ -37,21 +47,21 @@ import { mapGetters } from 'vuex';
 import SliceSelectorDirectory from './SliceSelectorDirectory.vue';
 
 export default {
-  data() {
+  data () {
     return {
       directoryStack: [],
       filter: null,
     };
   },
-  mounted() {
+  mounted () {
     this.$refs.filter.focus();
   },
   methods: {
-    getDirectoryFiles(directories, directory) {
+    getDirectoryFiles (directories, directory) {
       directory = directories.find(dir => dir.dirName === directory);
       return directory;
     },
-    getDirectories(directories) {
+    getDirectories (directories) {
       let dirs = [];
 
       directories.map(dir => {
@@ -65,7 +75,7 @@ export default {
 
       return dirs;
     },
-    filteredFiles(directory) {
+    filteredFiles (directory) {
       const filter = this.filter.toLowerCase();
       return directory.files.filter(file => {
         if (file.name.toLowerCase().includes(filter)) {
@@ -74,13 +84,13 @@ export default {
         return false;
       });
     },
-    update(newValue) {
+    update (newValue) {
       this.$emit('input', newValue);
     },
   },
   computed: {
     ...mapGetters('devise', ['slicesDirectories']),
-    allDirectories() {
+    allDirectories () {
       if (this.filter !== null && this.filter !== '') {
         return this.filteredDirectories;
       }
@@ -90,7 +100,7 @@ export default {
         0
       );
     },
-    filteredDirectories() {
+    filteredDirectories () {
       const filters = this.filter.toLowerCase().split(' ');
       const directories = this.getDirectories(
         JSON.parse(JSON.stringify(this.slicesDirectories.directories)),

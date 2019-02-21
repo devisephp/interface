@@ -1,6 +1,11 @@
 <template>
-  <div class="dvs-p-4 dvs-flex dvs-flex-col dvs-justify-between dvs-items-between dvs-w-full">
-    <slice-diagram v-if="preview" class="dvs-mb-4" :file="file" :height-of-preview="200"></slice-diagram>
+  <div class="dvs-p-4 dvs-flex dvs-flex-col dvs-justify-between dvs-items-between dvs-w-full dvs-border-box">
+    <slice-diagram
+      v-if="preview"
+      class="dvs-mb-4"
+      :file="file"
+      :height-of-preview="200"
+    ></slice-diagram>
     <div>
       <div class="dvs-cursor-pointer mb-1">{{ file.name }}</div>
       <div
@@ -8,11 +13,19 @@
         :style="{color:theme.panel.color}"
         v-if="description"
       >{{description}}</div>
-      <div class="dvs-text-xs dvs-flex dvs-items-align" :style="theme.panelIcons" v-if="childSlot">
-        <information-circle-icon class="dvs-mr-1"/>Can contain sub-slices
+      <div
+        class="dvs-text-xs dvs-flex dvs-items-align"
+        :style="theme.panelIcons"
+        v-if="childSlot"
+      >
+        <information-circle-icon class="dvs-mr-1" />Can contain sub-slices
       </div>
-      <div class="dvs-text-xs dvs-flex dvs-items-align" :style="theme.panelIcons" v-if="database">
-        <cube-icon class="dvs-mr-1"/>Database driven
+      <div
+        class="dvs-text-xs dvs-flex dvs-items-align"
+        :style="theme.panelIcons"
+        v-if="database"
+      >
+        <cube-icon class="dvs-mr-1" />Database driven
       </div>
     </div>
   </div>
@@ -25,28 +38,28 @@ import SliceDiagram from './SliceDiagram.vue';
 export default {
   computed: {
     ...mapGetters('devise', ['componentFromView']),
-    sliceComponent() {
+    sliceComponent () {
       return this.componentFromView(this.file.value);
     },
-    description() {
+    description () {
       if (this.sliceComponent && this.sliceComponent.description) {
         return this.sliceComponent.description;
       }
       return false;
     },
-    childSlot() {
+    childSlot () {
       if (this.sliceComponent) {
         return this.sliceComponent.has_child_slot;
       }
       return false;
     },
-    database() {
+    database () {
       if (this.sliceComponent) {
         return this.sliceComponent.database;
       }
       return false;
     },
-    preview() {
+    preview () {
       if (this.sliceComponent && this.sliceComponent.preview) {
         return true;
       }

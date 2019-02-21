@@ -442,7 +442,11 @@ const actions = {
   searchPages(context, payload) {
     return new Promise(resolve => {
       window.axios
-        .get(`${context.state.api.baseUrl}pages-suggest/`, { params: payload })
+        .get(`${context.state.api.baseUrl}pages-suggest/`, {
+          params: {
+            term: payload,
+          },
+        })
         .then(response => {
           resolve(response);
         })

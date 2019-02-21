@@ -1,8 +1,6 @@
 <template>
   <div class="media-manager-interface">
-    <div
-      class="dvs-py-4 dvs-px-8 dvs-rounded-tl dvs-rounded-tr dvs-flex dvs-justify-between dvs-items-center dvs-bg-grey-lighter dvs-border-b dvs-border-lighter dvs-relative"
-    >Media Editor
+    <div class="dvs-py-4 dvs-px-8 dvs-rounded-tl dvs-rounded-tr dvs-flex dvs-justify-between dvs-items-center dvs-bg-grey-lighter dvs-border-b dvs-border-lighter dvs-relative">Media Editor
       <div>
         <button
           class="dvs-btn dvs-mr-2"
@@ -10,11 +8,18 @@
           :disabled="!allImagesLoaded"
           :style="theme.actionButton"
         >Done</button>
-        <button class="dvs-btn" @click="cancel" :style="theme.actionButtonGhost">Cancel</button>
+        <button
+          class="dvs-btn"
+          @click="cancel"
+          :style="theme.actionButtonGhost"
+        >Cancel</button>
       </div>
     </div>
     <div class="dvs-flex dvs-items-stretch dvs-h-full overflow-hidden">
-      <div class="dvs-min-w-1/3 dvs-border-r dvs-border-lighter dvs-bg-grey-light" v-bar>
+      <div
+        class="dvs-min-w-1/3 dvs-border-r dvs-border-lighter dvs-bg-grey-light"
+        v-bar
+      >
         <div class="dvs-h-full dvs-p-8 dvs-flex dvs-flex-col dvs-justify-between">
           <h3 class="dvs-mb-4">Image Edits</h3>
           <fieldset class="dvs-fieldset dvs-mb-4">
@@ -64,9 +69,15 @@
               <div class="dvs-font-bold dvs-text-xs dvs-pl-2">{{ edits.sharp }}</div>
             </div>
           </fieldset>
-          <fieldset class="dvs-fieldset dvs-mb-4" v-if="edits.fit === 'fill'">
+          <fieldset
+            class="dvs-fieldset dvs-mb-4"
+            v-if="edits.fit === 'fill'"
+          >
             <label>Background Color</label>
-            <sketch-picker v-model="editorColor" @cancel="edits.bg = null"/>
+            <sketch-picker
+              v-model="editorColor"
+              @cancel="edits.bg = null"
+            />
           </fieldset>
           <fieldset class="dvs-fieldset dvs-mb-4">
             <label>Rotation</label>
@@ -161,9 +172,16 @@
             <h3 class="dvs-mb-4">Images</h3>
 
             <h6 class="dvs-mb-4">Original Image</h6>
-            <img :src="`/styled/preview/${source}`" @load="addToImagesLoaded">
+            <img
+              :src="`/styled/preview/${source}`"
+              @load="addToImagesLoaded"
+            >
             <hr class="my-4">
-            <div v-for="(size, key) in sizes" :key="key" class="mb-8">
+            <div
+              v-for="(size, key) in sizes"
+              :key="key"
+              class="mb-8"
+            >
               <h6 class="dvs-mb-4">{{ key }} ({{ size.w }}x{{ size.h }})</h6>
               <img
                 :src="`/styled/preview/${source}?${encodedEdits}${encodedSize(size)}`"
@@ -183,11 +201,17 @@
             <div class="dvs-flex dvs-mb-8 dvs-items-center">
               <fieldset class="dvs-fieldset dvs-mr-4">
                 <label>Width</label>
-                <input type="number" v-model="customSize.w">
+                <input
+                  type="number"
+                  v-model="customSize.w"
+                >
               </fieldset>
               <fieldset class="dvs-fieldset dvs-mr-4">
                 <label>Height</label>
-                <input type="number" v-model="customSize.h">
+                <input
+                  type="number"
+                  v-model="customSize.h"
+                >
               </fieldset>
               <fieldset>
                 <button
@@ -215,7 +239,7 @@ import { Sketch } from 'vue-color';
 const tinycolor = require('tinycolor2');
 
 export default {
-  data() {
+  data () {
     return {
       imagesLoaded: 0,
       edits: {
@@ -241,7 +265,7 @@ export default {
       },
     };
   },
-  mounted() {
+  mounted () {
     this.imagesLoaded = 0;
     this.loadOriginalDimentions();
     this.loadImageSettings();
@@ -250,20 +274,20 @@ export default {
     });
   },
   methods: {
-    done() {
+    done () {
       const edits = Object.assign({}, this.edits);
       const cleanEdits = this.clean(edits);
       this.$emit('done', cleanEdits);
     },
-    cancel() {
+    cancel () {
       this.$emit('cancel');
     },
-    loadOriginalDimentions() {
+    loadOriginalDimentions () {
       const self = this;
       const file = `/styled/preview/${this.source}`;
       const img = new Image();
 
-      img.onload = function() {
+      img.onload = () => {
         self.originalDims.w = this.width;
         self.originalDims.h = this.height;
 
@@ -276,14 +300,14 @@ export default {
 
       img.src = file;
     },
-    addToImagesLoaded() {
+    addToImagesLoaded () {
       this.imagesLoaded += 1;
     },
-    setCustomSizeToOriginal() {
+    setCustomSizeToOriginal () {
       this.customSize.w = this.originalDims.w;
       this.customSize.h = this.originalDims.h;
     },
-    encodedSize(size) {
+    encodedSize (size) {
       let encodedString = '';
       if (this.encodedEdits.length > 0) {
         encodedString += '&';
@@ -291,7 +315,7 @@ export default {
 
       return `${encodedString}w=${size.w}&h=${size.h}`;
     },
-    clean(obj) {
+    clean (obj) {
       for (const propName in obj) {
         if (obj[propName] === null || obj[propName] === undefined) {
           delete obj[propName];
@@ -307,23 +331,23 @@ export default {
 
       return obj;
     },
-    loadImageSettings() {
+    loadImageSettings () {
       this.edits = Object.assign(this.edits, this.imageSettings);
     },
   },
   computed: {
     editorColor: {
-      get() {
+      get () {
         if (this.edits.bg === null) {
           return '#ffffff';
         }
         return tinycolor(this.edits.bg).toRgb();
       },
-      set(newValue) {
+      set (newValue) {
         this.edits.bg = newValue.hex;
       },
     },
-    encodedEdits() {
+    encodedEdits () {
       let encodedString = '';
 
       for (const property in this.edits) {
@@ -345,14 +369,14 @@ export default {
 
       return encodedString;
     },
-    allImagesLoaded() {
+    allImagesLoaded () {
       const numberOfImages = this.imagesRequiredToLoad;
       if (this.imagesLoaded >= numberOfImages) {
         return true;
       }
       return false;
     },
-    imagesRequiredToLoad() {
+    imagesRequiredToLoad () {
       if (this.sizes) {
         return Object.keys(this.sizes).length + 1;
       }

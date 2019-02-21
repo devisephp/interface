@@ -1,5 +1,8 @@
 <template>
-  <div id="devise-admin" :class="[deviseOptions.adminClass]">
+  <div
+    id="devise-admin"
+    :class="[deviseOptions.adminClass]"
+  >
     <panel
       class="dvs-m-8 dvs-fixed dvs-z-9980"
       style="min-width:360px;"
@@ -7,8 +10,11 @@
       v-tuck
     >
       <div class="dvs-flex">
-        <div :style="theme.panelSidebar" class="dvs-flex dvs-flex-col">
-          <preview-mode/>
+        <div
+          :style="theme.panelSidebar"
+          class="dvs-flex dvs-flex-col dvs-relative"
+        >
+          <preview-mode />
 
           <template v-for="(menuItem, key) in adminMenu">
             <button
@@ -17,7 +23,12 @@
               class="dvs-outline-none dvs-transitions-hover-slow dvs-cursor-pointer dvs-border-b"
               @click.prevent="loadAdminPage(menuItem)"
             >
-              <component v-bind:is="menuItem.icon" class="dvs-m-4" w="25" h="25"></component>
+              <component
+                v-bind:is="menuItem.icon"
+                class="dvs-m-4"
+                w="25"
+                h="25"
+              ></component>
             </button>
           </template>
           <a
@@ -26,23 +37,39 @@
             class="dvs-outline-none dvs-transitions-hover-slow dvs-cursor-pointer dvs-border-b"
             onclick="event.preventDefault(); document.getElementById('dvs-logout-form').submit();"
           >
-            <power-icon class="dvs-m-4" w="25" h="25"/>
+            <power-icon
+              class="dvs-m-4"
+              w="25"
+              h="25"
+            />
           </a>
 
-          <form id="dvs-logout-form" action="/logout" method="POST" style="display: none;">
-            <input type="hidden" name="_token" :value="csrf_field">
+          <form
+            id="dvs-logout-form"
+            action="/logout"
+            method="POST"
+            style="display: none;"
+          >
+            <input
+              type="hidden"
+              name="_token"
+              :value="csrf_field"
+            >
           </form>
         </div>
 
         <div
-          class="dvs-max-h-screen dvs-flex-grow"
+          class="dvs-max-h-screenpad dvs-flex-grow"
           id="dvs-admin-content-container"
           ref="admin-route-wrapper"
           v-bar="{preventParentScroll: true}"
         >
           <div>
             <div>
-              <transition name="dvs-fade" mode="out-in">
+              <transition
+                name="dvs-fade"
+                mode="out-in"
+              >
                 <router-view name="devise"></router-view>
               </transition>
             </div>
@@ -51,12 +78,15 @@
       </div>
     </panel>
 
-    <portal-target class="dvs-relative dvs-z-9999" name="devise-root"></portal-target>
-    <media-manager class="dvs-z-9999"/>
-    <slice-settings/>
-    <loadbar class="dvs-relative dvs-z-9999"/>
-    <loading-screen class="dvs-relative dvs-z-9999"/>
-    <messages class="dvs-relative dvs-z-9999"/>
+    <portal-target
+      class="dvs-relative dvs-z-9999"
+      name="devise-root"
+    ></portal-target>
+    <media-manager class="dvs-z-9999" />
+    <slice-settings />
+    <loadbar class="dvs-relative dvs-z-9999" />
+    <loading-screen class="dvs-relative dvs-z-9999" />
+    <messages class="dvs-relative dvs-z-9999" />
   </div>
 </template>
 
@@ -64,26 +94,24 @@
 import Vue from 'vue';
 import { mapState } from 'vuex';
 import alertConfirm from '../../directives/alert-confirm';
-import Tuck from '../../directives/tuck';
 
 const VueScrollactive = require('vue-scrollactive');
 
 export default {
   name: 'Administration',
-  data() {
+  data () {
     return {
       everythingIsLoaded: false,
     };
   },
-  mounted() {
-    // For administration sidebars
-    Vue.use(VueScrollactive);
-
+  created () {
     // Register alert / confirm directive
     Vue.directive('devise-alert-confirm', alertConfirm);
 
-    // Register tuck directive
-    Vue.directive('tuck', Tuck);
+  },
+  mounted () {
+    // For administration sidebars
+    Vue.use(VueScrollactive);
 
     Vue.component('help', () =>
       import(/* webpackChunkName: "devise-utilities" */ '../utilities/Help')
@@ -94,7 +122,7 @@ export default {
     }, 2000);
   },
   methods: {
-    loadAdminPage(menuItem) {
+    loadAdminPage (menuItem) {
       if (menuItem.routeName === 'media-manager') {
         window.deviseSettings.$bus.$emit('devise-launch-media-manager', {});
       } else if (typeof menuItem.routeParams !== 'undefined') {
@@ -103,7 +131,7 @@ export default {
         this.goToPage(menuItem.routeName);
       }
     },
-    checkActivePanelSidebar(menuItem) {
+    checkActivePanelSidebar (menuItem) {
       const styles = Object.assign({}, this.theme.panelSidebar);
       if (this.$route.meta && this.$route.meta.parentRouteName) {
         if (
@@ -128,10 +156,10 @@ export default {
   },
   computed: {
     ...mapState('devise', ['adminMenu']),
-    user() {
+    user () {
       return window.deviseSettings.$user;
     },
-    csrf_field() {
+    csrf_field () {
       return window.axios.defaults.headers.common['X-CSRF-TOKEN'];
     },
   },

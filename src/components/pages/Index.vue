@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div id="devise-admin-content" class="dvs-flex">
+    <div
+      id="devise-admin-content"
+      class="dvs-flex"
+    >
       <action-bar>
         <li
           class="dvs-btn dvs-btn-sm dvs-mb-2"
@@ -21,7 +24,12 @@
 
         <fieldset class="dvs-fieldset dvs-mb-8">
           <label>Search Pages</label>
-          <input type="text" class="dvs-mb-4" v-model.lazy="searchTerm" v-debounce="searchDelay">
+          <input
+            type="text"
+            class="dvs-mb-4"
+            v-model.lazy="searchTerm"
+            v-debounce="searchDelay"
+          >
 
           <div class="dvs-relative">
             <ul class="dvs-list-reset dvs-bg-white dvs-text-black dvs-absolute dvs-shadow-lg">
@@ -37,7 +45,10 @@
       </div>
 
       <div :style="{color: theme.panel.color}">
-        <h2 class="dvs-mb-10" :style="{color:theme.panel.color}">Current Site Pages</h2>
+        <h2
+          class="dvs-mb-10"
+          :style="{color:theme.panel.color}"
+        >Current Site Pages</h2>
 
         <div
           v-for="page in pages.data"
@@ -52,7 +63,11 @@
               :style="theme.actionButtonGhost"
               @click="loadPage(page.id)"
             >Manage</button>
-            <a class="dvs-btn dvs-btn-xs" :style="theme.actionButtonGhost" :href="getSlug(page)">Go</a>
+            <a
+              class="dvs-btn dvs-btn-xs"
+              :style="theme.actionButtonGhost"
+              :href="getSlug(page)"
+            >Go</a>
           </div>
         </div>
 
@@ -65,6 +80,7 @@
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -75,7 +91,7 @@ import AdministrationMixin from '../../mixins/Administration';
 
 export default {
   name: 'PagesIndex',
-  data() {
+  data () {
     return {
       modulesToLoad: 3,
       filters: {
@@ -104,13 +120,13 @@ export default {
       },
     };
   },
-  mounted() {
+  mounted () {
     this.retrieveAllPages();
     this.retrieveAllLanguages();
   },
   methods: {
     ...mapActions('devise', ['getPages', 'searchPages', 'getLanguages', 'createPage']),
-    requestCreatePage() {
+    requestCreatePage () {
       const self = this;
       this.createPage(this.newPage).then(() => {
         self.newPage.template_id = null;
@@ -121,22 +137,22 @@ export default {
         self.showCreate = false;
       });
     },
-    retrieveAllPages(loadbar = true) {
+    retrieveAllPages (loadbar = true) {
       this.getPages(this.filters).then(() => {
         if (loadbar) {
           window.deviseSettings.$bus.$emit('incrementLoadbar', this.modulesToLoad);
         }
       });
     },
-    retrieveAllLanguages() {
+    retrieveAllLanguages () {
       this.getLanguages().then(() => {
         window.deviseSettings.$bus.$emit('incrementLoadbar', this.modulesToLoad);
       });
     },
-    loadPage(id) {
+    loadPage (id) {
       this.$router.push({ name: 'devise-pages-view', params: { pageId: id } });
     },
-    requestSearch(term) {
+    requestSearch (term) {
       const self = this;
       if (term !== '') {
         this.searchPages(term).then(data => {
@@ -153,11 +169,11 @@ export default {
       }
     },
     // Pagination Page... not page-page
-    changePage(page) {
+    changePage (page) {
       this.filters.page = page;
       this.retrieveAllPages(false);
     },
-    getSlug(page) {
+    getSlug (page) {
       if (page.is_live) {
         return page.slug;
       }
@@ -169,13 +185,13 @@ export default {
     },
   },
   watch: {
-    searchTerm(newValue) {
+    searchTerm (newValue) {
       this.requestSearch(newValue);
     },
   },
   computed: {
     ...mapGetters('devise', ['pages', 'languages']),
-    createInvalid() {
+    createInvalid () {
       return (
         this.newPage.title === null ||
         (this.newPage.layout === null &&
@@ -195,6 +211,7 @@ export default {
   directives: {
     debounce,
   },
+
   mixins: [AdministrationMixin],
 };
 </script>
