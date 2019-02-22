@@ -11,6 +11,7 @@
           :class="{'dvs-bg-green': value.enabled, 'dvs-bg-white': !value.enabled, 'dvs-invisible': !options.enabler}"
         ></div>
         <div
+          dusk="slice-field"
           class="dvs-flex dvs-items-center dvs-justify-start dvs-w-full"
           @click="toggleShowEditor"
         >
@@ -39,23 +40,28 @@
           :panel-style="theme.panel"
         >
           <div class="dvs-p-8 dvs-flex dvs-flex-col">
-            <h6 class="dvs-text-base dvs-mb-2 dvs-w-full" :style="{color: theme.panel.color}">
+            <h6
+              class="dvs-text-base dvs-mb-2 dvs-w-full"
+              :style="{color: theme.panel.color}"
+            >
               <span>{{ value.label }}</span>
               <br>
-              <small class="dvs-text-xs" v-if="value.instructions">
+              <small
+                class="dvs-text-xs"
+                v-if="value.instructions"
+              >
                 Hint from Developer:
-                <span
-                  class="dvs-italic dvs-font-normal"
-                >{{ value.instructions }}</span>
+                <span class="dvs-italic dvs-font-normal">{{ value.instructions }}</span>
               </small>
             </h6>
 
             <slot name="editor"></slot>
 
-            <div
-              class="dvs-flex dvs-flex-col dvs-items-center dvs-mt-4 dvs-mb-4 dvs-justify-between"
-            >
-              <div class="dvs-flex dvs-items-center" :class="{'dvs-mb-6': options.enabler}">
+            <div class="dvs-flex dvs-flex-col dvs-items-center dvs-mt-4 dvs-mb-4 dvs-justify-between">
+              <div
+                class="dvs-flex dvs-items-center"
+                :class="{'dvs-mb-6': options.enabler}"
+              >
                 <button
                   class="dvs-btn dvs-mr-2"
                   @click="toggleShowEditor"
@@ -67,9 +73,15 @@
                   :style="theme.actionButtonGhost"
                 >Cancel</button>
               </div>
-              <div class="dvs-flex dvs-items-center dvs-justify-between" v-if="options.enabler">
+              <div
+                class="dvs-flex dvs-items-center dvs-justify-between"
+                v-if="options.enabler"
+              >
                 <label class="dvs-mr-2">Field Enabled</label>
-                <toggle v-model="enabled" :id="randomString(8)"></toggle>
+                <toggle
+                  v-model="enabled"
+                  :id="randomString(8)"
+                ></toggle>
               </div>
             </div>
             <div
@@ -79,7 +91,11 @@
               style="height:30px;"
               :style="{backgroundColor: theme.panelCard.background}"
             >reset</div>
-            <div v-if="showErase" class="dvs--mb-8 dvs--ml-8 dvs--mr-8" :style="theme.actionButton">
+            <div
+              v-if="showErase"
+              class="dvs--mb-8 dvs--ml-8 dvs--mr-8"
+              :style="theme.actionButton"
+            >
               <button
                 class="dvs-btn dvs-w-full"
                 :style="theme.actionButton"
@@ -100,32 +116,32 @@ import Field from '../../../mixins/Field';
 
 export default {
   name: 'FieldEditor',
-  data() {
+  data () {
     return {
       showErase: false,
     };
   },
   methods: {
-    toggleShowEditor() {
+    toggleShowEditor () {
       this.showErase = false;
       this.$emit('toggleShowEditor');
     },
-    cancel() {
+    cancel () {
       this.$emit('cancel');
     },
-    enabledTip(enabled) {
+    enabledTip (enabled) {
       if (enabled) {
         return 'This field is enabled';
       }
       return 'This field is not enabled. Edit the field and toggle the enable switch to turn it on.';
     },
-    toggleEnabled(e) {
+    toggleEnabled (e) {
       if (!this.options.enabler) {
         e.preventDefault();
       }
       this.value.enabled = !this.value.enabled;
     },
-    resetValue() {
+    resetValue () {
       this.showErase = false;
       this.$emit('resetvalue');
     },
@@ -133,7 +149,7 @@ export default {
   computed: {
     ...mapState('devise', ['devMode']),
     /* eslint-disable */
-    devLabel() {
+    devLabel () {
       if (this.devMode) {
         // TO DO - NEED THE INSTANCE ID OF THE FIELD
         // return ``;

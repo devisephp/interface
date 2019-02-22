@@ -1,15 +1,22 @@
 <template>
-  <li class="dvs-mb-4 dvs-collapsable" :class="{'dvs-open': sliceOpen}">
-    <strong
-      class="dvs-block dvs-mb-4 dvs-switch-sm dvs-text-sm dvs-flex dvs-justify-between dvs-items-center dvs-w-full"
-    >
+  <li
+    class="dvs-mb-4 dvs-collapsable"
+    :class="{'dvs-open': sliceOpen}"
+  >
+    <strong class="dvs-block dvs-mb-4 dvs-switch-sm dvs-text-sm dvs-flex dvs-justify-between dvs-items-center dvs-w-full">
       <div
         class="dvs-flex dvs-items-center dvs-justify-between dvs-w-full"
         :style="{color: theme.panel.color}"
       >
         <div class="dvs-flex dvs-items-start">
-          <menu-icon w="18" h="18" class="dvs-mr-2 handle" :style="theme.panelIcons"/>
+          <menu-icon
+            w="18"
+            h="18"
+            class="dvs-mr-2 handle"
+            :style="theme.panelIcons"
+          />
           <span
+            dusk="slice-label"
             :class="{'dvs-cursor-pointer': sliceHasFieldsOrSlices, 'dvs-opacity-75': !sliceHasFieldsOrSlices}"
             @click="toggleSlice()"
             @mouseenter="markSlice(true, slice)"
@@ -44,7 +51,11 @@
                   :style="{ borderColor: theme.panelIcons.color }"
                   @click="requestInsertSlice()"
                 >
-                  <add-icon w="25" h="25" :style="theme.panelIcons"/>
+                  <add-icon
+                    w="25"
+                    h="25"
+                    :style="theme.panelIcons"
+                  />
                   <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Insert Slice</div>
                 </div>
               </div>
@@ -55,7 +66,11 @@
                   :style="{ borderColor: theme.panelIcons.color }"
                   @click="jumpToSlice()"
                 >
-                  <locate-icon w="25" h="25" :style="theme.panelIcons"/>
+                  <locate-icon
+                    w="25"
+                    h="25"
+                    :style="theme.panelIcons"
+                  />
                   <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Find</div>
                 </div>
               </div>
@@ -66,7 +81,11 @@
                   :style="{ borderColor: theme.panelIcons.color }"
                   @click="copySlice(slice, false)"
                 >
-                  <copy-icon w="25" h="25" :style="theme.panelIcons"/>
+                  <copy-icon
+                    w="25"
+                    h="25"
+                    :style="theme.panelIcons"
+                  />
                   <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Duplicate</div>
                 </div>
               </div>
@@ -77,7 +96,11 @@
                   :style="{ borderColor: theme.panelIcons.color }"
                   @click="sliceSettings()"
                 >
-                  <cog-icon w="25" h="25" :style="theme.panelIcons"/>
+                  <cog-icon
+                    w="25"
+                    h="25"
+                    :style="theme.panelIcons"
+                  />
                   <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Settings</div>
                 </div>
               </div>
@@ -88,7 +111,11 @@
                   :style="{ borderColor: theme.panelIcons.color }"
                   @click="requestEditSlice()"
                 >
-                  <create-icon w="25" h="25" :style="theme.panelIcons"/>
+                  <create-icon
+                    w="25"
+                    h="25"
+                    :style="theme.panelIcons"
+                  />
                   <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Edit</div>
                 </div>
               </div>
@@ -99,7 +126,11 @@
                   :style="{ borderColor: theme.panelIcons.color }"
                   @click="removeSlice()"
                 >
-                  <remove-icon w="25" h="25" :style="theme.panelIcons"/>
+                  <remove-icon
+                    w="25"
+                    h="25"
+                    :style="theme.panelIcons"
+                  />
                   <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Remove</div>
                 </div>
               </div>
@@ -119,7 +150,10 @@
       :slice="slice"
     />
 
-    <div class="dvs-collapsed dvs-mb-4" v-if="sliceOpen">
+    <div
+      class="dvs-collapsed dvs-mb-4"
+      v-if="sliceOpen"
+    >
       <fieldset
         v-for="(field, key) in sliceConfig(slice).fields"
         class="dvs-fieldset dvs-mb-1"
@@ -127,6 +161,7 @@
       >
         <div v-if="theFields[key]">
           <color-editor
+            dusk="color-editor-link"
             @change="editField($event, field, key)"
             v-model="theFields[key]"
             :options="field"
@@ -135,6 +170,7 @@
           ></color-editor>
 
           <checkbox-editor
+            dusk="checkbox-editor-link"
             @change="editField($event, field, key)"
             v-model="theFields[key]"
             :options="field"
@@ -199,6 +235,7 @@
           ></textarea-editor>
 
           <text-editor
+            dusk="text-editor-link"
             @change="editField($event, field, key)"
             v-model="theFields[key]"
             :options="field"
@@ -225,7 +262,10 @@
       >Be aware that these entries are model entries. That means they are managed in your database by another tool or by an admin section in your adminitration.</help>
     </div>
 
-    <div class="dvs-collapsed dvs-ml-4" v-if="sliceOpen">
+    <div
+      class="dvs-collapsed dvs-ml-4"
+      v-if="sliceOpen"
+    >
       <draggable
         v-model="slice.slices"
         element="ul"
@@ -254,7 +294,7 @@ import { mapGetters, mapState } from 'vuex';
 
 export default {
   name: 'SliceEditor',
-  data() {
+  data () {
     return {
       manageSlice: false,
       pageSlices: [],
@@ -262,31 +302,31 @@ export default {
       sliceOpen: false,
     };
   },
-  mounted() {
+  mounted () {
     if (this.slice.slices) {
       this.pageSlices = this.slice.slices;
     }
   },
   methods: {
-    toggleSlice() {
+    toggleSlice () {
       this.sliceOpen = !this.sliceOpen;
     },
-    toggleSliceTools() {
+    toggleSliceTools () {
       this.slice.metadata.tools = !this.slice.metadata.tools;
     },
     // Marking Slice
-    markSlice(on) {
+    markSlice (on) {
       window.window.deviseSettings.$bus.$emit('markSlice', this.slice, on);
     },
-    jumpToSlice() {
+    jumpToSlice () {
       window.window.deviseSettings.$bus.$emit('jumpToSlice', this.slice);
     },
-    sliceSettings() {
+    sliceSettings () {
       window.window.deviseSettings.$bus.$emit('openSliceSettings', this.slice);
     },
 
     // Adding, Editing and Removing Slices
-    requestInsertSlice() {
+    requestInsertSlice () {
       if (this.hasChildSlot) {
         this.manageSlice = true;
         this.$nextTick(() => {
@@ -296,14 +336,14 @@ export default {
         });
       }
     },
-    addSlice(slice, referringSlice) {
+    addSlice (slice, referringSlice) {
       if (typeof referringSlice === 'undefined') {
         referringSlice = this.slice;
       }
       this.$emit('addSlice', slice, referringSlice);
       this.manageSlice = false;
     },
-    requestEditSlice() {
+    requestEditSlice () {
       this.manageSlice = true;
       this.$nextTick(() => {
         if (this.$refs.manageSlice) {
@@ -311,14 +351,14 @@ export default {
         }
       });
     },
-    editSlice(slice, referringSlice) {
+    editSlice (slice, referringSlice) {
       if (typeof referringSlice === 'undefined') {
         referringSlice = this.slice;
       }
       this.$emit('editSlice', slice, referringSlice);
       this.manageSlice = false;
     },
-    copySlice(slice, referringSlice) {
+    copySlice (slice, referringSlice) {
       if (referringSlice === null) {
         referringSlice = Object.assign({}, this.slice);
       }
@@ -329,7 +369,7 @@ export default {
 
       this.$emit('copySlice', slice, referringSlice);
     },
-    removeSlice(slice, referringSlice) {
+    removeSlice (slice, referringSlice) {
       if (typeof slice === 'undefined') {
         slice = this.slice; // eslint-disable-line
       } else if (typeof referringSlice === 'undefined') {
@@ -338,7 +378,7 @@ export default {
       this.$emit('removeSlice', slice, referringSlice);
       this.manageSlice = false;
     },
-    editField(value, field, key) {
+    editField (value, field, key) {
       // Update the slice field
       this.slice[key] = Object.assign({}, value);
 
@@ -349,10 +389,10 @@ export default {
   computed: {
     ...mapGetters('devise', ['component', 'fieldConfig', 'sliceConfig']),
     ...mapState('devise', ['devMode']),
-    slice() {
+    slice () {
       return this.devise;
     },
-    theFields() {
+    theFields () {
       const fields = {};
       for (const potentialField in this.slice) {
         if (
@@ -370,7 +410,7 @@ export default {
       }
       return fields;
     },
-    sliceHasFieldsOrSlices() {
+    sliceHasFieldsOrSlices () {
       let count = Object.keys(this.theFields).length;
       if (this.slice.slices) {
         count += this.slice.slices.length;
@@ -378,7 +418,7 @@ export default {
 
       return count > 0;
     },
-    hasChildSlot() {
+    hasChildSlot () {
       const component = this.component(this.slice.metadata.name);
 
       if (component.has_child_slot) {
@@ -387,7 +427,7 @@ export default {
 
       return false;
     },
-    editorLabel() {
+    editorLabel () {
       const acceptedFieldTypes = {
         text: 'text',
         number: 'text',
@@ -401,7 +441,7 @@ export default {
       if (this.devMode) {
         devMode = `<div class="dvs-text-sm dvs-uppercase dvs-opacity-75">Instance Id: ${
           this.slice.metadata.instance_id
-        }</div>`;
+          }</div>`;
       }
 
       for (const field in this.theFields) {
@@ -420,14 +460,14 @@ export default {
             if (label) {
               return `${devMode}<div class="dvs-capitalize">${label}</div><div class="dvs-text-xs dvs-opacity-25 dvs-uppercase">${
                 this.slice.metadata.label
-              }</div>`;
+                }</div>`;
             }
           }
         }
       }
       return `${devMode}<div class="dvs-capitalize">${
         this.slice.metadata.label
-      }</div><div class="dvs-text-xs dvs-opacity-25 dvs-uppercase">&nbsp;</div>`;
+        }</div><div class="dvs-text-xs dvs-opacity-25 dvs-uppercase">&nbsp;</div>`;
     },
   },
   props: {
