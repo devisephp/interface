@@ -10,13 +10,17 @@
       @change="update"
     >
       <template slot="preview">
-        <span v-if="value.text === null || value.text === ''" class="dvs-italic">Currently No Value</span>
+        <span
+          v-if="value.text === null || value.text === ''"
+          class="dvs-italic"
+        >Currently No Value</span>
         <div v-html="clipString(value.text, 200, false)"></div>
       </template>
       <template slot="editor">
-        <div style="max-height:80vh" v-bar>
-          <wysiwyg ref="editor" v-model="text"></wysiwyg>
-        </div>
+        <wysiwyg
+          ref="editor"
+          v-model="text"
+        ></wysiwyg>
       </template>
     </field-editor>
   </div>
@@ -28,38 +32,38 @@ import Field from '../../../mixins/Field';
 
 export default {
   name: 'WysiwygEditor',
-  data() {
+  data () {
     return {
       localValue: {},
       originalValue: null,
       showEditor: false,
     };
   },
-  mounted() {
+  mounted () {
     this.originalValue = Object.assign({}, this.value);
     this.localValue = this.value;
   },
   methods: {
-    toggleEditor() {
+    toggleEditor () {
       this.showEditor = !this.showEditor;
     },
-    cancel() {
+    cancel () {
       this.text = this.originalValue.text;
       this.enabled = this.originalValue.enabled;
 
       this.toggleEditor();
     },
-    resetValue() {
+    resetValue () {
       this.enabled = false;
       this.$refs.editor.empty();
     },
   },
   computed: {
     text: {
-      get() {
+      get () {
         return this.value.text;
       },
-      set(value) {
+      set (value) {
         const valueObj = Object.assign(this.value, { text: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);

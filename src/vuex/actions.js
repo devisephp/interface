@@ -444,7 +444,7 @@ const actions = {
       window.axios
         .get(`${context.state.api.baseUrl}pages-suggest/`, {
           params: {
-            term: payload,
+            term: payload.term,
           },
         })
         .then(response => {

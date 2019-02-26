@@ -3,17 +3,17 @@
     <div
       v-for="(column, index) in columns"
       :key="index"
-      class="dvs-flex dvs-flex-col dvs-justify-between dvs-w-full"
+      class="dvs-flex dvs-flex-col dvs-justify-between dvs-w-full items-stretch"
     >
       <div
-        class="dvs-font-bold dvs-mb-2 dvs-pb-2 dvs-px-2 dvs-border-b"
+        class="dvs-font-bold dvs-mb-2 dvs-pb-2 dvs-px-2 dvs-border-b dvs-cursor-pointer dvs-whitespace-no-wrap"
         :style="{borderColor: theme.panel.color}"
         @click="sortByColumn(column)"
       >
         {{ column.name }}
         <template v-if="column === sortBy">
-          <arrow-down v-if="sortDir === 'desc'"/>
-          <arrow-up v-else/>
+          <arrow-down v-if="sortDir === 'desc'" />
+          <arrow-up v-else />
         </template>
       </div>
       <div
@@ -31,14 +31,14 @@
 <script>
 export default {
   name: 'SimpleTable',
-  data() {
+  data () {
     return {
       sortBy: null,
       sortDir: null,
     };
   },
   methods: {
-    sortByColumn(column) {
+    sortByColumn (column) {
       // Toggling same column
       if (this.sortBy === column) {
         if (this.sortDir === 'desc') {
@@ -54,13 +54,13 @@ export default {
         this.sortDir = 'asc';
       }
     },
-    sortNumber(a, b, direction) {
+    sortNumber (a, b, direction) {
       if (direction === 'desc') {
         return b - a;
       }
       return a - b;
     },
-    sortString(a, b, direction) {
+    sortString (a, b, direction) {
       const A = a.toUpperCase(); // ignore upper and lowercase
       const B = b.toUpperCase(); // ignore upper and lowercase
 
@@ -72,7 +72,7 @@ export default {
     },
   },
   computed: {
-    sortedData() {
+    sortedData () {
       const self = this;
       const sortable = [];
       for (const record in this.data) {
@@ -84,7 +84,7 @@ export default {
       if (this.sortBy !== null) {
         sortable.sort((a, b) => {
           if (self.sortBy.property) {
-            if (typeof a[1][self.sortBy.name] === 'string') {
+            if (typeof a[1][self.sortBy.property] === 'string') {
               return self.sortString(
                 a[1][self.sortBy.property],
                 b[1][self.sortBy.property],
@@ -114,7 +114,7 @@ export default {
     },
     data: {
       required: true,
-      type: Object || Array,
+      type: Object | Array,
     },
   },
   components: {

@@ -243,7 +243,7 @@ export default {
     return {
       imagesLoaded: 0,
       edits: {
-        q: 90,
+        q: 80,
         or: null,
         flip: null,
         fit: 'crop',
@@ -283,22 +283,21 @@ export default {
       this.$emit('cancel');
     },
     loadOriginalDimentions () {
-      const self = this;
       const file = `/styled/preview/${this.source}`;
       const img = new Image();
-
-      img.onload = () => {
-        self.originalDims.w = this.width;
-        self.originalDims.h = this.height;
-
-        self.setCustomSizeToOriginal();
-      };
 
       img.onerror = () => {
         alert(`not a valid file: ${file.type}`); // eslint-disable-line
       };
 
       img.src = file;
+      img.onload = this.setOriginalDims(img)
+    },
+    setOriginalDims (img) {
+      this.originalDims.w = img.width;
+      this.originalDims.h = img.height;
+
+      this.setCustomSizeToOriginal();
     },
     addToImagesLoaded () {
       this.imagesLoaded += 1;

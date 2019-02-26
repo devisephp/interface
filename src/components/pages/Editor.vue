@@ -39,11 +39,20 @@
 
     <div class="dvs-flex dvs-flex-col dvs-items-center dvs-px-8 dvs-pb-8">
       <draggable
-        v-model="currentPage.slices"
+        :options="{
+          handle: '.handle', 
+          group: {name: 'g1'},
+          animation:200,
+          ghostClass: 'dvs-ghost'
+        }"
+        :list="currentPageSlices"
         element="ul"
         class="dvs-list-reset dvs-w-full"
+        @start="draggingStart"
+        @end="draggingStop"
       >
-        <template v-for="slice in currentPage.slices">
+
+        <template v-for="slice in currentPageSlices">
           <slice-editor
             @opened="openSlice(slice)"
             :key="slice.id"
@@ -149,6 +158,13 @@ export default {
     closeSlice (slice) {
       this.$set(slice.metadata, 'open', false);
     },
+    // Drag & Drop
+    draggingStart () {
+      window.deviseSettings.$bus.$emit('devise-editor-dragging')
+    },
+    draggingStop () {
+      window.deviseSettings.$bus.$emit('devise-editor-not-dragging')
+    },
     requestAddSlice () {
       this.createSlice = true;
     },
@@ -214,12 +230,21 @@ export default {
       referenceSlice.slices.splice(referenceSlice.slices.indexOf(deletingSlice), 1);
     },
     selectVersion () {
+      // TODO - NEED TO FINISH
       // pass version_id through the url
       // location.href=
     },
   },
   computed: {
     ...mapGetters('devise', ['currentPage', 'sliceConfig']),
+    currentPageSlices: {
+      get () {
+        return this.currentPage.slices
+      },
+      set (newValue) {
+        console.log(newValue)
+      }
+    }
   },
   mixins: [Strings],
   components: {

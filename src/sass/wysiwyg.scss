@@ -1,7 +1,13 @@
 .trumbowyg-editor {
+  max-height:40vh;
+
   table {
     td {
       border-color: #333 !important;
     }
   }  
+}
+
+.trumbowyg-box, .trumbowyg-editor {
+  margin:0 !important;  
 }

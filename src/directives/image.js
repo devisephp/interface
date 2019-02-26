@@ -52,9 +52,8 @@ export default function(el, binding) {
       } else {
         noSize = true;
       }
-
       if (background) {
-        el.style.backgroundImage = `url(${theImage})`;
+        el.style.backgroundImage = `url('${theImage}')`;
       } else {
         el[srcAttr] = theImage;
 

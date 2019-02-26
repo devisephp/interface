@@ -55,9 +55,18 @@
           :key="page.id"
           class="dvs-mb-6 dvs-flex dvs-justify-between dvs-items-center"
         >
-          <div class="dvs-min-w-2/5 dvs-font-light dvs-pr-8">{{ page.title }}</div>
-          <div class="dvs-min-w-1/5 dvs-text-xs dvs-px-8 dvs-font-mono">{{ page.slug }}</div>
-          <div class="dvs-w-2/5 dvs-px-8 dvs-flex dvs-justify-end">
+          <div
+            class="dvs-font-light dvs-pr-8"
+            style="width:300px;"
+          >{{ page.title }}</div>
+          <div
+            class="dvs-text-xs dvs-px-8 dvs-font-mono"
+            style="width:300px;"
+          >{{ page.slug }}</div>
+          <div
+            class="dvs-px-8 dvs-flex dvs-justify-end"
+            style="width:300px;"
+          >
             <button
               class="dvs-btn dvs-btn-xs dvs-mr-2"
               :style="theme.actionButtonGhost"
@@ -93,7 +102,7 @@ export default {
   name: 'PagesIndex',
   data () {
     return {
-      modulesToLoad: 3,
+      modulesToLoad: 2,
       filters: {
         page: '1',
       },

@@ -9,8 +9,15 @@
     @change="update"
   >
     <template slot="preview">
-      <span v-if="url === null || url === ''" class="dvs-italic">Currently No Value</span>
-      <img :src="url" class="dvs-max-w-2xs" :alt="url">
+      <span
+        v-if="url === null || url === ''"
+        class="dvs-italic"
+      >Currently No Value</span>
+      <img
+        :src="url"
+        class="dvs-max-w-2xs"
+        :alt="url"
+      >
       <br>
     </template>
 
@@ -18,29 +25,61 @@
       <label class="dvs-mb-2 dvs-block">Image Tool To Use:</label>
       <div class="dvs-flex dvs-mb-2">
         <label>
-          <input type="radio" class="dvs-w-auto dvs-mr-2" v-model="mode" value="media">
+          <input
+            type="radio"
+            class="dvs-w-auto dvs-mr-2"
+            v-model="mode"
+            value="media"
+          >
           Media Manager
         </label>
       </div>
       <div class="dvs-flex dvs-mb-8">
         <label>
-          <input type="radio" class="dvs-w-auto dvs-mr-2" v-model="mode" value="manual">
+          <input
+            type="radio"
+            class="dvs-w-auto dvs-mr-2"
+            v-model="mode"
+            value="manual"
+          >
           Manual URL
         </label>
       </div>
-      <fieldset class="dvs-fieldset" v-if="mode === 'manual'">
+      <fieldset
+        class="dvs-fieldset"
+        v-if="mode === 'manual'"
+      >
         <label>URL</label>
         <div class="dvs-flex dvs-items-center">
-          <input type="text" v-model="url">
+          <input
+            type="text"
+            v-model="url"
+          >
         </div>
       </fieldset>
-      <fieldset class="dvs-fieldset" v-else>
+      <fieldset
+        class="dvs-fieldset"
+        v-else
+      >
         <div class="flex">
-          <div v-if="value.url" @click="launchMediaEditor($event)" class="dvs-mb-8 dvs-mr-4">
-            <button class="dvs-btn" :style="theme.actionButton">Edit Current Media</button>
+          <div
+            v-if="value.url"
+            @click="launchMediaEditor($event)"
+            class="dvs-mb-8 dvs-mr-4"
+          >
+            <button
+              class="dvs-btn"
+              :style="theme.actionButton"
+            >Edit Current Media</button>
           </div>
-          <div @click="launchMediaManager($event)" class="dvs-mb-8 dvs-mr-4">
-            <button class="dvs-btn" :style="theme.actionButton">Select New Media</button>
+          <div
+            @click="launchMediaManager($event)"
+            class="dvs-mb-8 dvs-mr-4"
+          >
+            <button
+              class="dvs-btn"
+              :style="theme.actionButton"
+            >Select New Media</button>
           </div>
         </div>
         <div class="dvs-flex dvs-items-center">
@@ -67,7 +106,10 @@
       </fieldset>
       <fieldset class="dvs-fieldset">
         <label class="dvs-mt-4">Alt Tag</label>
-        <input type="text" v-model="alt">
+        <input
+          type="text"
+          v-model="alt"
+        >
       </fieldset>
     </template>
   </field-editor>
@@ -78,23 +120,23 @@ import Field from '../../../mixins/Field';
 
 export default {
   name: 'ImageEditor',
-  data() {
+  data () {
     return {
       originalValue: null,
       showEditor: false,
     };
   },
-  mounted() {
+  mounted () {
     this.originalValue = Object.assign({}, this.value);
   },
   methods: {
-    toggleEditor() {
+    toggleEditor () {
       if (this.mode !== 'manual') {
         this.$set(this, 'mode', 'media');
       }
       this.showEditor = !this.showEditor;
     },
-    cancel() {
+    cancel () {
       this.url = this.originalValue.url;
       this.alt = this.originalValue.alt;
       this.media = this.originalValue.media;
@@ -104,7 +146,7 @@ export default {
 
       this.toggleEditor();
     },
-    resetValue() {
+    resetValue () {
       this.url = null;
       this.enabled = false;
       this.alt = null;
@@ -112,14 +154,14 @@ export default {
       this.settings = {};
       this.mode = 'media';
     },
-    launchMediaManager() {
+    launchMediaManager () {
       this.options.type = 'image';
       window.deviseSettings.$bus.$emit('devise-launch-media-manager', {
         callback: this.mediaSelected,
         options: this.options,
       });
     },
-    mediaSelected(imagesAndSettings) {
+    mediaSelected (imagesAndSettings) {
       if (typeof imagesAndSettings === 'object') {
         this.url = imagesAndSettings.images.orig_optimized;
         this.media = imagesAndSettings.images;
@@ -128,7 +170,7 @@ export default {
         this.url = imagesAndSettings;
       }
     },
-    launchMediaEditor() {
+    launchMediaEditor () {
       this.options.type = 'image';
       window.deviseSettings.$bus.$emit('devise-launch-media-editor', {
         callback: this.mediaSelected,
@@ -137,7 +179,7 @@ export default {
         settings: this.settings,
       });
     },
-    getDimensions(size) {
+    getDimensions (size) {
       if (this.value.sizes && this.value.sizes[size])
         return `(${this.value.sizes[size].w} x ${this.value.sizes[size].h})`;
 
@@ -146,27 +188,27 @@ export default {
   },
   computed: {
     url: {
-      get() {
+      get () {
         return this.value.url;
       },
-      set(value) {
+      set (value) {
         const valueObj = Object.assign(this.value, { url: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
       },
     },
     alt: {
-      get() {
+      get () {
         return this.value.alt;
       },
-      set(value) {
+      set (value) {
         const valueObj = Object.assign(this.value, { alt: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
       },
     },
     mode: {
-      get() {
+      get () {
         if (this.value.mode !== 'media' && this.value.mode !== 'manual') {
           const valueObj = Object.assign(this.value, { mode: 'media' });
           this.$emit('input', valueObj);
@@ -174,34 +216,37 @@ export default {
         }
         return this.value.mode;
       },
-      set(value) {
+      set (value) {
         const valueObj = Object.assign(this.value, { mode: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
       },
     },
     media: {
-      get() {
+      get () {
         return this.value.media;
       },
-      set(value) {
+      set (value) {
         const valueObj = Object.assign(this.value, { media: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
       },
     },
     settings: {
-      get() {
+      get () {
         return this.value.settings;
       },
-      set(value) {
+      set (value) {
         const valueObj = Object.assign(this.value, { settings: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
       },
     },
-    hasMedia() {
-      return Object.keys(this.media).length > 0;
+    hasMedia () {
+      if (this.media) {
+        return Object.keys(this.media).length > 0;
+      }
+      return false
     },
   },
   props: ['value', 'options'],

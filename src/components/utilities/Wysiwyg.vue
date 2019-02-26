@@ -27,13 +27,23 @@
       <div class="dvs-mb-4">
         <fieldset class="dvs-fieldset">
           <label>Margin</label>
-          <input type="number" ref="marginsetting" min="0" max="200" @keyup="setImageMargin">
+          <input
+            type="number"
+            ref="marginsetting"
+            min="0"
+            max="200"
+            @keyup="setImageMargin"
+          >
         </fieldset>
       </div>
 
       <div class="dvs-pb-8">
         <fieldset class="dvs-fieldset">
-          <button class="dvs-btn" :style="theme.actionButton" @click="doneEditingImageStyles">Done</button>
+          <button
+            class="dvs-btn"
+            :style="theme.actionButton"
+            @click="doneEditingImageStyles"
+          >Done</button>
         </fieldset>
       </div>
 
@@ -41,11 +51,19 @@
 
       <div>
         <fieldset class="dvs-fieldset">
-          <button class="dvs-btn" :style="theme.actionButton" @click="removeImage">Remove Image</button>
+          <button
+            class="dvs-btn"
+            :style="theme.actionButton"
+            @click="removeImage"
+          >Remove Image</button>
         </fieldset>
       </div>
     </div>
-    <div class="dvs-blocker dvs-z-20" v-if="imageToManage !== null" @click="imageToManage = null"></div>
+    <div
+      class="dvs-blocker dvs-z-20"
+      v-if="imageToManage !== null"
+      @click="imageToManage = null"
+    ></div>
     <trumbowyg
       class="dvs-relative dvs-z-10"
       ref="theEditor"
@@ -61,12 +79,12 @@
 
 <script>
 // Import editor cs
-import 'trumbowyg/dist/ui/icons.svg';
+import Trumbowyg from 'vue-trumbowyg';
 import Strings from '../../mixins/Strings';
 
 export default {
   name: 'Wysiwyg',
-  data() {
+  data () {
     return {
       theEditor: null,
       imageToManage: null,
@@ -93,7 +111,7 @@ export default {
             tag: 'mediamanager',
             title: 'Media Manager',
             text: 'Media Manager',
-            isSupported() {
+            isSupported () {
               return true;
             },
             key: 'M',
@@ -115,7 +133,7 @@ export default {
       },
     };
   },
-  mounted() {
+  mounted () {
     this.localValue = this.value;
     this.theEditor = this.$refs.theEditor;
 
@@ -145,40 +163,40 @@ export default {
     });
   },
   methods: {
-    launchMediaManager() {
+    launchMediaManager () {
       window.deviseSettings.$bus.$emit('devise-launch-media-manager', {
         callback: this.mediaSelected,
       });
     },
-    mediaSelected(imagesAndSettings) {
+    mediaSelected (imagesAndSettings) {
       if (typeof imagesAndSettings === 'object') {
         const html = this.theEditor.el.trumbowyg('html');
         this.theEditor.el.trumbowyg(
           'html',
           `${html}<img src="${imagesAndSettings.images.orig_optimized}" width="${
-            imagesAndSettings.settings.w
+          imagesAndSettings.settings.w
           }" height="${imagesAndSettings.settings.h}">`
         );
       }
     },
-    update() {
+    update () {
       this.localValue = this.theEditor.el.trumbowyg('html');
       this.$emit('input', this.localValue);
       this.$emit('change', this.localValue);
     },
-    setHtml(html) {
+    setHtml (html) {
       this.localValue = html;
       this.theEditor.el.trumbowyg('html', html);
       this.$emit('input', this.localValue);
       this.$emit('change', this.localValue);
     },
-    empty() {
+    empty () {
       this.localValue = '';
       this.theEditor.el.trumbowyg('empty');
       this.$emit('input', this.localValue);
       this.$emit('change', this.localValue);
     },
-    imageManager(image) {
+    imageManager (image) {
       this.imageToManage = image;
       this.$nextTick(() => {
         this.$refs.marginsetting.value = this.imageToManage.currentTarget.style.margin.slice(
@@ -187,19 +205,19 @@ export default {
         );
       });
     },
-    setImageFloat(direction) {
+    setImageFloat (direction) {
       this.imageToManage.currentTarget.style.float = direction;
       this.localValue = this.theEditor.el.trumbowyg('html');
       this.updateAndCloseImageEditor();
     },
-    setImageMargin(evt) {
+    setImageMargin (evt) {
       this.imageToManage.currentTarget.style.margin = `${evt.target.value}px`;
     },
-    doneEditingImageStyles() {
+    doneEditingImageStyles () {
       this.localValue = this.theEditor.el.trumbowyg('html');
       this.updateAndCloseImageEditor();
     },
-    removeImage() {
+    removeImage () {
       const newHTML = this.theEditor.el
         .trumbowyg('html')
         .replace(this.imageToManage.currentTarget.outerHTML, '');
@@ -207,13 +225,13 @@ export default {
       this.localValue = this.theEditor.el.trumbowyg('html');
       this.updateAndCloseImageEditor();
     },
-    updateAndCloseImageEditor() {
+    updateAndCloseImageEditor () {
       this.imageToManage = null;
       this.theEditor.el.trumbowyg('toggle');
       this.theEditor.el.trumbowyg('toggle');
       this.update();
     },
-    checkInView() {
+    checkInView () {
       const fieldPanel = document.querySelector('#field-panel');
       const container = fieldPanel.querySelector('.simplebar-scroll-content');
       const contTop = container.scrollTop;
@@ -222,7 +240,7 @@ export default {
     },
   },
   components: {
-    Trumbowyg: () => import(/* webpackChunkName: "devise-editors" */ 'vue-trumbowyg'),
+    Trumbowyg,
   },
   mixins: [Strings],
   props: ['id', 'value'],

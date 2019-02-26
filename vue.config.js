@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const pagesObject = {
   main: {
@@ -34,6 +35,9 @@ module.exports = {
         'window.jQuery': 'jquery',
         jQuery: 'jquery',
       }),
+      new CopyPlugin([
+        { from: 'node_modules/trumbowyg/dist/ui/icons.svg', to: 'icons/icons.svg' },
+      ]),
     ],
   },
   pages: pagesObject,

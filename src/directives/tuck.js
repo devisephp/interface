@@ -68,7 +68,7 @@ export default {
       TweenMax.to(el, 1, {
         top: `${elY}px`,
         left: `${elX}px`,
-        width: 'auto',
+        width: `auto`,
         ease: Elastic.easeOut.config(0.5, 0.5), // eslint-disable-line
       });
 

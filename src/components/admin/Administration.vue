@@ -93,7 +93,6 @@
 <script>
 import Vue from 'vue';
 import { mapState } from 'vuex';
-import alertConfirm from '../../directives/alert-confirm';
 
 const VueScrollactive = require('vue-scrollactive');
 
@@ -103,11 +102,6 @@ export default {
     return {
       everythingIsLoaded: false,
     };
-  },
-  created () {
-    // Register alert / confirm directive
-    Vue.directive('devise-alert-confirm', alertConfirm);
-
   },
   mounted () {
     // For administration sidebars

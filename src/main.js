@@ -1,15 +1,19 @@
 import PortalVue from 'portal-vue';
 import { mapGetters } from 'vuex';
 import Vuebar from 'vuebar';
+import VueNotifications from 'vue-notifications';
+import iziToast from 'izitoast'; // https://github.com/dolce/iziToast
 import Devise from './Devise.vue';
 import DeviseStore from './vuex/store';
 import DeviseBus from './event-bus';
 import EditPage from './components/pages/Editor.vue';
+import Help from './components/utilities/Help.vue';
 import Image from './directives/image';
 import Link from './directives/link';
 import routes from './router/route.config';
 import Slices from './components/slices/Slices.vue';
 import Tuck from './directives/tuck';
+import alertConfirm from './directives/alert-confirm';
 
 const DevisePlugin = {
   install(Vue, { store, router, bus, options }) {
@@ -110,6 +114,12 @@ const DevisePlugin = {
     // Register link directive
     Vue.directive('devise-link', Link);
 
+    // Register link directive
+    Vue.directive('devise-alert-confirm', alertConfirm);
+
+    // Register Help component
+    Vue.component('help', Help);
+
     const deviseOptions = Object.assign(
       {
         breakpoints: {
@@ -121,6 +131,21 @@ const DevisePlugin = {
       },
       options
     );
+
+    // Register Messages
+    function toast({ title, message, type, timeout }) {
+      if (type === VueNotifications.types.warn) type = 'warning';
+      return iziToast[type]({ title, message, timeout });
+    }
+
+    const vueNotificationsOptions = {
+      success: toast,
+      error: toast,
+      info: toast,
+      warn: toast,
+    };
+
+    Vue.use(VueNotifications, vueNotificationsOptions);
 
     // enables passive event listeners by default for some events
     // require('default-passive-events');
@@ -141,6 +166,18 @@ const DevisePlugin = {
             trigger: 'mouseenter focus',
           },
         };
+      },
+      notifications: {
+        showSuccessMsg: {
+          type: VueNotifications.types.success,
+          title: 'Success',
+          message: 'Your Request was successful',
+        },
+        showErrorMsg: {
+          type: VueNotifications.types.error,
+          title: 'Wow-wow',
+          message: "That's the error",
+        },
       },
       methods: {
         // Convienience method to push things into the router from templates

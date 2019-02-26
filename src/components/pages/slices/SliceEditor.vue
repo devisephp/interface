@@ -262,18 +262,24 @@
       >Be aware that these entries are model entries. That means they are managed in your database by another tool or by an admin section in your adminitration.</help>
     </div>
 
-    <div
-      class="dvs-collapsed dvs-ml-4"
-      v-if="sliceOpen"
-    >
+    <div class="dvs-collapsed dvs-ml-4">
       <draggable
         v-model="slice.slices"
         element="ul"
         class="dvs-list-reset"
+        :class="{'dvs-rounded':showDropZone}"
+        :style="draggableStyles"
         v-if="slice.metadata.type !== 'model'"
-        :options="{group:{ name:'g1'}}"
+        @start="draggingStart"
+        @end="draggingStop"
+        :options="{
+          handle: '.handle', 
+          group: {name: 'g1'},
+          animation:200,
+          ghostClass: 'dvs-ghost'
+          }"
       >
-        <template v-for="s in slice.slices">
+        <template v-for="s in sliceSlices">
           <slice-editor
             :key="s.metadata.instance_id"
             :devise="s"
@@ -296,6 +302,7 @@ export default {
   name: 'SliceEditor',
   data () {
     return {
+      showDropZone: false,
       manageSlice: false,
       pageSlices: [],
       moreHovered: false,
@@ -303,6 +310,12 @@ export default {
     };
   },
   mounted () {
+    window.deviseSettings.$bus.$on('devise-editor-dragging', () => {
+      this.showDropZone = true
+    })
+    window.deviseSettings.$bus.$on('devise-editor-not-dragging', () => {
+      this.showDropZone = false
+    })
     if (this.slice.slices) {
       this.pageSlices = this.slice.slices;
     }
@@ -314,6 +327,14 @@ export default {
     toggleSliceTools () {
       this.slice.metadata.tools = !this.slice.metadata.tools;
     },
+    // Drag & Drop
+    draggingStart () {
+      window.deviseSettings.$bus.$emit('devise-editor-dragging')
+    },
+    draggingStop () {
+      window.deviseSettings.$bus.$emit('devise-editor-not-dragging')
+    },
+
     // Marking Slice
     markSlice (on) {
       window.window.deviseSettings.$bus.$emit('markSlice', this.slice, on);
@@ -392,6 +413,9 @@ export default {
     slice () {
       return this.devise;
     },
+    sliceSlices () {
+      return (this.slice.slices) ? this.slice.slices : []
+    },
     theFields () {
       const fields = {};
       for (const potentialField in this.slice) {
@@ -469,6 +493,19 @@ export default {
         this.slice.metadata.label
         }</div><div class="dvs-text-xs dvs-opacity-25 dvs-uppercase">&nbsp;</div>`;
     },
+
+    draggableStyles () {
+      if (this.showDropZone) {
+        return {
+          border: this.theme.actionButtonGhost.border,
+          borderStyle: 'dashed',
+          padding: '2px',
+          margin: '-4px 0 -1em -4px',
+          minHeight: '15px'
+        }
+      }
+      return null
+    }
   },
   props: {
     child: {
