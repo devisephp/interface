@@ -3,7 +3,7 @@
 import Slice from './Slice.vue';
 
 const UNIQUE_KEY_PROP = '__unique_key_prop__';
-const KEY_PREFIX = `__key_prefix__${Date.now()}_`;
+const KEY_PREFIX = `__devise__${Date.now()}_`;
 
 let uid = 0;
 
@@ -24,7 +24,7 @@ const genUniqueKey = obj => {
 export default {
   name: 'DeviseSlices',
   functional: true,
-  render(h, ctx) {
+  render (h, ctx) {
     if (ctx.props.slices && ctx.props.slices.length) {
       return ctx.props.slices.map(s => {
         // If it's a placeholder for model we need to dig down
@@ -60,7 +60,7 @@ export default {
       });
     }
   },
-  mounted() {
+  mounted () {
     // Emit the bus event to notifify that we are done loading
     this.$nextTick(() => {
       // Emit the bus event to notifify that we are done loading

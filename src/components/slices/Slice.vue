@@ -10,6 +10,7 @@
     :component="sliceComponent"
     ref="component"
     v-on="$listeners"
+    v-bind="$attrs"
   ></component>
 </template>
 
@@ -28,7 +29,7 @@ const tinycolor = require('tinycolor2');
 
 export default {
   name: 'DeviseSlice',
-  data() {
+  data () {
     return {
       backgroundColor: null,
       mounted: false,
@@ -38,13 +39,13 @@ export default {
       resizeObserver: null,
     };
   },
-  created() {
+  created () {
     this.hydrateMissingProperties();
     this.checkDefaults();
     this.backgroundColor = tinycolor('#fff').toRgb();
     this.sliceComponent = this.component(this.devise.metadata.name);
   },
-  mounted() {
+  mounted () {
     this.mounted = true;
     this.sliceEl = this.$refs.component.$el;
 
@@ -61,14 +62,14 @@ export default {
   },
   methods: {
     ...mapActions('devise', ['regenerateMedia']),
-    addListeners() {
+    addListeners () {
       window.deviseSettings.$bus.$on('jumpToSlice', this.attemptJumpToSlice);
       window.deviseSettings.$bus.$on('openSliceSettings', this.attemptOpenSliceSettings);
       window.deviseSettings.$bus.$on('markSlice', this.markSlice);
 
       this.addVisibilityScrollListeners();
     },
-    hydrateMissingProperties() {
+    hydrateMissingProperties () {
       const { fields } = this.sliceConfig(this.devise);
 
       if (fields) {
@@ -87,7 +88,7 @@ export default {
         }
       }
     },
-    addMissingProperty(field) {
+    addMissingProperty (field) {
       // We just add all the properties to ensure there are not undefined props down the line
       const defaultProperties = {
         text: null,
@@ -102,7 +103,7 @@ export default {
       const mergedData = Object.assign({}, defaultProperties, this.deviseForSlice[field]);
       this.$set(this.deviseForSlice, field, mergedData);
     },
-    checkDefaults() {
+    checkDefaults () {
       const { fields } = this.sliceConfig(this.devise);
 
       if (fields) {
@@ -119,14 +120,14 @@ export default {
         }
       }
     },
-    addFieldConfigurations(fields, field) {
+    addFieldConfigurations (fields, field) {
       for (const pp in fields[field]) {
         if (!this.deviseForSlice[field].hasOwnProperty(pp)) {
           this.$set(this.deviseForSlice[field], pp, fields[field][pp]);
         }
       }
     },
-    setDefaults(property, defaults) {
+    setDefaults (property, defaults) {
       // loop through the defaults and apply them to the field
       for (const d in defaults) {
         if (
@@ -137,7 +138,7 @@ export default {
         }
       }
     },
-    checkMediaSizesForRegeneration() {
+    checkMediaSizesForRegeneration () {
       // If the current slice even has fields
       if (typeof this.currentView.fields !== 'undefined') {
         for (const fieldName in this.currentView.fields) {
@@ -162,7 +163,7 @@ export default {
         }
       }
     },
-    determineMediaRegenerationNeeds(field, fieldName) {
+    determineMediaRegenerationNeeds (field, fieldName) {
       // Build the sizes needed
       const mediaRequest = { sizes: {} };
 
@@ -197,17 +198,17 @@ export default {
         this.makeMediaRegenerationRequest(payload);
       }
     },
-    makeMediaRegenerationRequest(payload) {
+    makeMediaRegenerationRequest (payload) {
       this.regenerateMedia(payload).then(() => {
         window.deviseSettings.$bus.$emit('showMessage', {
           title: 'New Images Generated',
           message: `Pro tip: Some new sizes were generated for a slice you were working on (Field: ${
             payload.fieldName
-          }) You may need to refresh.`,
+            }) You may need to refresh.`,
         });
       });
     },
-    attemptJumpToSlice(slice) {
+    attemptJumpToSlice (slice) {
       if (this.devise.metadata && slice.metadata) {
         if (this.devise.metadata.instance_id === slice.metadata.instance_id) {
           try {
@@ -225,14 +226,14 @@ export default {
         }
       }
     },
-    attemptOpenSliceSettings(slice) {
+    attemptOpenSliceSettings (slice) {
       if (this.devise.metadata && slice.metadata) {
         if (this.devise.metadata.instance_id === slice.metadata.instance_id) {
           window.deviseSettings.$bus.$emit('open-slice-settings', this.deviseForSlice);
         }
       }
     },
-    markSlice(slice, on) {
+    markSlice (slice, on) {
       if (this.devise.metadata && slice.metadata) {
         if (this.devise.metadata.instance_id === slice.metadata.instance_id) {
           const markers = document.getElementsByClassName('devise-component-marker');
@@ -257,7 +258,7 @@ export default {
                 'devise-component-marker dvs-absolute dvs-bg-black dvs-z-60 dvs-opacity-75';
               marker.style.cssText = `top:${offset.top}px;left:${
                 offset.left
-              }px;width:${width}px;height:${height}px`;
+                }px;width:${width}px;height:${height}px`;
               document.body.appendChild(marker);
             } catch (error) {
               console.warn(
@@ -268,7 +269,7 @@ export default {
         }
       }
     },
-    addVisibilityScrollListeners() {
+    addVisibilityScrollListeners () {
       if (
         (typeof this.$refs.component.isVisible !== 'undefined' ||
           typeof this.$refs.component.isHidden !== 'undefined') &&
@@ -288,12 +289,12 @@ export default {
         });
       }
     },
-    checkVisible(elm) {
+    checkVisible (elm) {
       const rect = elm.getBoundingClientRect();
       const viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
       return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
     },
-    buildStyles(styles, margin, padding) {
+    buildStyles (styles, margin, padding) {
       if (typeof margin !== 'undefined') {
         if (typeof margin.top !== 'undefined') {
           styles.marginTop = `${margin.top}px`;
@@ -329,13 +330,13 @@ export default {
   },
   computed: {
     ...mapGetters('devise', ['component', 'sliceConfig', 'breakpoint', 'mediaAlreadyRequested']),
-    deviseForSlice() {
+    deviseForSlice () {
       if (this.devise.config) {
         return this.devise.config;
       }
       return this.devise;
     },
-    styles() {
+    styles () {
       const styles = {};
 
       if (typeof this.deviseForSlice.settings === 'undefined') {
@@ -360,7 +361,7 @@ export default {
 
       return this.buildStyles(styles, margin, padding);
     },
-    currentView() {
+    currentView () {
       if (this.devise.config) {
         return window.deviseSettings.$deviseComponents[this.devise.name];
       }
