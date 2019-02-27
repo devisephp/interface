@@ -1,4 +1,4 @@
-export default function(el, binding) {
+export default function (el, binding) {
   let { image, srcAttr, breakpoint } = binding.value;
   const { lazy, background } = binding.modifiers;
   let { noSize } = binding.modifiers;

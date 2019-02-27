@@ -183,7 +183,7 @@ export default {
       if (this.value.sizes && this.value.sizes[size])
         return `(${this.value.sizes[size].w} x ${this.value.sizes[size].h})`;
 
-      return false;
+      return null;
     },
   },
   computed: {

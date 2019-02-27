@@ -28,6 +28,7 @@ import Slice from './Slice.vue'; // eslint-disable-line
 const tinycolor = require('tinycolor2');
 
 export default {
+  /* eslint-disable camelcase */
   name: 'DeviseSlice',
   data () {
     return {
@@ -346,17 +347,23 @@ export default {
       const {
         backgroundColor,
         margin,
-        mobileMargin,
+        mobile_margin,
+        tablet_margin,
         padding,
-        mobilePadding,
+        mobile_padding,
+        tablet_padding,
       } = this.deviseForSlice.settings;
 
       if (typeof backgroundColor !== 'undefined') {
         styles.backgroundColor = backgroundColor;
       }
 
+      if (this.breakpoint === 'tablet') {
+        return this.buildStyles(styles, tablet_margin, tablet_padding);
+      }
+
       if (this.breakpoint === 'mobile') {
-        return this.buildStyles(styles, mobileMargin, mobilePadding);
+        return this.buildStyles(styles, mobile_margin, mobile_padding);
       }
 
       return this.buildStyles(styles, margin, padding);

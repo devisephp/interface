@@ -1,11 +1,17 @@
 <template>
   <div>
-    <h3 class="dvs-uppercase dvs-mb-2" :style="{color: theme.panelCard.color}">{{ responsiveMode }}</h3>
+    <h3
+      class="dvs-uppercase dvs-mb-2"
+      :style="{color: theme.panelCard.color}"
+    >{{ responsiveMode }}</h3>
     <fieldset class="dvs-fieldset">
       <label>Margins and Padding</label>
     </fieldset>
 
-    <div class="dvs-flex dvs-justify-center dvs-my-4" id="dvs-slice-manager-margins-padding">
+    <div
+      class="dvs-flex dvs-justify-center dvs-my-4"
+      id="dvs-slice-manager-margins-padding"
+    >
       <div :style="theme.panelCard">
         <div class="dvs-flex dvs-p-2 dvs-pb-0">
           <div class="dvs-text-xs dvs-uppercase dvs-w-1/3">Margin</div>
@@ -95,21 +101,24 @@
       </div>
     </div>
 
-    <fieldset class="dvs-fieldset dvs-mt-8">
-      <label>Background Color</label>
-      <p class="dvs-mb-4 dvs-text-xs">Note: Background color effects all responsive sizes</p>
-    </fieldset>
-    <div v-show="showBackgroundColor">
-      <sketch-picker v-model="bg"/>
+    <div class="dvs-mb-8">
+      <fieldset class="dvs-fieldset dvs-mt-8">
+        <label>Background Color</label>
+        <p class="dvs-mb-4 dvs-text-xs">Note: Background color effects all responsive sizes</p>
+      </fieldset>
+      <div v-show="showBackgroundColor">
+        <sketch-picker v-model="bg" />
+      </div>
+      <button
+        v-show="!showBackgroundColor"
+        class="dvs-btn dvs-mr-2"
+        :style="theme.actionButton"
+        @click="showBackgroundColor = true"
+      >Set Background Color</button>
     </div>
+
     <button
-      v-show="!showBackgroundColor"
-      class="dvs-btn"
-      :style="theme.actionButton"
-      @click="showBackgroundColor = true"
-    >Set Background Color</button>
-    <button
-      class="dvs-btn dvs-mt-8 dvs-rounded-full dvs-w-full"
+      class="dvs-btn dvs-w-full dvs-rounded"
       :style="theme.actionButtonGhost"
       @click="resetStyles"
     >Reset</button>
@@ -120,7 +129,7 @@
 import { Sketch } from 'vue-color';
 
 export default {
-  data() {
+  data () {
     return {
       showBackgroundColor: false,
     };
@@ -128,16 +137,16 @@ export default {
   props: ['value', 'responsiveMode', 'backgroundColor'],
   computed: {
     bg: {
-      get() {
+      get () {
         return this.backgroundColor;
       },
-      set(color) {
+      set (color) {
         this.$emit('setbackground', color);
       },
     },
   },
   methods: {
-    setMargin(position, event) {
+    setMargin (position, event) {
       const { value } = event.target;
       this.$emit('setmarginpadding', {
         responsiveMode: this.responsiveMode,
@@ -146,7 +155,7 @@ export default {
         value,
       });
     },
-    setPadding(position, event) {
+    setPadding (position, event) {
       const { value } = event.target;
       this.$emit('setmarginpadding', {
         responsiveMode: this.responsiveMode,
@@ -156,7 +165,7 @@ export default {
       });
     },
 
-    getStyle(type, position) {
+    getStyle (type, position) {
       if (type === 'margin' || type === 'padding') {
         let prefix = '';
         if (this.responsiveMode !== 'desktop') {
@@ -171,7 +180,7 @@ export default {
       }
       return 0;
     },
-    resetStyles() {
+    resetStyles () {
       this.$emit('resetstyles', this.responsiveMode);
     },
   },

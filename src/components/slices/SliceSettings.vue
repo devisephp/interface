@@ -1,5 +1,8 @@
 <template>
-  <div class="dvs-fixed dvs-z-9999" style="top:30px; right:30px;">
+  <div
+    class="dvs-fixed dvs-z-9999"
+    style="top:30px; right:30px;"
+  >
     <div
       class="dvs-z-50 dvs-min-w-96 dvs-z-50 dvs-rounded dvs-shadow-lg dvs-flex dvs-items-stretch"
       :style="theme.panel"
@@ -18,8 +21,18 @@
         }"
       >
         <ul>
-          <li class="dvs-cursor-pointer" @click="showType = 'desktop'">Desktop</li>
-          <li class="dvs-cursor-pointer" @click="showType = 'mobile'">Mobile</li>
+          <li
+            class="dvs-cursor-pointer"
+            @click="showType = 'desktop'"
+          >Desktop</li>
+          <li
+            class="dvs-cursor-pointer"
+            @click="showType = 'tablet'"
+          >Tablet</li>
+          <li
+            class="dvs-cursor-pointer"
+            @click="showType = 'mobile'"
+          >Mobile</li>
         </ul>
 
         <div class="dvs-absolute dvs-pin-l dvs-pin-r dvs-pin-b dvs-p-4">
@@ -31,14 +44,27 @@
         </div>
       </div>
       <div class="dvs-p-8">
-        <div v-bar style="height: calc(100vh - 150px);">
-          <div class="dvs-pl-8">
+        <div
+          v-bar
+          style="height: calc(100vh - 150px);"
+        >
+          <div>
             <div>
               <slice-settings-section
                 v-if="showType === 'desktop'"
                 :value="slice.settings"
                 :backgroundColor="backgroundColor"
                 responsive-mode="desktop"
+                @resetstyles="resetStyles"
+                @setmarginpadding="setMarginPadding"
+                @setbackground="setBackground"
+              ></slice-settings-section>
+
+              <slice-settings-section
+                v-if="showType === 'tablet'"
+                :value="slice.settings"
+                :backgroundColor="backgroundColor"
+                responsive-mode="tablet"
                 @resetstyles="resetStyles"
                 @setmarginpadding="setMarginPadding"
                 @setbackground="setBackground"
@@ -72,7 +98,7 @@ const tinycolor = require('tinycolor2');
 
 export default {
   name: 'SliceSettings',
-  data() {
+  data () {
     return {
       showEditor: false,
       backgroundColor: null,
@@ -84,14 +110,14 @@ export default {
       showType: 'desktop',
     };
   },
-  created() {
+  created () {
     this.backgroundColor = tinycolor('#fff').toRgb();
   },
-  mounted() {
+  mounted () {
     this.addListeners();
   },
   methods: {
-    addListeners() {
+    addListeners () {
       window.deviseSettings.$bus.$on('open-slice-settings', slice => {
         this.showEditor = true;
         Vue.set(this, 'slice', slice);
@@ -106,25 +132,29 @@ export default {
         this.closeEditor();
       });
     },
-    closeEditor() {
+    closeEditor () {
       this.showEditor = false;
       this.showType = 'desktop';
       Vue.set(this, 'slice', {});
     },
-    resetStyles() {
+    resetStyles () {
       this.$set(this.slice, 'settings', {});
       this.backgroundColor = tinycolor('#fff').toRgb();
     },
-    setMarginPadding(payload) {
+    setMarginPadding (payload) {
       if (payload.responsiveMode === 'desktop') {
         this.setDesktopMarginPadding(payload);
+      }
+
+      if (payload.responsiveMode === 'tablet') {
+        this.setTabletMarginPadding(payload);
       }
 
       if (payload.responsiveMode === 'mobile') {
         this.setMobileMarginPadding(payload);
       }
     },
-    setDesktopMarginPadding(payload) {
+    setDesktopMarginPadding (payload) {
       if (typeof this.slice.settings.margin === 'undefined') {
         this.$set(this.slice.settings, 'margin', {});
       }
@@ -134,7 +164,18 @@ export default {
       }
       this.$set(this.slice.settings[payload.type], payload.position, payload.value);
     },
-    setMobileMarginPadding(payload) {
+    setTabletMarginPadding (payload) {
+      if (typeof this.slice.settings.tablet_margin === 'undefined') {
+        this.$set(this.slice.settings, 'tablet_margin', {});
+      }
+
+      if (typeof this.slice.settings.tablet_padding === 'undefined') {
+        this.$set(this.slice.settings, 'tablet_padding', {});
+      }
+
+      this.$set(this.slice.settings[`tablet_${payload.type}`], payload.position, payload.value);
+    },
+    setMobileMarginPadding (payload) {
       if (typeof this.slice.settings.mobile_margin === 'undefined') {
         this.$set(this.slice.settings, 'mobile_margin', {});
       }
@@ -145,7 +186,7 @@ export default {
 
       this.$set(this.slice.settings[`mobile_${payload.type}`], payload.position, payload.value);
     },
-    setBackground(color) {
+    setBackground (color) {
       this.$set(
         this.slice.settings,
         'backgroundColor',
