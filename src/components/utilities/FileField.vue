@@ -1,12 +1,28 @@
 <template>
   <div>
     <div class="dvs-flex dvs-items-center">
-      <input type="text" v-model="value" :maxlength="getMaxLength" disabled>
+      <input
+        type="text"
+        v-model="value"
+        :maxlength="getMaxLength"
+        disabled
+      >
       <div @click="showMediaManager()">
-        <document-icon class="dvs-ml-4 dvs-cursor-pointer" w="30px" h="30px"/>
+        <document-icon
+          class="dvs-ml-4 dvs-cursor-pointer"
+          w="30px"
+          h="30px"
+        />
       </div>
-      <div @click="loadPreview" v-bind:class="{ ' dvs-opacity-25': !previewEnabled }">
-        <search-icon class="dvs-ml-4 dvs-cursor-pointer" w="30px" h="30px"/>
+      <div
+        @click="loadPreview"
+        v-bind:class="{ ' dvs-opacity-25': !previewEnabled }"
+      >
+        <search-icon
+          class="dvs-ml-4 dvs-cursor-pointer"
+          w="30px"
+          h="30px"
+        />
       </div>
     </div>
 
@@ -19,7 +35,10 @@
         ></div>
         <div class="dvs-modal dvs-fixed dvs-pin-b dvs-pin-r dvs-mx-8 dvs-mb-8 dvs-z-40 dvs-w-1/2">
           <img :src="value">
-          <h6 class="dvs-text-base dvs-mb-4 dvs-mt-4" :style="{color: theme.panel.color}">
+          <h6
+            class="dvs-text-base dvs-mb-4 dvs-mt-4"
+            :style="{color: theme.panel.color}"
+          >
             <span>{{ fileName }}</span>
             <br>
             <small class="dvs-text-xs">
@@ -45,13 +64,13 @@
 <script>
 export default {
   name: 'ImageField',
-  data() {
+  data () {
     return {
       showPreview: false,
     };
   },
   methods: {
-    showMediaManager() {
+    showMediaManager () {
       window.deviseSettings.$bus.$emit('devise-launch-media-manager', {
         callback: this.mediaSelected,
         options: {
@@ -59,31 +78,31 @@ export default {
         },
       });
     },
-    mediaSelected(url) {
+    mediaSelected (url) {
       this.file = url;
     },
-    loadPreview() {
+    loadPreview () {
       if (this.previewEnabled) this.showPreview = true;
     },
   },
   computed: {
     file: {
-      get() {
+      get () {
         return this.value;
       },
-      set(newValue) {
+      set (newValue) {
         this.$emit('input', newValue);
         this.$emit('change', newValue);
       },
     },
-    fileName() {
+    fileName () {
       const parts = this.value.split('/');
       return parts[parts.length - 1];
     },
-    previewEnabled() {
+    previewEnabled () {
       return this.value !== '' && this.value !== null;
     },
-    getMaxLength() {
+    getMaxLength () {
       if (typeof this.settings !== 'undefined' && typeof this.settings.maxlength !== 'undefined') {
         return this.settings.maxlength;
       }
@@ -93,9 +112,9 @@ export default {
   props: ['value'],
   components: {
     DocumentIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-document.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ClipboardIcon'),
     SearchIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-search.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SearchIcon'),
   },
 };
 </script>

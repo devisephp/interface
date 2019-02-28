@@ -6,7 +6,10 @@
       style="z-index:9999"
     >
       <div class="dvs-blocker"></div>
-      <div class="dvs-flex dvs-justify-center dvs-items-center dvs-relative" style="z-index:9999">
+      <div
+        class="dvs-flex dvs-justify-center dvs-items-center dvs-relative"
+        style="z-index:9999"
+      >
         <div class="dvs-bg-black dvs-p-8 dvs-rounded dvs-shadow">
           <h3 class="dvs-text-abs-white">Drop files to upload</h3>
         </div>
@@ -27,7 +30,10 @@
       >Upload New Files</vue-upload>
     </div>
 
-    <div v-show="uploadingFiles.length" class="dvs-w-full">
+    <div
+      v-show="uploadingFiles.length"
+      class="dvs-w-full"
+    >
       <button
         v-show="!$refs.upload || !$refs.upload.active"
         @click.prevent="$refs.upload.active = true"
@@ -46,14 +52,21 @@
         <tr class="dvs-border-b-2">
           <th class="dvs-p-2 dvs-text-xs dvs-uppercase dvs-text-left">Queued Files for Upload</th>
         </tr>
-        <tr v-for="file in uploadingFiles" :key="file.id" class="dvs-border-b">
+        <tr
+          v-for="file in uploadingFiles"
+          :key="file.id"
+          class="dvs-border-b"
+        >
           <td class="dvs-p-4">
             <div class="dvs-flex">
               <div
                 class="dvs-cursor-pointer dvs-flex dvs-justify-center dvs-items-center dvs-mr-2"
                 @click="removeFileFromQueue(file)"
               >
-                <close-icon w="40" h="40"/>
+                <close-icon
+                  w="40"
+                  h="40"
+                />
               </div>
               <div
                 class="dvs-bg-cover dvs-bg-center"
@@ -83,7 +96,7 @@
 const VueUpload = require('vue-upload-component');
 
 export default {
-  data() {
+  data () {
     return {
       uploadingFiles: [],
     };
@@ -95,7 +108,7 @@ export default {
      * @param  Object|undefined   oldFile   Read only
      * @return undefined
      */
-    inputFile(newFile, oldFile) {
+    inputFile (newFile, oldFile) {
       if (newFile && oldFile && !newFile.active && oldFile.active) {
         // Get response data
         if (newFile.xhr) {
@@ -121,7 +134,7 @@ export default {
      * @param  Function           prevent   Prevent changing
      * @return undefined
      */
-    inputFilter(newFile) {
+    inputFilter (newFile) {
       // Create a blob field
       newFile.blob = '';
       const URL = window.URL || window.webkitURL;
@@ -135,12 +148,12 @@ export default {
         newFile.thumb = newFile.blob;
       }
     },
-    removeFileFromQueue(file) {
+    removeFileFromQueue (file) {
       this.uploadingFiles.splice(this.uploadingFiles.indexOf(file), 1);
     },
   },
   computed: {
-    uploadHeaders() {
+    uploadHeaders () {
       const token = document.head.querySelector('meta[name="csrf-token"]');
       return {
         'X-CSRF-TOKEN': token.content,
@@ -149,7 +162,7 @@ export default {
   },
   components: {
     CloseIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-close.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/XIcon'),
     VueUpload,
   },
   props: {

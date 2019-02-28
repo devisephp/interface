@@ -380,7 +380,7 @@ export default {
   components: {
     Slice,
     SettingsIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-settings.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SettingsIcon'),
     'sketch-picker': Sketch,
   },
 };

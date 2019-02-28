@@ -261,9 +261,9 @@ export default {
   mixins: [Strings],
   components: {
     AddIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-add.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/PlusCircleIcon'),
     RefreshIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-refresh.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/RefreshCcwIcon'),
     AnalyticTotals: () => import(/* webpackChunkName: "devise-pages" */ './AnalyticTotals'),
     draggable: () => import(/* webpackChunkName: "devise-editors" */ 'vuedraggable'),
     ManageSlice: () => import(/* webpackChunkName: "devise-editors" */ './slices/ManageSlice'),

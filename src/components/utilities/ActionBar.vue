@@ -6,7 +6,10 @@
       style="width:50px;height:50px;"
       :style="theme.actionButtonGhost"
     >
-      <flash-icon w="30" h="30"/>
+      <flash-icon
+        w="30"
+        h="30"
+      />
     </button>
 
     <transition name="dvs-fade">
@@ -24,13 +27,13 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       show: false,
     };
   },
   components: {
-    FlashIcon: () => import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-flash.vue'),
+    FlashIcon: () => import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ZapIcon'),
   },
 };
 </script>

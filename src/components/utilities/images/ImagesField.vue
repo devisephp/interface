@@ -3,7 +3,11 @@
     <div class="dvs-flex dvs-items-center dvs-mb-4">
       <h3 :style="{color: theme.panel.color}">{{ labelText }}</h3>
       <div @click="showMediaManager">
-        <images-icon class="dvs-ml-4 dvs-cursor-pointer" w="30px" h="30px"/>
+        <images-icon
+          class="dvs-ml-4 dvs-cursor-pointer"
+          w="30px"
+          h="30px"
+        />
       </div>
     </div>
 
@@ -18,12 +22,19 @@
           :style="theme.panelCard"
         >
           <div @click="loadPreview(image)">
-            <search-icon class="dvs-cursor-pointer" w="30px" h="30px"/>
+            <search-icon
+              class="dvs-cursor-pointer"
+              w="30px"
+              h="30px"
+            />
           </div>
           <p class="dvs-mt-2">
             {{ getName(image) }}
             <br>
-            <a href="#" @click.prevent="removeImage(key)">Remove</a>
+            <a
+              href="#"
+              @click.prevent="removeImage(key)"
+            >Remove</a>
           </p>
         </div>
       </div>
@@ -73,7 +84,7 @@
 <script>
 export default {
   name: 'ImagesField',
-  data() {
+  data () {
     return {
       showPreview: false,
       previewImageName: '',
@@ -81,22 +92,22 @@ export default {
     };
   },
   methods: {
-    showMediaManager() {
+    showMediaManager () {
       window.deviseSettings.$bus.$emit('devise-launch-media-manager', {
         callback: this.mediaSelected,
       });
     },
-    mediaSelected(images) {
+    mediaSelected (images) {
       this.images.push(images.images.orig_optimized);
     },
-    removeImage(index) {
+    removeImage (index) {
       this.images.splice(index, 1);
     },
-    getName(path) {
+    getName (path) {
       const parts = path.split('/');
       return parts[parts.length - 1];
     },
-    loadPreview(imagePath) {
+    loadPreview (imagePath) {
       this.showPreview = true;
       this.previewImageName = this.getName(imagePath);
       this.previewImagePath = imagePath;
@@ -104,15 +115,15 @@ export default {
   },
   computed: {
     images: {
-      get() {
+      get () {
         return this.value;
       },
-      set(newValue) {
+      set (newValue) {
         this.$emit('input', newValue);
         this.$emit('change', newValue);
       },
     },
-    labelText() {
+    labelText () {
       return this.label ? this.label : 'Images';
     },
   },
@@ -130,9 +141,9 @@ export default {
   },
   components: {
     ImagesIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-images.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/CameraIcon'),
     SearchIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-search.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SearchIcon'),
   },
 };
 </script>

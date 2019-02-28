@@ -10,28 +10,41 @@
       v-if="previewMode === 'desktop'"
       :style="{color: theme.panelSidebar.secondaryColor}"
     >
-      <desktop-icon w="25" h="25"/>
+      <desktop-icon
+        w="25"
+        h="25"
+      />
     </div>
     <div
       class="dvs-m-4 dvs-cursor-pointer"
       v-if="previewMode === 'tablet'"
       :style="{color: theme.panelSidebar.secondaryColor}"
     >
-      <tablet-icon w="25" h="25"/>
+      <tablet-icon
+        w="25"
+        h="25"
+      />
     </div>
     <div
       class="dvs-m-4 dvs-cursor-pointer"
       v-if="previewMode === 'mobile-portrait'"
       :style="{color: theme.panelSidebar.secondaryColor}"
     >
-      <phone-portrait-icon w="25" h="25"/>
+      <phone-icon
+        w="25"
+        h="25"
+      />
     </div>
     <div
       class="dvs-m-4 dvs-cursor-pointer"
+      style="transform:rotate(90deg)"
       v-if="previewMode === 'mobile-landscape'"
       :style="{color: theme.panelSidebar.secondaryColor}"
     >
-      <phone-landscape-icon w="25" h="25"/>
+      <phone-icon
+        w="25"
+        h="25"
+      />
     </div>
     <div
       ref="previewSelector"
@@ -43,28 +56,41 @@
         :style="onStyle('desktop')"
         @click="setPreviewMode('desktop')"
       >
-        <desktop-icon w="20" h="20"/>
+        <desktop-icon
+          w="20"
+          h="20"
+        />
       </div>
       <div
         class="dvs-p-3 dvs-cursor-pointer dvs-border-b"
         :style="onStyle('tablet')"
         @click="setPreviewMode('tablet')"
       >
-        <tablet-icon w="20" h="20"/>
+        <tablet-icon
+          w="20"
+          h="20"
+        />
       </div>
       <div
         class="dvs-p-3 dvs-cursor-pointer dvs-border-b"
         :style="onStyle('mobile-portrait')"
         @click="setPreviewMode('mobile-portrait')"
       >
-        <phone-portrait-icon w="20" h="20"/>
+        <phone-icon
+          w="20"
+          h="20"
+        />
       </div>
       <div
         class="dvs-p-3 dvs-cursor-pointer"
+        style="transform:rotate(90deg)"
         :style="onStyle('mobile-landscape')"
         @click="setPreviewMode('mobile-landscape')"
       >
-        <phone-landscape-icon w="20" h="20"/>
+        <phone-icon
+          w="20"
+          h="20"
+        />
       </div>
     </div>
   </div>
@@ -75,33 +101,33 @@ import { TweenMax } from 'gsap';
 import { mapActions } from 'vuex';
 
 export default {
-  data() {
+  data () {
     return {
       previewMode: 'desktop',
       previewSelector: null,
     };
   },
-  mounted() {
+  mounted () {
     this.previewSelector = this.$refs.previewSelector;
     this.closePreviewSelector();
   },
   methods: {
     ...mapActions('devise', ['setPreviewModeInCurrentPage']),
-    closePreviewSelector() {
+    closePreviewSelector () {
       TweenMax.to(this.previewSelector, 0.5, {
         maxHeight: '0px',
       });
     },
-    openPreviewSelector() {
+    openPreviewSelector () {
       TweenMax.to(this.previewSelector, 0.5, {
         maxHeight: '500px',
       });
     },
-    setPreviewMode(mode) {
+    setPreviewMode (mode) {
       this.previewMode = mode;
       this.setPreviewModeInCurrentPage(mode);
     },
-    onStyle(type) {
+    onStyle (type) {
       if (this.previewMode === type) {
         return {
           color: this.theme.panelSidebar.secondaryColor,
@@ -112,13 +138,11 @@ export default {
   },
   components: {
     DesktopIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-desktop.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/MonitorIcon'),
     TabletIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-tablet-portrait.vue'),
-    PhonePortraitIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-phone-portrait.vue'),
-    PhoneLandscapeIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-phone-landscape.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/TabletIcon'),
+    PhoneIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SmartphoneIcon'),
   },
 };
 </script>

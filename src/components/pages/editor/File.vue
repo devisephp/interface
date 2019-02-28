@@ -9,17 +9,31 @@
     @change="update"
   >
     <template slot="preview">
-      <span v-if="value.url === null || value.url === ''" class="dvs-italic">Currently No Value</span>
-      <img :src="value.url" class="dvs-max-w-2xs" :alt="value.url">
+      <span
+        v-if="value.url === null || value.url === ''"
+        class="dvs-italic"
+      >Currently No Value</span>
+      <img
+        :src="value.url"
+        class="dvs-max-w-2xs"
+        :alt="value.url"
+      >
       <br>
     </template>
 
     <template slot="editor">
       <fieldset class="dvs-fieldset">
         <div class="dvs-flex dvs-items-center">
-          <input type="text" v-model="url">
+          <input
+            type="text"
+            v-model="url"
+          >
           <div @click="launchMediaManager($event)">
-            <document-icon class="dvs-ml-4 dvs-cursor-pointer" w="30px" h="30px"/>
+            <document-icon
+              class="dvs-ml-4 dvs-cursor-pointer"
+              w="30px"
+              h="30px"
+            />
           </div>
         </div>
       </fieldset>
@@ -32,44 +46,44 @@ import Field from '../../../mixins/Field';
 
 export default {
   name: 'FileEditor',
-  data() {
+  data () {
     return {
       originalValue: null,
       showEditor: false,
     };
   },
-  mounted() {
+  mounted () {
     this.originalValue = Object.assign({}, this.value);
   },
   methods: {
-    toggleEditor() {
+    toggleEditor () {
       this.showEditor = !this.showEditor;
     },
-    cancel() {
+    cancel () {
       this.url = this.originalValue.url;
       this.enabled = this.originalValue.enabled;
       this.toggleEditor();
     },
-    launchMediaManager() {
+    launchMediaManager () {
       window.deviseSettings.$bus.$emit('devise-launch-media-manager', {
         callback: this.mediaSelected,
         options: this.options,
       });
     },
-    mediaSelected(url) {
+    mediaSelected (url) {
       this.url = url;
     },
-    resetValue() {
+    resetValue () {
       this.enabled = false;
       this.url = null;
     },
   },
   computed: {
     url: {
-      get() {
+      get () {
         return this.value.url;
       },
-      set(value) {
+      set (value) {
         const valueObj = Object.assign(this.value, { url: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
@@ -80,7 +94,7 @@ export default {
   components: {
     FieldEditor: () => import(/* webpackChunkName: "devise-editors" */ './Field'),
     DocumentIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-document.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ClipboardIcon'),
   },
   mixins: [Field],
 };

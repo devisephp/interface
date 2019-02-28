@@ -5,14 +5,21 @@
         <label>Presets</label>
         <select @change="selectPreset($event)">
           <option value>Select a Preset</option>
-          <option :value="key" :key="key" v-for="(preset, key) in presets">{{ key }}</option>
+          <option
+            :value="key"
+            :key="key"
+            v-for="(preset, key) in presets"
+          >{{ key }}</option>
         </select>
       </fieldset>
     </div>
 
     <div class="dvs-flex dvs-w-full">
       <div class="dvs-w-1/4 dvs-pr-8">
-        <h6 class="dvs-mb-2" :style="{color: theme.panel.color}">Panel</h6>
+        <h6
+          class="dvs-mb-2"
+          :style="{color: theme.panel.color}"
+        >Panel</h6>
         <color-editor
           v-model="localValue.panelTop"
           :options="{label: 'Panel Top Color', hidePreview: true, swatch: true}"
@@ -59,7 +66,10 @@
           class="dvs-mb-4"
         ></color-editor>
 
-        <h6 class="dvs-mb-2 dvs-mt-8" :style="{color: theme.panel.color}">Buttons</h6>
+        <h6
+          class="dvs-mb-2 dvs-mt-8"
+          :style="{color: theme.panel.color}"
+        >Buttons</h6>
         <color-editor
           v-model="localValue.buttonsActionText"
           :options="{label: 'Action Button Text', hidePreview: true, swatch: true}"
@@ -81,7 +91,10 @@
           class="dvs-mb-4"
         ></color-editor>
 
-        <h6 class="dvs-mb-2 dvs-mt-8" :style="{color: theme.panel.color}">Help Blocks</h6>
+        <h6
+          class="dvs-mb-2 dvs-mt-8"
+          :style="{color: theme.panel.color}"
+        >Help Blocks</h6>
         <color-editor
           v-model="localValue.helpBackground"
           :options="{label: 'Background Color', hidePreview: true, swatch: true}"
@@ -93,7 +106,10 @@
           class="dvs-mb-4"
         ></color-editor>
 
-        <h6 class="dvs-mb-2 dvs-mt-8" :style="{color: theme.panel.color}">Chart Colors</h6>
+        <h6
+          class="dvs-mb-2 dvs-mt-8"
+          :style="{color: theme.panel.color}"
+        >Chart Colors</h6>
         <color-editor
           v-model="localValue.chartColor1"
           :options="{label: 'Chart Color 1', hidePreview: true, swatch: true}"
@@ -127,7 +143,10 @@
       </div>
 
       <div class="dvs-w-3/4 dvs-mb-8">
-        <h3 class="dvs-mb-4" :style="{color: theme.panel.color}">Mini-Preview of the Editor</h3>
+        <h3
+          class="dvs-mb-4"
+          :style="{color: theme.panel.color}"
+        >Mini-Preview of the Editor</h3>
         <div
           class="dvs-bg-grey-light dvs-rounded dvs-w-full dvs-overflow-hidden dvs-p-1 dvs-flex dvs-flex-col dvs-items-stretch dvs-mb-12"
           style="min-height:400px"
@@ -153,16 +172,32 @@
                   `"
               >
                 <div class="dvs-p-2">
-                  <document-icon w="18" h="18" :style="localValue.panelSidebarText.color"/>
+                  <document-icon
+                    w="18"
+                    h="18"
+                    :style="localValue.panelSidebarText.color"
+                  />
                 </div>
                 <div class="dvs-p-2">
-                  <cube-icon w="18" h="18" :style="localValue.panelSidebarText.color"/>
+                  <cube-icon
+                    w="18"
+                    h="18"
+                    :style="localValue.panelSidebarText.color"
+                  />
                 </div>
                 <div class="dvs-p-2">
-                  <cog-icon w="18" h="18" :style="localValue.panelSidebarText.color"/>
+                  <cog-icon
+                    w="18"
+                    h="18"
+                    :style="localValue.panelSidebarText.color"
+                  />
                 </div>
                 <div class="dvs-p-2">
-                  <power-icon w="18" h="18" :style="localValue.panelSidebarText.color"/>
+                  <power-icon
+                    w="18"
+                    h="18"
+                    :style="localValue.panelSidebarText.color"
+                  />
                 </div>
               </div>
 
@@ -170,13 +205,28 @@
                 <!-- Some Bonus text stuff... maybe a menu? :) -->
                 <ul class="dvs-text-left dvs-text-xs dvs-list-reset dvs-font-bold">
                   <li class="dvs-mb-4">
-                    <menu-icon w="18" h="18" class="dvs-mr-2 handle" :style="theme.panelIcons"/>Lorem
+                    <menu-icon
+                      w="18"
+                      h="18"
+                      class="dvs-mr-2 handle"
+                      :style="theme.panelIcons"
+                    />Lorem
                   </li>
                   <li class="dvs-mb-4">
-                    <menu-icon w="18" h="18" class="dvs-mr-2 handle" :style="theme.panelIcons"/>Lorem
+                    <menu-icon
+                      w="18"
+                      h="18"
+                      class="dvs-mr-2 handle"
+                      :style="theme.panelIcons"
+                    />Lorem
                   </li>
                   <li class="dvs-mb-4">
-                    <menu-icon w="18" h="18" class="dvs-mr-2 handle" :style="theme.panelIcons"/>Lorem
+                    <menu-icon
+                      w="18"
+                      h="18"
+                      class="dvs-mr-2 handle"
+                      :style="theme.panelIcons"
+                    />Lorem
                     <ul class="dvs-list-reset dvs-ml-8">
                       <li
                         class="dvs-mt-2 dvs-mb-4 dvs-p-1 dvs-px-4 dvs-text-sm dvs-rounded-sm"
@@ -188,7 +238,12 @@
                     </ul>
                   </li>
                   <li class="dvs-mb-4">
-                    <menu-icon w="18" h="18" class="dvs-mr-2 handle" :style="theme.panelIcons"/>Lorem
+                    <menu-icon
+                      w="18"
+                      h="18"
+                      class="dvs-mr-2 handle"
+                      :style="theme.panelIcons"
+                    />Lorem
                   </li>
                 </ul>
 
@@ -200,7 +255,7 @@
                     color: ${localValue.buttonsActionBackground.color};
                   `"
                 >+ Add Slice</button>
-                
+
                 <button
                   class="dvs-btn dvs-btn-xs dvs-py-4 dvs-w-full"
                   :style="`
@@ -213,29 +268,29 @@
 
             <div class="dvs-bg-white dvs-w-full dvs-p-4 dvs-relative">
               <h3>Just an example page</h3>
-              <p
-                class="dvs-text-xs dvs-mt-4 dvs-text-black"
-              >Bacon ipsum dolor amet brisket porchetta doner shankle sirloin pancetta rump alcatra strip steak pig burgdoggen frankfurter cupim kevin. Bacon alcatra flank buffalo beef andouille spare ribs porchetta. Shank corned beef pork loin bacon beef pork belly frankfurter tri-tip venison tenderloin alcatra chuck prosciutto filet mignon cow. Kielbasa t-bone fatback filet mignon frankfurter burgdoggen biltong tri-tip jerky pork chop. Hamburger pork pork loin, brisket chuck beef turkey spare ribs swine.</p>
+              <p class="dvs-text-xs dvs-mt-4 dvs-text-black">Bacon ipsum dolor amet brisket porchetta doner shankle sirloin pancetta rump alcatra strip steak pig burgdoggen frankfurter cupim kevin. Bacon alcatra flank buffalo beef andouille spare ribs porchetta. Shank corned beef pork loin bacon beef pork belly frankfurter tri-tip venison tenderloin alcatra chuck prosciutto filet mignon cow. Kielbasa t-bone fatback filet mignon frankfurter burgdoggen biltong tri-tip jerky pork chop. Hamburger pork pork loin, brisket chuck beef turkey spare ribs swine.</p>
               <div class="dvs-flex dvs-justify-between">
                 <div
                   class="dvs-bg-grey dvs-rounded dvs-flex dvs-justify-center dvs-items-center dvs-w-1/3 dvs-mr-4"
                   style="height:150px;"
                 >
-                  <images-icon w="40" h="40"/>
+                  <images-icon
+                    w="40"
+                    h="40"
+                  />
                 </div>
                 <div
                   class="dvs-bg-grey dvs-rounded dvs-flex dvs-justify-center dvs-items-center dvs-w-2/3"
                   style=" height:150px"
                 >
-                  <images-icon w="40" h="40"/>
+                  <images-icon
+                    w="40"
+                    h="40"
+                  />
                 </div>
               </div>
-              <p
-                class="dvs-text-xs dvs-mt-4 dvs-text-black"
-              >Bacon ipsum dolor amet brisket porchetta doner shankle sirloin pancetta rump alcatra strip steak pig burgdoggen frankfurter cupim kevin. Bacon alcatra flank buffalo beef andouille spare ribs porchetta. Shank corned beef pork loin bacon beef pork belly frankfurter tri-tip venison tenderloin alcatra chuck prosciutto filet mignon cow. Kielbasa t-bone fatback filet mignon frankfurter burgdoggen biltong tri-tip jerky pork chop. Hamburger pork pork loin, brisket chuck beef turkey spare ribs swine.</p>
-              <p
-                class="dvs-text-xs dvs-mt-4 dvs-text-black"
-              >Bacon ipsum dolor amet brisket porchetta doner shankle sirloin pancetta rump alcatra strip steak pig burgdoggen frankfurter cupim kevin. Bacon alcatra flank buffalo beef andouille spare ribs porchetta. Shank corned beef pork loin bacon beef pork belly frankfurter tri-tip venison tenderloin alcatra chuck prosciutto filet mignon cow. Kielbasa t-bone fatback filet mignon frankfurter burgdoggen biltong tri-tip jerky pork chop. Hamburger pork pork loin, brisket chuck beef turkey spare ribs swine.</p>
+              <p class="dvs-text-xs dvs-mt-4 dvs-text-black">Bacon ipsum dolor amet brisket porchetta doner shankle sirloin pancetta rump alcatra strip steak pig burgdoggen frankfurter cupim kevin. Bacon alcatra flank buffalo beef andouille spare ribs porchetta. Shank corned beef pork loin bacon beef pork belly frankfurter tri-tip venison tenderloin alcatra chuck prosciutto filet mignon cow. Kielbasa t-bone fatback filet mignon frankfurter burgdoggen biltong tri-tip jerky pork chop. Hamburger pork pork loin, brisket chuck beef turkey spare ribs swine.</p>
+              <p class="dvs-text-xs dvs-mt-4 dvs-text-black">Bacon ipsum dolor amet brisket porchetta doner shankle sirloin pancetta rump alcatra strip steak pig burgdoggen frankfurter cupim kevin. Bacon alcatra flank buffalo beef andouille spare ribs porchetta. Shank corned beef pork loin bacon beef pork belly frankfurter tri-tip venison tenderloin alcatra chuck prosciutto filet mignon cow. Kielbasa t-bone fatback filet mignon frankfurter burgdoggen biltong tri-tip jerky pork chop. Hamburger pork pork loin, brisket chuck beef turkey spare ribs swine.</p>
 
               <div
                 class="dvs-absolute dvs-pin-l dvs-pin-r dvs-pin-b dvs-flex dvs-justify-between dvs-items-end dvs-m-8 dvs-p-8 dvs-rounded"
@@ -294,7 +349,7 @@ const lineData = {
 
 export default {
   name: 'AdminDesigner',
-  data() {
+  data () {
     return {
       localValue: {
         panelTop: { color: null },
@@ -373,7 +428,7 @@ export default {
       placeholderLineData: lineData,
     };
   },
-  mounted() {
+  mounted () {
     this.setLineGraphStyles();
     this.$nextTick(() => {
       if (typeof this.value.panelTop !== 'undefined') {
@@ -384,7 +439,7 @@ export default {
     });
   },
   methods: {
-    applyStyles(styles) {
+    applyStyles (styles) {
       for (const propt in styles) {
         if (typeof this.localValue[propt] !== 'undefined') {
           for (const att in styles[propt]) {
@@ -395,14 +450,14 @@ export default {
         }
       }
     },
-    selectPreset(e) {
+    selectPreset (e) {
       if (e.target.value !== '') {
         const preset = e.target.value;
         this.applyStyles(this.presets[preset]);
         e.target.value = '';
       }
     },
-    setLineGraphStyles() {
+    setLineGraphStyles () {
       const self = this;
       this.placeholderLineData.data.datasets.map((dataset, index) => {
         dataset.backgroundColor = [self.chartColors[index].background];
@@ -417,7 +472,7 @@ export default {
     },
   },
   computed: {
-    options() {
+    options () {
       return {
         width: '8000px',
         legend: {
@@ -449,7 +504,7 @@ export default {
   },
   watch: {
     localValue: {
-      handler() {
+      handler () {
         this.$emit('input', this.localValue);
       },
       deep: true,
@@ -458,17 +513,17 @@ export default {
   components: {
     ColorEditor: () => import(/* webpackChunkName: "devise-editors" */ '../pages/editor/Color'),
     CogIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-cog.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SettingsIcon'),
     CubeIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-cube.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/BoxIcon'),
     DocumentIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-document.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ClipboardIcon'),
     MenuIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-menu.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/MenuIcon'),
     PowerIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-power.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/PowerIcon'),
     ImagesIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-images.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/CameraIcon'),
   },
   props: ['value', 'domain'],
 };

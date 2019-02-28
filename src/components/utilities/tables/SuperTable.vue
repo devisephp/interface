@@ -8,19 +8,35 @@
           :class="{'dvs-hidden md:dvs-table-cell': column.hideMobile}"
           @click="showControls(column.key)"
         >
-          <div class="dvs-flex" v-if="!column.toggleColumns">
+          <div
+            class="dvs-flex"
+            v-if="!column.toggleColumns"
+          >
             <div>{{ column.label }}</div>
-            <column-controls v-model="filters" :ref="column.key" :column="column"></column-controls>
+            <column-controls
+              v-model="filters"
+              :ref="column.key"
+              :column="column"
+            ></column-controls>
           </div>
-          <div class="flex" v-else>
+          <div
+            class="flex"
+            v-else
+          >
             <toggle-columns v-model="columns"></toggle-columns>
             {{ column.label }}
           </div>
         </th>
       </tr>
-      <tr v-for="(record, rkey) in theRecords" :key="rkey">
+      <tr
+        v-for="(record, rkey) in theRecords"
+        :key="rkey"
+      >
         <template v-for="(column, index) in tableColumns">
-          <td :key="index" :class="{'dvs-hidden lg:dvs-table-cell': column.hideMobile}">
+          <td
+            :key="index"
+            :class="{'dvs-hidden lg:dvs-table-cell': column.hideMobile}"
+          >
             <cell
               v-if="column.template"
               :record="record"
@@ -31,7 +47,10 @@
         </template>
       </tr>
       <tr v-if="!theRecords.length">
-        <td class="dvs-text-center" :colspan="columns.length">No Results Found</td>
+        <td
+          class="dvs-text-center"
+          :colspan="columns.length"
+        >No Results Found</td>
       </tr>
     </table>
 
@@ -42,24 +61,45 @@
       @changePage="changePage"
     ></pagination>
 
-    <fieldset class="dvs-fieldset dvs-mb-4" v-if="!filters.single">
+    <fieldset
+      class="dvs-fieldset dvs-mb-4"
+      v-if="!filters.single"
+    >
       <label>Do you want the data paginated?</label>
-      <toggle @change="requestRefreshRecords" v-model="filters.paginated" :id="randomString(8)"></toggle>
+      <toggle
+        @change="requestRefreshRecords"
+        v-model="filters.paginated"
+        :id="randomString(8)"
+      ></toggle>
     </fieldset>
 
-    <fieldset class="dvs-fieldset dvs-mb-4" v-if="!filters.single && filters.paginated">
+    <fieldset
+      class="dvs-fieldset dvs-mb-4"
+      v-if="!filters.single && filters.paginated"
+    >
       <label>What is the number of records per page?</label>
-      <input @keyup="requestRefreshRecords" type="number" v-model="filters.limit">
+      <input
+        @keyup="requestRefreshRecords"
+        type="number"
+        v-model="filters.limit"
+      >
     </fieldset>
 
     <fieldset class="dvs-fieldset dvs-mb-4">
       <label>Do you only want the first record?</label>
-      <toggle @change="requestRefreshRecords" v-model="filters.single" :id="randomString(8)"></toggle>
+      <toggle
+        @change="requestRefreshRecords"
+        v-model="filters.single"
+        :id="randomString(8)"
+      ></toggle>
     </fieldset>
 
     <fieldset class="dvs-fieldset dvs-mb-8">
       <label class="dvs-mb-8">Scopes</label>
-      <ul class="dvs-list-reset dvs-mb-4" v-if="filters.scopes !== {}">
+      <ul
+        class="dvs-list-reset dvs-mb-4"
+        v-if="filters.scopes !== {}"
+      >
         <li
           class="dvs-mb-2 dvs-px-4 py-3 dvs-flex dvs-items-center dvs-justify-between"
           v-for="(scope, key) in filters.scopes"
@@ -68,7 +108,11 @@
         >
           {{ key }}
           <div @click="removeScope(key)">
-            <close-icon class="dvs-pl-2 dvs-cursor-pointer" w="20" h="20"/>
+            <close-icon
+              class="dvs-pl-2 dvs-cursor-pointer"
+              w="20"
+              h="20"
+            />
           </div>
         </li>
       </ul>
@@ -109,7 +153,7 @@ import ToggleColumns from './ToggleColumns.vue';
 
 export default {
   name: 'SuperTable',
-  data() {
+  data () {
     return {
       theOptions: {
         showLinks: true,
@@ -132,7 +176,7 @@ export default {
       newScopeProperties: '',
     };
   },
-  mounted() {
+  mounted () {
     // Merge options
     this.theOptions.showLinks = this.showLinks;
 
@@ -158,7 +202,7 @@ export default {
   },
   methods: {
     ...mapActions('devise', ['getModelRecords']),
-    updateValue() {
+    updateValue () {
       const modelQuery = `${this.model.class}&${commonUtils.buildFilterParams(this.filters)}`;
       this.$emit('input', modelQuery);
       this.$emit('change', modelQuery);
@@ -166,10 +210,10 @@ export default {
         this.$emit('done', modelQuery);
       });
     },
-    cancel() {
+    cancel () {
       this.$emit('cancel');
     },
-    requestRefreshRecords() {
+    requestRefreshRecords () {
       const self = this;
 
       this.updateValue();
@@ -187,24 +231,24 @@ export default {
           });
       }, 500);
     },
-    changePage(page) {
+    changePage (page) {
       this.filters.page = page;
       this.requestRefreshRecords();
     },
-    showControls(key) {
+    showControls (key) {
       if (this.$refs.hasOwnProperty(key) && this.$refs[key][0].show === false) {
         this.$refs[key][0].show = true;
       }
     },
     // Checks to see if the key includes a period meaning that its a property of a property
-    getRecordColumn(record, key) {
+    getRecordColumn (record, key) {
       if (!key.includes('.')) {
         return record[key];
       }
       return this.getRecordColumnTraversal(record, key);
     },
     // Get in there and get the property at the bottom of the stack
-    getRecordColumnTraversal(record, key) {
+    getRecordColumnTraversal (record, key) {
       const parts = key.split('.[].');
 
       for (let i = 0; i < parts.length; i + 1) {
@@ -220,7 +264,7 @@ export default {
 
       return record;
     },
-    getFormattedStringFromArray(record, part) {
+    getFormattedStringFromArray (record, part) {
       let finalString = '';
 
       for (let i = 0; i < record.length; i + 1) {
@@ -233,10 +277,10 @@ export default {
 
       return finalString;
     },
-    showColumn(column) {
+    showColumn (column) {
       return column.show === true || typeof column.show === 'undefined';
     },
-    addScope() {
+    addScope () {
       if (this.newScope !== '') {
         this.filters.scopes[this.newScope] = this.newScopeProperties;
         this.newScope = '';
@@ -244,14 +288,14 @@ export default {
         this.requestRefreshRecords();
       }
     },
-    removeScope(key) {
+    removeScope (key) {
       this.$delete(this.filters.scopes, key);
       this.requestRefreshRecords();
       this.updateValue();
     },
   },
   computed: {
-    theRecords() {
+    theRecords () {
       if (typeof this.records.data !== 'undefined') {
         return this.records.data;
       }
@@ -260,7 +304,7 @@ export default {
       }
       return [this.records];
     },
-    tableColumns() {
+    tableColumns () {
       let columns = [];
 
       columns = this.columns.filter(c => {
@@ -274,10 +318,10 @@ export default {
     },
   },
   watch: {
-    model() {
+    model () {
       this.requestRefreshRecords();
     },
-    filters() {
+    filters () {
       this.requestRefreshRecords();
     },
   },
@@ -302,7 +346,7 @@ export default {
   mixins: [Strings],
   components: {
     CloseIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-close.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/XIcon'),
     ColumnControls,
     ToggleColumns,
     Pagination,

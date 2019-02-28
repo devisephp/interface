@@ -671,13 +671,13 @@ export default {
       import(/* webpackChunkName: "devise-utilities" */ '../utilities/DatePicker'),
     DeviseModal: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/Modal'),
     TrashIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-trash.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/TrashIcon'),
     CopyIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-copy.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/CopyIcon'),
     EditIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-create.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/EditIcon'),
     CheckmarkIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-checkmark.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/CheckIcon'),
     LineChart: () => import(/* webpackChunkName: "devise-charts" */ './analytics/Line'),
     MetaForm: () => import(/* webpackChunkName: "devise-meta" */ '../meta/MetaForm'),
   },

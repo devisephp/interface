@@ -2,17 +2,26 @@
   <div>
     <fieldset class="dvs-fieldset dvs-mb-4">
       <label>Attribute Name</label>
-      <input type="text" v-model="newMeta.attribute_name">
+      <input
+        type="text"
+        v-model="newMeta.attribute_name"
+      >
     </fieldset>
 
     <fieldset class="dvs-fieldset dvs-mb-4">
       <label>Attribute Value</label>
-      <input type="text" v-model="newMeta.attribute_value">
+      <input
+        type="text"
+        v-model="newMeta.attribute_value"
+      >
     </fieldset>
 
     <fieldset class="dvs-fieldset dvs-mb-4">
       <label>Content</label>
-      <input type="text" v-model="newMeta.content">
+      <input
+        type="text"
+        v-model="newMeta.content"
+      >
     </fieldset>
 
     <help
@@ -45,9 +54,7 @@
         class="dvs-flex dvs-justify-between dvs-items-center dvs-mb-2"
       >
         <div class="dvs-font-mono dvs-pr-8">
-          <template
-            v-if="!meta.edit"
-          >&lt;meta {{ meta.attribute_name }}="{{ meta.attribute_value }}" content="{{ meta.content }}"&gt;</template>
+          <template v-if="!meta.edit">&lt;meta {{ meta.attribute_name }}="{{ meta.attribute_value }}" content="{{ meta.content }}"&gt;</template>
           <template v-else>
             <fieldset class="dvs-fieldset">
               <div class="dvs-flex dvs-items-center">
@@ -58,9 +65,17 @@
                   class="dvs-ml-4"
                   v-model="value[key].attribute_name"
                 >="
-                <input v-show="meta.edit" type="text" v-model="value[key].attribute_value">"
+                <input
+                  v-show="meta.edit"
+                  type="text"
+                  v-model="value[key].attribute_value"
+                >"
                 <span class="dvs-ml-4">content="</span>
-                <input v-show="meta.edit" type="text" v-model="value[key].content">"&gt;
+                <input
+                  v-show="meta.edit"
+                  type="text"
+                  v-model="value[key].content"
+                >"&gt;
               </div>
             </fieldset>
           </template>
@@ -73,14 +88,20 @@
               :style="theme.actionButtonGhost"
               @click="setEditMode(meta)"
             >
-              <edit-icon w="20" h="20"/>
+              <edit-icon
+                w="20"
+                h="20"
+              />
             </button>
             <button
               class="dvs-btn dvs-btn-xs dvs-ml-4"
               :style="theme.actionButtonGhost"
               v-devise-alert-confirm="{callback: requestDeleteMeta, arguments:meta, message: 'Are you sure you want to delete this meta?'}"
             >
-              <trash-icon w="20" h="20"/>
+              <trash-icon
+                w="20"
+                h="20"
+              />
             </button>
           </div>
           <button
@@ -89,7 +110,11 @@
             @click="requestUpdateMeta(value[key])"
             :style="theme.actionButton"
           >Save</button>
-          <button class="dvs-btn" v-if="meta.edit" @click="setEditMode(meta)">Cancel</button>
+          <button
+            class="dvs-btn"
+            v-if="meta.edit"
+            @click="setEditMode(meta)"
+          >Cancel</button>
         </div>
       </div>
     </div>
@@ -99,7 +124,7 @@
 <script>
 export default {
   name: 'MetaForm',
-  data() {
+  data () {
     return {
       newMeta: {
         site_id: 0,
@@ -109,21 +134,21 @@ export default {
       },
     };
   },
-  mounted() {
+  mounted () {
     this.newMeta.site_id = window.$page.site_id;
   },
   methods: {
-    requestCreateMeta() {
+    requestCreateMeta () {
       this.$emit('request-create-meta', this.newMeta);
       this.newMeta = Object.assign({}, this.newMeta);
     },
-    requestUpdateMeta(meta) {
+    requestUpdateMeta (meta) {
       this.$emit('request-update-meta', meta);
     },
-    requestDeleteMeta(meta) {
+    requestDeleteMeta (meta) {
       this.$emit('request-delete-meta', meta);
     },
-    setEditMode(meta) {
+    setEditMode (meta) {
       if (typeof meta.edit === 'undefined') {
         this.$set(meta, 'edit', true);
       } else {
@@ -132,14 +157,14 @@ export default {
     },
   },
   computed: {
-    isInvalid() {
+    isInvalid () {
       return (
         this.newMeta.attribute_name === null ||
         this.newMeta.attribute_value === null ||
         this.newMeta.content === null
       );
     },
-    anyNewMetaPopulated() {
+    anyNewMetaPopulated () {
       return (
         this.newMeta.attribute_name !== null ||
         this.newMeta.attribute_value !== null ||
@@ -156,9 +181,9 @@ export default {
   },
   components: {
     TrashIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-trash.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/TrashIcon'),
     EditIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-create.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/EditIcon'),
   },
 };
 </script>

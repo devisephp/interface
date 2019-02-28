@@ -31,9 +31,8 @@
           :style="{backgroundColor: this.theme.panelCard.background}"
         >
           <more-icon
-            w="18"
-            h="18"
-            style="transform:rotate(90deg); height:18px;"
+            w="10"
+            h="10"
             :style="{color: 'white'}"
           />
 
@@ -514,30 +513,30 @@ export default {
   },
   components: {
     AddIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-add.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/PlusCircleIcon'),
     CheckboxEditor: () => import(/* webpackChunkName: "devise-editors" */ '../editor/Checkbox'),
     CogIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-cog.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SettingsIcon'),
     CopyIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-copy.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/CopyIcon'),
     ColorEditor: () => import(/* webpackChunkName: "devise-editors" */ '../editor/Color'),
     DatetimeEditor: () => import(/* webpackChunkName: "devise-editors" */ '../editor/Datetime'),
     CreateIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-create.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/Edit3Icon'),
     draggable: () => import(/* webpackChunkName: "devise-editors" */ 'vuedraggable'),
     FileEditor: () => import(/* webpackChunkName: "devise-editors" */ '../editor/File'),
     ImageEditor: () => import(/* webpackChunkName: "devise-editors" */ '../editor/Image'),
     LinkEditor: () => import(/* webpackChunkName: "devise-editors" */ '../editor/Link'),
     LocateIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-locate.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/TargetIcon'),
     ManageSlice: () => import(/* webpackChunkName: "devise-editors" */ './ManageSlice'),
     MenuIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-menu.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/MenuIcon'),
     MoreIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-more.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/MoreVerticalIcon'),
     NumberEditor: () => import(/* webpackChunkName: "devise-editors" */ '../editor/Number'),
     RemoveIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-trash.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/TrashIcon'),
     SelectEditor: () => import(/* webpackChunkName: "devise-editors" */ '../editor/Select'),
     SliceEditor: () => import(/* webpackChunkName: "devise-editors" */ './SliceEditor'),
     TextareaEditor: () => import(/* webpackChunkName: "devise-editors" */ '../editor/Textarea'),

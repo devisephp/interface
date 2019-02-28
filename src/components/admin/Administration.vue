@@ -169,19 +169,19 @@ export default {
     PreviewMode: () =>
       import(/* webpackChunkName: "devise-previewmode" */ '../pages/PreviewMode.vue'),
     BackIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-arrow-round-back.vue'),
-    CogIcon: () => import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-cog.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ArrowLeftIcon'),
+    CogIcon: () => import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SettingsIcon'),
     CreateIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-create.vue'),
-    CubeIcon: () => import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-cube.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/EditIcon'),
+    CubeIcon: () => import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/BoxIcon'),
     DocumentIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-document.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ClipboardIcon'),
     ImageIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-image.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ImageIcon'),
     Panel: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/Panel.vue'),
     PowerIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-power.vue'),
-    SaveIcon: () => import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-save.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/PowerIcon'),
+    SaveIcon: () => import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SaveIcon'),
     SliceSettings: () =>
       import(/* webpackChunkName: "devise-slices" */ '../slices/SliceSettings.vue'),
   },

@@ -75,9 +75,9 @@ export default {
   },
   components: {
     CubeIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-cube.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/BoxIcon'),
     InformationCircleIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-information-circle.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/InfoIcon'),
     SliceDiagram,
   },
 };

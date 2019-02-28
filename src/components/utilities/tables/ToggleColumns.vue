@@ -1,7 +1,7 @@
 <template>
   <div class="dvs-mr-4 dvs-relative">
     <div @click="show = true">
-      <switch-icon class="dvs-cursor-pointer dvs-float-right"/>
+      <switch-icon class="dvs-cursor-pointer dvs-float-right" />
     </div>
     <div
       v-show="show"
@@ -10,13 +10,11 @@
       <div class="dvs-pt-4 dvs-pb-2 dvs-px-4">
         Toggle Columns
         <span @click="show = false">
-          <switch-icon class="dvs-cursor-pointer dvs-float-right"/>
+          <switch-icon class="dvs-cursor-pointer dvs-float-right" />
         </span>
       </div>
       <div class="dvs-px-4">
-        <div
-          class="dvs-flex dvs-px-4 dvs-py-8 dvs-flex dvs-flex-col dvs-max-h-200 dvs-overflow-y-scroll"
-        >
+        <div class="dvs-flex dvs-px-4 dvs-py-8 dvs-flex dvs-flex-col dvs-max-h-200 dvs-overflow-y-scroll">
           <div>
             <fieldset
               class="dvs-mr-4 dvs-flex dvs-mb-2"
@@ -24,7 +22,11 @@
               :key="column.key"
             >
               <div class="dvs-flex dvs-items-center">
-                <input type="checkbox" v-model="column.show" @change="update">
+                <input
+                  type="checkbox"
+                  v-model="column.show"
+                  @change="update"
+                >
                 <label class="dvs-pl-2">{{ column.label }}</label>
               </div>
             </fieldset>
@@ -40,13 +42,13 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'ToggleColumns',
-  data() {
+  data () {
     return {
       show: false,
       columns: [],
     };
   },
-  mounted() {
+  mounted () {
     this.columns = this.value;
 
     for (let i = 0; i < this.columns.length; i + 1) {
@@ -56,7 +58,7 @@ export default {
     }
   },
   methods: {
-    update() {
+    update () {
       // TODO - This is current an error and needs to be ported for Devise
       // local.set(this.type + '-columns-' + this.currentTeam.id, this.columns)
 
@@ -65,7 +67,7 @@ export default {
   },
   computed: {
     ...mapGetters(['currentTeam']),
-    tableColumns() {
+    tableColumns () {
       let columns = [];
 
       columns = this.columns.filter(c => {
@@ -90,7 +92,7 @@ export default {
   },
   components: {
     SwitchIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-switch.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ToggleLeftIcon'),
   },
 };
 </script>

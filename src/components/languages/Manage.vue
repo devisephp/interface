@@ -1,7 +1,10 @@
 <template>
   <div v-if="languages.data.length">
     <div id="devise-admin-content">
-      <h3 class="dvs-mb-8 dvs-pr-16" :style="{color: theme.panel.color}">Add Language</h3>
+      <h3
+        class="dvs-mb-8 dvs-pr-16"
+        :style="{color: theme.panel.color}"
+      >Add Language</h3>
 
       <help class="dvs-mb-8">
         When you add a language to this site it is immediately enabled. Afterwards you can create translated versions of pages that will be linked to one another allowing you to provide ways to switch languages on your front-end. We
@@ -14,7 +17,11 @@
 
       <fieldset class="dvs-fieldset dvs-mb-4">
         <label>New Language Code</label>
-        <input type="text" maxlength="2" v-model="newLanguage.code">
+        <input
+          type="text"
+          maxlength="2"
+          v-model="newLanguage.code"
+        >
       </fieldset>
 
       <button
@@ -24,7 +31,10 @@
         :style="theme.actionButton"
       >Save New Language</button>
 
-      <h3 class="dvs-mb-8 dvs-pr-16" :style="{color: theme.panel.color}">Existing Languages</h3>
+      <h3
+        class="dvs-mb-8 dvs-pr-16"
+        :style="{color: theme.panel.color}"
+      >Existing Languages</h3>
 
       <div class="dvs-mb-12 dvs-flex dvs-flex-col">
         <div
@@ -35,7 +45,11 @@
           <div class="dvs-text-xl dvs-font-bold dvs-mb-4">
             <template v-if="!language.editCode">{{ language.code }}</template>
             <fieldset class="dvs-fieldset">
-              <input v-show="language.editCode" type="text" v-model="localValue.data[key].code">
+              <input
+                v-show="language.editCode"
+                type="text"
+                v-model="localValue.data[key].code"
+              >
             </fieldset>
           </div>
 
@@ -46,7 +60,7 @@
               :style="theme.actionButtonGhost"
               @click="language.editCode = !language.editCode"
             >
-              <CreateIcon/>
+              <CreateIcon />
             </button>
             <button
               class="dvs-btn dvs-mr-2"
@@ -72,7 +86,7 @@ import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'LanguagesManage',
-  data() {
+  data () {
     return {
       localValue: {
         data: [],
@@ -83,20 +97,20 @@ export default {
       },
     };
   },
-  mounted() {
+  mounted () {
     this.retrieveAllLanguages();
   },
   methods: {
     ...mapActions('devise', ['getLanguages', 'createLanguage', 'updateLanguage']),
-    requestCreateLanguage() {
+    requestCreateLanguage () {
       this.createLanguage(this.newLanguage);
     },
-    requestUpdateLanguage(language) {
+    requestUpdateLanguage (language) {
       this.updateLanguage(language).then(() => {
         return false;
       });
     },
-    retrieveAllLanguages() {
+    retrieveAllLanguages () {
       this.getLanguages().then(() => {
         this.localValue = Object.assign({}, this.localValue, this.languages);
         this.localValue.data.map(language => {
@@ -112,7 +126,7 @@ export default {
   },
   components: {
     CreateIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-create.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/EditIcon'),
   },
 };
 </script>

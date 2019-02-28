@@ -1,8 +1,14 @@
 <template>
   <div class="dvs-fixed dvs-pin">
-    <div class="dvs-blocker dvs-fixed dvs-pin" @click="close"></div>
+    <div
+      class="dvs-blocker dvs-fixed dvs-pin"
+      @click="close"
+    ></div>
     <div class="dvs-absolute dvs-absolute-center dvs-z-50 dvs-min-w-2/3 dvs-max-h-screen">
-      <panel class="dvs-w-full" :panel-style="theme.panel">
+      <panel
+        class="dvs-w-full"
+        :panel-style="theme.panel"
+      >
         <div class="dvs-p-8">
           <div @click="close">
             <close-icon
@@ -24,13 +30,13 @@ import Panel from './Panel.vue';
 
 export default {
   methods: {
-    close() {
+    close () {
       this.$emit('close');
     },
   },
   components: {
     CloseIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-close.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/XIcon'),
     Panel,
   },
 };

@@ -1,10 +1,19 @@
 <template>
-  <div class="dvs-ml-4" v-if="shouldDisplayControls">
-    <div @click="show = true" class="dvs-cursor-pointer">
-      <settings-icon/>
+  <div
+    class="dvs-ml-4"
+    v-if="shouldDisplayControls"
+  >
+    <div
+      @click="show = true"
+      class="dvs-cursor-pointer"
+    >
+      <settings-icon />
     </div>
     <div v-show="show">
-      <div class="dvs-blocker dvs-z-20" @click="hide"></div>
+      <div
+        class="dvs-blocker dvs-z-20"
+        @click="hide"
+      ></div>
       <div
         v-show="show"
         :style="theme.panel"
@@ -13,13 +22,24 @@
         <div class="dvs-pt-4 dvs-pb-2 dvs-px-4 dvs-flex dvs-justify-between dvs-min-w-64">
           {{ this.column.label }}
           <div class="dvs-flex dvs-justify-between">
-            <button class="dvs-btn dvs-btn-xs" :style="theme.actionButton" @click="clearAll()">Clear</button>
+            <button
+              class="dvs-btn dvs-btn-xs"
+              :style="theme.actionButton"
+              @click="clearAll()"
+            >Clear</button>
             <div @click="hide">
-              <close-icon class="dvs-pl-2 dvs-cursor-pointer" w="20" h="20"/>
+              <close-icon
+                class="dvs-pl-2 dvs-cursor-pointer"
+                w="20"
+                h="20"
+              />
             </div>
           </div>
         </div>
-        <div class="dvs-px-4 dvs-column-control-modules" :style="theme.panel">
+        <div
+          class="dvs-px-4 dvs-column-control-modules"
+          :style="theme.panel"
+        >
           <search
             ref="search"
             v-model="localFilters"
@@ -38,21 +58,21 @@
 <script>
 export default {
   name: 'ColumnControls',
-  data() {
+  data () {
     return {
       show: false,
       localFilters: null,
     };
   },
-  mounted() {
+  mounted () {
     this.localFilters = Object.assign({}, this.localFilters, this.value);
   },
   methods: {
-    updateValue() {
+    updateValue () {
       this.$emit('input', this.localFilters);
       this.$emit('change', this.localFilters);
     },
-    clearAll() {
+    clearAll () {
       this.localFilters = {
         related: {},
         search: {},
@@ -62,7 +82,7 @@ export default {
       };
       this.updateValue();
     },
-    hide() {
+    hide () {
       const self = this;
       // hacky need to find a better way to have the column clickable
       this.$nextTick(() => {
@@ -71,7 +91,7 @@ export default {
     },
   },
   computed: {
-    shouldDisplayControls() {
+    shouldDisplayControls () {
       return typeof this.column.sort !== 'undefined' || typeof this.column.search !== 'undefined';
     },
   },
@@ -84,11 +104,11 @@ export default {
   },
   components: {
     CloseIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-close.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/XIcon'),
     SettingsIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-settings.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SettingsIcon'),
     Search: () =>
-      import(/* webpackChunkName: "devise-tables" */ 'vue-ionicons/dist/ios-settings.vue'),
+      import(/* webpackChunkName: "devise-tables" */ 'vue-feather-icons/icons/GridIcon'),
   },
 };
 </script>

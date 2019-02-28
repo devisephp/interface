@@ -657,15 +657,15 @@ export default {
     MediaEditor: () => import(/* webpackChunkName: "devise-media" */ './MediaEditor.vue'),
     Uploader: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/Uploader.vue'),
     FolderIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-folder.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/FolderIcon'),
     TrashIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/md-trash.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/TrashIcon'),
     CloseIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-close.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/XIcon'),
     LinkIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-link.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/LinkIcon'),
     DownloadIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-cloud-download.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/DownloadCloudIcon'),
   },
 };
 </script>

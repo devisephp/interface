@@ -2,18 +2,42 @@
   <div>
     <div class="dvs-flex dvs-items-center">
       <fieldset class="dvs-fieldset">
-        <input v-if="typeof image === 'object'" type="text" :value="image.url" disabled>
-        <input v-else type="text" :value="image" disabled>
+        <input
+          v-if="typeof image === 'object'"
+          type="text"
+          :value="image.url"
+          disabled
+        >
+        <input
+          v-else
+          type="text"
+          :value="image"
+          disabled
+        >
       </fieldset>
       <div @click="showMediaManager()">
-        <images-icon class="dvs-ml-4 dvs-cursor-pointer" w="30px" h="30px"/>
+        <images-icon
+          class="dvs-ml-4 dvs-cursor-pointer"
+          w="30px"
+          h="30px"
+        />
       </div>
-      <div @click="loadPreview" v-bind:class="{ ' dvs-opacity-25': !previewEnabled }">
-        <search-icon class="dvs-ml-4 dvs-cursor-pointer" w="30px" h="30px"/>
+      <div
+        @click="loadPreview"
+        v-bind:class="{ ' dvs-opacity-25': !previewEnabled }"
+      >
+        <search-icon
+          class="dvs-ml-4 dvs-cursor-pointer"
+          w="30px"
+          h="30px"
+        />
       </div>
     </div>
     <div class="dvs-flex dvs-items-center">
-      <div v-if="hasMedia" class="dvs-mt-6">
+      <div
+        v-if="hasMedia"
+        class="dvs-mt-6"
+      >
         <div class="dvs-mb-4 uppercase font-bold text-sm">Media sizes</div>
         <div class="dvs-flex dvs-flex-wrap">
           <div
@@ -45,7 +69,10 @@
           :style="theme.panel"
         >
           <img :src="value.url">
-          <h6 class="dvs-text-base dvs-mb-4 dvs-mt-4" :style="{color: theme.panel.color}">
+          <h6
+            class="dvs-text-base dvs-mb-4 dvs-mt-4"
+            :style="{color: theme.panel.color}"
+          >
             <span>{{ fileName }}</span>
             <br>
             <small class="dvs-text-xs">
@@ -71,13 +98,13 @@
 <script>
 export default {
   name: 'ImageField',
-  data() {
+  data () {
     return {
       showPreview: false,
     };
   },
   methods: {
-    showMediaManager() {
+    showMediaManager () {
       window.deviseSettings.$bus.$emit('devise-launch-media-manager', {
         callback: this.mediaSelected,
         options: {
@@ -85,7 +112,7 @@ export default {
         },
       });
     },
-    mediaSelected(imagesAndSettings) {
+    mediaSelected (imagesAndSettings) {
       const value = {
         url: imagesAndSettings.images.orig_optimized,
       };
@@ -97,12 +124,12 @@ export default {
 
       this.image = Object.assign({}, value);
     },
-    getSizeName(size) {
+    getSizeName (size) {
       if (size === 'orig_optimized') return `Optimized`;
 
       return size;
     },
-    getDimensions(size) {
+    getDimensions (size) {
       if (this.value.sizes && this.value.sizes[size])
         return `(${this.value.sizes[size].w} x ${this.value.sizes[size].h})`;
 
@@ -113,13 +140,13 @@ export default {
 
       return null;
     },
-    loadPreview() {
+    loadPreview () {
       if (this.previewEnabled) this.showPreview = true;
     },
   },
   computed: {
     image: {
-      get() {
+      get () {
         if (typeof this.value === 'undefined' || this.value === null) {
           return {
             url: null,
@@ -127,22 +154,22 @@ export default {
         }
         return this.value;
       },
-      set(newValue) {
+      set (newValue) {
         this.$emit('input', newValue);
         this.$emit('change', newValue);
       },
     },
-    hasMedia() {
+    hasMedia () {
       if (this.image.media) {
         return Object.keys(this.image.media).length > 0;
       }
       return false;
     },
-    fileName() {
+    fileName () {
       const parts = this.value.url.split('/');
       return parts[parts.length - 1];
     },
-    previewEnabled() {
+    previewEnabled () {
       return this.value !== '' && this.value !== null;
     },
   },
@@ -155,9 +182,9 @@ export default {
   },
   components: {
     ImagesIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-images.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/CameraIcon'),
     SearchIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-ionicons/dist/ios-search.vue'),
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SearchIcon'),
   },
 };
 </script>
