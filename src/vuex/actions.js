@@ -4,7 +4,7 @@ const actions = {
   /*
    * Breakpoint
    */
-  setBreakpoint(context, data) {
+  setBreakpoint (context, data) {
     return new Promise(resolve => {
       context.commit('setBreakpoint', data);
       resolve(data);
@@ -16,7 +16,7 @@ const actions = {
   /*
    * Devmode
    */
-  setDevMode(context, data) {
+  setDevMode (context, data) {
     return new Promise(resolve => {
       context.commit('setDevMode', data);
       resolve(data);
@@ -28,7 +28,7 @@ const actions = {
   /*
    * Languages
    */
-  getLanguages(context) {
+  getLanguages (context) {
     return new Promise(resolve => {
       window.axios
         .get(`${context.state.api.baseUrl}languages/`)
@@ -44,7 +44,7 @@ const actions = {
     });
   },
 
-  createLanguage(context, language) {
+  createLanguage (context, language) {
     return new Promise(resolve => {
       window.axios
         .post(`${context.state.api.baseUrl}languages/`, language)
@@ -64,7 +64,7 @@ const actions = {
     });
   },
 
-  updateLanguage(context, language) {
+  updateLanguage (context, language) {
     return new Promise(resolve => {
       window.axios
         .put(`${context.state.api.baseUrl}languages/${language.id}`, language)
@@ -88,7 +88,7 @@ const actions = {
    * Media Manager
    */
 
-  setCurrentDirectory(context, directory) {
+  setCurrentDirectory (context, directory) {
     return new Promise(resolve => {
       context.commit('setCurrentDirectory', directory);
       resolve();
@@ -97,7 +97,7 @@ const actions = {
     });
   },
 
-  generateImages(context, payload) {
+  generateImages (context, payload) {
     return new Promise(resolve => {
       window.axios
         .post(`${context.state.api.baseUrl}media-styles`, payload)
@@ -113,7 +113,7 @@ const actions = {
     });
   },
 
-  regenerateMedia(context, payload) {
+  regenerateMedia (context, payload) {
     context.commit('addToMediaRegenerationRequests', payload);
 
     return new Promise(resolve => {
@@ -134,7 +134,7 @@ const actions = {
     });
   },
 
-  mediaSearch(context, query) {
+  mediaSearch (context, query) {
     return new Promise(resolve => {
       window.axios
         .get(`${context.state.api.baseUrl}media-search?q=${query}`)
@@ -149,7 +149,7 @@ const actions = {
     });
   },
 
-  getCurrentFiles(context, options) {
+  getCurrentFiles (context, options) {
     let imagesOnly = '';
     if (options && options.type === 'image') {
       imagesOnly = '?type=image';
@@ -169,7 +169,7 @@ const actions = {
     });
   },
 
-  getCurrentDirectories(context) {
+  getCurrentDirectories (context) {
     return new Promise(resolve => {
       window.axios
         .get(`${context.state.api.baseUrl}media-directories/${context.state.currentDirectory}`)
@@ -185,14 +185,14 @@ const actions = {
     });
   },
 
-  toggleFile(context, theFile) {
+  toggleFile (context, theFile) {
     const match = context.state.files.find(file => file.name === theFile.name);
 
     const onOff = typeof match.on === 'undefined' || match.on === false;
     context.commit('toggleFileOnOff', { file: match, on: onOff });
   },
 
-  deleteFile(context, file) {
+  deleteFile (context, file) {
     return new Promise(resolve => {
       window.axios
         .delete(`${context.state.api.baseUrl}media${file.url}`)
@@ -211,7 +211,7 @@ const actions = {
     });
   },
 
-  createDirectory(context, payload) {
+  createDirectory (context, payload) {
     return new Promise(resolve => {
       window.axios
         .post(`${context.state.api.baseUrl}media-directories`, {
@@ -233,7 +233,7 @@ const actions = {
     });
   },
 
-  deleteDirectory(context, directory) {
+  deleteDirectory (context, directory) {
     return new Promise(resolve => {
       window.axios
         .delete(`${context.state.api.baseUrl}media-directories`, {
@@ -257,7 +257,7 @@ const actions = {
   /*
    * Meta
    */
-  getMeta(context) {
+  getMeta (context) {
     return new Promise(resolve => {
       window.axios
         .get(`${context.state.api.baseUrl}meta/`)
@@ -273,7 +273,7 @@ const actions = {
     });
   },
 
-  createMeta(context, meta) {
+  createMeta (context, meta) {
     return new Promise(resolve => {
       window.axios
         .post(`${context.state.api.baseUrl}meta/`, meta)
@@ -293,7 +293,7 @@ const actions = {
     });
   },
 
-  updateMeta(context, meta) {
+  updateMeta (context, meta) {
     return new Promise(resolve => {
       window.axios
         .put(`${context.state.api.baseUrl}meta/${meta.id}`, meta)
@@ -313,7 +313,7 @@ const actions = {
     });
   },
 
-  deleteMeta(context, meta) {
+  deleteMeta (context, meta) {
     return new Promise(resolve => {
       window.axios
         .delete(`${context.state.api.baseUrl}meta/${meta.id}`)
@@ -336,7 +336,7 @@ const actions = {
   /*
    * Models
    */
-  getModels(context) {
+  getModels (context) {
     return new Promise(resolve => {
       window.axios
         .get(`${context.state.api.baseUrl}models/`)
@@ -352,7 +352,7 @@ const actions = {
     });
   },
 
-  getModelSettings(context, modelQuery) {
+  getModelSettings (context, modelQuery) {
     return new Promise(resolve => {
       window.axios
         .get(`${context.state.api.baseUrl}models/settings?${modelQuery}`)
@@ -368,7 +368,7 @@ const actions = {
     });
   },
 
-  getModelRecords(context, { model, filters }) {
+  getModelRecords (context, { model, filters }) {
     return new Promise(resolve => {
       window.axios
         .get(
@@ -388,7 +388,7 @@ const actions = {
   },
 
   // Pages
-  getPages(context, filters) {
+  getPages (context, filters) {
     return new Promise(resolve => {
       window.axios
         .get(`${context.state.api.baseUrl}pages/?${commonUtils.buildFilterParams(filters)}`)
@@ -404,7 +404,7 @@ const actions = {
     });
   },
 
-  getPagesList(context, filters) {
+  getPagesList (context, filters) {
     return new Promise(resolve => {
       const params = filters.hasOwnProperty('language_id')
         ? `language_id=${filters.language_id}`
@@ -423,7 +423,7 @@ const actions = {
     });
   },
 
-  getPage(context, id) {
+  getPage (context, id) {
     return new Promise(resolve => {
       window.axios
         .get(`${context.state.api.baseUrl}pages/${id}`)
@@ -439,7 +439,7 @@ const actions = {
     });
   },
 
-  searchPages(context, payload) {
+  searchPages (context, payload) {
     return new Promise(resolve => {
       window.axios
         .get(`${context.state.api.baseUrl}pages-suggest/`, {
@@ -458,7 +458,7 @@ const actions = {
     });
   },
 
-  copyPage(context, payload) {
+  copyPage (context, payload) {
     return new Promise(resolve => {
       window.axios
         .put(`${context.state.api.baseUrl}pages/${payload.page.id}/copy`, payload.data)
@@ -478,7 +478,7 @@ const actions = {
     });
   },
 
-  translatePage(context, payload) {
+  translatePage (context, payload) {
     return new Promise(resolve => {
       window.axios
         .put(`${context.state.api.baseUrl}pages/${payload.page.id}/copy`, payload.data)
@@ -487,7 +487,7 @@ const actions = {
             title: 'Success!',
             message: `${payload.data.title} has been copied for translation from ${
               payload.page.title
-            }.`,
+              }.`,
           });
           context.commit('createPage', response.data);
           resolve(response);
@@ -500,7 +500,7 @@ const actions = {
     });
   },
 
-  createPage(context, page) {
+  createPage (context, page) {
     return new Promise(resolve => {
       window.axios
         .post(`${context.state.api.baseUrl}pages/`, page)
@@ -520,7 +520,7 @@ const actions = {
     });
   },
 
-  updatePage(context, payload) {
+  updatePage (context, payload) {
     return new Promise(resolve => {
       // TODO - Sanitize data
       // const data = commonUtils.sanitizePageData(payload.data);
@@ -542,7 +542,7 @@ const actions = {
     });
   },
 
-  deletePage(context, page) {
+  deletePage (context, page) {
     return new Promise(resolve => {
       window.axios
         .delete(`${context.state.api.baseUrl}pages/${page.id}`)
@@ -563,10 +563,11 @@ const actions = {
   },
 
   // This is the save used from the page editor
-  savePage(context, page) {
+  savePage (context, page) {
+    const currentVersion = page.versions.find(version => version.current === true);
     return new Promise(resolve => {
       window.axios
-        .put(`${context.state.api.baseUrl}pages/${page.id}`, page)
+        .put(`${context.state.api.baseUrl}pages/${page.id}?version_id=${currentVersion.id}`, page)
         .then(response => {
           window.deviseSettings.$bus.$emit('showMessage', {
             title: 'Success!',
@@ -585,7 +586,7 @@ const actions = {
   },
 
   // Page versions
-  copyPageVersion(context, payload) {
+  copyPageVersion (context, payload) {
     return new Promise(resolve => {
       window.axios
         .post(`${context.state.api.baseUrl}page-versions`, {
@@ -608,7 +609,7 @@ const actions = {
     });
   },
 
-  deletePageVersion(context, payload) {
+  deletePageVersion (context, payload) {
     return new Promise(resolve => {
       window.axios
         .delete(`${context.state.api.baseUrl}page-versions/${payload.version.id}`)
@@ -628,7 +629,7 @@ const actions = {
     });
   },
 
-  updatePageVersion(context, payload) {
+  updatePageVersion (context, payload) {
     return new Promise(resolve => {
       window.axios
         .put(`${context.state.api.baseUrl}page-versions/${payload.version.id}`, payload.version)
@@ -652,17 +653,17 @@ const actions = {
     });
   },
 
-  setPreviewModeInCurrentPage(context, payload) {
+  setPreviewModeInCurrentPage (context, payload) {
     context.commit('setPreviewModeInCurrentPage', payload);
   },
 
   // Mothership
 
-  syncSites(context, payload) {
+  syncSites (context, payload) {
     return new Promise(resolve => {
       window.axios.defaults.headers.common.Authorization = `Bearer ${
         context.state.mothership['api-key']
-      }`;
+        }`;
       window.axios
         .post('https://mothership.app/api/v1/sites/sync', { sites: payload })
         .then(response => {
@@ -680,15 +681,15 @@ const actions = {
     });
   },
 
-  getSiteAnalytics(context, payload) {
+  getSiteAnalytics (context, payload) {
     return new Promise(resolve => {
       window.axios.defaults.headers.common.Authorization = `Bearer ${
         context.state.mothership['api-key']
-      }`;
+        }`;
       window.axios
         .get(
           `https://mothership.app/api/v1/analytics/site?site_id=${payload.site}&start_date=${
-            payload.dates.start
+          payload.dates.start
           }&end_date=${payload.dates.end}`
         )
         .then(response => {
@@ -702,15 +703,15 @@ const actions = {
     });
   },
 
-  getPageAnalytics(context, payload) {
+  getPageAnalytics (context, payload) {
     return new Promise(resolve => {
       window.axios.defaults.headers.common.Authorization = `Bearer ${
         context.state.mothership['api-key']
-      }`;
+        }`;
       window.axios
         .get(
           `https://mothership.app/api/v1/analytics/page?site_id=${
-            context.state.currentPage.site_id
+          context.state.currentPage.site_id
           }&slug=${payload.slug}&start_date=${payload.dates.start}&end_date=${payload.dates.end}`
         )
         .then(response => {
@@ -724,15 +725,15 @@ const actions = {
     });
   },
 
-  getPageAnalyticsTotals(context, payload) {
+  getPageAnalyticsTotals (context, payload) {
     return new Promise(resolve => {
       window.axios.defaults.headers.common.Authorization = `Bearer ${
         context.state.mothership['api-key']
-      }`;
+        }`;
       window.axios
         .get(
           `https://mothership.app/api/v1/analytics/page/totals?site_id=${
-            context.state.currentPage.site_id
+          context.state.currentPage.site_id
           }&slug=${payload.slug}&date=${payload.date}`
         )
         .then(response => {
@@ -746,7 +747,7 @@ const actions = {
     });
   },
 
-  getPendingChanges(context) {
+  getPendingChanges (context) {
     return new Promise(resolve => {
       window.axios
         .get(`${context.state.api.baseUrl}mothership/pending-changes`)
@@ -763,7 +764,7 @@ const actions = {
   },
 
   // Sites
-  getSites(context) {
+  getSites (context) {
     return new Promise(resolve => {
       window.axios
         .get(`${context.state.api.baseUrl}sites/`)
@@ -779,7 +780,7 @@ const actions = {
     });
   },
 
-  createSite(context, site) {
+  createSite (context, site) {
     return new Promise(resolve => {
       window.axios
         .post(`${context.state.api.baseUrl}sites/`, site)
@@ -799,7 +800,7 @@ const actions = {
     });
   },
 
-  updateSite(context, payload) {
+  updateSite (context, payload) {
     return new Promise(resolve => {
       window.axios
         .put(`${context.state.api.baseUrl}sites/${payload.site.id}`, payload.data)
@@ -819,7 +820,7 @@ const actions = {
     });
   },
 
-  deleteSite(context, site) {
+  deleteSite (context, site) {
     return new Promise(resolve => {
       window.axios
         .delete(`${context.state.api.baseUrl}sites/${site.id}`)
@@ -840,7 +841,7 @@ const actions = {
   },
 
   // Slices
-  getSlicesDirectories(context) {
+  getSlicesDirectories (context) {
     return new Promise(resolve => {
       window.axios
         .get(`${context.state.api.baseUrl}slices-directories/`)
@@ -856,7 +857,7 @@ const actions = {
     });
   },
 
-  createSlice(context, slice) {
+  createSlice (context, slice) {
     return new Promise(resolve => {
       window.axios
         .post(`${context.state.api.baseUrl}slices/`, slice)
@@ -879,7 +880,7 @@ const actions = {
     });
   },
 
-  updateSlice(context, payload) {
+  updateSlice (context, payload) {
     return new Promise(resolve => {
       window.axios
         .put(`${context.state.api.baseUrl}slices/${payload.slice.id}`, payload.data)
@@ -899,7 +900,7 @@ const actions = {
     });
   },
 
-  deleteSlice(context, slice) {
+  deleteSlice (context, slice) {
     return new Promise(resolve => {
       window.axios
         .delete(`${context.state.api.baseUrl}slices/${slice.id}`)
@@ -920,7 +921,7 @@ const actions = {
   },
 
   // Redirects
-  getRedirects(context) {
+  getRedirects (context) {
     return new Promise(resolve => {
       window.axios
         .get(`${context.state.api.baseUrl}redirects/`)
@@ -936,7 +937,7 @@ const actions = {
     });
   },
 
-  createRedirect(context, redirect) {
+  createRedirect (context, redirect) {
     return new Promise(resolve => {
       window.axios
         .post(`${context.state.api.baseUrl}redirects/`, redirect)
@@ -956,7 +957,7 @@ const actions = {
     });
   },
 
-  updateRedirect(context, payload) {
+  updateRedirect (context, payload) {
     return new Promise(resolve => {
       window.axios
         .put(`${context.state.api.baseUrl}redirects/${payload.redirect.id}`, payload.data)
@@ -976,7 +977,7 @@ const actions = {
     });
   },
 
-  deleteRedirect(context, redirect) {
+  deleteRedirect (context, redirect) {
     return new Promise(resolve => {
       window.axios
         .delete(`${context.state.api.baseUrl}redirects/${redirect.id}`)
@@ -997,7 +998,7 @@ const actions = {
   },
 
   // Users
-  getUsers(context) {
+  getUsers (context) {
     return new Promise(resolve => {
       window.axios
         .get(`${context.state.api.baseUrl}users/`)
@@ -1013,7 +1014,7 @@ const actions = {
     });
   },
 
-  createUser(context, user) {
+  createUser (context, user) {
     return new Promise(resolve => {
       window.axios
         .post(`${context.state.api.baseUrl}users/`, user)
@@ -1033,7 +1034,7 @@ const actions = {
     });
   },
 
-  updateUser(context, payload) {
+  updateUser (context, payload) {
     return new Promise(resolve => {
       window.axios
         .put(`${context.state.api.baseUrl}users/${payload.user.id}`, payload.data)
@@ -1053,7 +1054,7 @@ const actions = {
     });
   },
 
-  deleteUser(context, user) {
+  deleteUser (context, user) {
     return new Promise(resolve => {
       window.axios
         .delete(`${context.state.api.baseUrl}users/${user.id}`)
