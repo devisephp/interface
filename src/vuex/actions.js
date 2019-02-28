@@ -53,7 +53,7 @@ const actions = {
             title: 'Success!',
             message: 'Your new language has been added.',
           });
-          context.commit('createLanguage', response.data);
+          context.commit('createLanguage', response.data.data);
           resolve(response);
         })
         .catch(error => {
