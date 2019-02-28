@@ -1,5 +1,5 @@
 <template>
-  <administration>
+  <div>
     <div id="devise-admin-content">
       <action-bar>
         <li
@@ -48,7 +48,7 @@
         </div>
       </div>
     </div>
-  </administration>
+  </div>
 </template>
 
 <script>
@@ -90,7 +90,6 @@ export default {
   },
   components: {
     ActionBar: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/ActionBar'),
-    Administration: () => import(/* webpackChunkName: "devise-administration" */ '../admin/Administration.vue'),
   },
 };
 </script>
