@@ -267,9 +267,8 @@ export default {
   },
   mounted () {
     this.imagesLoaded = 0;
-    this.loadOriginalDimentions();
-    this.loadImageSettings();
-    this.$nextTick(() => {
+    this.loadOriginalDimentions().then(() => {
+      this.loadImageSettings();
       this.setCustomSizeToOriginal();
     });
   },
@@ -291,7 +290,14 @@ export default {
       };
 
       img.src = file;
-      img.onload = this.setOriginalDims(img)
+      return new Promise((resolve) => {
+        img.onload = () => {
+          this.$nextTick(() => {
+            this.setOriginalDims(img)
+            resolve(img)
+          })
+        }
+      })
     },
     setOriginalDims (img) {
       this.originalDims.w = img.width;

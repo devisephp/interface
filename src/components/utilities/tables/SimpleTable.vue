@@ -1,12 +1,27 @@
 <template>
-  <div class="dvs-flex dvs-items-stretch">
+  <div :class="`
+    ${prefix}flex
+    ${prefix}items-stretch`">
     <div
       v-for="(column, index) in columns"
       :key="index"
-      class="dvs-flex dvs-flex-col dvs-justify-between dvs-w-full items-stretch"
+      :class="`
+        ${prefix}flex 
+        ${prefix}flex-col 
+        ${prefix}justify-between 
+        ${prefix}w-full 
+        ${prefix}items-stretch`"
     >
       <div
-        class="dvs-font-bold dvs-mb-2 dvs-pb-2 dvs-px-2 dvs-border-b dvs-cursor-pointer dvs-whitespace-no-wrap"
+        :class="`
+          ${prefix}font-bold 
+          ${prefix}text-center 
+          ${prefix}mb-2 
+          ${prefix}pb-2 
+          ${prefix}px-4 
+          ${prefix}border-b 
+          ${prefix}cursor-pointer 
+          ${prefix}whitespace-no-wrap`"
         :style="{borderColor: theme.panel.color}"
         @click="sortByColumn(column)"
       >
@@ -19,10 +34,23 @@
       <div
         v-for="(record, dataKey) in sortedData"
         :key="dataKey"
-        class="dvs-overflow-hidden dvs-px-2"
+        :class="`
+          ${prefix}overflow-hidden 
+          ${prefix}px-2 
+          ${prefix}flex 
+          ${prefix}flex-grow 
+          ${prefix}items-center 
+          ${prefix}text-center`"
       >
         <template v-if="!column.property">{{ record[0] }}</template>
-        <template v-else>{{ record[1][column.property] }}</template>
+        <template v-else>
+          <div
+            :class="`
+              ${prefix}text-center 
+              ${prefix}w-full`"
+            v-html="record[1][column.property]"
+          ></div>
+        </template>
       </div>
     </div>
   </div>
@@ -38,6 +66,13 @@ export default {
     };
   },
   methods: {
+    getColumnProperty (record, column) {
+      const value = record[column.property]
+      if (column.type === 'image') {
+        return ``
+      }
+      return value
+    },
     sortByColumn (column) {
       // Toggling same column
       if (this.sortBy === column) {
@@ -113,9 +148,12 @@ export default {
       type: Array,
     },
     data: {
-      required: true,
-      type: Object | Array,
+      required: true
     },
+    prefix: {
+      type: String,
+      default: 'dvs-'
+    }
   },
   components: {
     ArrowDown: () =>

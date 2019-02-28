@@ -13,18 +13,19 @@
         <div class="flex flex-col items-stretch">
           <label>Page Version</label>
           <select
-            onchange="selectVersion"
+            @change="selectVersion"
             class="dvs-small"
             :style="theme.panelCard"
           >
             <option
-              :value="version"
+              :value="version.id"
               v-for="version in currentPage.versions"
               :key="version.id"
+              :selected="version.current"
             >
               {{ version.name }}
               <template v-if="version.current">(Currently Viewing)</template>
-              <template v-if="version.is_live">(Live)</template>
+              <template v-if="version.is_live"> (Live)</template>
             </option>
           </select>
         </div>
@@ -229,10 +230,21 @@ export default {
       }
       referenceSlice.slices.splice(referenceSlice.slices.indexOf(deletingSlice), 1);
     },
-    selectVersion () {
-      // TODO - NEED TO FINISH
-      // pass version_id through the url
-      // location.href=
+    selectVersion (e) {
+      const versionId = parseInt(e.target.value, 0)
+      const currentHref = document.location.href
+
+      let newHref = ''
+
+      if (currentHref.includes('version_id')) {
+        newHref = currentHref.replace(/(version_id=[0-9]*)/g, `version_id=${versionId}`);
+        document.location.href = newHref
+        return true
+      }
+      newHref = currentHref
+      newHref = (newHref.includes('?')) ? `${newHref}&` : `${newHref}?`
+      document.location.href = `${newHref}version_id=${versionId}`
+      return true
     },
   },
   computed: {

@@ -4,15 +4,24 @@
     :class="{'dvs-pointer-events-none': !loaded}"
     v-if="show"
   >
-    <div class="dvs-blocker dvs-z-30" @click="close"></div>
+    <div
+      class="dvs-blocker dvs-z-30"
+      @click="close"
+    ></div>
     <div class="media-manager dvs-min-w-4/5">
-      <div v-if="!loaded" class="media-manager-interface">
+      <div
+        v-if="!loaded"
+        class="media-manager-interface"
+      >
         <div class="dvs-absolute dvs-absolute-center dvs-w-1/2">
-          <loadbar :percentage="0.5"/>
+          <loadbar :percentage="0.5" />
         </div>
       </div>
 
-      <div v-else-if="loaded && selectedFile === null" class="media-manager-interface">
+      <div
+        v-else-if="loaded && selectedFile === null"
+        class="media-manager-interface"
+      >
         <div
           style="min-height:70px"
           class="dvs-py-4 dvs-px-8 dvs-rounded-tl dvs-rounded-tr dvs-flex dvs-justify-between dvs-items-center dvs-bg-grey-lighter dvs-border-b dvs-border-lighter dvs-relative"
@@ -33,39 +42,64 @@
             <fieldset class="dvs-fieldset dvs-mr-8">
               <div class="dvs-flex dvs-items-center">
                 <label class="dvs-mr-2 dvs-my-2">Remember Location?</label>
-                <input class="dvs-my-2" type="checkbox" v-model="cookieSettings">
+                <input
+                  class="dvs-my-2"
+                  type="checkbox"
+                  v-model="cookieSettings"
+                >
               </div>
             </fieldset>
             <fieldset class="dvs-fieldset dvs-mr-8">
               <div class="dvs-flex dvs-items-center">
                 <label class="dvs-mr-2 dvs-my-2">Contact Sheet</label>
-                <input class="dvs-my-2" type="radio" value="contactSheet" v-model="mode">
+                <input
+                  class="dvs-my-2"
+                  type="radio"
+                  value="contactSheet"
+                  v-model="mode"
+                >
               </div>
             </fieldset>
             <fieldset class="dvs-fieldset dvs-mr-8">
               <div class="dvs-flex dvs-items-center">
                 <label class="dvs-mr-2 dvs-my-2">Thumbnails</label>
-                <input class="dvs-my-2" type="radio" value="thumbnails" v-model="mode">
+                <input
+                  class="dvs-my-2"
+                  type="radio"
+                  value="thumbnails"
+                  v-model="mode"
+                >
               </div>
             </fieldset>
             <fieldset class="dvs-fieldset">
               <div class="dvs-flex dvs-items-center">
                 <label class="dvs-mr-2 dvs-my-2">List</label>
-                <input class="dvs-my-2" type="radio" value="list" v-model="mode">
+                <input
+                  class="dvs-my-2"
+                  type="radio"
+                  value="list"
+                  v-model="mode"
+                >
               </div>
             </fieldset>
           </div>
         </div>
 
         <div class="dvs-flex dvs-items-stretch dvs-h-full dvs-overflow-hidden">
-          <div v-bar class="dvs-min-w-1/3">
-            <div
-              class="dvs-h-full dvs-p-8 dvs-bg-grey-lightest dvs-flex dvs-flex-col dvs-justify-between dvs-border-r dvs-border-lighter"
-            >
+          <div
+            v-bar
+            class="dvs-min-w-1/3"
+          >
+            <div class="dvs-h-full dvs-p-8 dvs-bg-grey-lightest dvs-flex dvs-flex-col dvs-justify-between dvs-border-r dvs-border-lighter">
               <form @submit.prevent="search">
                 <div class="mb-8 flex">
                   <fieldset class="dvs-fieldset mr-2">
-                    <input type="text" placeholder="Search" v-model="searchTerms" class="mr-2">
+                    <input
+                      type="text"
+                      placeholder="Search"
+                      v-model="searchTerms"
+                      class="mr-2"
+                    >
                   </fieldset>
                   <button
                     type="submit"
@@ -110,13 +144,20 @@
             class="dvs-flex-grow dvs-relative dvs-overflow-y-scroll dvs-p-4"
             :class="{'w-full': directories.length < 1}"
           >
-            <div class="dvs-p-8 dvs-flex" v-if="searchResults.length > 0">
+            <div
+              class="dvs-p-8 dvs-flex"
+              v-if="searchResults.length > 0"
+            >
               <h4>
                 Showing up to {{ searchResultsLimit }} results for:
                 <strong>{{ searchTerms }}</strong>
               </h4>
               <div @click="closeSearch">
-                <close-icon class="dvs-ml-2 dvs-cursor-pointer" w="30" h="30"/>
+                <close-icon
+                  class="dvs-ml-2 dvs-cursor-pointer"
+                  w="30"
+                  h="30"
+                />
               </div>
             </div>
 
@@ -129,12 +170,19 @@
                 <strong>{{ searchTerms }}</strong>
               </h4>
               <div @click="closeSearch">
-                <close-icon class="dvs-ml-2 dvs-cursor-pointer" w="30" h="30"/>
+                <close-icon
+                  class="dvs-ml-2 dvs-cursor-pointer"
+                  w="30"
+                  h="30"
+                />
               </div>
             </div>
 
             <!-- File uploader -->
-            <uploader :current-directory="currentDirectory" @all-files-uploaded="refreshDirectory"></uploader>
+            <uploader
+              :current-directory="currentDirectory"
+              @all-files-uploaded="refreshDirectory"
+            ></uploader>
 
             <!-- Delete Directory -->
             <div
@@ -145,7 +193,11 @@
                 class="dvs-bg-white dvs-text-grey-dark dvs-rounded dvs-p-8 dvs--mt-15 dvs-text-center dvs-shadow dvs-cursor-pointer"
                 @click="requestDeleteDirectory()"
               >
-                <trash-icon h="40" w="40" :style="{color: theme.panel.color}"/>
+                <trash-icon
+                  h="40"
+                  w="40"
+                  :style="{color: theme.panel.color}"
+                />
                 <h6 class="dvs-mt-2 dvs-text-sm">Delete this directory</h6>
               </div>
             </div>
@@ -156,7 +208,11 @@
               class="dvs-flex dvs-justify-center dvs-items-center dvs-absolute dvs-absolute-center"
             >
               <div class="dvs-bg-white dvs-rounded dvs-p-8 dvs--mt-15 dvs-text-center dvs-shadow">
-                <folder-icon h="40" w="40" :style="{color: theme.panel.color}"/>
+                <folder-icon
+                  h="40"
+                  w="40"
+                  :style="{color: theme.panel.color}"
+                />
                 <h6 class="dvs-mt-2 dvs-text-sm">
                   <span>No files in this directory</span>
                 </h6>
@@ -164,7 +220,10 @@
             </div>
 
             <!-- Files -->
-            <ul class="dvs-list-reset dvs-flex dvs-justify-center dvs-flex-wrap" v-else>
+            <ul
+              class="dvs-list-reset dvs-flex dvs-justify-center dvs-flex-wrap"
+              v-else
+            >
               <li
                 v-for="file in currentFiles"
                 :key="file.id"
@@ -179,7 +238,10 @@
                 @click="openFile(file)"
               >
                 <!-- Close File if On -->
-                <div v-if="file === currentlyOpenFile" @click.stop.prevent="closeFile(file)">
+                <div
+                  v-if="file === currentlyOpenFile"
+                  @click.stop.prevent="closeFile(file)"
+                >
                   <close-icon
                     class="dvs-absolute dvs-pin-t dvs-pin-r dvs-mt-4 dvs-mr-4 dvs-cursor-pointer"
                     w="30"
@@ -188,7 +250,10 @@
                 </div>
 
                 <!-- Closed File -->
-                <div class="dvs-overflow-hidden" v-if="file !== currentlyOpenFile">
+                <div
+                  class="dvs-overflow-hidden"
+                  v-if="file !== currentlyOpenFile"
+                >
                   <!-- Contact Sheet -->
                   <div
                     class="dvs-overflow-hidden dvs-text-center"
@@ -210,7 +275,10 @@
                   ></div>
 
                   <!-- List Mode -->
-                  <div class="dvs-w-full dvs-flex dvs-items-center" v-else>
+                  <div
+                    class="dvs-w-full dvs-flex dvs-items-center"
+                    v-else
+                  >
                     <img
                       :src="`/styled/preview/${file.url}?w=100&h=100`"
                       style="min-width:75px;height:75px"
@@ -220,7 +288,10 @@
                 </div>
 
                 <!-- Open File -->
-                <div v-else class="dvs-flex dvs-p-4 dvs-overflow-hidden">
+                <div
+                  v-else
+                  class="dvs-flex dvs-p-4 dvs-overflow-hidden"
+                >
                   <div class="dvs-w-1/2 dvs-mr-8 dvs-flex dvs-flex-col dvs-justify-between">
                     <img
                       :src="`/styled/preview/${file.url}?w=500&h=500`"
@@ -232,7 +303,10 @@
                         :style="{color: theme.actionButton.background}"
                         v-devise-alert-confirm="{callback: confirmedDeleteFile, arguments: file, message: 'Are you sure you want to delete this media?'}"
                       >
-                        <trash-icon h="20" w="20"/>
+                        <trash-icon
+                          h="20"
+                          w="20"
+                        />
                       </div>
                       <a
                         class="dvs-mr-4"
@@ -240,7 +314,10 @@
                         target="_blank"
                         :style="{color: theme.actionButton.background}"
                       >
-                        <link-icon h="20" w="20"/>
+                        <link-icon
+                          h="20"
+                          w="20"
+                        />
                       </a>
                       <a
                         :href="file.url"
@@ -248,7 +325,10 @@
                         :style="{color: theme.actionButton.background}"
                         download
                       >
-                        <download-icon h="20" w="20"/>
+                        <download-icon
+                          h="20"
+                          w="20"
+                        />
                       </a>
                     </div>
                   </div>
@@ -258,7 +338,11 @@
 
                     <fieldset class="dvs-fieldset dvs-mb-4">
                       <label class="dvs-text-xs dvs-uppercase dvs-mb-1">URL</label>
-                      <input type="text" :value="file.url">
+                      <input
+                        type="text"
+                        :value="file.url"
+                        readonly
+                      >
                     </fieldset>
 
                     <p v-if="callback">
@@ -272,7 +356,11 @@
                     <template v-if="isActive(file)">
                       <h6 class="dvs-my-2 dvs-text-sm">Appears On</h6>
                       <ul class="dvs-list-reset">
-                        <li v-for="field in file.fields" :key="field.id" class="dvs-py-2">
+                        <li
+                          v-for="field in file.fields"
+                          :key="field.id"
+                          class="dvs-py-2"
+                        >
                           <a
                             :href="field.page_slug"
                             target="_blank"
@@ -319,7 +407,7 @@ import { mapGetters, mapActions } from 'vuex';
 const Cookies = require('js-cookie');
 
 export default {
-  data() {
+  data () {
     return {
       show: false,
       loaded: false,
@@ -337,7 +425,7 @@ export default {
       imageSettings: {},
     };
   },
-  mounted() {
+  mounted () {
     this.startOpenerListener();
   },
   methods: {
@@ -351,7 +439,7 @@ export default {
       'createDirectory',
       'deleteDirectory',
     ]),
-    startOpenerListener() {
+    startOpenerListener () {
       const self = this;
 
       window.deviseSettings.$bus.$on(
@@ -385,7 +473,7 @@ export default {
         }
       );
     },
-    loadInitialLocation() {
+    loadInitialLocation () {
       const cookieLocation = Cookies.get('devise-mediamanager-location');
       if (cookieLocation) {
         this.changeDirectories(cookieLocation);
@@ -399,7 +487,7 @@ export default {
         this.mode = cookieMode;
       }
     },
-    changeDirectories(directory) {
+    changeDirectories (directory) {
       const self = this;
       self.loaded = false;
       this.searchTerms = null;
@@ -417,32 +505,32 @@ export default {
         });
       });
     },
-    isActive(file) {
+    isActive (file) {
       return file.used_count > 0;
     },
-    refreshDirectory() {
+    refreshDirectory () {
       this.changeDirectories(this.currentDirectory);
     },
-    uploadError() {
+    uploadError () {
       window.deviseSettings.$bus.$emit('showError', {
         title: 'Upload Error',
         message:
           'There was a problem uploading your file. The file may be too large to be uploaded.',
       });
     },
-    getUrlParam(paramName) {
+    getUrlParam (paramName) {
       const reParam = new RegExp(`(?:[?&]|&)${paramName}=([^&]+)`, 'i');
       const match = window.location.search.match(reParam);
 
       return match && match.length > 1 ? match[1] : null;
     },
-    openFile(file) {
+    openFile (file) {
       this.$set(this, 'currentlyOpenFile', file);
     },
-    closeFile() {
+    closeFile () {
       this.$set(this, 'currentlyOpenFile', null);
     },
-    selectSourceFile(file) {
+    selectSourceFile (file) {
       this.selectedFile = file;
 
       if ((this.options && this.options.type === 'file') || (file && file.type === 'file')) {
@@ -456,7 +544,7 @@ export default {
         this.close();
       }
     },
-    generateAndSetFile(edits) {
+    generateAndSetFile (edits) {
       const self = this;
 
       if (this.options && this.options.sizes) {
@@ -478,13 +566,13 @@ export default {
 
       this.close();
     },
-    confirmedDeleteFile(file) {
+    confirmedDeleteFile (file) {
       const self = this;
       this.deleteFile(file).then(() => {
         self.changeDirectories(self.currentDirectory);
       });
     },
-    requestCreateDirectory() {
+    requestCreateDirectory () {
       const self = this;
 
       // check to see if the directory already exists in the current location
@@ -505,22 +593,31 @@ export default {
         });
       }
     },
-    requestDeleteDirectory() {
+    requestDeleteDirectory () {
       const self = this;
       this.deleteDirectory(self.currentDirectory).then(() => {
         self.changeDirectories('');
       });
     },
-    search() {
+    search () {
       this.mediaSearch(this.searchTerms).then(results => {
         this.searchResults = results;
+        if (results.length < 1) {
+          window.deviseSettings.$bus.$emit(
+            'showError',
+            {
+              'title': 'Hey there',
+              'message': `No search results for "${this.searchTerms}"`
+            }
+          )
+        }
       });
     },
-    closeSearch() {
+    closeSearch () {
       this.searchTerms = null;
       this.$set(this, 'searchResults', []);
     },
-    close() {
+    close () {
       this.show = false;
       this.imageSettings = Object.assign({});
       this.$set(this, 'selectedFile', null);
@@ -528,13 +625,13 @@ export default {
   },
   computed: {
     ...mapGetters('devise', ['files', 'directories', 'currentDirectory', 'searchableMedia']),
-    currentFiles() {
+    currentFiles () {
       if (this.searchResults.length > 0) {
         return this.searchResults;
       }
       return this.files;
     },
-    uploadHeaders() {
+    uploadHeaders () {
       const token = document.head.querySelector('meta[name="csrf-token"]');
       return {
         'X-CSRF-TOKEN': token.content,
@@ -548,7 +645,7 @@ export default {
         Cookies.remove('devise-mediamanager-mode');
       }
     },
-    mode(newValue) {
+    mode (newValue) {
       if (this.cookieSettings) {
         Cookies.set('devise-mediamanager-mode', newValue);
       }
