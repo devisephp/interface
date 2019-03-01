@@ -1,6 +1,7 @@
 {
   "name": "devisephp-interface",
-  "version": "2.0.6",
+  "version": "2.0.7",
+  "license": "MIT",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "NODE_ENV=deviseproduction vue-cli-service build --mode production",

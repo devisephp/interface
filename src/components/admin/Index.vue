@@ -1,12 +1,21 @@
 <template>
-  <div class="dvs-p-8">
-    <h3 class="dvs-mb-6" :style="{color: theme.panel.color}">{{ currentMenu.label }}</h3>
-    <ul class="dvs-list-reset">
-      <li class="dvs-mb-4" v-for="menuItem in currentMenu.menu" :key="menuItem.id">
+  <div>
+    <h3
+      class="dvs-p-8 dvs-font-light dvs-uppercase dvs-border-b"
+      :style="{color: theme.panel.color, borderColor: theme.panel.color, backgroundColor: theme.panelCard.background}"
+    >{{ currentMenu.label }}</h3>
+    <ul class="dvs-list-reset dvs-pb-8">
+      <li
+        class="dvs-py-3 dvs-px-8 dvs-border-t"
+        :class="{'dvs-pt-8': key === 0}"
+        :style="{ borderTopColor: theme.panelCard.background}"
+        v-for="(menuItem, key) in currentMenu.menu"
+        :key="menuItem.id"
+      >
         <div
           :style="{color: theme.panel.color}"
           @click="goToPage(menuItem.routeName, menuItem.parameters)"
-          class="dvs-block dvs-mb-4 dvs-switch-sm dvs-flex dvs-justify-between dvs-items-center dvs-cursor-pointer"
+          class="dvs-block dvs-switch-sm dvs-flex dvs-justify-between dvs-items-center dvs-cursor-pointer"
         >{{ menuItem.label }}</div>
       </li>
     </ul>
@@ -19,7 +28,7 @@ import { mapState } from 'vuex';
 export default {
   name: 'DeviseIndex',
   methods: {
-    findMenu(menu) {
+    findMenu (menu) {
       let safeMenu = menu;
       if (typeof menu === 'object') {
         safeMenu = Object.keys(menu).map(i => menu[i]);
@@ -42,7 +51,7 @@ export default {
   },
   computed: {
     ...mapState('devise', ['adminMenu']),
-    currentMenu() {
+    currentMenu () {
       return this.findMenu(this.adminMenu);
     },
   },

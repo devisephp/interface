@@ -1,6 +1,6 @@
 <template>
   <div
-    class="dvs-relative dvs-px-1 dvs-py-1 dvs-rounded-sm dvs-text-xs dvs-cursor-pointer"
+    class="dvs-relative dvs-px-3 dvs-py-1 dvs-rounded-sm dvs-text-xs dvs-cursor-pointer"
     :style="theme.panelSidebar"
   >
     <div class="dvs-flex dvs-justify-between dvs-items-center">
@@ -12,7 +12,7 @@
         ></div>
         <div
           dusk="slice-field"
-          class="dvs-flex dvs-items-center dvs-justify-start dvs-w-full"
+          class="dvs-flex dvs-items-center dvs-justify-stretch dvs-w-full"
           @click="toggleShowEditor"
         >
           <!-- Swatch -->

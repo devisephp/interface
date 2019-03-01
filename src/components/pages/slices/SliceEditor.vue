@@ -3,26 +3,26 @@
     class="dvs-mb-4 dvs-collapsable"
     :class="{'dvs-open': sliceOpen}"
   >
-    <strong class="dvs-block dvs-mb-4 dvs-switch-sm dvs-text-sm dvs-flex dvs-justify-between dvs-items-center dvs-w-full">
+    <strong class="dvs-block dvs-mb-2 dvs-switch-sm dvs-text-sm dvs-flex dvs-justify-between dvs-items-center dvs-w-full">
       <div
         class="dvs-flex dvs-items-center dvs-justify-between dvs-w-full"
         :style="{color: theme.panel.color}"
       >
-        <div class="dvs-flex dvs-items-start">
+        <div class="dvs-flex dvs-w-full">
           <menu-icon
-            w="18"
-            h="18"
             class="dvs-mr-2 handle"
+            style="margin-top:2px;"
             :style="theme.panelIcons"
           />
-          <span
+          <div
             dusk="slice-label"
+            class="dvs-relative dvs-w-full"
             :class="{'dvs-cursor-pointer': sliceHasFieldsOrSlices, 'dvs-opacity-75': !sliceHasFieldsOrSlices}"
             @click="toggleSlice()"
             @mouseenter="markSlice(true, slice)"
             @mouseleave="markSlice(false, slice)"
             v-html="editorLabel"
-          ></span>
+          ></div>
         </div>
         <div
           class="dvs-ml-2 dvs-relative dvs-p-2 dvs-rounded-sm dvs-flex dvs-items-center"
@@ -150,7 +150,7 @@
     />
 
     <div
-      class="dvs-collapsed dvs-mb-4"
+      class="dvs-collapsed dvs-mb-6"
       v-if="sliceOpen"
     >
       <fieldset
@@ -481,7 +481,7 @@ export default {
             }
 
             if (label) {
-              return `${devMode}<div class="dvs-capitalize">${label}</div><div class="dvs-text-xs dvs-opacity-25 dvs-uppercase">${
+              return `${devMode}<div class="dvs-capitalize">${label}</div><div class="dvs-absolute dvs-pin-t dvs--mt-4 dvs-text-xs dvs-opacity-25 dvs-uppercase">${
                 this.slice.metadata.label
                 }</div>`;
             }
@@ -490,7 +490,7 @@ export default {
       }
       return `${devMode}<div class="dvs-capitalize">${
         this.slice.metadata.label
-        }</div><div class="dvs-text-xs dvs-opacity-25 dvs-uppercase">&nbsp;</div>`;
+        }</div>`;
     },
 
     draggableStyles () {

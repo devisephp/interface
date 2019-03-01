@@ -98,10 +98,7 @@
             class="dvs-rounded dvs-btn dvs-btn-sm dvs-flex dvs-justify-center dvs-items-center dvs-uppercase dvs-text-xs dvs-font-bold"
             @click.prevent="requestAddSlice"
           >
-            <add-icon
-              w="20"
-              h="20"
-            />Add Slice
+            <add-icon class="text-xl mr-1" />Add Slice
           </button>
         </div>
       </div>
