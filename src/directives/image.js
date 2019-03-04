@@ -61,7 +61,7 @@ export default function (el, binding) {
           el.alt = image.alt;
         }
 
-        if (!noSize && theSize !== null) {
+        if (!noSize && theSize !== null && theSize.settings) {
           el.width = theSize.settings.w;
           el.height = theSize.settings.h;
         }

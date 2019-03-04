@@ -9,43 +9,77 @@
     @change="update"
   >
     <template slot="preview">
-      <span v-if="value.text === null || value.text === ''" class="dvs-italic">Currently No Value</span>
+      <span
+        v-if="value.text === null || value.text === ''"
+        class="dvs-italic"
+      >Currently No Value</span>
       <div>
-        <a :href="value.href" :target="value.target">{{value.text}}</a>
+        <a
+          :href="value.href"
+          :target="value.target"
+        >{{value.text}}</a>
       </div>
     </template>
 
     <template slot="editor">
       <fieldset class="dvs-fieldset">
         <label>Label</label>
-        <input ref="focusInput" type="text" class="dvs-mb-4" v-model="text">
+        <input
+          ref="focusInput"
+          type="text"
+          class="dvs-mb-4 dvs-w-full"
+          v-model="text"
+        >
       </fieldset>
 
       <label>Link Mode</label>
-      <div class="dvs-flex">
-        <label>
-          <input type="radio" class="dvs-w-auto dvs-mr-2" v-model="mode" value="url">
-          URL
-        </label>
-      </div>
       <div class="dvs-flex dvs-mb-4">
-        <label>
-          <input type="radio" class="dvs-w-auto dvs-mr-2" v-model="mode" value="page">
-          Page
-        </label>
+        <div class="dvs-flex dvs-mr-4">
+          <label>
+            <input
+              type="radio"
+              class="dvs-w-auto dvs-mr-2"
+              v-model="mode"
+              value="url"
+            >
+            URL
+          </label>
+        </div>
+        <div class="dvs-flex">
+          <label>
+            <input
+              type="radio"
+              class="dvs-w-auto dvs-mr-2"
+              v-model="mode"
+              value="page"
+            >
+            Page
+          </label>
+        </div>
       </div>
 
       <template v-if="mode === 'url'">
         <fieldset class="dvs-fieldset dvs-mb-4">
           <label>URL</label>
-          <input type="text" v-model="url">
+          <input
+            type="text"
+            class="dvs-w-full"
+            v-model="url"
+          >
         </fieldset>
       </template>
       <template v-if="mode === 'page'">
         <fieldset class="dvs-fieldset dvs-mb-4">
           <label>Page</label>
-          <select v-model="routeName" @change="selectPage()">
-            <option :value="null" disabled>Select a Page</option>
+          <select
+            v-model="routeName"
+            @change="selectPage()"
+            class="dvs-w-full"
+          >
+            <option
+              :value="null"
+              disabled
+            >Select a Page</option>
             <option
               :value="page.route_name"
               v-for="page in pagesList.data"
@@ -55,13 +89,32 @@
         </fieldset>
       </template>
 
-      <fieldset class="dvs-fieldset">
+      <fieldset class="dvs-fieldset dvs-mb-4">
         <label>Target</label>
-        <select v-model="target">
+        <select
+          v-model="target"
+          class="dvs-w-full"
+        >
           <option value="_self">Same Window</option>
           <option value="_blank">New Tab / Window</option>
           <option value="_parent">Parent</option>
           <option value="_top">Top</option>
+        </select>
+      </fieldset>
+
+      <fieldset class="dvs-fieldset">
+        <label>Relationship</label>
+        <select
+          v-model="rel"
+          class="dvs-w-full"
+        >
+          <option :value="null">Select a Relationship</option>
+          <option value="nofollow">No Follow</option>
+          <option value="noopener">No Opener</option>
+          <option value="noreferrer">No Referrer</option>
+          <option value="alternate">Alternate</option>
+          <option value="external">External</option>
+          <option value="license">License</option>
         </select>
       </fieldset>
     </template>
@@ -74,22 +127,22 @@ import Field from '../../../mixins/Field';
 
 export default {
   name: 'LinkEditor',
-  data() {
+  data () {
     return {
       showEditor: false,
     };
   },
-  mounted() {
+  mounted () {
     this.originalValue = Object.assign({}, this.value);
     this.retrieveAllPagesList();
   },
   methods: {
     ...mapActions('devise', ['getPagesList']),
-    toggleEditor() {
+    toggleEditor () {
       this.showEditor = !this.showEditor;
       this.focusForm();
     },
-    focusForm() {
+    focusForm () {
       if (this.showEditor) {
         this.$nextTick(() => {
           setTimeout(() => {
@@ -98,7 +151,7 @@ export default {
         });
       }
     },
-    retrieveAllPagesList(loadbar = true) {
+    retrieveAllPagesList (loadbar = true) {
       const filters = { language_id: window.deviseSettings.$page.language.id };
       this.getPagesList(filters).then(() => {
         if (loadbar) {
@@ -106,25 +159,27 @@ export default {
         }
       });
     },
-    selectPage() {
+    selectPage () {
       const page = this.pagesList.data.find(p => p.route_name === this.routeName);
       if (page) {
         this.url = page.url;
       }
     },
-    cancel() {
+    cancel () {
       this.mode = this.originalValue.mode;
       this.text = this.originalValue.text;
       this.url = this.originalValue.url;
       this.href = this.originalValue.href;
       this.target = this.originalValue.target;
+      this.rel = this.originalValue.rel;
       this.routeName = this.originalValue.routeName;
       this.enabled = this.originalValue.enabled;
       this.toggleEditor();
     },
-    resetValue() {
+    resetValue () {
       this.enabled = false;
       this.target = null;
+      this.rel = null;
       this.url = null;
       this.href = null;
       this.mode = null;
@@ -135,27 +190,27 @@ export default {
   computed: {
     ...mapGetters('devise', ['pagesList']),
     url: {
-      get() {
+      get () {
         return this.value.url;
       },
-      set(value) {
+      set (value) {
         const valueObj = Object.assign(this.value, { href: value, url: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
       },
     },
     text: {
-      get() {
+      get () {
         return this.value.text;
       },
-      set(value) {
+      set (value) {
         const valueObj = Object.assign(this.value, { text: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
       },
     },
     target: {
-      get() {
+      get () {
         if (!this.value.target) {
           const valueObj = Object.assign(this.value, { target: '_self' });
           this.$emit('input', valueObj);
@@ -163,27 +218,40 @@ export default {
         }
         return this.value.target;
       },
-      set(value) {
+      set (value) {
         const valueObj = Object.assign(this.value, { target: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
       },
     },
+    rel: {
+      get () {
+        if (!this.value.rel) {
+          return null
+        }
+        return this.value.rel;
+      },
+      set (value) {
+        const valueObj = Object.assign(this.value, { rel: value });
+        this.$emit('input', valueObj);
+        this.$emit('change', valueObj);
+      },
+    },
     routeName: {
-      get() {
+      get () {
         return this.value.routeName;
       },
-      set(value) {
+      set (value) {
         const valueObj = Object.assign(this.value, { routeName: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
       },
     },
     mode: {
-      get() {
+      get () {
         return this.value.mode;
       },
-      set(value) {
+      set (value) {
         this.url = null;
         this.routeName = null;
         const valueObj = Object.assign(this.value, { mode: value });

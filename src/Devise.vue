@@ -30,7 +30,7 @@
 
         <div
           id="devise-iframe-editor"
-          v-if="typeof currentPage !== 'undefined' && !isPreviewFrame"
+          v-if="typeof currentPage !== 'undefined' && !isPreviewFrame && isLoggedIn"
         >
           <!-- Preview mode in editor -->
           <iframe
