@@ -1,10 +1,11 @@
 <template>
-  <div class="dvs-fixed dvs-pin">
+  <div class="dvs-fixed dvs-pin dvs-flex dvs-justify-center dvs-items-center">
+
     <div
       class="dvs-blocker dvs-fixed dvs-pin"
       @click="close"
     ></div>
-    <div class="dvs-absolute dvs-absolute-center dvs-z-50 dvs-min-w-2/3 dvs-max-h-screen">
+    <div class="dvs-z-50 dvs-min-w-2/3 dvs-max-h-screen">
       <panel
         class="dvs-w-full"
         :panel-style="theme.panel"

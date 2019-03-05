@@ -336,7 +336,7 @@ export default {
 
     // Marking Slice
     markSlice (on) {
-      window.window.deviseSettings.$bus.$emit('markSlice', this.slice, on);
+      window.window.deviseSettings.$bus.$emit('markSlice', this.devise, on);
     },
     jumpToSlice () {
       window.window.deviseSettings.$bus.$emit('jumpToSlice', this.slice);

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="dvs-min-h-screen dvs-fixed dvs-pin dvs-z-60 dvs-text-grey-darker"
+    class="dvs-min-h-screen dvs-fixed dvs-pin dvs-flex dvs-justify-center dvs-items-center dvs-z-60 dvs-text-grey-darker"
     :class="{'dvs-pointer-events-none': !loaded}"
     v-if="show"
   >

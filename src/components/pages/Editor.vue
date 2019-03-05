@@ -41,7 +41,6 @@
     <div class="dvs-flex dvs-flex-col dvs-items-center dvs-px-8 dvs-pb-8">
       <draggable
         :options="{
-          handle: '.handle', 
           group: {name: 'g1'},
           animation:200,
           ghostClass: 'dvs-ghost'
