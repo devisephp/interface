@@ -1,4 +1,6 @@
+
 <template>
+  <!-- eslint-disable vue/valid-v-for -->
   <div class="dvs-pb-16">
     <div class="dvs-absolute dvs-pin-t dvs-pin-r dvs-mt-4 dvs-mr-4">
       <toggle
@@ -55,7 +57,7 @@
         <template v-for="slice in currentPageSlices">
           <slice-editor
             @opened="openSlice(slice)"
-            :key="slice.id"
+            :key="randomString(8)"
             :devise="slice"
             @addSlice="addSlice"
             @editSlice="editSlice"
@@ -189,6 +191,7 @@ export default {
       // this.currentPage.slices[this.currentPage.slices.indexOf(referenceSlice)]
     },
     editSlice (editedSlice, referenceSlice) {
+      console.log(editedSlice, referenceSlice)
       this.currentPage.slices.splice(
         this.currentPage.slices.indexOf(referenceSlice),
         1,

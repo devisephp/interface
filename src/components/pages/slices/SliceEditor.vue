@@ -280,7 +280,7 @@
       >
         <template v-for="s in sliceSlices">
           <slice-editor
-            :key="s.metadata.instance_id"
+            :key="randomString(8)"
             :devise="s"
             :child="true"
             @addSlice="addSlice"
@@ -296,6 +296,7 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex';
+import Strings from '../../../mixins/Strings';
 
 export default {
   name: 'SliceEditor',
@@ -366,7 +367,8 @@ export default {
     requestEditSlice () {
       this.manageSlice = true;
       this.$nextTick(() => {
-        if (this.$refs.manageSlice) {
+        console.log(this.$refs, this.$refs.manageslice)
+        if (this.$refs.manageslice) {
           this.$refs.manageslice.action = 'edit';
         }
       });
@@ -511,6 +513,7 @@ export default {
       default: false,
     },
   },
+  mixins: [Strings],
   components: {
     AddIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/PlusCircleIcon'),

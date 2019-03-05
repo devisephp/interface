@@ -1,9 +1,7 @@
 <template>
   <div>
-    <portal
-      to="devise-root"
-      v-if="action === 'insert'"
-    >
+    asdfadfasdf
+    <portal to="devise-root">
       <div class="dvs-fixed dvs-pin dvs-flex dvs-justify-center dvs-items-center">
         <div
           class="dvs-blocker"
@@ -87,58 +85,6 @@
       </div>
     </portal>
 
-    <portal
-      to="devise-root"
-      v-if="action === 'edit'"
-    >
-      <div
-        class="dvs-blocker"
-        @click="cancelManageSlice"
-      ></div>
-      <panel
-        class="dvs-fixed dvs-absolute-center dvs-mx-8 dvs-mb-8 dvs-z-40 dvs-w-4/5"
-        :panel-style="theme.panel"
-      >
-        <div class="dvs-p-8">
-          <h3 class="dvs-mb-8">Edit Slice Settings</h3>
-
-          <div>
-            <fieldset class="dvs-fieldset dvs-mb-4">
-              <label>Type of Slice</label>
-              <select v-model="insertSlice.type">
-                <option value="single">Single</option>
-                <option value="model">Model</option>
-              </select>
-            </fieldset>
-
-            <fieldset class="dvs-fieldset dvs-mb-4">
-              <label>Select a Slice</label>
-              <slice-selector v-model="insertSlice.slice" />
-            </fieldset>
-
-            <div
-              class="dvs-mb-4"
-              v-if="insertSlice.type === 'model'"
-            >
-              <query-builder v-model="insertSlice.data"></query-builder>
-            </div>
-
-            <div>
-              <button
-                class="dvs-btn"
-                :style="theme.actionButton"
-                @click="editSlice"
-              >Edit</button>
-              <button
-                class="dvs-btn"
-                :style="theme.actionButtonGhost"
-                @click="cancelManageSlice"
-              >Cancel</button>
-            </div>
-          </div>
-        </div>
-      </panel>
-    </portal>
   </div>
 </template>
 
@@ -159,7 +105,6 @@ const defaultInsertSlice = {
 export default {
   data () {
     return {
-      action: 'insert',
       insertSlice: Object.assign({}, defaultInsertSlice),
     };
   },
@@ -167,7 +112,8 @@ export default {
     this.getSlicesDirectories();
 
     this.$nextTick(() => {
-      if (this.action === 'edit') {
+      // If slice is set it's an edit
+      if (this.slice) {
         this.insertSlice.type = this.slice.metadata.type;
       }
     });
@@ -175,10 +121,8 @@ export default {
   methods: {
     ...mapActions('devise', ['getSlicesDirectories', 'getModelSettings']),
     cancelManageSlice () {
-      this.$set(this, 'action', 'insert');
       this.$set(this, 'insertSlice', defaultInsertSlice);
       this.$emit('cancel');
-      this.action = 'insert';
     },
     buildSlice () {
       const component = this.componentFromView(this.insertSlice.slice.value);
@@ -229,15 +173,12 @@ export default {
     },
     addSlice () {
       this.$emit('addSlice', this.buildSlice());
-      this.action = 'selectAction';
     },
     editSlice () {
       this.$emit('editSlice', this.buildSlice());
-      this.action = 'selectAction';
     },
     removeSlice () {
       this.$emit('removeSlice');
-      this.action = 'selectAction';
     },
   },
   computed: {
