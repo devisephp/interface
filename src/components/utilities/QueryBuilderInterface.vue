@@ -12,7 +12,7 @@
       {{ key }}
       <div
         @click="requestEditData(key)"
-        class="dvs-absolute dvs-mt-3 dvs-mr-10 dvs-pin-t dvs-pin-r dvs-pin-b dvs-mr-4"
+        class="dvs-absolute dvs-cursor-pointer dvs-mt-3 dvs-mr-10 dvs-pin-t dvs-pin-r dvs-pin-b dvs-mr-4"
       >
         <edit-icon
           class="dvs-cursor-pointer"
@@ -22,7 +22,7 @@
       </div>
       <div
         @click="removeData(key)"
-        class="dvs-absolute dvs-mt-3 dvs-pin-t dvs-pin-r dvs-pin-b dvs-mr-4"
+        class="dvs-absolute dvs-cursor-pointer dvs-mt-3 dvs-pin-t dvs-pin-r dvs-pin-b dvs-mr-4"
       >
         <trash-icon
           class="dvs-cursor-pointer"
@@ -59,6 +59,7 @@
         @close="showAddData = false"
         v-if="showAddData"
         class="dvs-z-50"
+        v-bar
       >
         <query-builder
           v-model="newData"

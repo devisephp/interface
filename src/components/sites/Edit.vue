@@ -5,21 +5,32 @@
         <span class="dvs-uppercase">{{ localValue.name }}</span> Settings
       </h3>
 
-      <div class="dvs-mb-12" v-if="loadedSettings">
+      <div
+        class="dvs-mb-12"
+        v-if="loadedSettings"
+      >
         <form>
           <div class="dvs-flex dvs-mb-4">
             <fieldset class="dvs-fieldset dvs-mr-4">
               <label>Name</label>
-              <input type="text" v-model="localValue.name" placeholder="Name of the Site">
+              <input
+                type="text"
+                v-model="localValue.name"
+                placeholder="Name of the Site"
+              >
             </fieldset>
 
             <fieldset class="dvs-fieldset dvs-mr-4">
               <label>Domain</label>
-              <input type="text" v-model="localValue.domain" placeholder="Domain of the Site">
+              <input
+                type="text"
+                v-model="localValue.domain"
+                placeholder="Domain of the Site"
+              >
             </fieldset>
 
             <fieldset class="dvs-fieldset">
-              <label>Google Analytics UA ID. Include the "UA-" in your entry</label>
+              <label>Google Analytics UA ID.</label>
               <input
                 type="text"
                 v-model="localValue.settings.googleAnalytics"
@@ -28,16 +39,17 @@
             </fieldset>
           </div>
 
-          <help
-            class="dvs-mb-10"
-          >The domain should not include the http or https:// protocol identifier. So your site entry could be "my-super-awesome-site.com" or "sub-domain.my-super-awesome-site.com". To Support development environments you can override these values in your .env file in the root of your project with something like "SITE_1_DOMAIN=my-super-awesome-site.test" for your local development or staging.</help>
+          <help class="dvs-mb-10">The domain should not include the http or https:// protocol identifier. So your site entry could be "my-super-awesome-site.com" or "sub-domain.my-super-awesome-site.com". To Support development environments you can override these values in your .env file in the root of your project with something like "SITE_1_DOMAIN=my-super-awesome-site.test" for your local development or staging.</help>
 
           <fieldset
             class="dvs-fieldset dvs-mb-4"
             v-if="languages.data && languages.data.length > 0 && localValue.languages"
           >
             <label>Languages</label>
-            <select v-model="editAddLanguage" @change="addEditLanguage()">
+            <select
+              v-model="editAddLanguage"
+              @change="addEditLanguage()"
+            >
               <option :value="null">Add a Language</option>
               <option
                 v-for="language in languagesNotInEditSite"
@@ -47,11 +59,12 @@
             </select>
           </fieldset>
 
-          <fieldset class="dvs-fieldset dvs-mb-10" v-if="localValue.languages">
+          <fieldset
+            class="dvs-fieldset dvs-mb-10"
+            v-if="localValue.languages"
+          >
             <label>Current Languages</label>
-            <help
-              class="dvs-mb-4"
-            >Green indicates the default language. Click on the language tags below to set a new default.</help>
+            <help class="dvs-mb-4">Green indicates the default language. Click on the language tags below to set a new default.</help>
             <span
               v-for="language in localValue.languages"
               :key="language.id"
@@ -63,23 +76,34 @@
           </fieldset>
 
           <fieldset
-            class="dvs-fieldset dvs-mb-4"
+            class="dvs-fieldset dvs-mb-8"
             v-if="languages.data && languages.data.length > 0 && localValue.languages"
           >
             <label>Default Layout</label>
-            <select v-model="localValue.settings.defaultLayout">
-              <option v-for="(path, name) in layouts" :value="path" :key="name">{{ name }}</option>
+            <select
+              v-model="localValue.settings.defaultLayout"
+              class="dvs-w-full"
+            >
+              <option
+                v-for="(path, name) in layouts"
+                :value="path"
+                :key="name"
+              >{{ name }}</option>
             </select>
           </fieldset>
 
-          <query-builder-interface v-model="localValue.model_queries"/>
+          <h4 class="dvs-mb-4">Sitewide data</h4>
+          <help class="dvs-mb-4">These are variables that are available on every page on this site.</help>
+
+          <query-builder-interface v-model="localValue.model_queries" />
 
           <fieldset class="dvs-fieldset dvs-mb-10">
             <label>Admin Styles</label>
-            <help
-              class="dvs-mb-8"
-            >You can change the styles of the admin to more closely match the brand of the site.</help>
-            <admin-designer v-if="localValue.settings.colors" v-model="localValue.settings.colors"></admin-designer>
+            <help class="dvs-mb-8">You can change the styles of the admin to more closely match the brand of the site.</help>
+            <admin-designer
+              v-if="localValue.settings.colors"
+              v-model="localValue.settings.colors"
+            ></admin-designer>
           </fieldset>
 
           <div class="dvs-flex">
@@ -107,7 +131,7 @@ import Strings from '../../mixins/Strings';
 
 export default {
   name: 'SitesEdit',
-  data() {
+  data () {
     return {
       localValue: {
         languages: [],
@@ -123,24 +147,24 @@ export default {
       editAddLanguage: null,
     };
   },
-  mounted() {
+  mounted () {
     this.retrieveAllSites();
     this.retrieveAllLanguages();
   },
   methods: {
     ...mapActions('devise', ['getLanguages', 'getSites', 'updateSite']),
-    requestEditSite() {
+    requestEditSite () {
       this.updateSite({ site: this.site, data: this.localValue }).then(() => {
         // var site = self.siteById(self.site.id)
         // self.goToPage('devise-sites-index')
       });
     },
-    addEditLanguage() {
+    addEditLanguage () {
       this.editAddLanguage.default = 0;
       this.localValue.languages.push(this.editAddLanguage);
       this.editAddLanguage = null;
     },
-    setDefaultLanguage(language) {
+    setDefaultLanguage (language) {
       // Set them all to off and turn the default to on
       this.localValue.languages.map(l => {
         l.default = 0;
@@ -151,7 +175,7 @@ export default {
         return 0;
       });
     },
-    retrieveAllSites(loadbar = true) {
+    retrieveAllSites (loadbar = true) {
       this.getSites().then(() => {
         let colors = {};
         let googleAnalytics = '';
@@ -180,7 +204,7 @@ export default {
         }
       });
     },
-    retrieveAllLanguages(loadbar = true) {
+    retrieveAllLanguages (loadbar = true) {
       this.getLanguages().then(() => {
         if (loadbar) {
           window.deviseSettings.$bus.$emit('incrementLoadbar', this.modulesToLoad);
@@ -189,18 +213,18 @@ export default {
     },
   },
   computed: {
-    ...mapGetters('devise', ['languages', 'site', 'siteById', 'settingsMenu']),
-    editInvalid() {
+    ...mapGetters('devise', ['languages', 'site', 'siteById']),
+    editInvalid () {
       return this.localValue.name === null || this.localValue.domain === null;
     },
-    languagesNotInEditSite() {
+    languagesNotInEditSite () {
       const self = this;
       return this.languages.data.filter(language => {
         const match = self.localValue.languages.filter(l => l.id === language.id);
         return match.length === 0;
       });
     },
-    layouts() {
+    layouts () {
       return window.deviseSettings.$config.layouts;
     },
   },

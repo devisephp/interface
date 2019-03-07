@@ -107,7 +107,10 @@
           :style="theme.actionButtonGhost"
         >
           {{ key }}
-          <div @click="removeScope(key)">
+          <div
+            class="dvs-cursor-pointer"
+            @click="removeScope(key)"
+          >
             <close-icon
               class="dvs-pl-2 dvs-cursor-pointer"
               w="20"
@@ -136,6 +139,14 @@
         :style="theme.actionButtonGhost"
         @click="addScope"
       >Add Scope</button>
+    </fieldset>
+
+    <fieldset class="dvs-fieldset dvs-mb-4">
+      <label>Do you want to cache this data?</label>
+      <toggle
+        v-model="filters.cache"
+        @change="requestRefreshRecords"
+      ></toggle>
     </fieldset>
   </div>
 </template>
@@ -168,6 +179,7 @@ export default {
         limit: 5,
         single: false,
         scopes: {},
+        cache: false
       },
       refreshRecords: null,
       records: [],
@@ -196,6 +208,7 @@ export default {
       this.$set(this.filters, 'single', this.editData.filters.single);
       this.$set(this.filters, 'page', this.editData.filters.page);
       this.$set(this.filters, 'paginated', this.editData.filters.paginated);
+      this.$set(this.filters, 'cache', this.editData.filters.cache);
     }
 
     this.requestRefreshRecords();

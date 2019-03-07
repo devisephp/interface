@@ -19,7 +19,7 @@ table {
 
 .dvs-column-control-modules {
   > div {
-    @apply dvs-border-b dvs-border-grey;
+    @apply dvs-border-b;
 
     &:last-child {
       @apply dvs-border-b-0

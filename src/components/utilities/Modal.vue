@@ -9,13 +9,16 @@
       <panel
         class="dvs-w-full"
         :panel-style="theme.panel"
+        v-bar
       >
         <div class="dvs-p-8">
-          <div @click="close">
+          <div
+            class="dvs-absolute dvs-pin-t dvs-pin-r dvs-mt-4 dvs-mr-8 dvs-cursor-pointer z-10"
+            @click="close"
+          >
             <close-icon
               w="40"
               h="40"
-              class="dvs-absolute dvs-pin-t dvs-pin-r dvs-m-6 dvs-cursor-pointer"
               :style="{color: theme.panel.color }"
             />
           </div>

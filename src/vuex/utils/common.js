@@ -2,7 +2,7 @@ import Vue from 'vue';
 
 const funcs = {
   // Build the parameters for the GET based on the filters.repertoire
-  buildFilterParams(filter) {
+  buildFilterParams (filter) {
     if (typeof filter === 'undefined') {
       return null;
     }
@@ -14,7 +14,7 @@ const funcs = {
     const scopeParams = funcs.buildScopeParams(filters.scopes);
     const searchParams = filters.search;
     const pageParams = filters.page;
-    const { paginated, limit, single } = filters;
+    const { paginated, limit, single, cache } = filters;
 
     if (single) {
       params.single = single;
@@ -28,16 +28,20 @@ const funcs = {
       params.paginated = true;
     }
 
-    if (pageParams !== '') {
+    if (pageParams && pageParams !== '') {
       params.page = pageParams;
     }
 
-    if (sortParams !== '') {
+    if (sortParams && sortParams !== '') {
       params.sort = sortParams;
     }
 
-    if (scopeParams !== '') {
+    if (scopeParams && scopeParams !== '') {
       params.scopes = scopeParams;
+    }
+
+    if (cache) {
+      params.cache = true;
     }
 
     if (filters.dates && Object.keys(filters.dates).length > 0) {
@@ -91,7 +95,7 @@ const funcs = {
   },
 
   // Build the sort parameters
-  buildSortParams(sorts) {
+  buildSortParams (sorts) {
     let sortString = '';
 
     for (const prop in sorts) {
@@ -107,7 +111,7 @@ const funcs = {
   },
 
   // Build the related parameters
-  buildRelatedParams(related) {
+  buildRelatedParams (related) {
     const relatedParams = {};
 
     for (const prop in related) {
@@ -120,7 +124,7 @@ const funcs = {
   },
 
   // Build the related parameters
-  buildSearchParams(search) {
+  buildSearchParams (search) {
     const searchParams = {};
 
     for (const prop in search) {
@@ -133,7 +137,7 @@ const funcs = {
   },
 
   // Build the scope parameters
-  buildScopeParams(scopes) {
+  buildScopeParams (scopes) {
     const scopeParams = [];
 
     for (const prop in scopes) {
@@ -147,7 +151,7 @@ const funcs = {
     return scopeParams;
   },
 
-  serialize(obj, prefix) {
+  serialize (obj, prefix) {
     const str = [];
     let p;
 
@@ -167,7 +171,7 @@ const funcs = {
     return str.join('&');
   },
 
-  formatMoney(n) {
+  formatMoney (n) {
     let j = 0;
     const c = 2;
     const d = '.';
@@ -182,20 +186,20 @@ const funcs = {
       i.substr(j).replace(/(\d{3})(?=\d)/g, `$1${t}`) +
       (c
         ? d +
-          Math.abs(n - i)
-            .toFixed(c)
-            .slice(2)
+        Math.abs(n - i)
+          .toFixed(c)
+          .slice(2)
         : '')}`;
   },
 
-  sanitizeField(field) {
+  sanitizeField (field) {
     if (field.type === 'link') {
       delete field.href;
     }
     return field;
   },
 
-  sanitizeSlice(slice) {
+  sanitizeSlice (slice) {
     for (const property in slice) {
       if (
         slice.hasOwnProperty(property) &&
@@ -209,7 +213,7 @@ const funcs = {
     slice.slices.map(s => this.sanitizeSlice(s));
   },
 
-  sanitizePageData(data) {
+  sanitizePageData (data) {
     return data.slices.map(slice => this.sanitizeSlice(slice));
   },
 };

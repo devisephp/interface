@@ -5,10 +5,8 @@
         <label class="dvs-pr-2">Ascending</label>
         <input
           type="radio"
-          v-model="direction"
+          v-model="sortDirection"
           value="asc"
-          @change="update"
-          @click="checkRemove($event.target.value)"
         >
       </div>
     </fieldset>
@@ -17,10 +15,8 @@
         <label class="dvs-pr-2">Descending</label>
         <input
           type="radio"
-          v-model="direction"
+          v-model="sortDirection"
           value="desc"
-          @change="update"
-          @click="checkRemove($event.target.value)"
         >
       </div>
     </fieldset>
@@ -28,52 +24,22 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-
 export default {
   name: 'SuperTableSort',
-  data() {
-    return {
-      direction: null,
-    };
-  },
-  mounted() {
-    const { sort } = this.filters[this.type];
-    if (sort.hasOwnProperty(this.column)) {
-      this.direction = sort[this.column];
+  computed: {
+    sortDirection: {
+      get () {
+        if (this.value[this.column]) {
+          return this.value.sort
+        }
+        return null
+      },
+      set (newValue) {
+        console.log(newValue, this.$set(this.value, this.column, newValue))
+        this.$emit('update', this.$set(this.value, this.column, newValue))
+      }
     }
   },
-  methods: {
-    ...mapActions(['updateFilters']),
-    clear() {
-      this.removeFilter();
-    },
-    update() {
-      const filterPayload = {};
-
-      filterPayload[this.type] = this.filters[this.type];
-      filterPayload[this.type].sort[this.column] = this.direction;
-
-      this.updateFilters(filterPayload);
-    },
-    checkRemove(value) {
-      if (this.direction === value) {
-        this.removeFilter();
-      }
-    },
-    removeFilter() {
-      this.direction = null;
-      const filterPayload = {};
-
-      filterPayload[this.type] = this.filters[this.type];
-      delete filterPayload[this.type].sort[this.column];
-
-      this.updateFilters(filterPayload);
-    },
-  },
-  computed: {
-    ...mapGetters(['filters']),
-  },
-  props: ['type', 'column'],
+  props: ['type', 'column', 'value'],
 };
 </script>

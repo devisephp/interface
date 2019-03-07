@@ -14,10 +14,11 @@
         >Sync Sites with Mothership</button>
       </div>
 
-      <h2 class="dvs-mb-8" :style="{color: theme.panel.color}">Current Sites</h2>
-      <help
-        class="dvs-mb-10"
-      >Here you can add and manage sites under this application. This means that you can add new domains, change themes for those domains, and add languages to those sites to make them more impacting for your users</help>
+      <h2
+        class="dvs-mb-8"
+        :style="{color: theme.panel.color}"
+      >Current Sites</h2>
+      <help class="dvs-mb-10">Here you can add and manage sites under this application. This means that you can add new domains, change themes for those domains, and add languages to those sites to make them more impacting for your users</help>
 
       <div class="dvs-flex dvs-flex-wrap">
         <div
@@ -25,7 +26,10 @@
           :key="site.id"
           class="dvs-mb-6 dvs-flex dvs-justify-between dvs-items-center dvs-w-1/2"
         >
-          <div class="dvs-p-8 dvs-text-center dvs-rounded" :style="theme.panelCard">
+          <div
+            class="dvs-p-8 dvs-text-center dvs-rounded"
+            :style="theme.panelCard"
+          >
             <div class="dvs-text-base">
               <div class="dvs-mb-2 dvs-text-sm dvs-uppercase">{{ site.name }}</div>
               <div class="dvs-mb-4 dvs-text-sm dvs-opacity-75">Domain: {{ site.domain }}</div>
@@ -62,26 +66,42 @@
 
     <transition name="dvs-fade">
       <portal to="devise-root">
-        <devise-modal class="dvs-z-50" v-if="showCreate" @close="showCreate = false">
-          <h2 class="dvs-mb-8" :style="{color: theme.panel.color }">Create new site</h2>
+        <devise-modal
+          class="dvs-z-50"
+          v-if="showCreate"
+          @close="showCreate = false"
+        >
+          <h2
+            class="dvs-mb-8"
+            :style="{color: theme.panel.color }"
+          >Create new site</h2>
 
           <fieldset class="dvs-fieldset dvs-mb-4">
             <label>Name</label>
-            <input type="text" v-model="newSite.name" placeholder="Name of the Site">
+            <input
+              type="text"
+              v-model="newSite.name"
+              placeholder="Name of the Site"
+            >
           </fieldset>
 
-          <help
-            class="dvs-mb-8"
-          >The domain should not include the http or https:// protocol identifier. So your site entry could be "my-super-awesome-site.com" or "sub-domain.my-super-awesome-site.com". To Support development environments you can override these values in your .env file in the root of your project with something like "SITE_1_DOMAIN=my-super-awesome-site.test" for your local development or staging.</help>
+          <help class="dvs-mb-8">The domain should not include the http or https:// protocol identifier. So your site entry could be "my-super-awesome-site.com" or "sub-domain.my-super-awesome-site.com". To Support development environments you can override these values in your .env file in the root of your project with something like "SITE_1_DOMAIN=my-super-awesome-site.test" for your local development or staging.</help>
 
           <fieldset class="dvs-fieldset dvs-mb-4">
             <label>Domain</label>
-            <input type="text" v-model="newSite.domain" placeholder="Domain of the Site">
+            <input
+              type="text"
+              v-model="newSite.domain"
+              placeholder="Domain of the Site"
+            >
           </fieldset>
 
           <fieldset class="dvs-fieldset dvs-mb-4">
             <label>Language</label>
-            <select type="text" v-model="newSite.language_id">
+            <select
+              type="text"
+              v-model="newSite.language_id"
+            >
               <option :value="null">Select a Default Language</option>
               <option
                 v-for="language in languages"
@@ -113,7 +133,7 @@ import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'SitesIndex',
-  data() {
+  data () {
     return {
       modulesToLoad: 2,
       showCreate: false,
@@ -132,7 +152,7 @@ export default {
       },
     };
   },
-  mounted() {
+  mounted () {
     this.retrieveAllSites();
     this.retrieveAllLanguages();
   },
@@ -145,12 +165,12 @@ export default {
       'updateSite',
       'deleteSite',
     ]),
-    requestSyncSites() {
+    requestSyncSites () {
       if (this.mothershipApiKey !== null) {
         this.syncSites(this.sites.data);
       }
     },
-    requestCreateSite() {
+    requestCreateSite () {
       this.createSite(this.newSite).then(() => {
         this.newSite.name = null;
         this.newSite.domain = null;
@@ -158,10 +178,10 @@ export default {
         this.requestSyncSites();
       });
     },
-    showEditSite(site) {
+    showEditSite (site) {
       this.$router.push({ name: 'devise-sites-edit', params: { siteId: site.id } });
     },
-    requestEditSite() {
+    requestEditSite () {
       this.updateSite({ site: this.originalSite(this.editSite.id), data: this.editSite }).then(
         () => {
           this.editSite.id = null;
@@ -171,31 +191,31 @@ export default {
         }
       );
     },
-    requestDeleteSite(site) {
+    requestDeleteSite (site) {
       this.deleteSite(site).then(() => {
         this.retrieveAllSites();
       });
     },
-    retrieveAllSites(loadbar = true) {
+    retrieveAllSites (loadbar = true) {
       this.getSites().then(() => {
         if (loadbar) {
           window.deviseSettings.$bus.$emit('incrementLoadbar', this.modulesToLoad);
         }
       });
     },
-    retrieveAllLanguages(loadbar = true) {
+    retrieveAllLanguages (loadbar = true) {
       this.getLanguages().then(() => {
         if (loadbar) {
           window.deviseSettings.$bus.$emit('incrementLoadbar', this.modulesToLoad);
         }
       });
     },
-    addEditLanguage() {
+    addEditLanguage () {
       this.editAddLanguage.default = 0;
       this.editSite.languages.push(this.editAddLanguage);
       this.editAddLanguage = null;
     },
-    setDefaultLanguage(language) {
+    setDefaultLanguage (language) {
       // Set them all to off and turn the default to on
       this.editSite.languages.map(l => {
         l.default = 0;
@@ -206,19 +226,19 @@ export default {
         return 0;
       });
     },
-    originalSite(id) {
+    originalSite (id) {
       return this.sites.data.find(site => site.id === id);
     },
   },
   computed: {
-    ...mapGetters('devise', ['sites', 'languages', 'mothershipApiKey', 'settingsMenu']),
-    createInvalid() {
+    ...mapGetters('devise', ['sites', 'languages', 'mothershipApiKey']),
+    createInvalid () {
       return this.newSite.name === null || this.newSite.domain === null;
     },
-    editInvalid() {
+    editInvalid () {
       return this.editSite.name === null || this.editSite.domain === null;
     },
-    languagesNotInEditSite() {
+    languagesNotInEditSite () {
       const self = this;
       return this.languages.data.filter(language => {
         const match = self.editSite.languages.filter(l => l.id === language.id);

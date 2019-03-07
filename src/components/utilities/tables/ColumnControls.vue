@@ -12,14 +12,17 @@
     <div v-show="show">
       <div
         class="dvs-blocker dvs-z-20"
-        @click="hide"
+        @click.prevent="hide"
       ></div>
       <div
         v-show="show"
         :style="theme.panel"
-        class="dvs-absolute dvs-pin-b dvs-pin-l dvs-mb-1 dvs-min-w-250 dvs-z-40 dvs-shadow-lg"
+        class="dvs-absolute dvs--mt-8 dvs-pin-l dvs-mb-1 dvs-min-w-250 dvs-z-40 dvs-shadow-lg"
       >
-        <div class="dvs-pt-4 dvs-pb-2 dvs-px-4 dvs-flex dvs-justify-between dvs-min-w-64">
+        <div
+          class="dvs-pt-4 dvs-pb-2 dvs-px-4 dvs-flex dvs-justify-between dvs-items-center dvs-min-w-64"
+          :style="{background:theme.panelCard.background}"
+        >
           {{ this.column.label }}
           <div class="dvs-flex dvs-justify-between">
             <button
@@ -47,8 +50,16 @@
             v-if="typeof column.search !== 'undefined'"
             :column="column.search"
             :options="column.options"
+            :style="{borderColor: theme.panelCard.background}"
           ></search>
-          <!-- <sort ref="sort" v-if="typeof column.sort !== 'undefined'" :column="column.sort"></sort> -->
+          <sort
+            ref="sort"
+            v-if="typeof column.sort !== 'undefined'"
+            :column="column.sort"
+            v-model="localFilters.sort"
+            @change="updateValue"
+            :style="{borderColor: theme.panelCard.background}"
+          ></sort>
         </div>
       </div>
     </div>
@@ -68,9 +79,9 @@ export default {
     this.localFilters = Object.assign({}, this.localFilters, this.value);
   },
   methods: {
-    updateValue () {
-      this.$emit('input', this.localFilters);
-      this.$emit('change', this.localFilters);
+    updateValue (newValue) {
+      this.$emit('input', newValue);
+      this.$emit('change', newValue);
     },
     clearAll () {
       this.localFilters = {
@@ -83,11 +94,11 @@ export default {
       this.updateValue();
     },
     hide () {
-      const self = this;
       // hacky need to find a better way to have the column clickable
-      this.$nextTick(() => {
-        self.show = false;
-      });
+      setTimeout(() => {
+        this.show = false;
+      })
+
     },
   },
   computed: {
@@ -108,7 +119,9 @@ export default {
     SettingsIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SettingsIcon'),
     Search: () =>
-      import(/* webpackChunkName: "devise-tables" */ 'vue-feather-icons/icons/GridIcon'),
+      import(/* webpackChunkName: "devise-tables" */ './Search.vue'),
+    Sort: () =>
+      import(/* webpackChunkName: "devise-tables" */ './Sort.vue'),
   },
 };
 </script>

@@ -1,19 +1,32 @@
 <template>
-  <div>
+  <div v-bar>
     <div>
       <help
         class="dvs-mb-8"
         v-if="!model"
       >The models below are loaded by Devise by scanning your Laravel application directory for anything that extends the Model class. Ensure it does this for it to appear below.</help>
-      <fieldset class="dvs-fieldset dvs-mb-4" v-if="storeModels.length > 0">
+      <fieldset
+        class="dvs-fieldset dvs-mb-4"
+        v-if="storeModels.length > 0"
+      >
         <label>Select a Model</label>
-        <select v-model="model" @change="updateModelQueryModel()">
+        <select
+          v-model="model"
+          @change="updateModelQueryModel()"
+        >
           <option :value="null">Select a Model</option>
-          <option :value="model" v-for="model in storeModels" :key="model.id">{{ model.name }}</option>
+          <option
+            :value="model"
+            v-for="model in storeModels"
+            :key="model.id"
+          >{{ model.name }}</option>
         </select>
       </fieldset>
     </div>
-    <div v-if="model" class="dvs-relative dvs-mb-8">
+    <div
+      v-if="model"
+      class="dvs-relative dvs-mb-8"
+    >
       <super-table
         v-model="modelQuery"
         :model="model"
@@ -24,8 +37,11 @@
       />
     </div>
 
-
-    <button @click="save" class="dvs-btn" :style="theme.actionButton">Save</button>
+    <button
+      @click="save"
+      class="dvs-btn"
+      :style="theme.actionButton"
+    >Done</button>
   </div>
 </template>
 
@@ -33,7 +49,7 @@
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
-  data() {
+  data () {
     return {
       firstRecord: false,
       limit: 20,
@@ -42,9 +58,10 @@ export default {
       modelQuery: null,
       name: null,
       filters: {},
+      cache: false
     };
   },
-  mounted() {
+  mounted () {
     const self = this;
 
     if (typeof this.editData === 'undefined') {
@@ -66,18 +83,18 @@ export default {
   },
   methods: {
     ...mapActions('devise', ['getModels', 'getModelSettings']),
-    save() {
+    save () {
       this.update();
       this.$emit('save');
     },
-    update() {
+    update () {
       this.$emit('input', {
         model: this.model,
         name: this.name,
         modelQuery: this.modelQuery,
       });
     },
-    updateModelQueryModel() {
+    updateModelQueryModel () {
       const self = this;
       if (this.model !== null) {
         this.modelQuery = this.model.class;
@@ -95,6 +112,7 @@ export default {
   },
   components: {
     SuperTable: () => import(/* webpackChunkName: "devise-tables" */ './tables/SuperTable'),
+    Toggle: () => import(/* webpackChunkName: "devise-utilities" */ './Toggle'),
   },
   props: ['value', 'editData'],
 };

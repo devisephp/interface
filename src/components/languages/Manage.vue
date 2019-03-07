@@ -122,7 +122,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters('devise', ['languages', 'settingsMenu']),
+    ...mapGetters('devise', ['languages']),
   },
   components: {
     CreateIcon: () =>

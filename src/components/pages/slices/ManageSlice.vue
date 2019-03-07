@@ -1,6 +1,5 @@
 <template>
   <div>
-    asdfadfasdf
     <portal to="devise-root">
       <div class="dvs-fixed dvs-pin dvs-flex dvs-justify-center dvs-items-center">
         <div

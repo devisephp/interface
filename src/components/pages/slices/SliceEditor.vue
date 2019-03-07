@@ -367,7 +367,6 @@ export default {
     requestEditSlice () {
       this.manageSlice = true;
       this.$nextTick(() => {
-        console.log(this.$refs, this.$refs.manageslice)
         if (this.$refs.manageslice) {
           this.$refs.manageslice.action = 'edit';
         }
