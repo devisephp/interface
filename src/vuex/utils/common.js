@@ -14,7 +14,7 @@ const funcs = {
     const scopeParams = funcs.buildScopeParams(filters.scopes);
     const searchParams = filters.search;
     const pageParams = filters.page;
-    const { paginated, limit, single, cache } = filters;
+    const { paginated, limit, single, cache, language_id } = filters;
 
     if (single) {
       params.single = single;
@@ -42,6 +42,10 @@ const funcs = {
 
     if (cache) {
       params.cache = true;
+    }
+
+    if (language_id) {
+      params.language_id = language_id;
     }
 
     if (filters.dates && Object.keys(filters.dates).length > 0) {

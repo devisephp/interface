@@ -42,6 +42,23 @@
             </ul>
           </div>
         </fieldset>
+
+        <fieldset class="dvs-fieldset dvs-mb-8">
+          <label>Current Language</label>
+          <select
+            type="text"
+            class="dvs-mb-4"
+            v-model="filters.language_id"
+            @change="retrieveAllPages(false)"
+          >
+            <option
+              v-for="language in languages.data"
+              :key="language.id"
+              :value="language.id"
+            >{{ language.code }}
+            </option>
+          </select>
+        </fieldset>
       </div>
 
       <div :style="{color: theme.panel.color}">
@@ -96,6 +113,7 @@ export default {
       modulesToLoad: 2,
       filters: {
         page: '1',
+        language_id: '1'
       },
       showCreate: false,
       searchDelay: 1000,

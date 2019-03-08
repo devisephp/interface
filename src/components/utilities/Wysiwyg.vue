@@ -84,11 +84,11 @@ import Strings from '../../mixins/Strings';
 
 export default {
   name: 'Wysiwyg',
+  props: ['id', 'value'],
   data () {
     return {
       theEditor: null,
       imageToManage: null,
-      localValue: '',
       scrollEvent: null,
       buttonPane: null,
       config: {
@@ -133,8 +133,18 @@ export default {
       },
     };
   },
+  computed: {
+    localValue: {
+      get () {
+        return this.value
+      },
+      set (newValue) {
+        this.$emit('input', newValue);
+        this.$emit('change', newValue);
+      },
+    }
+  },
   mounted () {
-    this.localValue = this.value;
     this.theEditor = this.$refs.theEditor;
 
     this.$nextTick(() => {
@@ -180,9 +190,8 @@ export default {
       }
     },
     update () {
-      this.localValue = this.theEditor.el.trumbowyg('html');
-      this.$emit('input', this.localValue);
-      this.$emit('change', this.localValue);
+      const editorContent = this.theEditor.el.trumbowyg('html')
+      if (this.value !== editorContent) this.localValue = editorContent;
     },
     setHtml (html) {
       this.localValue = html;
@@ -242,7 +251,6 @@ export default {
   components: {
     Trumbowyg,
   },
-  mixins: [Strings],
-  props: ['id', 'value'],
+  mixins: [Strings]
 };
 </script>

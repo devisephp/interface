@@ -98,6 +98,7 @@
                       type="text"
                       placeholder="Search"
                       v-model="searchTerms"
+                      ref="search"
                       class="mr-2"
                     >
                   </fieldset>
@@ -665,6 +666,13 @@ export default {
     },
   },
   watch: {
+    loaded (newValue) {
+      if (newValue === true) {
+        this.$nextTick(() => {
+          this.$refs.search.focus()
+        })
+      }
+    },
     cookieSettings: newValue => {
       if (!newValue) {
         Cookies.remove('devise-mediamanager-location');
