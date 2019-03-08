@@ -69,6 +69,20 @@
                 :style="{color:theme.panel.color}"
               >Meta Tags</a>
             </li>
+            <li class="dvs-mb-2">
+              <a
+                href="#header-footer"
+                class="scrollactive-item"
+                :style="{color:theme.panel.color}"
+              >Header / Footer</a>
+            </li>
+            <li class="dvs-mb-2">
+              <a
+                href="#middleware"
+                class="scrollactive-item"
+                :style="{color:theme.panel.color}"
+              >Middleware</a>
+            </li>
           </ul>
         </scrollactive>
       </div>
@@ -185,7 +199,7 @@
                     :settings="{date: true, time: true}"
                     placeholder="Start Date"
                     title="The date in which this version will begin appearing."
-                    v-tippy="tippyConfiguration"
+                    v-tippy
                   />
                 </fieldset>
 
@@ -196,7 +210,7 @@
                     :settings="{date: true, time: true}"
                     placeholder="End Date"
                     title="The date when this page version will stop appearing. This page will either fall back to another page version or produce a 404: Page Not Found if a user attempts to load it."
-                    v-tippy="tippyConfiguration"
+                    v-tippy
                   />
                 </fieldset>
 
@@ -209,7 +223,7 @@
                     type="number"
                     v-model.number="localValue.versions[key].ab_testing_amount"
                     title="This is the weight in which a page will show up. The number can be any number you want and is divided by the total weights of all other page versions."
-                    v-tippy="tippyConfiguration"
+                    v-tippy
                   >
                 </fieldset>
               </div>
@@ -219,7 +233,7 @@
                   class="dvs-btn dvs-mr-4 dvs-px-8"
                   @click="requestSaveVersion(version)"
                   title="Save Version Settings"
-                  v-tippy="tippyConfiguration"
+                  v-tippy
                   :style="theme.actionButton"
                 >
                   <checkmark-icon
@@ -231,7 +245,7 @@
                   class="dvs-btn dvs-mr-4 dvs-px-8"
                   @click="requestCopyVersion(version)"
                   title="Copy Version"
-                  v-tippy="tippyConfiguration"
+                  v-tippy
                   :style="theme.actionButtonGhost"
                 >
                   <copy-icon
@@ -241,7 +255,7 @@
                 </button>
                 <button
                   class="dvs-btn dvs-mr-2 dvs-px-8"
-                  v-tippy="tippyConfiguration"
+                  v-tippy
                   v-devise-alert-confirm="{callback: requestDeleteVersion, arguments:version, message: 'Are you sure you want to delete this version?'}"
                   :style="theme.actionButtonGhost"
                 >
@@ -324,6 +338,51 @@
             />
           </fieldset>
 
+          <div
+            id="header-footer"
+            class="dvs-mb-10"
+          >
+            <h3
+              :style="{color: theme.panel.color}"
+              class="dvs-mb-4"
+            >Header / Footer Content</h3>
+
+            <fieldset class="dvs-fieldset dvs-mb-4">
+              <label>Head</label>
+              <textarea
+                class="dvs-w-1/2"
+                v-model="localValue.head"
+              ></textarea>
+            </fieldset>
+
+            <fieldset class="dvs-fieldset">
+              <label>Footer</label>
+              <textarea
+                class="dvs-w-1/2"
+                v-model="localValue.footer"
+              ></textarea>
+            </fieldset>
+          </div>
+
+          <div
+            id="middleware"
+            class="dvs-mb-10"
+          >
+            <h3
+              :style="{color: theme.panel.color}"
+              class="dvs-mb-4"
+            >Middleware</h3>
+
+            <fieldset class="dvs-fieldset dvs-mb-4">
+              <label>Middleware</label>
+              <input
+                type="text"
+                class="dvs-w-1/2"
+                v-model="localValue.middleware"
+              >
+            </fieldset>
+          </div>
+
           <div class="dvs-flex">
             <button
               @click="requestSavePage"
@@ -336,6 +395,7 @@
               :style="theme.actionButtonGhost"
             >Cancel</button>
           </div>
+
         </div>
       </div>
     </div>

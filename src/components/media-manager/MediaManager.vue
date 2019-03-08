@@ -345,6 +345,24 @@
                       >
                     </fieldset>
 
+                    <fieldset class="dvs-fieldset dvs-mb-4">
+                      <label class="dvs-text-xs dvs-uppercase dvs-mb-1">Global Caption</label>
+                      <div class="dvs-flex">
+                        <input
+                          type="text"
+                          v-model="file.alt"
+                          class="dvs-mr-4"
+                        >
+                        <button
+                          class="dvs-btn dvs-btn-sm"
+                          :style="theme.actionButton"
+                          @click="requestSaveCaption(file)"
+                        >
+                          Save Caption
+                        </button>
+                      </div>
+                    </fieldset>
+
                     <p v-if="callback">
                       <button
                         @click="selectSourceFile(file)"
@@ -438,6 +456,7 @@ export default {
       'deleteFile',
       'createDirectory',
       'deleteDirectory',
+      'saveCaption'
     ]),
     startOpenerListener () {
       const self = this;
@@ -571,6 +590,13 @@ export default {
       this.deleteFile(file).then(() => {
         self.changeDirectories(self.currentDirectory);
       });
+    },
+    requestSaveCaption (file) {
+      const payload = {
+        image: file.url,
+        alt_text: file.alt
+      }
+      this.saveCaption(payload)
     },
     requestCreateDirectory () {
       const self = this;

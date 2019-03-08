@@ -14,6 +14,30 @@ const actions = {
   },
 
   /*
+  * Captions
+  */
+
+  saveCaption (context, payload) {
+    return new Promise(resolve => {
+      window.axios
+        .post(`${context.state.api.baseUrl}media/alts`, payload)
+        .then(response => {
+          window.deviseSettings.$bus.$emit('showMessage', {
+            title: 'Success!',
+            message: 'Your caption has been saved.',
+          });
+          resolve(response);
+        })
+        .catch(error => {
+          window.deviseSettings.$bus.$emit('showError', error);
+        });
+    }).catch(error => {
+      window.deviseSettings.$bus.$emit('showError', error);
+    });
+  },
+
+
+  /*
    * Devmode
    */
   setDevMode (context, data) {

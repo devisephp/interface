@@ -53,7 +53,10 @@
         :key="key"
         class="dvs-flex dvs-justify-between dvs-items-center dvs-mb-2"
       >
-        <div class="dvs-font-mono dvs-pr-8">
+        <div
+          class="dvs-font-mono dvs-p-8 leading-loose dvs-text-sm"
+          :style="theme.panelCard"
+        >
           <template v-if="!meta.edit">&lt;meta {{ meta.attribute_name }}="{{ meta.attribute_value }}" content="{{ meta.content }}"&gt;</template>
           <template v-else>
             <fieldset class="dvs-fieldset">
@@ -82,7 +85,10 @@
         </div>
 
         <div class="dvs-flex dvs-justify-between dvs-items-center">
-          <div v-if="!meta.edit">
+          <div
+            class="dvs-flex"
+            v-if="!meta.edit"
+          >
             <button
               class="dvs-btn dvs-btn-xs dvs-ml-4"
               :style="theme.actionButtonGhost"
@@ -135,7 +141,7 @@ export default {
     };
   },
   mounted () {
-    this.newMeta.site_id = window.$page.site_id;
+    this.newMeta.site_id = window.deviseSettings.$page.site_id;
   },
   methods: {
     requestCreateMeta () {

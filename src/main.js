@@ -3,6 +3,7 @@ import { mapGetters } from 'vuex';
 import Vuebar from 'vuebar';
 import VueNotifications from 'vue-notifications';
 import iziToast from 'izitoast'; // https://github.com/dolce/iziToast
+import VueTippy from 'vue-tippy'
 import Devise from './Devise.vue';
 import DeviseStore from './vuex/store';
 import DeviseBus from './event-bus';
@@ -15,8 +16,10 @@ import Slices from './components/slices/Slices.vue';
 import Tuck from './directives/tuck';
 import alertConfirm from './directives/alert-confirm';
 
+const VueScrollactive = require('vue-scrollactive');
+
 const DevisePlugin = {
-  install(Vue, { store, router, bus, options }) {
+  install (Vue, { store, router, bus, options }) {
     // Register tuck directive
     Vue.directive('tuck', Tuck);
 
@@ -63,7 +66,7 @@ const DevisePlugin = {
     }
 
     if (typeof window.deviseSettings === 'undefined') {
-      window.deviseSettings = () => {};
+      window.deviseSettings = () => { };
     }
 
     // If the bus isn't set we'll use our own bus
@@ -133,7 +136,7 @@ const DevisePlugin = {
     );
 
     // Register Messages
-    function toast({ title, message, type, timeout }) {
+    function toast ({ title, message, type, timeout }) {
       if (type === VueNotifications.types.warn) type = 'warning';
       return iziToast[type]({ title, message, timeout });
     }
@@ -147,24 +150,29 @@ const DevisePlugin = {
 
     Vue.use(VueNotifications, vueNotificationsOptions);
 
+    // For administration sidebars
+    Vue.use(VueScrollactive);
+
+    // Tips and popups
+    Vue.use(VueTippy, {
+      interactive: true,
+      animation: 'shift-toward',
+      arrow: true,
+      inertia: true,
+      interactiveBorder: 20,
+      maxWidth: '300px',
+      theme: 'devise',
+      trigger: 'mouseenter focus',
+    })
+
     // enables passive event listeners by default for some events
     // require('default-passive-events');
 
     // We call Vue.mixin() here to inject functionality into all components.
     Vue.mixin({
-      data() {
+      data () {
         return {
-          deviseOptions,
-          tippyConfiguration: {
-            interactive: true,
-            animation: 'shift-toward',
-            arrow: true,
-            inertia: true,
-            interactiveBorder: 20,
-            maxWidth: '300px',
-            theme: 'devise',
-            trigger: 'mouseenter focus',
-          },
+          deviseOptions
         };
       },
       notifications: {
@@ -181,20 +189,20 @@ const DevisePlugin = {
       },
       methods: {
         // Convienience method to push things into the router from templates
-        goToPage(pageName, params) {
+        goToPage (pageName, params) {
           this.$router.push({ name: pageName, params });
         },
-        href(url) {
+        href (url) {
           window.open(url, '_self');
         },
-        launchMediaManager(callbackObject, callbackProperty) {
+        launchMediaManager (callbackObject, callbackProperty) {
           window.deviseSettings.$bus.$emit('devise-launch-media-manager', {
-            callback(media) {
+            callback (media) {
               callbackObject[callbackProperty] = media.url;
             },
           });
         },
-        can(permission) {
+        can (permission) {
           const toCheck = !Array.isArray(permission) ? [permission] : permission;
           const allowed = window.deviseSettings.$user.permissions_list
             ? window.deviseSettings.$user.permissions_list

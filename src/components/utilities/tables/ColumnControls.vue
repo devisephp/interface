@@ -52,14 +52,14 @@
             :options="column.options"
             :style="{borderColor: theme.panelCard.background}"
           ></search>
-          <sort
+          <!-- <sort
             ref="sort"
             v-if="typeof column.sort !== 'undefined'"
             :column="column.sort"
             v-model="localFilters.sort"
             @change="updateValue"
             :style="{borderColor: theme.panelCard.background}"
-          ></sort>
+          ></sort> -->
         </div>
       </div>
     </div>

@@ -94,8 +94,6 @@
 import Vue from 'vue';
 import { mapState } from 'vuex';
 
-const VueScrollactive = require('vue-scrollactive');
-
 export default {
   name: 'Administration',
   data () {
@@ -104,9 +102,6 @@ export default {
     };
   },
   mounted () {
-    // For administration sidebars
-    Vue.use(VueScrollactive);
-
     Vue.component('help', () =>
       import(/* webpackChunkName: "devise-utilities" */ '../utilities/Help')
     );
