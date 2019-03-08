@@ -59,7 +59,10 @@ export default {
     }
 
     this.addListeners();
-    this.checkMediaSizesForRegeneration();
+
+    if (this.isLoggedIn) {
+      this.checkMediaSizesForRegeneration();
+    }
   },
   methods: {
     ...mapActions('devise', ['regenerateMedia']),
