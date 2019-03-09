@@ -63,6 +63,7 @@
             @editSlice="editSlice"
             @removeSlice="removeSlice"
             @copySlice="copySlice"
+            :depth="1"
           />
         </template>
       </draggable>
@@ -191,7 +192,6 @@ export default {
       // this.currentPage.slices[this.currentPage.slices.indexOf(referenceSlice)]
     },
     editSlice (editedSlice, referenceSlice) {
-      console.log(editedSlice, referenceSlice)
       this.currentPage.slices.splice(
         this.currentPage.slices.indexOf(referenceSlice),
         1,

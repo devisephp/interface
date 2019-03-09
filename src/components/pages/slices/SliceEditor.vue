@@ -133,11 +133,37 @@
                   <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Remove</div>
                 </div>
               </div>
+
+              <div
+                class="dvs-w-1/2"
+                v-if="!child"
+              >
+                <div
+                  class="dvs-cursor-pointer dvs-ml-2 dvs-mr-2 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-border dvs-rounded-sm dvs-p-2"
+                  :style="{ borderColor: theme.panelIcons.color }"
+                  @click="requestCopyToAnotherPage()"
+                >
+                  <copy-icon
+                    w="25"
+                    h="25"
+                    :style="theme.panelIcons"
+                  />
+                  <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Copy</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </strong>
+
+    <portal to="devise-root">
+      <copy-slice-to-page
+        :slice="slice"
+        @close="showCopyToAnotherPage = false"
+        v-if="showCopyToAnotherPage"
+      ></copy-slice-to-page>
+    </portal>
 
     <manage-slice
       ref="manageslice"
@@ -307,6 +333,7 @@ export default {
       pageSlices: [],
       moreHovered: false,
       sliceOpen: false,
+      showCopyToAnotherPage: false,
     };
   },
   mounted () {
@@ -398,6 +425,9 @@ export default {
       }
       this.$emit('removeSlice', slice, referringSlice);
       this.manageSlice = false;
+    },
+    requestCopyToAnotherPage () {
+      this.showCopyToAnotherPage = true
     },
     editField (value, field, key) {
       // Update the slice field
@@ -541,6 +571,7 @@ export default {
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/TrashIcon'),
     SelectEditor: () => import(/* webpackChunkName: "devise-editors" */ '../editor/Select'),
     SliceEditor: () => import(/* webpackChunkName: "devise-editors" */ './SliceEditor'),
+    CopySliceToPage: () => import(/* webpackChunkName: "devise-editors" */ './CopySliceToPage'),
     TextareaEditor: () => import(/* webpackChunkName: "devise-editors" */ '../editor/Textarea'),
     TextEditor: () => import(/* webpackChunkName: "devise-editors" */ '../editor/Text'),
     WysiwygEditor: () => import(/* webpackChunkName: "devise-editors" */ '../editor/Wysiwyg'),

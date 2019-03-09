@@ -482,6 +482,26 @@ const actions = {
     });
   },
 
+  searchPageVersions (context, payload) {
+    return new Promise(resolve => {
+      window.axios
+        .get(`${context.state.api.baseUrl}page-versions/`, {
+          params: {
+            term: payload.term,
+          },
+        })
+        .then(response => {
+          resolve(response);
+        })
+        .catch(error => {
+          window.deviseSettings.$bus.$emit('showError', error);
+        });
+    }).catch(error => {
+      window.deviseSettings.$bus.$emit('showError', error);
+    });
+  },
+
+
   copyPage (context, payload) {
     return new Promise(resolve => {
       window.axios
@@ -934,6 +954,26 @@ const actions = {
             message: `${slice.name} has been deleted.`,
           });
           context.commit('deleteSlice', slice);
+          resolve(response);
+        })
+        .catch(error => {
+          window.deviseSettings.$bus.$emit('showError', error);
+        });
+    }).catch(error => {
+      window.deviseSettings.$bus.$emit('showError', error);
+    });
+  },
+
+  copyPageSlice (context, payload) {
+    console.log(payload)
+    return new Promise(resolve => {
+      window.axios
+        .post(`${context.state.api.baseUrl}page-versions/${payload.page_version_id}`, { copy_slice_id: payload.copy_slice_id })
+        .then(response => {
+          window.deviseSettings.$bus.$emit('showMessage', {
+            title: 'Success!',
+            message: `Slice was copied.`,
+          });
           resolve(response);
         })
         .catch(error => {

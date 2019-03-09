@@ -575,7 +575,11 @@ export default {
       'updatePageVersion',
     ]),
     requestSavePage () {
-      this.updatePage({ data: this.localValue });
+      this.updatePage({ data: this.localValue }).then(() => {
+        if (this.localValue.id === this.currentPage.id) {
+          window.location.reload();
+        }
+      });
     },
     requestCopyPage () {
       const self = this;
@@ -602,7 +606,7 @@ export default {
       });
     },
     requestSaveVersion (version) {
-      this.updatePageVersion({ page: this.localValue, version });
+      this.updatePageVersion({ page: this.localValue, version })
     },
     requestCopyVersion (version) {
       this.copyPageVersion({ page: this.localValue, version });
