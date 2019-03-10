@@ -1,6 +1,6 @@
 <template>
   <li
-    class="dvs-mb-4 dvs-collapsable"
+    class="dvs-my-4 dvs-collapsable"
     :class="{'dvs-open': sliceOpen}"
   >
     <strong class="dvs-block dvs-mb-2 dvs-switch-sm dvs-text-sm dvs-flex dvs-justify-between dvs-items-center dvs-w-full">
@@ -9,11 +9,12 @@
         :style="{color: theme.panel.color}"
       >
         <div class="dvs-flex dvs-w-full">
-          <menu-icon
-            class="dvs-mr-2 handle"
-            style="margin-top:2px;"
-            :style="theme.panelIcons"
-          />
+          <div class="handle dvs-mr-2 dvs-cursor-move">
+            <menu-icon
+              style="margin-top:2px;"
+              :style="theme.panelIcons"
+            />
+          </div>
           <div
             dusk="slice-label"
             class="dvs-relative dvs-w-full"
@@ -291,18 +292,20 @@
       <draggable
         v-model="slice.slices"
         element="ul"
-        class="dvs-list-reset"
-        :class="{'dvs-rounded':showDropZone}"
-        :style="draggableStyles"
+        class="dvs-list-reset dvs-rounded-sm"
+        :style="{
+          background: this.theme.panelCard.background,
+          padding: '2px',
+          margin: '-4px 0 0 -4px',
+          minHeight: '15px'
+        }"
         v-if="slice.metadata.type !== 'model'"
-        @start="draggingStart"
-        @end="draggingStop"
         :options="{
           handle: '.handle', 
           group: {name: 'g1'},
           animation:200,
-          ghostClass: 'dvs-ghost'
-          }"
+          ghostClass: 'dvs-ghost',
+        }"
       >
         <template v-for="s in sliceSlices">
           <slice-editor
@@ -337,12 +340,6 @@ export default {
     };
   },
   mounted () {
-    window.deviseSettings.$bus.$on('devise-editor-dragging', () => {
-      this.showDropZone = true
-    })
-    window.deviseSettings.$bus.$on('devise-editor-not-dragging', () => {
-      this.showDropZone = false
-    })
     if (this.slice.slices) {
       this.pageSlices = this.slice.slices;
     }
@@ -353,13 +350,6 @@ export default {
     },
     toggleSliceTools () {
       this.slice.metadata.tools = !this.slice.metadata.tools;
-    },
-    // Drag & Drop
-    draggingStart () {
-      window.deviseSettings.$bus.$emit('devise-editor-dragging')
-    },
-    draggingStop () {
-      window.deviseSettings.$bus.$emit('devise-editor-not-dragging')
     },
 
     // Marking Slice
@@ -400,6 +390,7 @@ export default {
       });
     },
     editSlice (slice, referringSlice) {
+      console.log('here')
       if (typeof referringSlice === 'undefined') {
         referringSlice = this.slice;
       }
@@ -523,19 +514,6 @@ export default {
         this.slice.metadata.label
         }</div>`;
     },
-
-    draggableStyles () {
-      if (this.showDropZone) {
-        return {
-          border: this.theme.actionButtonGhost.border,
-          borderStyle: 'dashed',
-          padding: '2px',
-          margin: '-4px 0 -1em -4px',
-          minHeight: '15px'
-        }
-      }
-      return null
-    }
   },
   props: {
     child: {

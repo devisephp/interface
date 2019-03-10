@@ -14,19 +14,19 @@
             <!-- Choose the type of the slice -->
             <h3
               class="dvs-mb-8 dvs-uppercase"
-              v-if="insertSlice.type === null"
+              v-if="newSlice.type === null"
               :style="{color: theme.panel.color}"
             >Choose Type of New Slice</h3>
             <transition name="dvs-fade">
               <!-- Choose the type of the slice -->
               <div
                 class="dvs-flex dvs-justify-between dvs-items-stretch"
-                v-if="insertSlice.type === null"
+                v-if="newSlice.type === null"
               >
                 <div
                   class="dvs-btn dvs-text-base dvs-mr-4 dvs-p-8 dvs-w-1/2"
                   :style="theme.actionButtonGhost"
-                  @click="insertSlice.type = 'single'"
+                  @click="newSlice.type = 'single'"
                 >
                   <h4
                     class="dvs-border-b dvs-pb-2 dvs-mb-6 dvs-mx-8"
@@ -39,7 +39,7 @@
                 <div
                   class="dvs-btn dvs-text-base dvs-ml-4 dvs-p-8 dvs-w-1/2"
                   :style="theme.actionButtonGhost"
-                  @click="insertSlice.type = 'model'"
+                  @click="newSlice.type = 'model'"
                 >
                   <h4
                     class="dvs-border-b dvs-pb-2 dvs-mb-6 dvs-mx-8"
@@ -52,14 +52,14 @@
               <!-- Slice Selector -->
               <div v-else>
                 <fieldset class="dvs-fieldset dvs-mb-4">
-                  <slice-selector v-model="insertSlice.slice" />
+                  <slice-selector v-model="newSlice.slice" />
                 </fieldset>
 
                 <div
                   class="dvs-mb-4"
-                  v-if="insertSlice.type === 'model'"
+                  v-if="newSlice.type === 'model'"
                 >
-                  <query-builder v-model="insertSlice.data"></query-builder>
+                  <query-builder v-model="newSlice.data"></query-builder>
                 </div>
 
                 <div
@@ -70,7 +70,14 @@
                     class="dvs-btn dvs-mr-2"
                     :style="theme.actionButton"
                     @click="addSlice"
+                    v-if="mode === 'inserting'"
                   >Insert</button>
+                  <button
+                    class="dvs-btn dvs-mr-2"
+                    :style="theme.actionButton"
+                    @click="editSlice"
+                    v-else
+                  >Replace</button>
                   <button
                     class="dvs-btn"
                     :style="theme.actionButtonGhost"
@@ -104,7 +111,8 @@ const defaultInsertSlice = {
 export default {
   data () {
     return {
-      insertSlice: Object.assign({}, defaultInsertSlice),
+      mode: 'inserting',
+      newSlice: Object.assign({}, defaultInsertSlice),
     };
   },
   mounted () {
@@ -113,30 +121,31 @@ export default {
     this.$nextTick(() => {
       // If slice is set it's an edit
       if (this.slice) {
-        this.insertSlice.type = this.slice.metadata.type;
+        this.mode = 'editing'
+        this.newSlice.type = this.slice.metadata.type;
       }
     });
   },
   methods: {
     ...mapActions('devise', ['getSlicesDirectories', 'getModelSettings']),
     cancelManageSlice () {
-      this.$set(this, 'insertSlice', defaultInsertSlice);
+      this.$set(this, 'newSlice', defaultInsertSlice);
       this.$emit('cancel');
     },
     buildSlice () {
-      const component = this.componentFromView(this.insertSlice.slice.value);
+      const component = this.componentFromView(this.newSlice.slice.value);
       const finalSlice = {
         settings: {
           enabled: true,
         },
         metadata: {
           instance_id: 0,
-          label: this.insertSlice.slice.name,
-          model_query: this.insertSlice.data.modelQuery
-            ? `class=${this.insertSlice.data.modelQuery}`
+          label: this.newSlice.slice.name,
+          model_query: this.newSlice.data.modelQuery
+            ? `class=${this.newSlice.data.modelQuery}`
             : null,
           name: component.name,
-          type: this.insertSlice.type,
+          type: this.newSlice.type,
           view: component.view,
           has_child_slot: component.has_child_slot,
         },

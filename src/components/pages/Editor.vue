@@ -45,13 +45,15 @@
         :options="{
           group: {name: 'g1'},
           animation:200,
-          ghostClass: 'dvs-ghost'
+          ghostClass: 'dvs-ghost',
+          handle: '.handle',
+          dragClass: 'dvs-chosen-drag-slice',
+          emptyInsertThreshold: 10,
+          removeCloneOnHide: false
         }"
         :list="currentPageSlices"
         element="ul"
         class="dvs-list-reset dvs-w-full"
-        @start="draggingStart"
-        @end="draggingStop"
       >
 
         <template v-for="slice in currentPageSlices">
@@ -157,13 +159,6 @@ export default {
     },
     closeSlice (slice) {
       this.$set(slice.metadata, 'open', false);
-    },
-    // Drag & Drop
-    draggingStart () {
-      window.deviseSettings.$bus.$emit('devise-editor-dragging')
-    },
-    draggingStop () {
-      window.deviseSettings.$bus.$emit('devise-editor-not-dragging')
     },
     requestAddSlice () {
       this.createSlice = true;

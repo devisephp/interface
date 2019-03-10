@@ -94,11 +94,13 @@ export default {
       if (this.filter !== null && this.filter !== '') {
         return this.filteredDirectories;
       }
-
-      return this.getDirectories(
-        JSON.parse(JSON.stringify(this.slicesDirectories.directories)),
-        0
-      );
+      if (this.slicesDirectories.directories && this.slicesDirectories.directories.length > 0) {
+        return this.getDirectories(
+          JSON.parse(JSON.stringify(this.slicesDirectories.directories)),
+          0
+        );
+      }
+      return [];
     },
     filteredDirectories () {
       const filters = this.filter.toLowerCase().split(' ');
