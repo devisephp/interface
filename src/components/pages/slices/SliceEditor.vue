@@ -288,18 +288,26 @@
       >Be aware that these entries are model entries. That means they are managed in your database by another tool or by an admin section in your adminitration.</help>
     </div>
 
-    <div class="dvs-collapsed dvs-ml-4">
-      <draggable
-        v-model="slice.slices"
-        element="ul"
-        class="dvs-list-reset dvs-rounded-sm"
-        :style="{
+    <div
+      class="dvs-collapsed dvs-ml-4"
+      v-if="devise.metadata.has_child_slot"
+      :style="{
           background: this.theme.panelCard.background,
           padding: '2px',
           margin: '-4px 0 0 -4px',
           minHeight: '15px'
         }"
+    >
+      <draggable
+        v-model="slice.slices"
+        element="ul"
+        class="dvs-list-reset dvs-rounded-sm"
         v-if="slice.metadata.type !== 'model'"
+        :style="{
+          padding: '2px',
+          margin: '-4px 0 0 1em',
+          minHeight: '15px'
+        }"
         :options="{
           handle: '.handle', 
           group: {name: 'g1'},
@@ -390,7 +398,6 @@ export default {
       });
     },
     editSlice (slice, referringSlice) {
-      console.log('here')
       if (typeof referringSlice === 'undefined') {
         referringSlice = this.slice;
       }

@@ -173,6 +173,11 @@ export default {
           referenceSlice.slices.push(newSlice);
         }
       } else {
+        if (newSlice.metadata.has_child_slot === true) {
+          if (typeof newSlice.slices === 'undefined') {
+            this.$set(newSlice, 'slices', []);
+          }
+        }
         this.currentPage.slices.push(newSlice);
       }
 
