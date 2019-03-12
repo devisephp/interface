@@ -59,11 +59,9 @@ export default {
       this.$refs.editor.empty();
     },
     focusForm () {
-      console.log('here')
       if (this.showEditor) {
         this.$nextTick(() => {
           setTimeout(() => {
-            console.log(this.$refs.editor.theEditor.$el)
             this.$refs.editor.theEditor.$el.focus();
           }, 200);
         });

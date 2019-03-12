@@ -965,7 +965,6 @@ const actions = {
   },
 
   copyPageSlice (context, payload) {
-    console.log(payload)
     return new Promise(resolve => {
       window.axios
         .post(`${context.state.api.baseUrl}page-versions/${payload.page_version_id}/slices`, { copy_slice_id: payload.copy_slice_id })

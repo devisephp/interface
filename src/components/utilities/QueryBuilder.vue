@@ -112,7 +112,6 @@ export default {
   },
   components: {
     SuperTable: () => import(/* webpackChunkName: "devise-tables" */ './tables/SuperTable'),
-    Toggle: () => import(/* webpackChunkName: "devise-utilities" */ './Toggle'),
   },
   props: ['value', 'editData'],
 };

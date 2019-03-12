@@ -120,8 +120,8 @@ export default {
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SettingsIcon'),
     Search: () =>
       import(/* webpackChunkName: "devise-tables" */ './Search.vue'),
-    Sort: () =>
-      import(/* webpackChunkName: "devise-tables" */ './Sort.vue'),
+    // Sort: () =>
+    //   import(/* webpackChunkName: "devise-tables" */ './Sort.vue'),
   },
 };
 </script>

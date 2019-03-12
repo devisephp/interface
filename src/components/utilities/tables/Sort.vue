@@ -35,7 +35,7 @@ export default {
         return null
       },
       set (newValue) {
-        console.log(newValue, this.$set(this.value, this.column, newValue))
+        // console.log(newValue, this.$set(this.value, this.column, newValue))
         this.$emit('update', this.$set(this.value, this.column, newValue))
       }
     }

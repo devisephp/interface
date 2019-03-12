@@ -248,14 +248,9 @@ export default {
   },
   computed: {
     ...mapGetters('devise', ['currentPage', 'sliceConfig']),
-    currentPageSlices: {
-      get () {
-        return this.currentPage.slices
-      },
-      set (newValue) {
-        console.log(newValue)
-      }
-    }
+    currentPageSlices () {
+      return this.currentPage.slices
+    },
   },
   mixins: [Strings],
   components: {

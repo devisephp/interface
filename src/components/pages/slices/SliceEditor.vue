@@ -1,4 +1,5 @@
 <template>
+  <!-- eslint-disable vue/valid-v-for -->
   <li
     class="dvs-my-4 dvs-collapsable"
     :class="{'dvs-open': sliceOpen}"
@@ -290,7 +291,7 @@
 
     <div
       class="dvs-collapsed dvs-ml-4"
-      v-if="devise.metadata.has_child_slot"
+      v-if="hasChildSlot"
       :style="{
           background: this.theme.panelCard.background,
           padding: '2px',
