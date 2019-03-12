@@ -242,9 +242,9 @@
                 <div
                   v-if="file === currentlyOpenFile"
                   @click.stop.prevent="closeFile(file)"
+                  class="dvs-absolute z-10 dvs-pin-t dvs-pin-r dvs-mt-4 dvs-mr-4 dvs-cursor-pointer"
                 >
                   <close-icon
-                    class="dvs-absolute dvs-pin-t dvs-pin-r dvs-mt-4 dvs-mr-4 dvs-cursor-pointer"
                     w="30"
                     h="30"
                   />
@@ -548,7 +548,7 @@ export default {
       this.$set(this, 'currentlyOpenFile', file);
     },
     closeFile () {
-      this.$set(this, 'currentlyOpenFile', null);
+      this.$set(this, 'currentlyOpenFile', {});
     },
     selectSourceFile (file) {
       this.selectedFile = file;

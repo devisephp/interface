@@ -109,6 +109,7 @@
         <input
           type="text"
           v-model="alt"
+          readonly
         >
       </fieldset>
     </template>
@@ -162,7 +163,9 @@ export default {
       });
     },
     mediaSelected (imagesAndSettings) {
+      console.log(imagesAndSettings)
       if (typeof imagesAndSettings === 'object') {
+        this.alt = imagesAndSettings.alt;
         this.url = imagesAndSettings.images.orig_optimized;
         this.media = imagesAndSettings.images;
         this.settings = imagesAndSettings.settings;
