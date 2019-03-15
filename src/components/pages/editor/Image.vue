@@ -104,13 +104,12 @@
           </div>
         </div>
       </fieldset>
-      <fieldset class="dvs-fieldset">
+      <fieldset
+        class="dvs-fieldset"
+        v-if="alt && alt !== ''"
+      >
         <label class="dvs-mt-4">Alt Tag</label>
-        <input
-          type="text"
-          v-model="alt"
-          readonly
-        >
+        {{ this.alt }}
       </fieldset>
     </template>
   </field-editor>

@@ -20,6 +20,7 @@ const VueScrollactive = require('vue-scrollactive');
 
 const DevisePlugin = {
   install (Vue, { store, router, bus, options }) {
+
     // Register tuck directive
     Vue.directive('tuck', Tuck);
 
