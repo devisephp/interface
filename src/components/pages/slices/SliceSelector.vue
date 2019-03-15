@@ -22,9 +22,10 @@
     </div>
     <div
       style="height:70vh"
+      v-if=" this.allDirectories.length > 0"
       v-bar="{preventParentScroll: true}"
     >
-      <div v-if=" this.allDirectories.length > 0">
+      <div>
         <slice-selector-directory
           v-for="(directory, n) in this.allDirectories"
           :key="n"
@@ -34,10 +35,6 @@
         ></slice-selector-directory>
         <div class="dvs-h-32">&nbsp;</div>
       </div>
-      <div
-        class="dvs-cursor-pointer dvs-w-1/3 dvs-flex dvs-flex-col dvs-justify-between dvs-align-items dvs-p-2 dvs-rounded-sm"
-        v-else
-      >No files in this directory</div>
     </div>
   </div>
 </template>

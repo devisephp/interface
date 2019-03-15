@@ -75,6 +75,7 @@
         v-if="createSlice === true"
         @addSlice="addSlice"
         @cancel="createSlice = false"
+        mode="inserting"
       />
 
       <div
