@@ -175,6 +175,7 @@
       @editSlice="editSlice"
       @removeSlice="removeSlice"
       :slice="slice"
+      :mode="manageSliceMode"
     />
 
     <div
@@ -342,6 +343,7 @@ export default {
     return {
       showDropZone: false,
       manageSlice: false,
+      manageSliceMode: 'inserting',
       pageSlices: [],
       moreHovered: false,
       sliceOpen: false,
@@ -375,12 +377,8 @@ export default {
     // Adding, Editing and Removing Slices
     requestInsertSlice () {
       if (this.hasChildSlot) {
+        this.manageSliceMode = 'inserting';
         this.manageSlice = true;
-        this.$nextTick(() => {
-          if (this.$refs.manageSlice) {
-            this.$refs.manageslice.action = 'insert';
-          }
-        });
       }
     },
     addSlice (slice, referringSlice) {
@@ -391,6 +389,7 @@ export default {
       this.manageSlice = false;
     },
     requestEditSlice () {
+      this.manageSliceMode = 'editing';
       this.manageSlice = true;
       this.$nextTick(() => {
         if (this.$refs.manageslice) {

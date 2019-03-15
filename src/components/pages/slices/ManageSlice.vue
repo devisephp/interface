@@ -111,7 +111,6 @@ const defaultInsertSlice = {
 export default {
   data () {
     return {
-      mode: 'inserting',
       newSlice: Object.assign({}, defaultInsertSlice),
     };
   },
@@ -121,7 +120,6 @@ export default {
     this.$nextTick(() => {
       // If slice is set it's an edit
       if (this.slice) {
-        this.mode = 'editing'
         this.newSlice.type = this.slice.metadata.type;
       }
     });
@@ -196,6 +194,10 @@ export default {
     slice: {
       type: Object | String /* eslint-disable-line */,
     },
+    mode: {
+      type: String,
+      required: true
+    }
   },
   components: {
     Panel: () => import(/* webpackChunkName: "devise-utilities" */ '../../utilities/Panel.vue'),
