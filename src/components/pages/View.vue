@@ -183,9 +183,9 @@
                   <select v-model="localValue.versions[key].layout">
                     <option
                       :value="layout"
-                      v-for="layout in layouts"
+                      v-for="(layout, layoutName) in layouts"
                       :key="layout"
-                    >{{ layout }}</option>
+                    >{{ layoutName }}</option>
                   </select>
                 </fieldset>
 
