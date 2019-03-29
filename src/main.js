@@ -11,6 +11,7 @@ import EditPage from './components/pages/Editor.vue';
 import Help from './components/utilities/Help.vue';
 import Image from './directives/image';
 import Link from './directives/link';
+import Messages from './components/utilities/Messages.vue'
 import routes from './router/route.config';
 import Slices from './components/slices/Slices.vue';
 import Tuck from './directives/tuck';
@@ -87,6 +88,7 @@ const DevisePlugin = {
 
     Vue.component('devise', Devise);
     Vue.component('slices', Slices);
+    Vue.component('messages', Messages);
 
     // Vue.component('Sidebar', Sidebar);
 

@@ -11,7 +11,6 @@
           :class="{'dvs-bg-green': value.enabled, 'dvs-bg-white': !value.enabled, 'dvs-invisible': !options.enabler}"
         ></div>
         <div
-          dusk="slice-field"
           class="dvs-flex dvs-items-center dvs-justify-stretch dvs-w-full"
           @click="toggleShowEditor"
         >

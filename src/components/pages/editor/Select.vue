@@ -9,15 +9,26 @@
     @change="update"
   >
     <template slot="preview">
-      <span v-if="value.value === null || value.value === ''" class="dvs-italic">Currently No Value</span>
-      <div>{{ }})</div>
+      <span
+        v-if="value.value === null || value.value === ''"
+        class="dvs-italic"
+      >Currently No Value</span>
     </template>
     <template slot="editor">
       <fieldset class="dvs-fieldset">
-        {{ selectValue }}
-        <select ref="focusInput" v-model="selectValue">
-          <option :value="null" v-if="options.allowNull">No Selection</option>
-          <option v-for="(option, key) in options.options" :key="key" :value="key">{{ option }}</option>
+        <select
+          ref="focusInput"
+          v-model="selectValue"
+        >
+          <option
+            :value="null"
+            v-if="options.allowNull"
+          >No Selection</option>
+          <option
+            v-for="(option, key) in options.options"
+            :key="key"
+            :value="key"
+          >{{ option }}</option>
         </select>
       </fieldset>
     </template>
@@ -30,7 +41,7 @@ import Field from '../../../mixins/Field';
 
 export default {
   name: 'SelectEditor',
-  data() {
+  data () {
     return {
       localValue: {
         label: null,
@@ -40,16 +51,16 @@ export default {
       showEditor: false,
     };
   },
-  mounted() {
+  mounted () {
     this.originalValue = Object.assign({}, this.value);
     this.localValue = this.value;
   },
   methods: {
-    toggleEditor() {
+    toggleEditor () {
       this.showEditor = !this.showEditor;
       this.focusForm();
     },
-    focusForm() {
+    focusForm () {
       if (this.showEditor) {
         this.$nextTick(() => {
           setTimeout(() => {
@@ -58,13 +69,13 @@ export default {
         });
       }
     },
-    cancel() {
+    cancel () {
       this.selectValue = this.originalValue.value;
       this.label = this.originalValue.label;
       this.enabled = this.originalValue.enabled;
       this.toggleEditor();
     },
-    resetValue() {
+    resetValue () {
       this.enabled = false;
       this.label = null;
       this.selectValue = null;
@@ -72,26 +83,26 @@ export default {
   },
   computed: {
     label: {
-      get() {
+      get () {
         if (this.selectValue !== null) {
           return this.options.options[this.selectValue];
         }
         return 'Select';
       },
-      set(value) {
+      set (value) {
         const valueObj = Object.assign(this.value, { text: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
       },
     },
     selectValue: {
-      get() {
+      get () {
         if (this.value.value === '' || !this.value.value) {
           return null;
         }
         return this.value.value;
       },
-      set(newSelectValue) {
+      set (newSelectValue) {
         const valueObj = Object.assign(this.value, { value: newSelectValue });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);

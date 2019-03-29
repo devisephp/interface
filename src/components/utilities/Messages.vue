@@ -6,6 +6,7 @@
 import Strings from '../../mixins/Strings';
 
 export default {
+  name: 'DeviseMessages',
   data () {
     return {
       title: null

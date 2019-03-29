@@ -7,6 +7,7 @@
       :class="[breakpoint, isPreviewFrame ? 'preview-frame' : '']"
     >
       <administration v-if="isLoggedIn && !isPreviewFrame" />
+      <messages style="position:relative; z-index:9999" />
 
       <div id="dvs-app-content">
         <!-- Desktop mode in editor or just viewing page -->

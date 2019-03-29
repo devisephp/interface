@@ -87,10 +87,7 @@
         </scrollactive>
       </div>
 
-      <div
-        id="dvs-admin-main"
-        style="padding-left:250px;"
-      >
+      <div id="dvs-admin-main">
         <h1
           :style="{color: theme.panel.color}"
           class="dvs-mb-8 dvs-font-hairline"

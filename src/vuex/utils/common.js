@@ -9,24 +9,18 @@ const funcs = {
     }
 
     const filters = JSON.parse(JSON.stringify(filter));
+
     let params = {};
     const sortParams = funcs.buildSortParams(filters.sort);
     const relatedParams = funcs.buildRelatedParams(filters.related);
     const scopeParams = funcs.buildScopeParams(filters.scopes);
     const searchParams = filters.search;
     const pageParams = filters.page;
-    const { paginated, limit, single, cache, language_id } = filters;
-
-    if (single) {
-      params.single = single;
-    }
-
-    if (limit) {
-      params.limit = limit;
-    }
+    const { paginated, cache } = filters;
 
     if (paginated) {
       params.paginated = true;
+      delete filters.paginated
     }
 
     if (pageParams && pageParams !== '') {
@@ -43,10 +37,7 @@ const funcs = {
 
     if (cache) {
       params.cache = true;
-    }
-
-    if (language_id) {
-      params.language_id = language_id;
+      delete filters.cache
     }
 
     if (filters.dates && Object.keys(filters.dates).length > 0) {
@@ -94,6 +85,7 @@ const funcs = {
       Vue.set(params.filters, 'search', searchParams);
     }
 
+    params = Object.assign({}, filters, params)
     params = funcs.serialize(params);
 
     return params;

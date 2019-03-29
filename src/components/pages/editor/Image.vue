@@ -162,7 +162,6 @@ export default {
       });
     },
     mediaSelected (imagesAndSettings) {
-      console.log(imagesAndSettings)
       if (typeof imagesAndSettings === 'object') {
         this.alt = imagesAndSettings.alt;
         this.url = imagesAndSettings.images.orig_optimized;

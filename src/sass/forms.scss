@@ -1,4 +1,6 @@
 .dvs-fieldset {
+  box-sizing:border-box;
+
   label {
     @apply dvs-block dvs-mb-2 dvs-text-xs dvs-uppercase dvs-font-bold dvs-tracking-superwide;
 

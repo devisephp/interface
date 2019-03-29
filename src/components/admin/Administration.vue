@@ -86,7 +86,6 @@
     <slice-settings />
     <loadbar class="dvs-relative dvs-z-9999" />
     <loading-screen class="dvs-relative dvs-z-9999" />
-    <messages class="dvs-relative dvs-z-9999" />
   </div>
 </template>
 
@@ -156,7 +155,6 @@ export default {
     Loadbar: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/Loadbar.vue'),
     LoadingScreen: () =>
       import(/* webpackChunkName: "devise-utilities" */ '../utilities/LoadingScreen.vue'),
-    Messages: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/Messages.vue'),
     MediaEditor: () =>
       import(/* webpackChunkName: "devise-media" */ '../media-manager/MediaEditor.vue'),
     MediaManager: () =>

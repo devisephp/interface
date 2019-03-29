@@ -430,9 +430,9 @@ const actions = {
 
   getPagesList (context, filters) {
     return new Promise(resolve => {
-      const params = filters.hasOwnProperty('language_id')
+      const params = filters && filters.hasOwnProperty('language_id')
         ? `language_id=${filters.language_id}`
-        : '';
+        : {};
       window.axios
         .get(`${context.state.api.baseUrl}routes?${params}`)
         .then(response => {

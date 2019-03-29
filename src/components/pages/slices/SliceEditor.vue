@@ -18,8 +18,8 @@
           </div>
           <div
             dusk="slice-label"
-            class="dvs-relative dvs-w-full"
-            :class="{'dvs-cursor-pointer': sliceHasFieldsOrSlices, 'dvs-opacity-75': !sliceHasFieldsOrSlices}"
+            class="dvs-relative dvs-w-full dvs-cursor-pointer"
+            :class="{'dvs-opacity-75': !sliceHasFieldsOrSlices}"
             @click="toggleSlice()"
             @mouseenter="markSlice(true, slice)"
             @mouseleave="markSlice(false, slice)"
