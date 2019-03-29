@@ -11,80 +11,72 @@
           background:theme.panelCard.background
         }"
       >
-        <scrollactive
-          :offset="80"
-          :duration="800"
-          bezier-easing-value=".5,0,.35,1"
-          scroll-container-selector="#dvs-admin-content-container .simplebar-scroll-content"
-          id="dvs-menu"
-        >
-          <button
-            class="dvs-btn dvs-btn-zero dvs-btn-text dvs-mb-8"
-            :style="{color: theme.actionButtonGhost.color}"
-            @click="historyBack"
-          >Back</button>
+        <button
+          class="dvs-btn dvs-btn-zero dvs-btn-text dvs-mb-8"
+          :style="{color: theme.actionButtonGhost.color}"
+          @click="historyBack"
+        >Back</button>
 
-          <h6
-            :style="{color: theme.panel.color}"
-            class="dvs-mb-4"
-          >Actions</h6>
-          <ul>
-            <li><a
-                :href="localValue.slug"
-                :style="{color: theme.panel.color}"
-              >Go To Page</a></li>
-            <li
-              @click="showTranslate = true"
-              class="cursor-pointer"
-            >Translate This Page</li>
-            <li
-              class="cursor-pointer"
-              v-devise-alert-confirm="{callback: requestDeletePage, message: 'Are you sure you want to delete this page?'}"
-            >Delete This Page</li>
-          </ul>
+        <h6
+          :style="{color: theme.panel.color}"
+          class="dvs-mb-4"
+        >Actions</h6>
+        <ul>
+          <li><a
+              :href="localValue.slug"
+              :style="{color: theme.panel.color}"
+            >Go To Page</a></li>
+          <li
+            @click="showTranslate = true"
+            class="cursor-pointer"
+          >Translate This Page</li>
+          <li
+            class="cursor-pointer"
+            v-devise-alert-confirm="{callback: requestDeletePage, message: 'Are you sure you want to delete this page?'}"
+          >Delete This Page</li>
+        </ul>
 
-          <h6
-            :style="{color: theme.panel.color}"
-            class="dvs-mb-4"
-          >Sections</h6>
-          <ul class="dvs-list-reset dvs-mb-10 dvs-text-sm dvs-font-thin">
-            <li class="dvs-mb-2">
-              <a
-                href="#versions"
-                class="scrollactive-item"
-                :style="{color:theme.panel.color}"
-              >Versions of this Page</a>
-            </li>
-            <li class="dvs-mb-2">
-              <a
-                href="#settings"
-                class="scrollactive-item"
-                :style="{color:theme.panel.color}"
-              >Global Page Settings</a>
-            </li>
-            <li class="dvs-mb-2">
-              <a
-                href="#meta-tags"
-                class="scrollactive-item"
-                :style="{color:theme.panel.color}"
-              >Meta Tags</a>
-            </li>
-            <li class="dvs-mb-2">
-              <a
-                href="#header-footer"
-                class="scrollactive-item"
-                :style="{color:theme.panel.color}"
-              >Header / Footer</a>
-            </li>
-            <li class="dvs-mb-2">
-              <a
-                href="#middleware"
-                class="scrollactive-item"
-                :style="{color:theme.panel.color}"
-              >Middleware</a>
-            </li>
-          </ul>
-        </scrollactive>
+        <h6
+          :style="{color: theme.panel.color}"
+          class="dvs-mb-4"
+        >Sections</h6>
+        <ul class="dvs-list-reset dvs-mb-10 dvs-text-sm dvs-font-thin">
+          <li class="dvs-mb-2">
+            <a
+              href="#versions"
+              class="scrollactive-item"
+              :style="{color:theme.panel.color}"
+            >Versions of this Page</a>
+          </li>
+          <li class="dvs-mb-2">
+            <a
+              href="#settings"
+              class="scrollactive-item"
+              :style="{color:theme.panel.color}"
+            >Global Page Settings</a>
+          </li>
+          <li class="dvs-mb-2">
+            <a
+              href="#meta-tags"
+              class="scrollactive-item"
+              :style="{color:theme.panel.color}"
+            >Meta Tags</a>
+          </li>
+          <li class="dvs-mb-2">
+            <a
+              href="#header-footer"
+              class="scrollactive-item"
+              :style="{color:theme.panel.color}"
+            >Header / Footer</a>
+          </li>
+          <li class="dvs-mb-2">
+            <a
+              href="#middleware"
+              class="scrollactive-item"
+              :style="{color:theme.panel.color}"
+            >Middleware</a>
+          </li>
+        </ul>
       </div>
 
       <div id="dvs-admin-main">
