@@ -4,9 +4,23 @@
       class="dvs-absolute dvs-pin dvs-bg-black dvs-opacity-75 dvs-bg-blocker"
       @click="close"
     ></div>
-    <div class="dvs-absolute dvs-absolute-center dvs--mt-4 z-10">
+    <div class="dvs-absolute dvs-absolute-center dvs--mt-2 z-10 dvs-text-center">
+      <fieldset class="dvs-fieldset dvs-mb-4">
+        <label :style="{color: theme.panel.color}">Site to copy to</label>
+        <select
+          v-model="siteToCopyTo"
+          @change="clearSearch"
+        >
+          <option
+            v-for="site in sites.data"
+            :key="site.id"
+            :value="site.id"
+          >{{ site.name }}</option>
+        </select>
+      </fieldset>
+
       <fieldset class="dvs-fieldset">
-        <label style="{color: theme.panel.color}">Search for Page Version</label>
+        <label :style="{color: theme.panel.color}">Search for Page Version</label>
         <input
           type="text"
           v-model="searchTerm"
@@ -41,7 +55,7 @@
           {{ pageToCopyTo.site }}: {{pageToCopyTo.title}} - {{ pageToCopyTo.verison_name }} ({{ pageToCopyTo.language }})
         </div>
         <button
-          class="dvs-btn"
+          class="dvs-btn dvs-mt-16"
           :style="theme.actionButton"
           @click="confirmCopy"
           :disabled="!pageToCopyTo.site"
@@ -52,7 +66,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 
 export default {
   name: "CopySliceToPage",
@@ -62,6 +76,9 @@ export default {
       required: true
     }
   },
+  computed: {
+    ...mapState('devise', ['sites'])
+  },
   components: {
     Panel: () => import(/* webpackChunkName: "devise-utilities" */ "../../utilities/Panel")
   },
@@ -69,25 +86,40 @@ export default {
     return {
       searchTerm: '',
       searchResults: [],
+      siteToCopyTo: null,
       pageToCopyTo: {}
     }
+  },
+  mounted () {
+    this.siteToCopyTo = this.currentPage.site.id
   },
   methods: {
     ...mapActions('devise', ['searchPageVersions', 'copyPageSlice']),
     requestSearch () {
       this.searchPageVersions({ term: this.searchTerm }).then((results) => {
-        this.searchResults = results.data
+        this.searchResults = []
+        for (const id in results.data) {
+          if (results.data.hasOwnProperty(id)) {
+            const result = results.data[id];
+            if (result.site_id === this.siteToCopyTo) {
+              this.searchResults.push(result)
+            }
+          }
+        }
       })
     },
     selectPage (page) {
       this.pageToCopyTo = Object.assign({}, page)
-      this.searchTerm = ''
-      this.searchResults = []
+      this.clearSearch()
     },
     confirmCopy () {
       this.copyPageSlice({ copy_slice_id: this.slice.metadata.instance_id, page_version_id: this.pageToCopyTo.id }).then(() => {
         this.close()
       })
+    },
+    clearSearch () {
+      this.searchResults = [];
+      this.searchTerm = ''
     },
     close () {
       this.$emit('close')

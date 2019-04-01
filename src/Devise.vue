@@ -91,6 +91,7 @@ export default {
       this.$nextTick(() => {
         setTimeout(() => {
           self.removeBlocker();
+          self.showMessages();
           window.deviseSettings.$bus.$emit('devise-loaded');
         }, 10);
       });
@@ -99,6 +100,18 @@ export default {
       const blocker = document.getElementById('devise-blocker');
       if (blocker) {
         blocker.classList.add('fade');
+      }
+    },
+    showMessages () {
+      const { errors } = window.deviseSettings.$messages
+      if (errors) {
+        const keys = Object.keys(errors)
+        for (const key of keys) {
+          console.log(errors[key])
+          errors[key].forEach(e => {
+            window.deviseSettings.$bus.$emit('showError', `${key}: ${e}`);
+          })
+        }
       }
     },
     addWatchers () {
