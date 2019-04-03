@@ -5,7 +5,7 @@
         <input
           v-if="typeof image === 'object'"
           type="text"
-          :value="image.url"
+          :value="imageUrl"
           disabled
         >
         <input
@@ -68,7 +68,7 @@
           class="dvs-modal dvs-fixed dvs-pin-b dvs-pin-r dvs-mx-8 dvs-mb-8 dvs-z-40 dvs-w-1/2"
           :style="theme.panel"
         >
-          <img :src="value.url">
+          <img :src="imageUrl">
           <h6
             class="dvs-text-base dvs-mb-4 dvs-mt-4"
             :style="{color: theme.panel.color}"
@@ -77,7 +77,7 @@
             <br>
             <small class="dvs-text-xs">
               Location:
-              <span class="dvs-italic dvs-font-normal">{{ value.url }}</span>
+              <span class="dvs-italic dvs-font-normal">{{ imageUrl }}</span>
             </small>
           </h6>
           <div class="dvs-flex dvs-items-center dvs-mt-4 dvs-justify-between">
@@ -155,8 +155,15 @@ export default {
         return this.value;
       },
       set (newValue) {
-        this.$emit('input', newValue);
-        this.$emit('change', newValue);
+        if (this.value && this.value.url) {
+          // Expects an object
+          this.$emit('input', newValue);
+          this.$emit('change', newValue);
+        } else {
+          // Expects just the string
+          this.$emit('input', newValue.url);
+          this.$emit('change', newValue.url);
+        }
       },
     },
     hasMedia () {
@@ -165,8 +172,17 @@ export default {
       }
       return false;
     },
+    imageUrl () {
+      if (!this.value) {
+        return ''
+      }
+      if (this.value.url) {
+        return this.value.url
+      }
+      return this.value
+    },
     fileName () {
-      const parts = this.value.url.split('/');
+      const parts = this.imageUrl.split('/');
       return parts[parts.length - 1];
     },
     previewEnabled () {
