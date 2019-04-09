@@ -206,20 +206,25 @@ const DevisePlugin = {
           });
         },
         can (permission) {
-          const toCheck = !Array.isArray(permission) ? [permission] : permission;
-          const allowed = window.deviseSettings.$user.permissions_list
-            ? window.deviseSettings.$user.permissions_list
-            : [];
-          for (let i = 0; i < toCheck.length; i += 1) {
-            const found = allowed.find(perm => perm === toCheck[i]);
+          if (this.isLoggedIn) {
+            const toCheck = !Array.isArray(permission) ? [permission] : permission;
+            const allowed = window.deviseSettings.$user.permissions_list
+              ? window.deviseSettings.$user.permissions_list
+              : [];
+            for (let i = 0; i < toCheck.length; i += 1) {
+              const found = allowed.find(perm => perm === toCheck[i]);
 
-            if (found) return true;
+              if (found) return true;
+            }
           }
-          return false;
+          return false
         },
       },
       computed: {
         ...mapGetters('devise', ['breakpoint', 'currentPage', 'currentUser', 'lang', 'theme']),
+        isLoggedIn () {
+          return !!this.currentUser
+        }
       },
       // This sets a prop to be accepted by all components in a custom Vue
       // app that resides within Devise. Makes it a little easier to pass

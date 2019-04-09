@@ -60,7 +60,7 @@ export default {
 
     this.addListeners();
 
-    if (this.isLoggedIn) {
+    if (this.can('manage slices')) {
       this.checkMediaSizesForRegeneration();
     }
   },
