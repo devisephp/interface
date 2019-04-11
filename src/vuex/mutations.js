@@ -1,216 +1,221 @@
 /* eslint-disable no-unused-vars */
 export default {
   // Breakpoints
-  setBreakpoint(state, payload) {
+  setBreakpoint (state, payload) {
     state.breakpoint = payload;
   },
 
-  setDevMode(state, payload) {
+  setDevMode (state, payload) {
     state.devMode = payload;
   },
 
+  // Installer Checklist
+  updateChecklist (state, checklist) {
+    state.checklist = Object.assign({}, state.checklist, checklist);
+  },
+
   // Languages
-  setLanguages(state, payload) {
+  setLanguages (state, payload) {
     state.languages = payload;
   },
 
-  createLanguage(state, payload) {
+  createLanguage (state, payload) {
     state.languages.data.push(payload);
   },
 
-  updateLanguage(state, { language, data }) {
+  updateLanguage (state, { language, data }) {
     language = data;
   },
 
   // Layouts
-  setLayouts(state, payload) {
+  setLayouts (state, payload) {
     state.layouts = payload;
   },
 
   // Media Regeneration
-  addToMediaRegenerationRequests(state, payload) {
+  addToMediaRegenerationRequests (state, payload) {
     state.mediaRegenerationRequests.push(payload);
   },
 
   // Media manager
-  setCurrentDirectory(state, directory) {
+  setCurrentDirectory (state, directory) {
     state.currentDirectory = directory;
   },
 
-  setFiles(state, payload) {
+  setFiles (state, payload) {
     state.files = payload;
   },
 
-  setSearchableMedia(state, payload) {
+  setSearchableMedia (state, payload) {
     state.searchableMedia.data = payload;
   },
 
-  setDirectories(state, payload) {
+  setDirectories (state, payload) {
     state.directories = payload;
   },
 
   // Meta
-  setMeta(state, payload) {
+  setMeta (state, payload) {
     state.meta = payload;
   },
 
-  createMeta(state, payload) {
+  createMeta (state, payload) {
     state.meta.data.push(payload);
   },
 
-  updateMeta(state, { meta, data }) {
+  updateMeta (state, { meta, data }) {
     meta = data;
   },
 
-  deleteMeta(state, meta) {
+  deleteMeta (state, meta) {
     state.meta.data.splice(state.meta.data.indexOf(meta), 1);
   },
 
   // Models
-  setModels(state, payload) {
+  setModels (state, payload) {
     state.models = payload;
   },
 
-  setModelSettings(state, payload) {
+  setModelSettings (state, payload) {
     state.modelSettings = payload;
   },
 
   // Mothership
-  setMothership(state, payload) {
+  setMothership (state, payload) {
     state.mothership = payload;
   },
 
-  setChanges(state, payload) {
+  setChanges (state, payload) {
     state.changes = payload;
   },
 
   // Current Page
-  setCurrentPage(state, page) {
+  setCurrentPage (state, page) {
     Object.assign({}, state.currentPage, page);
   },
 
-  setPreviewModeInCurrentPage(state, mode) {
+  setPreviewModeInCurrentPage (state, mode) {
     state.currentPage.previewMode = mode;
   },
 
   // Pages
-  createPage(state, page) {
+  createPage (state, page) {
     state.pages.data.push(page);
   },
 
-  setPages(state, payload) {
+  setPages (state, payload) {
     state.pages = payload;
   },
 
-  setPagesList(state, payload) {
+  setPagesList (state, payload) {
     state.pagesList.data = payload;
   },
 
-  appendPage(state, payload) {
+  appendPage (state, payload) {
     state.pages.data.push(payload);
   },
 
-  updatePage(state, { page, data }) {
+  updatePage (state, { page, data }) {
     page = data;
   },
 
-  deletePage(state, page) {
+  deletePage (state, page) {
     state.pages.data.splice(state.pages.data.indexOf(page), 1);
   },
 
   // Page Versions
-  createPageVersion(state, { page, data }) {
+  createPageVersion (state, { page, data }) {
     page.versions.push(data);
   },
 
-  deletePageVersion(state, { page, version }) {
+  deletePageVersion (state, { page, version }) {
     const theVersion = page.versions.find(ver => ver.id === version.id);
     page.versions.splice(page.versions.indexOf(theVersion), 1);
   },
 
-  updatePageVersion(state, { page, version, data }) {
+  updatePageVersion (state, { page, version, data }) {
     let theVersion = page.versions.find(ver => ver.id === version.id);
     theVersion = data;
     return theVersion;
   },
 
-  updatePageVersionAnalytics(state, { page, version, data }) {
+  updatePageVersionAnalytics (state, { page, version, data }) {
     let theVersion = page.versions.find(ver => ver.id === version.id);
     theVersion = Object.assign({}, theVersion, { analytics: data });
     return theVersion;
   },
 
   // Sites
-  createSite(state, site) {
+  createSite (state, site) {
     state.sites.data.push(site);
   },
 
-  setSites(state, payload) {
+  setSites (state, payload) {
     state.sites = payload;
   },
 
-  updateSite(state, { site, data }) {
+  updateSite (state, { site, data }) {
     site.name = data.name;
     site.domain = data.domain;
     site.languages = data.languages;
   },
 
-  deleteSite(state, site) {
+  deleteSite (state, site) {
     state.sites.data.splice(state.sites.data.indexOf(site), 1);
   },
 
   // Slices
-  setSlices(state, payload) {
+  setSlices (state, payload) {
     state.slices = payload;
   },
 
-  setSlicesDirectories(state, payload) {
+  setSlicesDirectories (state, payload) {
     state.slicesDirectories = payload;
   },
 
-  createSlice(state, slice) {
+  createSlice (state, slice) {
     state.slices.data.push(slice);
   },
 
-  updateSlice(state, { slice, data }) {
+  updateSlice (state, { slice, data }) {
     slice.name = data.name;
   },
 
-  deleteSlice(state, slice) {
+  deleteSlice (state, slice) {
     state.slices.data.splice(state.slices.data.indexOf(slice), 1);
   },
 
   // Redirect
-  createRedirect(state, redirect) {
+  createRedirect (state, redirect) {
     state.redirects.data.push(redirect);
   },
 
-  setRedirects(state, payload) {
+  setRedirects (state, payload) {
     state.redirects = payload;
   },
 
-  updateRedirect(state, { redirect, data }) {
+  updateRedirect (state, { redirect, data }) {
     redirect = data;
   },
 
-  deleteRedirect(state, redirect) {
+  deleteRedirect (state, redirect) {
     state.redirects.data.splice(state.redirects.data.indexOf(redirect), 1);
   },
 
   // User
-  createUser(state, user) {
+  createUser (state, user) {
     state.users.data.push(user);
   },
 
-  setUsers(state, payload) {
+  setUsers (state, payload) {
     state.users = payload;
   },
 
-  updateUser(state, { user, data }) {
+  updateUser (state, { user, data }) {
     user = data;
   },
 
-  deleteUser(state, user) {
+  deleteUser (state, user) {
     state.users.data.splice(state.users.data.indexOf(user), 1);
   },
 };

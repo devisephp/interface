@@ -4,20 +4,20 @@ import Vuebar from 'vuebar';
 import VueNotifications from 'vue-notifications';
 import iziToast from 'izitoast'; // https://github.com/dolce/iziToast
 import VueTippy from 'vue-tippy'
+import VueScrollactive from 'vue-scrollactive';
 import Devise from './Devise.vue';
 import DeviseStore from './vuex/store';
 import DeviseBus from './event-bus';
 import EditPage from './components/pages/Editor.vue';
 import Help from './components/utilities/Help.vue';
 import Image from './directives/image';
+import Installer from './components/installer/Installer.vue';
 import Link from './directives/link';
 import Messages from './components/utilities/Messages.vue'
 import routes from './router/route.config';
 import Slices from './components/slices/Slices.vue';
 import Tuck from './directives/tuck';
 import alertConfirm from './directives/alert-confirm';
-
-const VueScrollactive = require('vue-scrollactive');
 
 const DevisePlugin = {
   install (Vue, { store, router, bus, options }) {
@@ -84,11 +84,15 @@ const DevisePlugin = {
     // VueBar - custom scrollbars
     Vue.use(Vuebar);
 
+    // Scrollactive 
+    Vue.use(VueScrollactive);
+
     // Register global components
 
     Vue.component('devise', Devise);
     Vue.component('slices', Slices);
     Vue.component('messages', Messages);
+    Vue.component('devise-installer', Installer);
 
     // Vue.component('Sidebar', Sidebar);
 

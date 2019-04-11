@@ -78,7 +78,7 @@ eval("/* WEBPACK VAR INJECTION */(function(jQuery) {/**\n * Trumbowyg v2.14.0 - 
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("module.exports = __webpack_require__.p + \"img/icons.svg\";//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9ub2RlX21vZHVsZXMvdHJ1bWJvd3lnL2Rpc3QvdWkvaWNvbnMuc3ZnLmpzIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vLy4vbm9kZV9tb2R1bGVzL3RydW1ib3d5Zy9kaXN0L3VpL2ljb25zLnN2Zz84ZDg0Il0sInNvdXJjZXNDb250ZW50IjpbIm1vZHVsZS5leHBvcnRzID0gX193ZWJwYWNrX3B1YmxpY19wYXRoX18gKyBcImltZy9pY29ucy5zdmdcIjsiXSwibWFwcGluZ3MiOiJBQUFBIiwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///./node_modules/trumbowyg/dist/ui/icons.svg\n");
+eval("module.exports = __webpack_require__.p + \"img/icons.svg\";//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9ub2RlX21vZHVsZXMvdHJ1bWJvd3lnL2Rpc3QvdWkvaWNvbnMuc3ZnLmpzIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vLy4vbm9kZV9tb2R1bGVzL3RydW1ib3d5Zy9kaXN0L3VpL2ljb25zLnN2Zz83ZGUzIl0sInNvdXJjZXNDb250ZW50IjpbIm1vZHVsZS5leHBvcnRzID0gX193ZWJwYWNrX3B1YmxpY19wYXRoX18gKyBcImltZy9pY29ucy5zdmdcIjsiXSwibWFwcGluZ3MiOiJBQUFBIiwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///./node_modules/trumbowyg/dist/ui/icons.svg\n");
 
 /***/ }),
 

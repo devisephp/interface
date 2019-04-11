@@ -140,6 +140,22 @@ const state = {
   users: {
     data: [],
   },
+  checklist: {
+    database: false,
+    migrations: false,
+    auth: false,
+    user: false,
+    site: false,
+    page: false,
+    image_library: false,
+    image_optimization: {
+      jpegoptim: false,
+      optipng: false,
+      pngquant: false,
+      svgo: false,
+      gifsicle: false
+    }
+  }
 };
 
 // A Vuex instance is created by combining the state, the actions,

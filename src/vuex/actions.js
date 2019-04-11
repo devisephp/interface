@@ -1136,6 +1136,43 @@ const actions = {
       window.deviseSettings.$bus.$emit('showError', error);
     });
   },
+
+  // Checklist
+  refreshChecklist (context) {
+    return new Promise((resolve) => {
+      window.axios
+        .get(`${context.state.api.baseUrl}install-checklist/`)
+        .then(response => {
+          context.commit('updateChecklist', response.data);
+          resolve(response);
+        })
+        .catch(() => {
+          window.deviseSettings.$bus.$emit('showError', 'Error in retrieving checklist');
+        });
+    }).catch(() => {
+      window.deviseSettings.$bus.$emit('showError', 'Error in retrieving checklist');
+    });
+  },
+
+  // Install Complete
+  completeInstall (context) {
+    return new Promise((resolve) => {
+      window.axios
+        .post(`${context.state.api.baseUrl}install-complete/`)
+        .then(response => {
+          resolve(response);
+        })
+        .catch(() => {
+          window.deviseSettings.$bus.$emit('showError',
+            'Error in completing the install. You can add DVS_MODE=active to your .env to manually complete'
+          );
+        });
+    }).catch(() => {
+      window.deviseSettings.$bus.$emit('showError',
+        'Error in completing the install.  You can add DVS_MODE=active to your .env to manually complete'
+      );
+    });
+  },
 };
 
 export default actions;
