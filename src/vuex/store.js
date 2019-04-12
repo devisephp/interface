@@ -148,8 +148,10 @@ const state = {
     user: false,
     site: false,
     page: false,
-    config: false,
     image_library: false,
+    optional: {
+      config: false,
+    },
     image_optimization: {
       jpegoptim: false,
       optipng: false,

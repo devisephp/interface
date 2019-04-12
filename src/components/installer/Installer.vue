@@ -76,7 +76,7 @@
 
         <div id="nav-suggested"></div>
 
-        <config :checklist="checklist"></config>
+        <config :checklist="checklist.optional.config"></config>
 
         <optional-extras></optional-extras>
 
