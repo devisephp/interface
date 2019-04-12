@@ -302,7 +302,7 @@
     >
       <draggable
         v-model="slice.slices"
-        element="ul"
+        tag="ul"
         class="dvs-list-reset dvs-rounded-sm"
         v-if="slice.metadata.type !== 'model'"
         :style="{
@@ -310,7 +310,7 @@
           margin: '-4px 0 0 1em',
           minHeight: '15px'
         }"
-        :options="{
+        v-bind="{
           handle: '.handle', 
           group: {name: 'g1'},
           animation:200,

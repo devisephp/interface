@@ -11,7 +11,7 @@ import { mapGetters } from 'vuex';
 
 export default {
   methods: {
-    clickedLink() {
+    clickedLink () {
       if (typeof this.item.routeName !== 'undefined' && this.item.routeName !== null) {
         if (typeof this.item.parameters !== 'undefined' && this.item.parameters !== null) {
           this.goToPage(this.item.routeName, this.item.parameters);
@@ -29,7 +29,7 @@ export default {
   },
   computed: {
     ...mapGetters('devise', ['adminMenu', 'mothershipApiKey']),
-    show() {
+    show () {
       // Page Editor
       if (this.item.routeName === 'devise-page-editor') {
         if (!this.editablePage) {
@@ -51,7 +51,7 @@ export default {
 
       return true;
     },
-    editablePage() {
+    editablePage () {
       return (
         typeof window.deviseSettings !== 'undefined' &&
         typeof window.deviseSettings.$page !== 'undefined'

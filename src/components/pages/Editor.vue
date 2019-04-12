@@ -42,7 +42,7 @@
 
     <div class="dvs-flex dvs-flex-col dvs-items-center dvs-px-8 dvs-pb-8">
       <draggable
-        :options="{
+        v-bind="{
           group: {name: 'g1'},
           animation:200,
           ghostClass: 'dvs-ghost',
@@ -52,7 +52,7 @@
           removeCloneOnHide: false
         }"
         :list="currentPageSlices"
-        element="ul"
+        tag="ul"
         class="dvs-list-reset dvs-w-full"
       >
 

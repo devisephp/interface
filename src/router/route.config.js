@@ -45,6 +45,7 @@ const routes = [
     meta: {
       parentRouteName: 'devise-settings',
     },
+    permissions: 'manage settings'
   },
   {
     path: '/devise-models',
