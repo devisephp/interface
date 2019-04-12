@@ -1173,6 +1173,26 @@ const actions = {
       );
     });
   },
+
+  login (context, payload) {
+    return new Promise((resolve) => {
+      window.axios
+        // default laravel auth login endpoint
+        .post(`/login`, payload)
+        .then(response => {
+          resolve(response);
+        })
+        .catch(() => {
+          window.deviseSettings.$bus.$emit('showError',
+            'Error logging the new user in. Check database to ensure user was inserted correctly.'
+          );
+        });
+    }).catch(() => {
+      window.deviseSettings.$bus.$emit('showError',
+        'Error logging the new user in. Check database to ensure user was inserted correctly.'
+      );
+    });
+  },
 };
 
 export default actions;

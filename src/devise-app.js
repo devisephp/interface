@@ -1,36 +1,48 @@
-/* eslint-disable */
-require('./bootstrap');
-
-window.Vue = require('vue')
-// Devise in Boilerplate
-import Devise from './main.js'
+/**
+ * First we will load all of this project's JavaScript dependencies which
+ * includes Vue and other libraries. It is a great starting point when
+ * building robust, powerful web applications using Vue and Laravel.
+ */
+import Vue from 'vue';
 
 // Devise requires a bus, vue-router and vuex. We initialize these in your application
 // so that both apps can share the same store and router. All devise vuex
 // is namespaced under the "devise" namespace.
-import { DeviseBus } from './event-bus.js'
-window.$bus = DeviseBus
+import { sync } from 'vuex-router-sync';
+
+// Devise
+import Devise from './main';
+
+// Vuex, Router, Bus
+import EventBus from './event-bus'
 import router from './router/route-boilerplate-app.config'
 import store from './vuex/store-boilerplate-app'
-import { sync } from 'vuex-router-sync'
-sync(store, router)
 
-// We initialize the Devise plugin and pass our router, store, and bus to share
-// these resources so that your application can tap into them.
+Vue.config.productionTip = false;
+
+require('./bootstrap');
+
+window.bus = EventBus;
+sync(store, router);
 Vue.use(Devise, {
-  store: store,
-  router: router,
-  bus: window.$bus,
+  store,
+  router,
+  bus: window.bus,
   options: {
-    adminClass: ''
-  }
-})
+    adminClass: '',
+  },
+});
 
-// When we want to initialize something after Devise is done loading
-window.$bus.$on('devise-loaded', function () {})
-
-// Initialize the application's Vue app
+// eslint-disable-next-line no-unused-vars
 const app = new Vue({
   el: '#app',
-  router: router
-})
+  router,
+  mounted () {
+    this.appLoaded();
+  },
+  methods: {
+    appLoaded () {
+      window.bus.$on('devise-loaded', () => { });
+    },
+  },
+});

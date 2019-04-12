@@ -4,7 +4,7 @@
       <item-check
         v-if="item !== null"
         :item="item"
-        class="dvs-absolute dvs-pin-t dvs-pin-l dvs-ml-6 dvs-mt-8"
+        class="dvs-absolute dvs-pin-t dvs-pin-l dvs-ml-6 dvs-mt-8 dvs-pt-2 dvs-text-2xl"
       ></item-check>
       <div class="dvs-pl-8">
         <h3 class="dvs-mb-4">{{ title }}</h3>

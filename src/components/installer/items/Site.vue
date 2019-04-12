@@ -5,14 +5,14 @@
     title="First Site and Language (required)"
   >
     <template slot="instructions">
-      <p>Devise works as a multi-tenant system out of the box meaning that you can run multiple sites under the same code base. Even if you are running only one domain Devise needs to know about it. Use the form to the right to set this up.</p>
-      <p>
+      <p class="dvs-mb-4">Devise works as a multi-tenant system out of the box meaning that you can run multiple sites under the same code base. Even if you are running only one domain Devise needs to know about it. Use the form to the right to set this up.</p>
+      <p class="dvs-mb-4">
         Each site also needs a language. You can assign any number of languages once you have completed installation. The language should be the
         <a href="https://www.loc.gov/standards/iso639-2/php/code_list.php">ISO Code</a> of that language
       </p>
 
       <help>
-        <p>The domain should not include the http or https:// protocol identifier. So your site entry could be "my-super-awesome-site.com" or "sub-domain.my-super-awesome-site.com". To Support development environments you can override these values in your .env file in the root of your project with something like "SITE_1_DOMAIN=my-super-awesome-site.test" for your local development or staging.</p>
+        <p class="dvs-mb-4">The domain should not include the http or https:// protocol identifier. So your site entry could be "my-super-awesome-site.com" or "sub-domain.my-super-awesome-site.com". To Support development environments you can override these values in your .env file in the root of your project with something like "SITE_1_DOMAIN=my-super-awesome-site.test" for your local development or staging.</p>
         <p>
           <strong>Important:</strong> The domain should be the
           <em>final</em> domain name. If you're working on this site locally you will need to add an override in your .env file like the example to the right.
@@ -87,6 +87,7 @@
         data-start="1"
       >
         <code>
+          DVS_DOMAIN_OVERWRITES_ENABLED=true
           SITE_1_DOMAIN=project-name.test 
         </code>
       </pre>
@@ -114,7 +115,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['createSite', 'createLanguage']),
+    ...mapActions('devise', ['createSite', 'createLanguage']),
     attemptCreateSite () {
       // If a language hasn't been created yet
       if (!this.languages.count) {

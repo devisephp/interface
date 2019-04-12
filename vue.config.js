@@ -4,28 +4,26 @@ const CopyPlugin = require('copy-webpack-plugin');
 const pagesObject = {
   main: {
     // entry for the *public* page
-    entry: 'src/main.js',
+    entry: 'src/devise-app.js',
     // the source template
     template: 'public/index.html',
     // output as dist/index.html
     filename: 'index.html',
   },
-  // an admin subpage
-  // when using the entry-only string format,
-  // template is inferred to be `public/subpage.html`
-  // and falls back to `public/index.html` if not found.
-  // Output filename is inferred to be `admin.html`.
   styles: {
     // entry for the *public* page
     entry: 'src/styles.js',
     // the source template
     template: 'public/index.html',
     // output as dist/index.html
-    filename: 'index.html',
+    filename: 'styles.html',
   },
 };
 
 module.exports = {
+  outputDir: './dist',
+  publicPath: '/devise',
+  runtimeCompiler: true,
   filenameHashing: false,
   configureWebpack: {
     plugins: [

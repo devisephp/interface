@@ -30,6 +30,11 @@ export default {
   },
   methods: {
     addMessage (message) {
+      if (!message.content) {
+        message = {
+          content: 'Success!'
+        }
+      }
       const messageObj = {
         content: `<p>${message.content}</p>`,
         type: 'message'

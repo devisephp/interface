@@ -25,6 +25,10 @@
           {
             use Notifiable, HasPermissions;
 
+            protected $appends = [
+              'permissions_list'
+            ];
+
             /**
             * The attributes that are mass assignable.
             *
@@ -111,9 +115,11 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['createUser']),
+    ...mapActions('devise', ['createUser', 'login']),
     attemptCreateUser () {
-      this.createUser(this.newUser);
+      this.createUser(this.newUser).then(() => {
+        this.login(this.newUser)
+      });
     }
   },
   props: {

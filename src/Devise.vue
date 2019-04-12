@@ -25,7 +25,21 @@
             ></slices>
           </template>
 
-          <slot name="static-content-bottom"></slot>
+          <!-- Logged in - no slices yet -->
+          <div
+            v-if="isLoggedIn && typeof currentPage !== 'undefined' && currentPage.slices && currentPage.slices.length < 1"
+            class="dvs-text-center dvs-py-16"
+          >
+            <img
+              src="./imgs/logo-devise-painted-1.jpg"
+              class="dvs-mb-32"
+            >
+            <h1 class="dvs-font-sans dvs-font-thin dvs-text-grey-darkest dvs-uppercase dvs-mb-4">Let's Get to Work</h1>
+            <p class="dvs-text-xl dvs-text-grey-darker">Click "Add Slice" on the admin panel to start designing this page!</p>
+          </div>
+
+          <slot name="
+            static-content-bottom"></slot>
           <slot name="on-bottom"></slot>
         </div>
 

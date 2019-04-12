@@ -90,8 +90,8 @@
         <span class="dvs-font-mono">/resource/views/main.blade.php</span>
       </p>
       <pre class="lang-html line-numbers">
-              <code v-html="layoutTemplate"></code>
-            </pre>
+        <code v-html="layoutTemplate"></code>
+      </pre>
     </template>
   </devise-installer-item>
 </template>
@@ -108,69 +108,58 @@ export default {
       newPage: {
         site_id: 1,
         language_id: 1,
+        published: 1,
         title: 'Homepage',
         layout: 'main',
         language: null,
         slug: '/'
       },
       layoutTemplate: `
-            &lt;!doctype html&gt;
-            &lt;html lang="&#123;&#123; app()-&gt;getLocale() &#125;&#125;"&gt;
-              &lt;head&gt;
-                &#64;isset($page)
-                &#123;!! Devise::head($page) !!&#125;
-                &#64;else
-                &#123;!! Devise::head() !!&#125;
-                &#64;endif
+        &lt;!doctype html&gt;
+        &lt;html lang="{{ app()-&gt;getLocale() }}"&gt;
+          &lt;head&gt;
+            @isset($page)
+            {!! Devise::head($page) !!}
+            @else
+            {!! Devise::head() !!}
+            @endif
 
-                &lt;meta charset="utf-8"&gt;
-                &lt;meta http-equiv="X-UA-Compatible" content="IE=edge"&gt;
-                &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
-                &lt;meta name="csrf-token" content="&#123;&#123; csrf_token() &#125;&#125;"&gt;
+            @if(Auth::user())
+              &lt;link href=/devise/css/chunk-vendors.css rel=stylesheet&gt;
+              &lt;link href=/devise/css/main.css rel=stylesheet&gt;
+              &lt;link href=/devise/css/styles.css rel=stylesheet&gt;
+            @endif
 
-                &lt;style&gt;
-                  &#123;&#123; require public_path('css/essentials.css') &#125;&#125;
-                &lt;/style&gt;
+            &lt;meta charset="utf-8"&gt;
+            &lt;meta http-equiv="X-UA-Compatible" content="IE=edge"&gt;
+            &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+            &lt;meta name="csrf-token" content="{{ csrf_token() }}"&gt;
+          &lt;/head&gt;
 
-                &lt;title&gt;Your Project&lt;/title&gt;
-              &lt;/head&gt;
+          &lt;body&gt;
+            &lt;div id="app"&gt;
+                &lt;div v-cloak&gt;
+                  &lt;devise&gt;
+                    &lt;div slot="on-top"&gt;&lt;/div&gt;
 
-              &lt;body&gt;
-                &lt;div id="app"&gt;
-                    &lt;div&gt;
-                      &lt;div id="devise-blocker"&gt;&lt;/div&gt;
-                      &lt;devise&gt;&lt;/devise&gt;
+                    &lt;div slot="static-content"&gt;
+                        @yield('content')
                     &lt;/div&gt;
+
+                    &lt;div slot="on-bottom"&gt;&lt;/div&gt;
+                  &lt;/devise&gt;
                 &lt;/div&gt;
-                
-                &lt;script src="&#123;&#123;mix('/js/manifest.js')&#125;&#125;"&gt;&lt;/script&gt;
-                &lt;script src="&#123;&#123;mix('/js/devise-administration-vendor.js')&#125;&#125;"&gt;&lt;/script&gt;
-                &lt;script src="&#123;&#123;mix('/js/app.js')&#125;&#125;"&gt;&lt;/script&gt;
+            &lt;/div&gt;
 
-                &lt;noscript id="deferred-styles"&gt;
-                  &lt;link rel="stylesheet" type="text/css" href="&#123;&#123; mix('css/app.css') &#125;&#125;"/&gt;
-                &lt;/noscript&gt;
-
-                &lt;script&gt;
-                      var loadDeferredStyles = function() {
-                        var addStylesNode = document.getElementById("deferred-styles");
-                        var replacement = document.createElement("div");
-                        replacement.innerHTML = addStylesNode.textContent;
-                        document.body.appendChild(replacement)
-                        addStylesNode.parentElement.removeChild(addStylesNode);
-                      };
-                      var raf = requestAnimationFrame || mozRequestAnimationFrame ||
-                          webkitRequestAnimationFrame || msRequestAnimationFrame;
-                      if (raf) raf(function() { window.setTimeout(loadDeferredStyles, 0); });
-                      else window.addEventListener('load', loadDeferredStyles);
-                &lt;/script&gt;
-              &lt;/body&gt;
-            &lt;/html&gt;
-            `
+            &lt;script rel="prefetch" src="{{vuemix('js/chunk-vendors.js', '/devise')}}"&gt;&lt;/script&gt;
+            &lt;script rel="prefetch" src="{{vuemix('js/main.js', '/devise')}}"&gt;&lt;/script&gt;
+          &lt;/body&gt;
+        &lt;/html&gt;
+        `
     };
   },
   methods: {
-    ...mapActions(['createPage']),
+    ...mapActions('devise', ['createPage']),
     attemptCreatePage () {
       this.createPage(this.newPage);
     }

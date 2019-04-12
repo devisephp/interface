@@ -8,7 +8,6 @@
     ></installer-finish>
 
     <main-menu
-      v-if="checklist.database"
       :checklist="checklist"
       :style="bodyFinishedStyles"
     ></main-menu>
@@ -29,21 +28,21 @@
 
           <p class="dvs-text-xl dvs-mb-16">We are very excited that you are giving Devise 2 a spin. We are still in the early beta stages of this product but we do believe we have settled on the final structure of things. We encourage you to send us any feedback via Github issues, submit any PR's or just let us know what you think of the project on Twitter @devisephp.</p>
 
-          <div class="dvs-mb-16 dvs-flex">
+          <div class="dvs-mb-16 dvs-flex dvs-flex-wrap">
             <a
               href="https://devise.gitbook.io/cms/"
               target="_blank"
-              class="dvs-btn dvs-bg-blue dvs-text-white dvs-mr-2"
+              class="dvs-btn dvs-bg-blue dvs-text-white dvs-m-2"
             >Documentation</a>
             <a
               href="https://devisephp.com"
               target="_blank"
-              class="dvs-btn dvs-bg-blue dvs-text-white dvs-mr-2"
+              class="dvs-btn dvs-bg-blue dvs-text-white dvs-m-2"
             >Website</a>
             <a
               href="https://github.com/devisephp/cms"
               target="_blank"
-              class="dvs-btn dvs-bg-blue dvs-text-white"
+              class="dvs-btn dvs-bg-blue dvs-text-white dvs-m-2"
             >Github</a>
           </div>
 
@@ -58,7 +57,7 @@
 
       <div id="nav-required"></div>
 
-      <template v-if="checklist.database">
+      <template>
         <database :item="checklist.database"></database>
 
         <migrations :item="checklist.migrations"></migrations>
@@ -197,6 +196,15 @@ export default {
 section {
   display: flex;
 
+  p {
+    margin-bottom: 1rem;
+    line-height: 1.5em;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
   > div {
     &:first-child {
       width: 50%;
@@ -215,17 +223,18 @@ section {
   }
 }
 
+a {
+  text-decoration: none;
+  font-weight: normal;
+  color: #3490dc;
+
+  &.is-active {
+    font-weight: bold;
+  }
+}
+
 #menu {
   font-size: 0.9em;
-
-  a {
-    text-decoration: none;
-    font-weight: normal;
-
-    &.is-active {
-      font-weight: bold;
-    }
-  }
 
   ul {
     padding-bottom: 1em;
