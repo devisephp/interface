@@ -52,15 +52,14 @@
               <!-- Slice Selector -->
               <div v-else>
                 <fieldset class="dvs-fieldset dvs-mb-4">
+                  <div
+                    class="dvs-mb-4"
+                    v-if="newSlice.type === 'model'"
+                  >
+                    <query-builder v-model="newSlice.data"></query-builder>
+                  </div>
                   <slice-selector v-model="newSlice.slice" />
                 </fieldset>
-
-                <div
-                  class="dvs-mb-4"
-                  v-if="newSlice.type === 'model'"
-                >
-                  <query-builder v-model="newSlice.data"></query-builder>
-                </div>
 
                 <div
                   class="dvs-absolute dvs-z-10 dvs-pin-b dvs-pin-l dvs-pin-r dvs-p-4 dvs-px-6"
