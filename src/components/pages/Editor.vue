@@ -193,6 +193,9 @@ export default {
       // this.currentPage.slices[this.currentPage.slices.indexOf(referenceSlice)]
     },
     editSlice (editedSlice, referenceSlice) {
+      if (editedSlice.metadata.has_child_slot) {
+        editedSlice.slices = referenceSlice.slices
+      }
       this.currentPage.slices.splice(
         this.currentPage.slices.indexOf(referenceSlice),
         1,

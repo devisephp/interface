@@ -232,7 +232,7 @@ export default {
     },
     attemptOpenSliceSettings (slice) {
       if (this.devise.metadata && slice.metadata) {
-        if (this.devise.metadata.instance_id === slice.metadata.instance_id) {
+        if (this.devise === slice) {
           window.deviseSettings.$bus.$emit('open-slice-settings', this.deviseForSlice);
         }
       }
