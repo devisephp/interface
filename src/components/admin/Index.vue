@@ -9,7 +9,7 @@
         class="dvs-py-3 dvs-px-8 dvs-border-t"
         :class="{'dvs-pt-8': key === 0}"
         :style="{ borderTopColor: theme.panelCard.background}"
-        v-for="(menuItem, key) in currentMenu.menu"
+        v-for="(menuItem, key) in currentMenuItems"
         :key="menuItem.id"
       >
         <div
@@ -52,8 +52,13 @@ export default {
   computed: {
     ...mapState('devise', ['adminMenu']),
     currentMenu () {
-      return this.findMenu(this.adminMenu);
+      return this.findMenu(this.adminMenu)
     },
+    currentMenuItems () {
+      return this.currentMenu.menu.filter((menuItem) => {
+        return this.can(menuItem.permissions)
+      });
+    }
   },
 };
 </script>

@@ -66,6 +66,7 @@ const routes = [
     meta: {
       parentRouteName: 'devise-settings',
     },
+    permissions: 'manage asdfasdfasdf'
   },
   {
     path: '/devise/pages/create',
