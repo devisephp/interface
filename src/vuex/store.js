@@ -36,6 +36,7 @@ const state = {
       icon: 'ImageIcon',
       label: 'Settings',
       routeName: 'media-manager',
+      permissions: 'manage media',
     },
     {
       icon: 'CogIcon',

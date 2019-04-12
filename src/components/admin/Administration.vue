@@ -16,7 +16,7 @@
         >
           <preview-mode />
 
-          <template v-for="(menuItem, key) in adminMenu">
+          <template v-for="(menuItem, key) in allowedAdminMenu">
             <button
               :key="key"
               :style="checkActivePanelSidebar(menuItem)"
@@ -144,6 +144,14 @@ export default {
   },
   computed: {
     ...mapState('devise', ['adminMenu']),
+    allowedAdminMenu () {
+      return this.adminMenu.filter((menuItem) => {
+        if (!menuItem.permissions) {
+          return true
+        }
+        return this.can(menuItem.permissions)
+      })
+    },
     user () {
       return window.deviseSettings.$user;
     },
