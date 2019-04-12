@@ -147,6 +147,7 @@ const state = {
     user: false,
     site: false,
     page: false,
+    config: false,
     image_library: false,
     image_optimization: {
       jpegoptim: false,

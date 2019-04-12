@@ -76,6 +76,8 @@
 
         <div id="nav-suggested"></div>
 
+        <config :checklist="checklist"></config>
+
         <optional-extras></optional-extras>
 
         <image-optimization :checklist="checklist"></image-optimization>
@@ -178,6 +180,7 @@ export default {
     Page: () => import(/* webpackChunkName: "devise-installer" */ './items/Page.vue'),
     ImageLibrary: () => import(/* webpackChunkName: "devise-installer" */ './items/ImageLibrary.vue'),
     ImageOptimization: () => import(/* webpackChunkName: "devise-installer" */ './items/ImageOptimization.vue'),
+    Config: () => import(/* webpackChunkName: "devise-installer" */ './items/Config.vue'),
     OptionalExtras: () => import(/* webpackChunkName: "devise-installer" */ './items/OptionalExtras.vue'),
     InstallerFinish: () => import(/* webpackChunkName: "devise-utilities" */ './InstallerFinish.vue'),
   }

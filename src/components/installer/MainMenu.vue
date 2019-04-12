@@ -121,6 +121,12 @@
           <ul class="dvs-list-reset dvs-ml-4">
             <li class="dvs-flex">
               <a
+                href="#nav-config"
+                class="scrollactive-item"
+              >Devise Config</a>
+            </li>
+            <li class="dvs-flex">
+              <a
                 href="#nav-remove-laravel-route"
                 class="scrollactive-item"
               >Remove Laravel Routes</a>
