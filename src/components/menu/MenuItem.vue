@@ -46,7 +46,6 @@ export default {
 
       // Check Permissions
       if (this.item.permissions) {
-        console.log(this.item.permissions)
         return this.can(this.item.permissions);
       }
 

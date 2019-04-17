@@ -145,12 +145,17 @@ export default {
   computed: {
     ...mapState('devise', ['adminMenu']),
     allowedAdminMenu () {
-      return this.adminMenu.filter((menuItem) => {
-        if (!menuItem.permissions) {
-          return true
-        }
-        return this.can(menuItem.permissions)
-      })
+      return Object.keys(this.adminMenu)
+        .filter((menuItem) => {
+          if (!menuItem.permissions) {
+            return true
+          }
+          return this.can(menuItem.permissions)
+        })
+        .reduce((obj, key) => {
+          obj[key] = this.adminMenu[key];
+          return obj;
+        }, {});
     },
     user () {
       return window.deviseSettings.$user;

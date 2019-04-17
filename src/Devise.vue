@@ -121,7 +121,6 @@ export default {
       if (errors) {
         const keys = Object.keys(errors)
         for (const key of keys) {
-          console.log(errors[key])
           errors[key].forEach(e => {
             window.deviseSettings.$bus.$emit('showError', `${key}: ${e}`);
           })
