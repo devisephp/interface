@@ -26,18 +26,19 @@ export default {
   functional: true,
   render (h, ctx) {
     if (ctx.props.slices && ctx.props.slices.length) {
-      return ctx.props.slices.map(s => {
+      return ctx.props.slices.map((s, index) => {
         // If it's a placeholder for model we need to dig down
         // one level and use the placeholder's slices.
         if (s.metadata.type === 'model') {
           if (s.slices) {
-            const slices = s.slices.map(s =>
+            const slices = s.slices.map((s, modelIndex) =>
               h(
                 Slice,
                 Object.assign({}, ctx.data, {
                   key: genUniqueKey(s),
                   props: {
                     devise: s,
+                    sliceIndex: modelIndex,
                     editorMode: ctx.props.editorMode,
                   },
                 })
@@ -52,6 +53,7 @@ export default {
               key: genUniqueKey(s),
               props: {
                 devise: s,
+                sliceIndex: index,
                 editorMode: ctx.props.editorMode,
               },
             })

@@ -56,6 +56,9 @@ export default {
     },
     currentMenuItems () {
       return this.currentMenu.menu.filter((menuItem) => {
+        if (!menuItem.permissions) {
+          return true
+        }
         return this.can(menuItem.permissions)
       });
     }

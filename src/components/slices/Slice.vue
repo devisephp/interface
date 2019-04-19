@@ -8,6 +8,7 @@
     :slices="devise.slices"
     :models="currentPage"
     :component="sliceComponent"
+    :slice-index="sliceIndex"
     ref="component"
     v-on="$listeners"
     v-bind="$attrs"
@@ -376,7 +377,7 @@ export default {
       return window.deviseSettings.$deviseComponents[this.devise.metadata.name];
     },
   },
-  props: ['editorMode'],
+  props: ['editorMode', 'sliceIndex'],
   mixins: [Strings],
   components: {
     Slice,

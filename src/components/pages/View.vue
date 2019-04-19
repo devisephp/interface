@@ -564,9 +564,12 @@ export default {
       'updatePageVersion',
     ]),
     requestSavePage () {
-      this.updatePage({ data: this.localValue }).then(() => {
+      const data = Object.assign({}, this.localValue)
+      delete data.slices
+
+      this.updatePage({ data }).then(() => {
         if (this.localValue.id === this.currentPage.id) {
-          window.location.reload();
+          window.location = data.slug
         }
       });
     },
