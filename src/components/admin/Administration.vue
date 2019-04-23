@@ -147,10 +147,10 @@ export default {
     allowedAdminMenu () {
       return Object.keys(this.adminMenu)
         .filter((menuItem) => {
-          if (!menuItem.permissions) {
+          if (!this.adminMenu[menuItem].permissions) {
             return true
           }
-          return this.can(menuItem.permissions)
+          return this.can(this.adminMenu[menuItem].permissions)
         })
         .reduce((obj, key) => {
           obj[key] = this.adminMenu[key];
