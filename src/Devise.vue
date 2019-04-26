@@ -6,7 +6,7 @@
       id="devise-container"
       :class="[breakpoint, isPreviewFrame ? 'preview-frame' : '']"
     >
-      <administration v-if="isLoggedIn && !isPreviewFrame" />
+      <administration v-if="can('access admin') && !isPreviewFrame" />
       <messages style="position:relative; z-index:9999" />
 
       <div id="dvs-app-content">
@@ -21,7 +21,7 @@
           <template v-if="typeof currentPage !== 'undefined' && currentPage.slices">
             <slices
               :slices="currentPage.slices"
-              :editor-mode="isLoggedIn && !isPreviewFrame"
+              :editor-mode="can('access admin') && !isPreviewFrame"
             ></slices>
           </template>
 
