@@ -173,7 +173,7 @@ export default {
     requestSearch (term) {
       const self = this;
       if (term !== '') {
-        this.searchPages(term).then(data => {
+        this.searchPages({ term }).then(data => {
           self.autosuggest = data;
           if (data.data.length < 1) {
             window.deviseSettings.$bus.$emit('showMessage', {
