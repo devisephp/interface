@@ -87,7 +87,7 @@
       <h3 class="dvs-mb-4">A solid boilerplate for your first layout file</h3>
       <p>
         Save the following to
-        <span class="dvs-font-mono">/resource/views/main.blade.php</span>
+        <span class="dvs-font-mono">/resource/views/layouts/main.blade.php</span>
       </p>
       <pre class="lang-html line-numbers">
         <code v-html="layoutTemplate"></code>

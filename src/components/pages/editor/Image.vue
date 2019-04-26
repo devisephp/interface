@@ -22,7 +22,7 @@
     </template>
 
     <template slot="editor">
-      <label class="dvs-mb-2 dvs-block">Image Tool To Use:</label>
+      <label class="dvs-mb-2 dvs-block dvs-font-bold">Image Tool To Use:</label>
       <div class="dvs-flex dvs-mb-2">
         <label>
           <input
@@ -93,12 +93,10 @@
                 class="dvs-uppercase dvs-text-center dvs-mr-4 dvs-mb-4 dvs-p-4"
                 :style="theme.panelCard"
               >
-                <img
-                  :src="media + '?buster=' +new Date().getTime()"
-                  class="mb-2"
-                  style="width:100px; height:auto"
-                >
-                <div class="dvs-text-xs">{{ size }} {{ getDimensions(size) }}</div>
+                <image-preview
+                  :src="`${media}?buster=${new Date().getTime()}`"
+                  :name="size"
+                ></image-preview>
               </div>
             </div>
           </div>
@@ -117,6 +115,7 @@
 
 <script>
 import Field from '../../../mixins/Field';
+import ImagePreview from './ImagePreview.vue';
 
 export default {
   name: 'ImageEditor',
@@ -179,12 +178,6 @@ export default {
         image: this.value.media.original,
         settings: this.settings,
       });
-    },
-    getDimensions (size) {
-      if (this.value.sizes && this.value.sizes[size])
-        return `(${this.value.sizes[size].w} x ${this.value.sizes[size].h})`;
-
-      return null;
     },
   },
   computed: {
@@ -253,6 +246,7 @@ export default {
   props: ['value', 'options'],
   components: {
     FieldEditor: () => import(/* webpackChunkName: "devise-editors" */ './Field'),
+    ImagePreview
   },
   mixins: [Field],
 };

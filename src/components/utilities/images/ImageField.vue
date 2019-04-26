@@ -156,6 +156,7 @@ export default {
       },
       set (newValue) {
         if (this.value && this.value.url) {
+          newValue.sizes = this.sizes
           // Expects an object
           this.$emit('input', newValue);
           this.$emit('change', newValue);
