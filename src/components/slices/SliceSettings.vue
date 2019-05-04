@@ -54,20 +54,24 @@
                 v-if="showType === 'desktop'"
                 :value="slice.settings"
                 :backgroundColor="backgroundColor"
+                :color="color"
                 responsive-mode="desktop"
                 @resetstyles="resetStyles"
                 @setmarginpadding="setMarginPadding"
                 @setbackground="setBackground"
+                @setforeground="setForeground"
               ></slice-settings-section>
 
               <slice-settings-section
                 v-if="showType === 'tablet'"
                 :value="slice.settings"
                 :backgroundColor="backgroundColor"
+                :color="color"
                 responsive-mode="tablet"
                 @resetstyles="resetStyles"
                 @setmarginpadding="setMarginPadding"
                 @setbackground="setBackground"
+                @setforeground="setForeground"
               ></slice-settings-section>
 
               <slice-settings-section
@@ -78,6 +82,7 @@
                 @resetstyles="resetStyles"
                 @setmarginpadding="setMarginPadding"
                 @setbackground="setBackground"
+                @setforeground="setForeground"
               ></slice-settings-section>
             </div>
           </div>
@@ -102,6 +107,7 @@ export default {
     return {
       showEditor: false,
       backgroundColor: null,
+      color: null,
       slice: {},
       controlStyles: {
         right: null,
@@ -112,6 +118,7 @@ export default {
   },
   created () {
     this.backgroundColor = tinycolor('#fff').toRgb();
+    this.color = tinycolor('#000').toRgb();
   },
   mounted () {
     this.addListeners();
@@ -190,6 +197,13 @@ export default {
       this.$set(
         this.slice.settings,
         'backgroundColor',
+        `rgba(${color.rgba.r},${color.rgba.g},${color.rgba.b},${color.rgba.a})`
+      );
+    },
+    setForeground (color) {
+      this.$set(
+        this.slice.settings,
+        'color',
         `rgba(${color.rgba.r},${color.rgba.g},${color.rgba.b},${color.rgba.a})`
       );
     },

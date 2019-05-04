@@ -117,11 +117,27 @@
       >Set Background Color</button>
     </div>
 
+    <div class="dvs-mb-8">
+      <fieldset class="dvs-fieldset dvs-mt-8">
+        <label>Text Color</label>
+        <p class="dvs-mb-4 dvs-text-xs">Note: Text color effects all responsive sizes</p>
+      </fieldset>
+      <div v-show="showTextColor">
+        <sketch-picker v-model="textColor" />
+      </div>
+      <button
+        v-show="!showTextColor"
+        class="dvs-btn dvs-mr-2"
+        :style="theme.actionButton"
+        @click="showTextColor = true"
+      >Set Text Color</button>
+    </div>
+
     <button
-      class="dvs-btn dvs-w-full dvs-rounded"
+      class="dvs-btn dvs-rounded"
       :style="theme.actionButtonGhost"
       @click="resetStyles"
-    >Reset</button>
+    >Reset all Settings</button>
   </div>
 </template>
 
@@ -132,9 +148,10 @@ export default {
   data () {
     return {
       showBackgroundColor: false,
+      showTextColor: false,
     };
   },
-  props: ['value', 'responsiveMode', 'backgroundColor'],
+  props: ['value', 'responsiveMode', 'backgroundColor', 'color'],
   computed: {
     bg: {
       get () {
@@ -142,6 +159,14 @@ export default {
       },
       set (color) {
         this.$emit('setbackground', color);
+      },
+    },
+    textColor: {
+      get () {
+        return this.color;
+      },
+      set (color) {
+        this.$emit('setforeground', color);
       },
     },
   },

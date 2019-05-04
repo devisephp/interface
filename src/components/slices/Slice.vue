@@ -34,6 +34,7 @@ export default {
   data () {
     return {
       backgroundColor: null,
+      color: null,
       mounted: false,
       showEditor: false,
       sliceEl: null,
@@ -57,6 +58,9 @@ export default {
 
     if (typeof this.devise.settings.backgroundColor !== 'undefined') {
       this.backgroundColor = tinycolor(this.devise.settings.backgroundColor).toRgb();
+    }
+    if (typeof this.devise.settings.color !== 'undefined') {
+      this.color = tinycolor(this.devise.settings.backgroundColor).toRgb();
     }
 
     this.addListeners();
@@ -348,6 +352,7 @@ export default {
 
       const {
         backgroundColor,
+        color,
         margin,
         mobile_margin,
         tablet_margin,
@@ -358,6 +363,10 @@ export default {
 
       if (typeof backgroundColor !== 'undefined') {
         styles.backgroundColor = backgroundColor;
+      }
+
+      if (typeof color !== 'undefined') {
+        styles.color = color;
       }
 
       if (this.breakpoint === 'tablet') {
