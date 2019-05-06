@@ -113,6 +113,11 @@ export default {
       });
     },
     mediaSelected (imagesAndSettings) {
+      if (typeof this.image !== 'object') {
+        this.image = imagesAndSettings.images.orig_optimized
+        return imagesAndSettings.images.orig_optimized;
+      }
+
       const value = {
         url: imagesAndSettings.images.orig_optimized,
       };
@@ -123,6 +128,7 @@ export default {
       }
 
       this.image = Object.assign({}, value);
+      return this.image
     },
     getSizeName (size) {
       if (size === 'orig_optimized') return `Optimized`;
@@ -130,13 +136,13 @@ export default {
       return size;
     },
     getDimensions (size) {
-      if (this.value.sizes && this.value.sizes[size])
-        return `(${this.value.sizes[size].w} x ${this.value.sizes[size].h})`;
+      if (this.image.sizes && this.image.sizes[size])
+        return `(${this.image.sizes[size].w} x ${this.image.sizes[size].h})`;
 
       if (this.sizes && this.sizes[size]) return `(${this.sizes[size].w} x ${this.sizes[size].h})`;
 
-      if (size !== 'original' && this.value.settings.w)
-        return `(${this.value.settings.w} x ${this.value.settings.h})`;
+      if (size !== 'original' && this.image.settings.w)
+        return `(${this.image.settings.w} x ${this.image.settings.h})`;
 
       return null;
     },
@@ -147,47 +153,64 @@ export default {
   computed: {
     image: {
       get () {
-        if (typeof this.value === 'undefined' || this.value === null) {
-          return {
-            url: null,
-          };
+        // It's goign to be an object folks
+        if (typeof this.value === 'object' || (this.sizes !== null)) {
+          const mergedValue = Object.assign(
+            {},
+            {
+              media: {},
+              settings: {},
+              url: ''
+            },
+            this.value)
+          if (this.sizes) {
+            mergedValue.sizes = this.sizes
+          }
+          return mergedValue;
         }
+
+        // The man just wants an image.
+        if (typeof this.value === 'undefined' || this.value === null) {
+          return ''
+        }
+
+        // Just gave him what he gave us
         return this.value;
       },
       set (newValue) {
-        if (this.value && this.value.url) {
+        if (typeof newValue === 'object') {
           newValue.sizes = this.sizes
           // Expects an object
           this.$emit('input', newValue);
           this.$emit('change', newValue);
         } else {
           // Expects just the string
-          this.$emit('input', newValue.url);
-          this.$emit('change', newValue.url);
+          this.$emit('input', newValue);
+          this.$emit('change', newValue);
         }
       },
     },
     hasMedia () {
-      if (this.image.media) {
+      if (this.image && this.image.media) {
         return Object.keys(this.image.media).length > 0;
       }
       return false;
     },
     imageUrl () {
-      if (!this.value) {
+      if (!this.image) {
         return ''
       }
-      if (this.value.url) {
-        return this.value.url
+      if (typeof this.image === 'object') {
+        return this.image.url
       }
-      return this.value
+      return this.image
     },
     fileName () {
       const parts = this.imageUrl.split('/');
       return parts[parts.length - 1];
     },
     previewEnabled () {
-      return this.value !== '' && this.value !== null;
+      return this.imageUrl !== '' && this.imageUrl !== null;
     },
   },
   props: {
