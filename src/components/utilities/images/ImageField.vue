@@ -153,8 +153,8 @@ export default {
   computed: {
     image: {
       get () {
-        // It's goign to be an object folks
-        if (typeof this.value === 'object' || (this.sizes !== null)) {
+        // It's goign to be an object folks 
+        if ((typeof this.value === 'object' && this.value !== null) || this.sizes !== null) {
           const mergedValue = Object.assign(
             {},
             {
