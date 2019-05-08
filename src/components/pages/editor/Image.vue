@@ -94,7 +94,7 @@
                 :style="theme.panelCard"
               >
                 <image-preview
-                  :src="`${media}?buster=${new Date().getTime()}`"
+                  :src="`${media}`"
                   :name="size"
                 ></image-preview>
               </div>
