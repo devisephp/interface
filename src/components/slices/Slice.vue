@@ -1,6 +1,7 @@
 <template>
   <component
     v-if="sliceComponent !== null"
+    :id="id"
     :style="styles"
     :is="currentView"
     :devise="deviseForSlice"
@@ -342,6 +343,14 @@ export default {
         return this.devise.config;
       }
       return this.devise;
+    },
+    id () {
+      if (typeof this.deviseForSlice.settings === 'undefined') {
+        this.$set(this.deviseForSlice, 'settings', {
+          id: null
+        });
+      }
+      return this.deviseForSlice.settings.id
     },
     styles () {
       const styles = {};

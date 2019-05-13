@@ -249,7 +249,10 @@ export default {
     },
     mode: {
       get () {
-        return this.value.mode;
+        if (this.value.mode) {
+          return this.value.mode;
+        }
+        return 'page';
       },
       set (value) {
         this.url = null;

@@ -4,6 +4,13 @@
       class="dvs-uppercase dvs-mb-2"
       :style="{color: theme.panelCard.color}"
     >{{ responsiveMode }}</h3>
+    <fieldset class="dvs-fieldset dvs-mb-8">
+      <label>ID of Slice</label>
+      <input
+        type="text"
+        v-model="settings.id"
+      >
+    </fieldset>
     <fieldset class="dvs-fieldset">
       <label>Margins and Padding</label>
     </fieldset>
@@ -153,6 +160,14 @@ export default {
   },
   props: ['value', 'responsiveMode', 'backgroundColor', 'color'],
   computed: {
+    settings: {
+      get () {
+        return this.value;
+      },
+      set (settings) {
+        this.$emit('input', settings);
+      },
+    },
     bg: {
       get () {
         return this.backgroundColor;
@@ -169,6 +184,14 @@ export default {
         this.$emit('setforeground', color);
       },
     },
+    theId: {
+      get () {
+        return this.id;
+      },
+      set (newId) {
+        this.$emit('setId', newId);
+      },
+    }
   },
   methods: {
     setMargin (position, event) {
