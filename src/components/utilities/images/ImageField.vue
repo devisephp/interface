@@ -47,7 +47,7 @@
             :style="theme.panelCard"
           >
             <img
-              :src="media + '?buster=' +new Date().getTime()"
+              :src="media"
               class="mb-2"
               style="width:100px; height:auto"
             >
