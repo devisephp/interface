@@ -7,7 +7,7 @@
     :devise="deviseForSlice"
     :breakpoint="breakpoint"
     :slices="devise.slices"
-    :models="currentPage"
+    :devise-models="currentPage"
     :component="sliceComponent"
     :slice-index="sliceIndex"
     ref="component"

@@ -134,6 +134,7 @@ export default {
   },
   mounted () {
     this.originalValue = Object.assign({}, this.value);
+    this.mode = this.mode;
     this.retrieveAllPagesList();
   },
   methods: {
@@ -255,8 +256,12 @@ export default {
         return 'page';
       },
       set (value) {
-        this.url = null;
-        this.routeName = null;
+        if (value === "page") {
+          this.url = null;
+        } else {
+          this.routeName = null;
+        }
+
         const valueObj = Object.assign(this.value, { mode: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
