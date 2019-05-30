@@ -1,7 +1,7 @@
 
 <template>
   <!-- eslint-disable vue/valid-v-for -->
-  <div class="dvs-pb-16">
+  <div class="dvs-pb-16" v-if="can('manage slices')">
     <div class="dvs-absolute dvs-pin-t dvs-pin-r dvs-mt-4 dvs-mr-4">
       <toggle
         :mini="true"
@@ -113,6 +113,20 @@
       <analytic-totals />
     </portal>
   </div>
+
+  <div v-else>
+
+    <div class="dvs-p-8">
+      <fieldset class="dvs-fieldset">
+        <div class="flex flex-col items-stretch">
+          <h4>Administration</h4>
+          <p class="mt-4">Use the icons along the left column to navigate.</p>
+        </div>
+      </fieldset>
+    </div>
+
+  </div>
+
 </template>
 
 <script>
