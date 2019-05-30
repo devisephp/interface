@@ -1,47 +1,51 @@
-.dvs-fieldset {
-  box-sizing:border-box;
+#devise-admin {
+  fieldset {
+    box-sizing:border-box;
 
-  label {
-    @apply dvs-block dvs-mb-2 dvs-text-xs dvs-uppercase dvs-font-bold dvs-tracking-superwide;
+    label {
+      @apply dvs-block dvs-mb-2 dvs-text-xs dvs-uppercase dvs-font-bold dvs-tracking-superwide;
 
-    &.dvs-large-label {
-      @apply dvs-text-base dvs-font-normal dvs-normal-case dvs-tracking-normal;
+      &.dvs-large-label {
+        @apply dvs-text-base dvs-font-normal dvs-normal-case dvs-tracking-normal;
+      }
+
+      &.dvs-small-label {
+        @apply dvs-text-sm dvs-font-normal dvs-normal-case dvs-tracking-normal;
+      }
     }
 
-    &.dvs-small-label {
-      @apply dvs-text-sm dvs-font-normal dvs-normal-case dvs-tracking-normal;
+    textarea,
+    select,
+    input[type="text"],
+    input[type="search"],
+    input[type="password"],
+    input[type="date"],
+    input[type="datetime-local"],
+    input[type="number"],
+    input[type="email"],
+    input[type="phone"] {
+      @apply border-0 dvs-px-4 dvs-py-3 dvs-leading-tight dvs-text-sm dvs-bg-grey-lighter dvs-text-grey-darkest dvs-rounded dvs-appearance-none dvs-outline-none;
+
+      &.dvs-w-auto {
+        @apply dvs-w-auto;
+      }
+
+      &.dvs-small {
+        @apply dvs-px-3 dvs-py-2 dvs-rounded-sm dvs-text-xs;
+      }
+
+      &.dvs-dark {
+        @apply dvs-bg-grey-darker dvs-text-white;
+      }
     }
-  }
 
-  textarea,
-  select,
-  input[type="text"],
-  input[type="search"],
-  input[type="password"],
-  input[type="date"],
-  input[type="datetime-local"],
-  input[type="number"],
-  input[type="email"],
-  input[type="phone"] {
-    @apply border-0 dvs-px-4 dvs-py-3 dvs-leading-tight dvs-text-sm dvs-bg-grey-lighter dvs-text-grey-darkest dvs-rounded dvs-appearance-none dvs-outline-none;
-
-    &.dvs-w-auto {
-      @apply dvs-w-auto;
+    textarea {
+      height:8em;
     }
-
-    &.dvs-small {
-      @apply dvs-px-3 dvs-py-2 dvs-rounded-sm dvs-text-xs;
-    }
-
-    &.dvs-dark {
-      @apply dvs-bg-grey-darker dvs-text-white;
-    }
-  }
-
-  textarea {
-    height:8em;
   }
 }
+
+
 
 .v-select-wrapper {
   @apply dvs-bg-grey-lighter dvs-text-grey-darkest dvs-rounded-sm 
