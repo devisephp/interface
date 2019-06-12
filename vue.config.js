@@ -27,14 +27,7 @@ module.exports = {
   filenameHashing: false,
   configureWebpack: {
     plugins: [
-      new webpack.ProvidePlugin({
-        $: 'jquery',
-        jquery: 'jquery',
-        'window.jQuery': 'jquery',
-        jQuery: 'jquery',
-      }),
       new CopyPlugin([
-        { from: 'node_modules/trumbowyg/dist/ui/icons.svg', to: 'icons/icons.svg' },
         { from: 'node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css', to: 'css/prism-line-numbers.css' },
         { from: 'node_modules/prismjs/themes/prism-okaidia.css', to: 'css/themes/prism-okaidia.css' },
       ]),

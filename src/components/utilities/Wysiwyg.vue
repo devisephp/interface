@@ -244,6 +244,7 @@
     <textarea
       v-if="showSource"
       v-model="localValue"
+      @keyup="updateSource"
       class="dvs-p-8"
     >
     </textarea>
@@ -405,7 +406,6 @@ export default {
         return this.value
       },
       set (newValue) {
-        this.editor.setContent(newValue)
         this.$emit('input', newValue);
         this.$emit('change', newValue);
       },
@@ -463,19 +463,15 @@ export default {
     },
     mediaSelected (imagesAndSettings) {
       if (typeof imagesAndSettings === 'object') {
-        // const html = this.theEditor.el.trumbowyg('html');
-        // this.theEditor.el.trumbowyg(
-        //   'html',
-        //   `${html}<img src="${imagesAndSettings.images.orig_optimized}" width="${
-        //   imagesAndSettings.settings.w
-        //   }" height="${imagesAndSettings.settings.h}">`
-        // );
         this.currentCommand({ src: imagesAndSettings.images.orig_optimized })
       }
     },
     update (e) {
       this.localValue = e.getHTML();
     },
+    updateSource (e) {
+      this.editor.setContent(e.target.value)
+    }
   }
 }
 </script>
