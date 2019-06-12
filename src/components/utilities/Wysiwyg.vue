@@ -1,5 +1,253 @@
 <template>
-  <div class="dvs-bg-white dvs-text-black dvs-relative">
+  <div class="dvs-bg-white dvs-rounded">
+    <editor-menu-bar
+      :editor="editor"
+      v-slot="{ commands, isActive }"
+    >
+      <div class="dvs-bg-grey-light dvs-flex dvs-flex-wrap dvs-items-center dvs-rounded dvs-rounded-b-none">
+
+        <button
+          class="dvs-p-2 dvs-text-xs dvs-font-bold"
+          :class="{ 'dvs-bg-grey': isActive.bold() }"
+          @click="commands.bold"
+        >
+          <bold-icon />
+        </button>
+
+        <button
+          class="dvs-p-2 dvs-text-xs dvs-font-bold"
+          :class="{ 'dvs-bg-grey': isActive.italic() }"
+          @click="commands.italic"
+        >
+          <italic-icon />
+        </button>
+
+        <button
+          class="dvs-p-2 dvs-text-xs dvs-font-bold"
+          :class="{ 'dvs-bg-grey': isActive.strike() }"
+          @click="commands.strike"
+        >
+          <strike-icon />
+        </button>
+
+        <button
+          class="dvs-p-2 dvs-text-xs dvs-font-bold"
+          :class="{ 'dvs-bg-grey': isActive.underline() }"
+          @click="commands.underline"
+        >
+          <underline-icon />
+        </button>
+
+        <button
+          class="dvs-p-2 dvs-text-xs dvs-font-bold"
+          :class="{ 'dvs-bg-grey': isActive.underline() }"
+          @click="launchMediaManager(commands.image)"
+        >
+          <image-icon />
+        </button>
+
+        <button
+          class="dvs-p-2 dvs-text-xs dvs-font-bold"
+          :class="{ 'dvs-bg-grey': isActive.code() }"
+          @click="commands.code"
+        >
+          <code-icon />
+        </button>
+
+        <button
+          class="dvs-p-2 dvs-text-xs dvs-font-bold"
+          :class="{ 'dvs-bg-grey': isActive.paragraph() }"
+          @click="commands.paragraph"
+        >
+          P
+        </button>
+
+        <button
+          class="dvs-p-2 dvs-text-xs dvs-font-bold"
+          :class="{ 'dvs-bg-grey': isActive.heading({ level: 1 }) }"
+          @click="commands.heading({ level: 1 })"
+        >
+          H1
+        </button>
+
+        <button
+          class="dvs-p-2 dvs-text-xs dvs-font-bold"
+          :class="{ 'dvs-bg-grey': isActive.heading({ level: 2 }) }"
+          @click="commands.heading({ level: 2 })"
+        >
+          H2
+        </button>
+
+        <button
+          class="dvs-p-2 dvs-text-xs dvs-font-bold"
+          :class="{ 'dvs-bg-grey': isActive.heading({ level: 3 }) }"
+          @click="commands.heading({ level: 3 })"
+        >
+          H3
+        </button>
+
+        <button
+          class="dvs-p-2 dvs-text-xs dvs-font-bold"
+          :class="{ 'dvs-bg-grey': isActive.bullet_list() }"
+          @click="commands.bullet_list"
+        >
+          <menu-icon />
+        </button>
+
+        <button
+          class="dvs-p-2 dvs-text-xs dvs-font-bold"
+          :class="{ 'dvs-bg-grey': isActive.ordered_list() }"
+          @click="commands.ordered_list"
+        >
+          <list-icon />
+        </button>
+
+        <button
+          class="dvs-p-2 dvs-text-2xl dvs-font-bold dvs-font-display"
+          style="line-height:0.5;"
+          :class="{ 'dvs-bg-grey': isActive.blockquote() }"
+          @click="commands.blockquote"
+        >
+          &quot;
+        </button>
+
+        <button
+          class="dvs-p-2 dvs-text-xs dvs-font-bold"
+          :class="{ 'dvs-bg-grey': isActive.code_block() }"
+          @click="commands.code_block"
+        >
+          <code-icon />
+        </button>
+        <button
+          class="dvs-p-2 dvs-text-xs dvs-font-bold"
+          :class="{ 'is-active': isActive.alignment({ textAlign: 'left' }) }"
+          @click="commands.alignment({ textAlign: 'left' })"
+        >
+          <align-left-icon />
+        </button>
+
+        <button
+          class="dvs-p-2 dvs-text-xs dvs-font-bold"
+          :class="{ 'is-active': isActive.alignment({ textAlign: 'center' }) }"
+          @click="commands.alignment({ textAlign: 'center' })"
+        >
+          <align-center-icon />
+        </button>
+
+        <button
+          class="dvs-p-2 dvs-text-xs dvs-font-bold"
+          :class="{ 'is-active': isActive.alignment({ textAlign: 'center' }) }"
+          @click="commands.alignment({ textAlign: 'right' })"
+        >
+          <align-right-icon />
+        </button>
+
+        <button
+          class="dvs-p-2 dvs-text-xs dvs-font-bold"
+          @click="commands.horizontal_rule"
+        >
+          <minus-icon />
+        </button>
+
+        <button
+          class="dvs-p-2 dvs-text-xs dvs-font-bold"
+          @click="commands.undo"
+        >
+          <corner-up-left-icon />
+        </button>
+
+        <button
+          class="dvs-p-2 dvs-text-xs dvs-font-bold"
+          @click="commands.redo"
+        >
+          <corner-up-right-icon />
+        </button>
+
+        <button
+          class="dvs-p-2 dvs-text-xs dvs-font-bold fill-current"
+          @click="commands.createTable({rowsCount: 3, colsCount: 3, withHeaderRow: false })"
+        >
+          <table-icon />
+        </button>
+
+        <button
+          class="dvs-p-2 dvs-text-xs dvs-font-bold"
+          :class="{ 'dvs-bg-grey': showSource }"
+          @click="showSource = !showSource"
+        >
+          <code-icon />
+        </button>
+
+        <span
+          v-if="isActive.table()"
+          class="dvs-bg-grey dvs-flex dvs-items-center"
+        >
+          <span class="dvs-text-2xs dvs-uppercase dvs-px-2 dvs-text-grey-darker">Table Controls</span>
+          <button
+            class="dvs-p-2 dvs-text-xs dvs-font-bold"
+            @click="commands.deleteTable"
+          >
+            <delete-table-icon />
+          </button>
+          <button
+            class="dvs-p-2 dvs-text-xs dvs-font-bold"
+            @click="commands.addColumnBefore"
+          >
+            <add-col-before-icon />
+          </button>
+          <button
+            class="dvs-p-2 dvs-text-xs dvs-font-bold"
+            @click="commands.addColumnAfter"
+          >
+            <add-col-after-icon />
+          </button>
+          <button
+            class="dvs-p-2 dvs-text-xs dvs-font-bold"
+            @click="commands.deleteColumn"
+          >
+            <delete-col-icon />
+          </button>
+          <button
+            class="dvs-p-2 dvs-text-xs dvs-font-bold"
+            @click="commands.addRowBefore"
+          >
+            <add-row-before-icon />
+          </button>
+          <button
+            class="dvs-p-2 dvs-text-xs dvs-font-bold"
+            @click="commands.addRowAfter"
+          >
+            <add-row-after-icon />
+          </button>
+          <button
+            class="dvs-p-2 dvs-text-xs dvs-font-bold"
+            @click="commands.deleteRow"
+          >
+            <delete-row-icon />
+          </button>
+          <button
+            class="dvs-p-2 dvs-text-xs dvs-font-bold"
+            @click="commands.toggleCellMerge"
+          >
+            <combine-cells-icon />
+          </button>
+        </span>
+
+      </div>
+    </editor-menu-bar>
+
+    <editor-content
+      v-if="!showSource"
+      style="all: unset;"
+      :editor="editor"
+    />
+    <textarea
+      v-if="showSource"
+      v-model="localValue"
+      class="dvs-p-8"
+    >
+    </textarea>
+
     <div
       v-if="imageToManage !== null"
       class="dvs-absolute dvs-absolute-center dvs-shadow-lg dvs-p-8 dvs-rounded dvs-z-50 dvs-bg-white"
@@ -64,74 +312,92 @@
       v-if="imageToManage !== null"
       @click="imageToManage = null"
     ></div>
-    <trumbowyg
-      class="dvs-relative dvs-z-10"
-      ref="theEditor"
-      v-model="localValue"
-      :config="config"
-      :svg-path="'/devise/icons/icons.svg'"
-      @tbw-change="update"
-      @tbw-paste="update"
-      @tbw-blur="update"
-    ></trumbowyg>
   </div>
 </template>
 
 <script>
-// Import editor cs
-import Trumbowyg from 'vue-trumbowyg';
-import Strings from '../../mixins/Strings';
+import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
+import {
+  Blockquote,
+  CodeBlock,
+  HardBreak,
+  Heading,
+  HorizontalRule,
+  OrderedList,
+  BulletList,
+  ListItem,
+  TodoItem,
+  TodoList,
+  Bold,
+  Code,
+  Italic,
+  Image,
+  Link,
+  Strike,
+  Underline,
+  History,
+  Table,
+  TableHeader,
+  TableCell,
+  TableRow,
+} from 'tiptap-extensions'
+import TextAlign from './wysiwyg/tiptap/extensions/TextAlign'
 
 export default {
-  name: 'Wysiwyg',
-  props: ['id', 'value'],
-  data () {
-    return {
-      theEditor: null,
-      imageToManage: null,
-      scrollEvent: null,
-      buttonPane: null,
-      config: {
-        btns: [
-          ['viewHTML'],
-          ['strong', 'em', 'del'],
-          ['unorderedList', 'orderedList'],
-          ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
-          ['deviseImage', 'link'],
-          ['formatting'],
-          ['removeformat'],
-          ['table'],
-          ['floats'],
-          ['undo', 'redo'],
-        ],
-        autogrow: true,
-        btnsDef: {
-          deviseImage: {
-            fn: this.launchMediaManager,
-            tag: 'mediamanager',
-            title: 'Media Manager',
-            text: 'Media Manager',
-            isSupported () {
-              return true;
-            },
-            key: 'M',
-            param: '',
-            forceCSS: true,
-            ico: 'insert-image',
-            hasIcon: true,
-          },
-        },
-        imageWidthModalEdit: false,
-        imgDblClickHandler: this.imageManager,
-      },
-      plugins: {
-        table: {
-          rows: 8,
-          columns: 8,
-          styler: 'table',
-        },
-      },
-    };
+  props: {
+    value: {
+      required: true
+    }
+  },
+  components: {
+    EditorContent,
+    EditorMenuBar,
+    BoldIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/BoldIcon'),
+    ItalicIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ItalicIcon'),
+    UnderlineIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/UnderlineIcon'),
+    MinusIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/MinusIcon'),
+    ImageIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ImageIcon'),
+    CodeIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/CodeIcon'),
+    ListIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ListIcon'),
+    MenuIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/MenuIcon'),
+    CornerUpLeftIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/CornerUpLeftIcon'),
+    CornerUpRightIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/CornerUpRightIcon'),
+    AlignLeftIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/AlignLeftIcon'),
+    AlignCenterIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/AlignCenterIcon'),
+    AlignRightIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/AlignRightIcon'),
+    StrikeIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ './icons/StrikeIcon'),
+    TableIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ './icons/TableIcon'),
+    DeleteTableIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ './icons/DeleteTableIcon'),
+    AddColAfterIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ './icons/AddColAfterIcon'),
+    AddColBeforeIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ './icons/AddColBeforeIcon'),
+    DeleteColIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ './icons/DeleteColIcon'),
+    AddRowAfterIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ './icons/AddRowAfterIcon'),
+    AddRowBeforeIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ './icons/AddRowBeforeIcon'),
+    DeleteRowIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ './icons/DeleteRowIcon'),
+    CombineCellsIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ './icons/CombineCellsIcon'),
   },
   computed: {
     localValue: {
@@ -139,118 +405,77 @@ export default {
         return this.value
       },
       set (newValue) {
+        this.editor.setContent(newValue)
         this.$emit('input', newValue);
         this.$emit('change', newValue);
       },
     }
   },
+  data () {
+    return {
+      editor: new Editor({
+        extensions: [
+          new Blockquote(),
+          new BulletList(),
+          new CodeBlock(),
+          new HardBreak(),
+          new Heading({ levels: [1, 2, 3] }),
+          new HorizontalRule(),
+          new ListItem(),
+          new OrderedList(),
+          new TodoItem(),
+          new TodoList(),
+          new Link(),
+          new Bold(),
+          new Code(),
+          new Image(),
+          new Italic(),
+          new Strike(),
+          new Underline(),
+          new History(),
+          new Table({
+            resizable: true,
+          }),
+          new TableHeader(),
+          new TableCell(),
+          new TableRow(),
+          new TextAlign()
+        ],
+        onUpdate: this.update
+      }),
+      imageToManage: null,
+      showSource: false,
+      currentCommand: null
+    }
+  },
   mounted () {
-    this.theEditor = this.$refs.theEditor;
-
-    this.$nextTick(() => {
-      const fieldPanel = document.querySelector('#field-panel');
-
-      if (fieldPanel) {
-        const container = fieldPanel.querySelector('.simplebar-scroll-content');
-        this.buttonPane = fieldPanel.querySelector('.trumbowyg-button-pane');
-
-        if (container) {
-          container.addEventListener('scroll', () => {
-            if (!this.checkInView()) {
-              this.buttonPane.style.position = 'fixed';
-              this.buttonPane.style.maxWidth = '300px';
-              this.buttonPane.style.right = '3em';
-              this.buttonPane.style.borderRadius = '3px';
-            } else {
-              this.buttonPane.style.position = 'relative';
-              this.buttonPane.style.maxWidth = 'none';
-              this.buttonPane.style.right = 'auto';
-              this.buttonPane.style.borderRadius = '0';
-            }
-          });
-        }
-      }
-    });
+    this.editor.setContent(this.value)
+  },
+  beforeDestroy () {
+    this.editor.destroy()
   },
   methods: {
-    launchMediaManager () {
+    launchMediaManager (command) {
+      this.currentCommand = command
       window.deviseSettings.$bus.$emit('devise-launch-media-manager', {
         callback: this.mediaSelected,
       });
     },
     mediaSelected (imagesAndSettings) {
       if (typeof imagesAndSettings === 'object') {
-        const html = this.theEditor.el.trumbowyg('html');
-        this.theEditor.el.trumbowyg(
-          'html',
-          `${html}<img src="${imagesAndSettings.images.orig_optimized}" width="${
-          imagesAndSettings.settings.w
-          }" height="${imagesAndSettings.settings.h}">`
-        );
+        // const html = this.theEditor.el.trumbowyg('html');
+        // this.theEditor.el.trumbowyg(
+        //   'html',
+        //   `${html}<img src="${imagesAndSettings.images.orig_optimized}" width="${
+        //   imagesAndSettings.settings.w
+        //   }" height="${imagesAndSettings.settings.h}">`
+        // );
+        this.currentCommand({ src: imagesAndSettings.images.orig_optimized })
       }
     },
-    update () {
-      const editorContent = this.theEditor.el.trumbowyg('html')
-      if (this.value !== editorContent) this.localValue = editorContent;
+    update (e) {
+      this.localValue = e.getHTML();
     },
-    setHtml (html) {
-      this.localValue = html;
-      this.theEditor.el.trumbowyg('html', html);
-      this.$emit('input', this.localValue);
-      this.$emit('change', this.localValue);
-    },
-    empty () {
-      this.localValue = '';
-      this.theEditor.el.trumbowyg('empty');
-      this.$emit('input', this.localValue);
-      this.$emit('change', this.localValue);
-    },
-    imageManager (image) {
-      this.imageToManage = image;
-      this.$nextTick(() => {
-        this.$refs.marginsetting.value = this.imageToManage.currentTarget.style.margin.slice(
-          0,
-          -2
-        );
-      });
-    },
-    setImageFloat (direction) {
-      this.imageToManage.currentTarget.style.float = direction;
-      this.localValue = this.theEditor.el.trumbowyg('html');
-      this.updateAndCloseImageEditor();
-    },
-    setImageMargin (evt) {
-      this.imageToManage.currentTarget.style.margin = `${evt.target.value}px`;
-    },
-    doneEditingImageStyles () {
-      this.localValue = this.theEditor.el.trumbowyg('html');
-      this.updateAndCloseImageEditor();
-    },
-    removeImage () {
-      const newHTML = this.theEditor.el
-        .trumbowyg('html')
-        .replace(this.imageToManage.currentTarget.outerHTML, '');
-      this.theEditor.el.trumbowyg('html', newHTML);
-      this.localValue = this.theEditor.el.trumbowyg('html');
-      this.updateAndCloseImageEditor();
-    },
-    updateAndCloseImageEditor () {
-      this.imageToManage = null;
-      this.theEditor.el.trumbowyg('toggle');
-      this.theEditor.el.trumbowyg('toggle');
-      this.update();
-    },
-    checkInView () {
-      const fieldPanel = document.querySelector('#field-panel');
-      const container = fieldPanel.querySelector('.simplebar-scroll-content');
-      const contTop = container.scrollTop;
-
-      return contTop < 100;
-    },
-  },
-  components: {
-    Trumbowyg,
-  },
-  mixins: [Strings]
-};
+  }
+}
 </script>
