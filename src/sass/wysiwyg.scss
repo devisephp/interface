@@ -122,3 +122,22 @@
 .ProseMirror-focused {
   @apply dvs-outline-none;
 }
+
+.wysiwyg-editor-button {
+  @apply dvs-p-3 dvs-text-xs dvs-font-bold;
+}
+
+.editor__floating-menu {
+    position: absolute;
+    left:10px;
+    margin-top: -.25rem;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: opacity .2s,visibility .2s;
+    transition: opacity .2s,visibility .2s;
+}
+
+.editor__floating-menu.is-active {
+    opacity: 1;
+    visibility: visible;
+}

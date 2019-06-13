@@ -1,7 +1,7 @@
 import _mergeJSXProps from "babel-helper-vue-jsx-merge-props";
 
 export default {
-  name: 'TableIcon',
+  name: 'DeleteTableIcon',
   functional: true,
   render: function render (h, ctx) {
     return h("svg", _mergeJSXProps([{

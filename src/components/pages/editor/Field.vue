@@ -35,7 +35,7 @@
         ></div>
         <panel
           id="field-panel"
-          class="dvs-fixed dvs-pin-b dvs-pin-r dvs-mx-8 dvs-mb-8 dvs-z-40 dvs-max-w-full"
+          class="dvs-fixed dvs-pin-b dvs-shadow-lg dvs-pin-r dvs-mx-8 dvs-mb-8 dvs-z-40 dvs-max-w-3/4"
           :panel-style="theme.panel"
         >
           <div class="dvs-p-8 dvs-flex dvs-flex-col">
@@ -56,10 +56,10 @@
 
             <slot name="editor"></slot>
 
-            <div class="dvs-flex dvs-flex-col dvs-items-center dvs-mt-4 dvs-mb-4 dvs-justify-between">
+            <div class="dvs-flex dvs-items-center dvs-mt-4 dvs-mb-4 dvs-justify-between">
               <div
                 class="dvs-flex dvs-items-center"
-                :class="{'dvs-mb-6': options.enabler}"
+                :class="{'dvs-mr-6': options.enabler}"
               >
                 <button
                   class="dvs-btn dvs-mr-2"

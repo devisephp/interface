@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const WebpackAssetsManifest = require('webpack-assets-manifest');
 const CopyPlugin = require('copy-webpack-plugin');
 
 const pagesObject = {
@@ -24,9 +25,10 @@ module.exports = {
   outputDir: './dist',
   publicPath: '/devise',
   runtimeCompiler: true,
-  filenameHashing: false,
+  filenameHashing: process.env.NODE_ENV === 'production',
   configureWebpack: {
     plugins: [
+      new WebpackAssetsManifest(),
       new CopyPlugin([
         { from: 'node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css', to: 'css/prism-line-numbers.css' },
         { from: 'node_modules/prismjs/themes/prism-okaidia.css', to: 'css/themes/prism-okaidia.css' },
