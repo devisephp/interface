@@ -9,13 +9,19 @@
     @change="update"
   >
     <template slot="preview">
-      <span v-if="checked === null || checked === ''" class="dvs-italic">Currently No Value</span>
+      <span
+        v-if="checked === null || checked === ''"
+        class="dvs-italic"
+      >Currently No Value</span>
       <div>{{ checked ? 'On' : 'Off' }}</div>
     </template>
 
     <template slot="editor">
       <div class="dvs-flex dvs-items-center">
-        <toggle v-model="checked" :id="randomString(8)"></toggle>
+        <toggle
+          v-model="checked"
+          :id="randomString(8)"
+        ></toggle>
       </div>
     </template>
   </field-editor>
@@ -27,20 +33,20 @@ import Field from '../../../mixins/Field';
 
 export default {
   name: 'CheckboxEditor',
-  data() {
+  data () {
     return {
       originalValue: null,
       showEditor: false,
     };
   },
-  mounted() {
+  mounted () {
     this.originalValue = Object.assign({}, this.value);
   },
   methods: {
-    toggleEditor() {
+    toggleEditor () {
       this.showEditor = !this.showEditor;
     },
-    cancel() {
+    cancel () {
       this.checked = this.originalValue.checked;
       this.enabled = this.originalValue.enabled;
       this.toggleEditor();
@@ -48,10 +54,16 @@ export default {
   },
   computed: {
     checked: {
-      get() {
-        return this.value.checked;
+      get () {
+        if (this.value) {
+          return this.value.checked;
+        }
+        if (this.options && this.options.default) {
+          return this.options.default.checked;
+        }
+        return false;
       },
-      set(value) {
+      set (value) {
         const valueObj = Object.assign({}, this.value, { checked: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);

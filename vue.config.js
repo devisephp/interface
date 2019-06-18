@@ -1,4 +1,3 @@
-const webpack = require('webpack');
 const WebpackAssetsManifest = require('webpack-assets-manifest');
 const CopyPlugin = require('copy-webpack-plugin');
 

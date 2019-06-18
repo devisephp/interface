@@ -8,7 +8,7 @@
         <div
           class="dvs-rounded-full dvs-mr-2 dvs-w-2 dvs-h-2 dvs-mr-2"
           @click="toggleEnabled"
-          :class="{'dvs-bg-green': value.enabled, 'dvs-bg-white': !value.enabled, 'dvs-invisible': !options.enabler}"
+          :class="{'dvs-bg-green': options.enabled, 'dvs-bg-white': !options.enabled, 'dvs-invisible': !options.enabler}"
         ></div>
         <div
           class="dvs-flex dvs-items-center dvs-justify-stretch dvs-w-full"
@@ -16,8 +16,8 @@
         >
           <!-- Swatch -->
           <div
-            v-if="options.swatch && value.color"
-            :style="`background-color:${value.color}`"
+            v-if="options.swatch && options.color"
+            :style="`background-color:${options.color}`"
             class="dvs-rounded-sm dvs-mr-2"
             style="width:10px; height:10px;"
           ></div>
@@ -35,7 +35,7 @@
         ></div>
         <panel
           id="field-panel"
-          class="dvs-fixed dvs-pin-b dvs-shadow-lg dvs-pin-r dvs-mx-8 dvs-mb-8 dvs-z-40 dvs-max-w-3/4"
+          class="dvs-fixed dvs-pin-b dvs-pin-r dvs-mx-8 dvs-mb-8 dvs-z-40 dvs-max-w-full"
           :panel-style="theme.panel"
         >
           <div class="dvs-p-8 dvs-flex dvs-flex-col">
@@ -43,23 +43,23 @@
               class="dvs-text-base dvs-mb-2 dvs-w-full"
               :style="{color: theme.panel.color}"
             >
-              <span>{{ value.label }}</span>
+              <span>{{ options.label }}</span>
               <br>
               <small
                 class="dvs-text-xs"
-                v-if="value.instructions"
+                v-if="options.instructions"
               >
                 Hint from Developer:
-                <span class="dvs-italic dvs-font-normal">{{ value.instructions }}</span>
+                <span class="dvs-italic dvs-font-normal">{{ options.instructions }}</span>
               </small>
             </h6>
 
             <slot name="editor"></slot>
 
-            <div class="dvs-flex dvs-items-center dvs-mt-4 dvs-mb-4 dvs-justify-between">
+            <div class="dvs-flex dvs-flex-col dvs-items-center dvs-mt-4 dvs-mb-4 dvs-justify-between">
               <div
                 class="dvs-flex dvs-items-center"
-                :class="{'dvs-mr-6': options.enabler}"
+                :class="{'dvs-mb-6': options.enabler}"
               >
                 <button
                   class="dvs-btn dvs-mr-2"
@@ -138,7 +138,7 @@ export default {
       if (!this.options.enabler) {
         e.preventDefault();
       }
-      this.value.enabled = !this.value.enabled;
+      this.options.enabled = !this.options.enabled;
     },
     resetValue () {
       this.showErase = false;

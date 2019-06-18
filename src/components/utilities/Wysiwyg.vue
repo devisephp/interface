@@ -556,7 +556,10 @@ export default {
       this.localValue = e.getHTML();
     },
     updateSource (e) {
-      this.editor.setContent(e.target.value)
+      this.updateContent(e.target.value)
+    },
+    updateContent (content) {
+      this.editor.setContent(content)
     }
   }
 }

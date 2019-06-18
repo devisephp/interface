@@ -182,105 +182,11 @@
       class="dvs-collapsed dvs-mb-6"
       v-if="sliceOpen"
     >
-      <fieldset
-        v-for="(field, key) in sliceConfig(slice).fields"
-        class="dvs-fieldset dvs-mb-1"
-        :key="key"
-      >
-        <div v-if="theFields[key]">
-          <color-editor
-            dusk="color-editor-link"
-            @change="editField($event, field, key)"
-            v-model="theFields[key]"
-            :options="field"
-            :namekey="key"
-            v-if="field.type === 'color'"
-          ></color-editor>
-
-          <checkbox-editor
-            dusk="checkbox-editor-link"
-            @change="editField($event, field, key)"
-            v-model="theFields[key]"
-            :options="field"
-            :namekey="key"
-            v-if="field.type === 'checkbox'"
-          ></checkbox-editor>
-
-          <datetime-editor
-            @change="editField($event, field, key)"
-            v-model="theFields[key]"
-            :options="field"
-            :namekey="key"
-            v-if="field.type === 'datetime'"
-          ></datetime-editor>
-
-          <image-editor
-            @change="editField($event, field, key)"
-            v-model="theFields[key]"
-            :options="field"
-            :namekey="key"
-            v-if="field.type === 'image'"
-          ></image-editor>
-
-          <file-editor
-            @change="editField($event, field, key)"
-            v-model="theFields[key]"
-            :options="field"
-            :namekey="key"
-            v-if="field.type === 'file'"
-          ></file-editor>
-
-          <link-editor
-            @change="editField($event, field, key)"
-            v-model="theFields[key]"
-            :options="field"
-            :namekey="key"
-            v-if="field.type === 'link'"
-          ></link-editor>
-
-          <number-editor
-            @change="editField($event, field, key)"
-            v-model="theFields[key]"
-            :options="field"
-            :namekey="key"
-            v-if="field.type === 'number'"
-          ></number-editor>
-
-          <select-editor
-            @change="editField($event, field, key)"
-            v-model="theFields[key]"
-            :options="field"
-            :namekey="key"
-            v-if="field.type === 'select'"
-          ></select-editor>
-
-          <textarea-editor
-            @change="editField($event, field, key)"
-            v-model="theFields[key]"
-            :options="field"
-            :namekey="key"
-            v-if="field.type === 'textarea'"
-          ></textarea-editor>
-
-          <text-editor
-            dusk="text-editor-link"
-            @change="editField($event, field, key)"
-            v-model="theFields[key]"
-            :options="field"
-            :namekey="key"
-            v-if="field.type === 'text'"
-          ></text-editor>
-
-          <wysiwyg-editor
-            @change="editField($event, field, key)"
-            v-model="theFields[key]"
-            :options="field"
-            :namekey="key"
-            :show="slice.metadata.show"
-            v-if="field.type === 'wysiwyg'"
-          ></wysiwyg-editor>
-        </div>
-      </fieldset>
+      <slice-editor-fields
+        :fields="sliceConfig(slice).fields"
+        v-model="theFields"
+        @editfield="editField"
+      />
     </div>
 
     <div class="dvs-collapsed">
@@ -427,7 +333,8 @@ export default {
     requestCopyToAnotherPage () {
       this.showCopyToAnotherPage = true
     },
-    editField (value, field, key) {
+    editField (payload) {
+      const { key, field, value } = payload
       // Update the slice field
       this.slice[key] = Object.assign({}, value);
 
@@ -531,19 +438,13 @@ export default {
   components: {
     AddIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/PlusCircleIcon'),
-    CheckboxEditor: () => import(/* webpackChunkName: "devise-editors" */ '../editor/Checkbox'),
     CogIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SettingsIcon'),
     CopyIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/CopyIcon'),
-    ColorEditor: () => import(/* webpackChunkName: "devise-editors" */ '../editor/Color'),
-    DatetimeEditor: () => import(/* webpackChunkName: "devise-editors" */ '../editor/Datetime'),
     CreateIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/Edit3Icon'),
     draggable: () => import(/* webpackChunkName: "devise-editors" */ 'vuedraggable'),
-    FileEditor: () => import(/* webpackChunkName: "devise-editors" */ '../editor/File'),
-    ImageEditor: () => import(/* webpackChunkName: "devise-editors" */ '../editor/Image'),
-    LinkEditor: () => import(/* webpackChunkName: "devise-editors" */ '../editor/Link'),
     LocateIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/TargetIcon'),
     ManageSlice: () => import(/* webpackChunkName: "devise-editors" */ './ManageSlice'),
@@ -551,15 +452,11 @@ export default {
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/MenuIcon'),
     MoreIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/MoreVerticalIcon'),
-    NumberEditor: () => import(/* webpackChunkName: "devise-editors" */ '../editor/Number'),
     RemoveIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/TrashIcon'),
-    SelectEditor: () => import(/* webpackChunkName: "devise-editors" */ '../editor/Select'),
     SliceEditor: () => import(/* webpackChunkName: "devise-editors" */ './SliceEditor'),
+    SliceEditorFields: () => import(/* webpackChunkName: "devise-editors" */ './SliceEditorFields'),
     CopySliceToPage: () => import(/* webpackChunkName: "devise-editors" */ './CopySliceToPage'),
-    TextareaEditor: () => import(/* webpackChunkName: "devise-editors" */ '../editor/Textarea'),
-    TextEditor: () => import(/* webpackChunkName: "devise-editors" */ '../editor/Text'),
-    WysiwygEditor: () => import(/* webpackChunkName: "devise-editors" */ '../editor/Wysiwyg'),
   },
 };
 </script>

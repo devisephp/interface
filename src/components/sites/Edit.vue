@@ -41,6 +41,21 @@
 
           <help class="dvs-mb-10">The domain should not include the http or https:// protocol identifier. So your site entry could be "my-super-awesome-site.com" or "sub-domain.my-super-awesome-site.com". To Support development environments you can override these values in your .env file in the root of your project with something like "SITE_1_DOMAIN=my-super-awesome-site.test" for your local development or staging.</help>
 
+          <div v-if="additionalSettings">
+            <fieldset class="dvs-fieldset">
+              <label class="dvs-mb-2">Additional Site Settings</label>
+            </fieldset>
+            <div
+              class="dvs-mb-10 dvs-text-lg dvs-w-1/2 dvs-p-4"
+              :style="theme.panelSidebar"
+            >
+              <slice-editor-fields
+                v-model="localValue.settings.additionalSiteSettings"
+                :fields="additionalSettings"
+              />
+            </div>
+          </div>
+
           <fieldset
             class="dvs-fieldset dvs-mb-4"
             v-if="languages.data && languages.data.length > 0 && localValue.languages"
@@ -154,6 +169,7 @@ export default {
   methods: {
     ...mapActions('devise', ['getLanguages', 'getSites', 'updateSite']),
     requestEditSite () {
+      this.localValue.settings.additionalSettings = this.additionalSettings
       this.updateSite({ site: this.site, data: this.localValue }).then(() => {
         // var site = self.siteById(self.site.id)
         // self.goToPage('devise-sites-index')
@@ -179,6 +195,7 @@ export default {
       this.getSites().then(() => {
         let colors = {};
         let googleAnalytics = '';
+        let additionalSiteSettings = {};
 
         if (this.site.settings === null) {
           this.$set(this.site, 'settings', {});
@@ -190,10 +207,14 @@ export default {
         if (typeof this.site.settings.googleAnalytics !== 'undefined') {
           ({ googleAnalytics } = this.site.settings);
         }
+        if (typeof this.site.settings.additionalSiteSettings !== 'undefined') {
+          ({ additionalSiteSettings } = this.site.settings);
+        }
         this.localValue = Object.assign({}, this.localValue, this.site, {
           settings: {
             colors,
             googleAnalytics,
+            additionalSiteSettings
           },
         });
 
@@ -227,12 +248,22 @@ export default {
     layouts () {
       return window.deviseSettings.$config.layouts;
     },
+    additionalSettings () {
+      if (window.deviseSettings.$config.additionalSiteSettings) {
+        const site = window.deviseSettings.$config.additionalSiteSettings.find(s => s.id === this.currentPage.site_id);
+        if (site) {
+          return site.fields
+        }
+      }
+      return false
+    }
   },
   mixins: [Strings],
   components: {
     AdminDesigner: () => import(/* webpackChunkName: "devise-sites" */ './AdminDesigner'),
     QueryBuilderInterface: () =>
       import(/* webpackChunkName: "devise-utilities" */ '../utilities/QueryBuilderInterface'),
+    SliceEditorFields: () => import(/* webpackChunkName: "devise-editors" */ "../pages/slices/SliceEditorFields"),
   },
 };
 </script>
