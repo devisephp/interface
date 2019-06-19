@@ -25,6 +25,7 @@
     "portal-vue": "^1.5.1",
     "prismjs": "^1.16.0",
     "qs": "^6.6.0",
+    "query-string": "^6.7.0",
     "resize-observer-polyfill": "^1.5.1",
     "text-clipper": "^1.2.2",
     "tinycolor2": "^1.4.1",

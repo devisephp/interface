@@ -41,7 +41,7 @@
 
           <help class="dvs-mb-10">The domain should not include the http or https:// protocol identifier. So your site entry could be "my-super-awesome-site.com" or "sub-domain.my-super-awesome-site.com". To Support development environments you can override these values in your .env file in the root of your project with something like "SITE_1_DOMAIN=my-super-awesome-site.test" for your local development or staging.</help>
 
-          <div v-if="additionalSettings">
+          <div v-if="additionalSiteSettings">
             <fieldset class="dvs-fieldset">
               <label class="dvs-mb-2">Additional Site Settings</label>
             </fieldset>
@@ -51,7 +51,7 @@
             >
               <slice-editor-fields
                 v-model="localValue.settings.additionalSiteSettings"
-                :fields="additionalSettings"
+                :fields="additionalSiteSettings"
               />
             </div>
           </div>
@@ -169,7 +169,7 @@ export default {
   methods: {
     ...mapActions('devise', ['getLanguages', 'getSites', 'updateSite']),
     requestEditSite () {
-      this.localValue.settings.additionalSettings = this.additionalSettings
+      this.localValue.settings.additionalSiteSettings = this.additionalSiteSettings
       this.updateSite({ site: this.site, data: this.localValue }).then(() => {
         // var site = self.siteById(self.site.id)
         // self.goToPage('devise-sites-index')
@@ -248,7 +248,7 @@ export default {
     layouts () {
       return window.deviseSettings.$config.layouts;
     },
-    additionalSettings () {
+    additionalSiteSettings () {
       if (window.deviseSettings.$config.additionalSiteSettings) {
         const site = window.deviseSettings.$config.additionalSiteSettings.find(s => s.id === this.currentPage.site_id);
         if (site) {

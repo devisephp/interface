@@ -1,7 +1,10 @@
 
 <template>
   <!-- eslint-disable vue/valid-v-for -->
-  <div class="dvs-pb-16" v-if="can('manage slices')">
+  <div
+    class="dvs-pb-16"
+    v-if="can('manage slices')"
+  >
     <div class="dvs-absolute dvs-pin-t dvs-pin-r dvs-mt-4 dvs-mr-4">
       <toggle
         :mini="true"
@@ -11,7 +14,10 @@
     </div>
 
     <div class="dvs-p-8">
-      <fieldset class="dvs-fieldset">
+      <fieldset
+        class="dvs-fieldset"
+        v-if="!showTimeTravel"
+      >
         <div class="flex flex-col items-stretch">
           <label>Page Version</label>
           <select
@@ -29,7 +35,24 @@
               <template v-if="version.current">(Currently Viewing)</template>
               <template v-if="version.is_live"> (Live)</template>
             </option>
+            <option value="timetravel">Time Travel Preview</option>
           </select>
+        </div>
+      </fieldset>
+
+      <fieldset v-else>
+        <label>Preview Date Time</label>
+        <div class="dvs-flex">
+          <date-picker
+            ref="datepicker"
+            v-model="timeTravelDate"
+            :settings=" { date: true, time: true }"
+          />
+          <button
+            @click="timeTravel"
+            :style="{color: theme.actionButtonGhost.color}"
+            class="dvs-rounded dvs-btn dvs-btn-sm dvs-flex dvs-justify-center dvs-items-center dvs-uppercase dvs-text-xs dvs-font-bold"
+          >Go</button>
         </div>
       </fieldset>
     </div>
@@ -131,7 +154,10 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import DatePicker from '../utilities/DatePicker.vue';
 import Strings from '../../mixins/Strings';
+
+const queryString = require('query-string');
 
 export default {
   name: 'PageEditor',
@@ -139,6 +165,9 @@ export default {
     return {
       saving: false,
       createSlice: false,
+      showTimeTravel: false,
+      timeTravelDate: null,
+      queryString,
     };
   },
   mounted () {
@@ -248,6 +277,11 @@ export default {
       referenceSlice.slices.splice(referenceSlice.slices.indexOf(deletingSlice), 1);
     },
     selectVersion (e) {
+      if (e.target.value === 'timetravel') {
+        this.showTimeTravel = true;
+        return false;
+      }
+
       const versionId = parseInt(e.target.value, 0)
       const currentHref = document.location.href
 
@@ -263,6 +297,15 @@ export default {
       document.location.href = `${newHref}version_id=${versionId}`
       return true
     },
+    timeTravel () {
+      const travelObj = {
+        time_travel_to: this.timeTravelDate
+      };
+
+      const stringified = this.queryString.stringify(travelObj);
+      document.location.search = stringified;
+      return true;
+    }
   },
   computed: {
     ...mapGetters('devise', ['currentPage', 'sliceConfig']),
@@ -272,6 +315,7 @@ export default {
   },
   mixins: [Strings],
   components: {
+    DatePicker,
     AddIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/PlusCircleIcon'),
     RefreshIcon: () =>
