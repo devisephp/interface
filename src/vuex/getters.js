@@ -96,9 +96,20 @@ const getters = {
   // Sites
   sites: state => state.sites,
 
-  site: (state, getters, rootState) => {
-    const id = parseInt(rootState.route.params.siteId, 0);
-    return getters.siteById(id);
+  site: (state) => {
+    return window.deviseSettings.$sites.find(site => site.current)
+  },
+
+  additionalSiteSettings: (state, getters, rootState) => {
+    const id = parseInt(getters.site.id, 0);
+    // Cause... why not
+    const ass = window.deviseSettings.$config.additionalSiteSettings
+    if (ass) {
+      return ass.find(setting => {
+        return setting.id === id
+      })
+    }
+    return null;
   },
 
   siteById: state => id => {
@@ -183,7 +194,7 @@ const getters = {
           colors.panel = {
             background: `radial-gradient(ellipse at top, ${sc.panelTop.color}, ${
               sc.panelBottom.color
-            })`,
+              })`,
             color: sc.panelText.color,
             secondaryColor: '#979797',
           };

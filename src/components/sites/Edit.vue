@@ -250,7 +250,7 @@ export default {
     },
     additionalSiteSettings () {
       if (window.deviseSettings.$config.additionalSiteSettings) {
-        const site = window.deviseSettings.$config.additionalSiteSettings.find(s => s.id === this.currentPage.site_id);
+        const site = window.deviseSettings.$config.additionalSiteSettings.find(s => s.id === this.site.id);
         if (site) {
           return site.fields
         }
