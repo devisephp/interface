@@ -25,7 +25,6 @@ export default {
   methods: {
     addError (error) {
       const self = this;
-
       // Error came from axios most likely
       if (
         typeof error.response !== 'undefined' &&
@@ -50,10 +49,11 @@ export default {
         error.response.data !== null &&
         error.response.data.message !== null
       ) {
+        const title = error.response.data.exception ? error.response.data.exception : error.response.data.message;
         self.appendError({
           id: this.genUniqueKey(error),
           code: error.response.status,
-          title: error.response.data.exception,
+          title,
           message: error.response.data.message,
         });
       } else if (typeof error.data !== 'undefined' && error.data !== null) {
@@ -87,7 +87,9 @@ export default {
       }
     },
     appendError (payload) {
-      this.showErrorMsg({ title: payload.title, message: payload.message })
+      const title = (payload.title) ? payload.title : 'Unknown Error';
+      const message = (payload.message) ? payload.message : 'We do not have any details on this error';
+      this.showErrorMsg({ title, message })
     },
     addMessage (payload) {
       this.showSuccessMsg({ title: payload.title, message: payload.message })

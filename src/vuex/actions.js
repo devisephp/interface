@@ -53,19 +53,17 @@ const actions = {
    * Languages
    */
   getLanguages (context) {
-    return new Promise(resolve => {
-      window.axios
-        .get(`${context.state.api.baseUrl}languages/`)
+    return new Promise((resolve, reject) => {
+      window.axios.get(`${context.state.api.baseUrl}languages/`)
         .then(response => {
           context.commit('setLanguages', response.data);
-          resolve(response);
+          resolve(response)
         })
         .catch(error => {
           window.deviseSettings.$bus.$emit('showError', error);
+          reject(error)
         });
-    }).catch(error => {
-      window.deviseSettings.$bus.$emit('showError', error);
-    });
+    })
   },
 
   createLanguage (context, language) {

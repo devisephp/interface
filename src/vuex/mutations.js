@@ -54,6 +54,14 @@ export default {
     state.directories = payload;
   },
 
+
+  /*
+   * Media Editor
+   */
+  toggleCropping (state) {
+    state.isCropping = !state.isCropping
+  },
+
   // Meta
   setMeta (state, payload) {
     state.meta = payload;

@@ -100,6 +100,9 @@ const state = {
   searchableMedia: {
     data: [],
   },
+  // Media Editor
+  isCropping: false,
+  // Languages
   languages: {
     data: [],
   },

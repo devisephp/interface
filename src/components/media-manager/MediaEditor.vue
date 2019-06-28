@@ -1,11 +1,10 @@
 <template>
-  <div class="media-manager-interface dvs-screen-90">
-    <div class="dvs-py-4 dvs-px-8 dvs-rounded-tl dvs-rounded-tr dvs-flex dvs-justify-between dvs-items-center dvs-bg-grey-lighter dvs-border-b dvs-border-lighter dvs-relative">Media Editor
+  <div class="dvs-flex dvs-flex-col dvs-items-stretch dvs-h-screen-90 dvs-overflow-hidden dvs-relative dvs-h">
+    <div class="dvs-py-2 dvs-px-8 dvs-rounded-tl dvs-rounded-tr dvs-flex dvs-justify-between dvs-items-center dvs-bg-grey-lighter dvs-border-b dvs-border-lighter dvs-relative">Media Editor
       <div>
         <button
           class="dvs-btn dvs-mr-2"
           @click="done"
-          :disabled="!allImagesLoaded"
           :style="theme.actionButton"
         >Done</button>
         <button
@@ -15,237 +14,50 @@
         >Cancel</button>
       </div>
     </div>
-    <div class="dvs-flex dvs-items-stretch dvs-overflow-hidden">
+    <div
+      class="dvs-flex dvs-items-stretch dvs-absolute dvs-pin"
+      style="margin-top:58px"
+    >
+      <media-thumbnails
+        :primaryFile="primaryFile"
+        :encoded-edits="encodedEdits"
+        :sizes="sizes"
+        :encodedSize="encodedSize"
+        :active="active"
+        @select="setActive"
+        v-if="sizes"
+      ></media-thumbnails>
+
       <div
-        class="dvs-min-w-1/3 dvs-border-r dvs-border-lighter dvs-bg-grey-light"
+        class="dvs-flex-grow"
         v-bar
       >
-        <div>
-          <div class="dvs-p-8 dvs-flex-col dvs-justify-between">
-            <h3 class="dvs-mb-4">Image Edits</h3>
-            <fieldset class="dvs-fieldset dvs-mb-4">
-              <label>Crop / Fitting</label>
-              <select v-model="edits.fit">
-                <option :label="null">None</option>
-                <option value="crop">Contain</option>
-                <option value="max">Best Fit</option>
-                <option value="fill">Fill</option>
-                <option value="stretch">Stretch</option>
-                <option value="crop">Crop Center</option>
-                <option value="crop-left">Crop Center Left</option>
-                <option value="crop-right">Crop Center Right</option>
-                <option value="crop-top">Crop Bottom</option>
-                <option value="crop-top-left">Crop Bottom Left</option>
-                <option value="crop-top-right">Crop Bottom Right</option>
-                <option value="crop-bottom">Crop Top</option>
-                <option value="crop-bottom-left">Crop Top Left</option>
-                <option value="crop-bottom-right">Crop Top Right</option>
-              </select>
-            </fieldset>
-            <fieldset class="dvs-fieldset dvs-mb-4">
-              <label>Quality</label>
-              <div class="dvs-flex">
-                <input
-                  type="range"
-                  @dblclick="edits.q = null"
-                  v-model="edits.q"
-                  min="0"
-                  max="100"
-                  step="5"
-                >
-                <div class="dvs-font-bold dvs-text-xs dvs-pl-2">{{ edits.q }}</div>
-              </div>
-            </fieldset>
-            <fieldset class="dvs-fieldset dvs-mb-4">
-              <label>Sharpen</label>
-              <div class="dvs-flex">
-                <input
-                  type="range"
-                  @dblclick="edits.sharp = null"
-                  v-model="edits.sharp"
-                  min="0"
-                  max="100"
-                  step="1"
-                >
-                <div class="dvs-font-bold dvs-text-xs dvs-pl-2">{{ edits.sharp }}</div>
-              </div>
-            </fieldset>
-            <fieldset
-              class="dvs-fieldset dvs-mb-4"
-              v-if="edits.fit === 'fill'"
-            >
-              <label>Background Color</label>
-              <sketch-picker
-                v-model="editorColor"
-                @cancel="edits.bg = null"
-              />
-            </fieldset>
-            <fieldset class="dvs-fieldset dvs-mb-4">
-              <label>Rotation</label>
-              <select v-model="edits.or">
-                <option :value="null">No Rotation</option>
-                <option value="90">90&deg; Counter Clockwise</option>
-                <option value="180">180&deg;</option>
-                <option value="270">270&deg; Counter Clockwise</option>
-                <option value="auto">Auto (Reads EXIF Data)</option>
-              </select>
-            </fieldset>
-            <fieldset class="dvs-fieldset dvs-mb-4">
-              <label>Flip</label>
-              <select v-model="edits.flip">
-                <option :value="null">No Flip</option>
-                <option value="v">Vertical</option>
-                <option value="h">Horizontal</option>
-                <option value="both">Vertical &amp; Horizontal</option>
-              </select>
-            </fieldset>
-            <fieldset class="dvs-fieldset dvs-mb-4">
-              <label>Effects</label>
-              <select v-model="edits.filt">
-                <option :value="null">No Effect</option>
-                <option value="greyscale">Greyscale</option>
-                <option value="sepia">Sepia</option>
-              </select>
-            </fieldset>
-            <fieldset class="dvs-fieldset dvs-mb-4">
-              <label>Brightness</label>
-              <div class="dvs-flex">
-                <input
-                  type="range"
-                  @dblclick="edits.bri = null"
-                  v-model="edits.bri"
-                  min="-100"
-                  max="100"
-                  step="1"
-                >
-                <div class="dvs-font-bold dvs-text-xs dvs-pl-2">{{ edits.bri }}</div>
-              </div>
-            </fieldset>
-            <fieldset class="dvs-fieldset dvs-mb-4">
-              <label>Contrast</label>
-              <div class="dvs-flex">
-                <input
-                  type="range"
-                  @dblclick="edits.con = null"
-                  v-model="edits.con"
-                  min="-100"
-                  max="100"
-                  step="1"
-                >
-                <div class="dvs-font-bold dvs-text-xs dvs-pl-2">{{ edits.con }}</div>
-              </div>
-            </fieldset>
-            <fieldset class="dvs-fieldset dvs-mb-4">
-              <label>Gamma</label>
-              <div class="dvs-flex">
-                <input
-                  type="range"
-                  @dblclick="edits.gam = null"
-                  v-model="edits.gam"
-                  min="0.1"
-                  max="9.99"
-                  step="0.01"
-                >
-                <div class="dvs-font-bold dvs-text-xs dvs-pl-2">{{ edits.gam }}</div>
-              </div>
-            </fieldset>
+        <div class="dvs-relative">
+          <media-controls
+            :active-image="activeImage"
+            v-model="sizeEdits"
+            @selectsizeimage="selectSizeImage()"
+          ></media-controls>
 
-            <fieldset class="dvs-fieldset dvs-mb-4">
-              <label>Pixelate</label>
-              <div class="dvs-flex">
-                <input
-                  type="range"
-                  @dblclick="edits.pixel = null"
-                  v-model="edits.pixel"
-                  min="0"
-                  max="20"
-                  step="1"
-                >
-                <div class="dvs-font-bold dvs-text-xs dvs-pl-2">{{ edits.pixel }}</div>
-              </div>
-            </fieldset>
-          </div>
+          <media-editor-preview
+            :sizes="sizes"
+            :active-image="activeImage"
+            :encodedSize="encodedSize"
+          ></media-editor-preview>
         </div>
       </div>
 
-      <div class="dvs-flex-grow dvs-relative dvs-overflow-y-scroll">
-        <div class="dvs-p-8 dvs-border-l dvs-border-grey-lighter">
-          <template v-if="sizes">
-            <h3 class="dvs-mb-4">Images</h3>
-
-            <h6 class="dvs-mb-4">Original Image</h6>
-            <img
-              :src="`/styled/preview/${source}`"
-              @load="addToImagesLoaded"
-            >
-            <hr class="my-4">
-            <div
-              v-for="(size, key) in sizes"
-              :key="key"
-              class="mb-8"
-            >
-              <h6 class="dvs-mb-4">{{ key }} ({{ size.w }}x{{ size.h }})</h6>
-              <img
-                :src="`/styled/preview/${source}?${encodedEdits}${encodedSize(size)}`"
-                @load="addToImagesLoaded"
-              >
-            </div>
-          </template>
-
-          <template v-else>
-            <h3 class="dvs-mb-4">Image</h3>
-
-            <help
-              class="dvs-mb-4"
-              v-if="!customSize.w || !customSize.h"
-            >Please provide a width and height for this image</help>
-
-            <div class="dvs-flex dvs-mb-8 dvs-items-center">
-              <fieldset class="dvs-fieldset dvs-mr-4">
-                <label>Width</label>
-                <input
-                  type="number"
-                  v-model="customSize.w"
-                >
-              </fieldset>
-              <fieldset class="dvs-fieldset dvs-mr-4">
-                <label>Height</label>
-                <input
-                  type="number"
-                  v-model="customSize.h"
-                >
-              </fieldset>
-              <fieldset>
-                <button
-                  class="btn btn-sm"
-                  :style="theme.actionButton"
-                  @click="setCustomSizeToOriginal"
-                >Original Dimensions</button>
-              </fieldset>
-            </div>
-            <img
-              v-if="customSize.w && customSize.h"
-              :src="`/styled/preview/${source}?${encodedEdits}${encodedSize(customSize)}`"
-              @load="addToImagesLoaded"
-            >
-          </template>
-        </div>
-      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { Sketch } from 'vue-color';
-
-const tinycolor = require('tinycolor2');
-
 export default {
   data () {
     return {
-      imagesLoaded: 0,
-      edits: {
-        q: 80,
+      active: 'original',
+      defaultEdits: {
+        q: 70,
         or: null,
         flip: null,
         fit: 'crop',
@@ -256,7 +68,9 @@ export default {
         pixel: null,
         filt: null,
         bg: null,
+        url: null,
       },
+      sizeEdits: {},
       customSize: {
         w: null,
         h: null,
@@ -268,23 +82,33 @@ export default {
     };
   },
   mounted () {
-    this.imagesLoaded = 0;
     this.loadOriginalDimentions().then(() => {
-      this.loadImageSettings();
+      this.setInitialActive()
+      // this.loadImageSettings();
       this.setCustomSizeToOriginal();
     });
   },
   methods: {
     done () {
-      const edits = Object.assign({}, this.edits);
-      const cleanEdits = this.clean(edits);
-      this.$emit('done', cleanEdits);
+      this.$emit('done');
     },
     cancel () {
       this.$emit('cancel');
     },
+    setActive (selectedActive) {
+      this.active = selectedActive
+    },
+    setInitialActive () {
+      if (this.sizes) {
+        const firstSize = Object.keys(this.sizes)[0];
+        this.setActive(firstSize);
+        return true;
+      }
+      this.setActive('original');
+      return false;
+    },
     loadOriginalDimentions () {
-      const file = `/styled/preview/${this.source}`;
+      const file = `/styled/preview/${this.primaryFile}`;
       const img = new Image();
 
       img.onerror = () => {
@@ -306,9 +130,6 @@ export default {
       this.originalDims.h = img.height;
 
       this.setCustomSizeToOriginal();
-    },
-    addToImagesLoaded () {
-      this.imagesLoaded += 1;
     },
     setCustomSizeToOriginal () {
       this.customSize.w = this.originalDims.w;
@@ -338,32 +159,56 @@ export default {
 
       return obj;
     },
-    loadImageSettings () {
-      this.edits = Object.assign(this.edits, this.imageSettings);
-    },
+    // loadImageSettings () {
+    //   Object.entries(this.sizes).forEach(([name, size]) => {
+    //     this.sizeEdits[name] = Object.assign({}, this.defaultEdits, this.imageSettings[name])
+    //     this.sizeEdits[name].w = size.w
+    //     this.sizeEdits[name].h = size.h
+    //     if (this.sizeEdits[name].url === null) {
+    //       this.sizeEdits[name].url = this.primaryFile
+    //     }
+    //   })
+    // },
+    selectSizeImage () {
+      this.$emit('selectsizeimage')
+    }
   },
   computed: {
-    editorColor: {
+    // Primary model
+    imageSettings: {
       get () {
-        if (this.edits.bg === null) {
-          return '#ffffff';
+        return this.value
+      },
+      set () {
+        const sizeEdits = Object.assign({}, this.sizeEdits);
+        const cleanEdits = this.clean(sizeEdits);
+
+        this.$emit('input', cleanEdits)
+      }
+    },
+    activeImage () {
+      if (this.active !== 'original') {
+        return {
+          url: `/styled/preview/${this.primaryFile}?${this.encodedEdits}${this.encodedSize(this.sizes[this.active])}`,
+          name: `${this.active}`,
+          sizeLabel: `(${this.sizes[this.active].w}x${this.sizes[this.active].h})`
         }
-        return tinycolor(this.edits.bg).toRgb();
-      },
-      set (newValue) {
-        this.edits.bg = newValue.hex;
-      },
+      }
+      return {
+        url: `/styled/preview/${this.primaryFile}`,
+        name: 'Original'
+      }
     },
     encodedEdits () {
       let encodedString = '';
 
-      for (const property in this.edits) {
-        if (this.edits[property] !== null) {
+      for (const property in this.sizeEdits) {
+        if (this.sizeEdits[property] !== null) {
           if (encodedString !== '') {
             encodedString += '&';
           }
 
-          let propertyValue = this.edits[property];
+          let propertyValue = this.sizeEdits[property];
 
           // Chop off the hash for Glide
           if (property === 'bg') {
@@ -376,23 +221,9 @@ export default {
 
       return encodedString;
     },
-    allImagesLoaded () {
-      const numberOfImages = this.imagesRequiredToLoad;
-      if (this.imagesLoaded >= numberOfImages) {
-        return true;
-      }
-      return false;
-    },
-    imagesRequiredToLoad () {
-      if (this.sizes) {
-        return Object.keys(this.sizes).length + 1;
-      }
-
-      return 1;
-    },
   },
   props: {
-    source: {
+    primaryFile: {
       type: String,
       required: true,
     },
@@ -400,13 +231,15 @@ export default {
       type: Object,
       required: false,
     },
-    imageSettings: {
+    value: {
       type: Object,
       required: false,
     },
   },
   components: {
-    'sketch-picker': Sketch,
+    MediaControls: () => import(/* webpackChunkName: "devise-media" */ './MediaControls'),
+    MediaThumbnails: () => import(/* webpackChunkName: "devise-media" */ './MediaThumbnails'),
+    MediaEditorPreview: () => import(/* webpackChunkName: "devise-media" */ './MediaEditorPreview'),
   },
 };
 </script>

@@ -1,13 +1,6 @@
 .media-manager {
   @apply dvs-bg-white dvs-z-60 dvs-rounded;
 
-  .media-manager-interface {
-    @apply dvs-flex dvs-flex-col dvs-items-stretch;
-
-    max-height:70vh;
-    width:90vw;
-  }
-
   .dropzone {
     @apply dvs-flex;
     min-height:0;
