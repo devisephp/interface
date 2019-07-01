@@ -11,29 +11,29 @@
     <div class="media-manager dvs-min-w-4/5">
 
       <media-selector
-        v-if="primaryFile === null || selectingFile !== null"
+        v-if="defaultImage === null || selectingFile !== null"
         @selectedfile="selectedFile"
       >
       </media-selector>
 
-      <template v-else-if="primaryFile && primaryFile.type === 'image'">
+      <template v-else-if="defaultImage && defaultImage.type === 'image'">
         <div v-if="typeof options !== 'undefined' && options.sizes">
           <media-editor
-            v-model="imageSettings"
-            :primary-file="primaryFile.url"
+            :imageSettings="imageSettings"
+            :default-image="defaultImage.url"
             :sizes="options.sizes"
             @selectsizeimage="selectSizeImage"
-            @cancel="primaryFile = null"
-            @done="generateAndSetFile"
+            @cancel="defaultImage = null"
+            @done="close"
           />
         </div>
 
         <div v-else>
           <media-editor
-            v-model="imageSettings"
-            :primary-file="primaryFile.url"
-            @cancel="primaryFile = null"
-            @done="generateAndSetFile"
+            :imageSettings="imageSettings"
+            :default-image="defaultImage.url"
+            @cancel="defaultImage = null"
+            @done="close"
           />
         </div>
       </template>
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
 
 const Cookies = require('js-cookie');
 
@@ -56,7 +56,7 @@ export default {
       callback: null,
       searchTerms: null,
       searchResults: [],
-      primaryFile: null,
+      defaultImage: null,
       selectingFile: null,
       searchResultsLimit: 100,
       currentlyOpenFile: null,
@@ -69,12 +69,10 @@ export default {
     this.startOpenerListener();
   },
   methods: {
-    ...mapActions('devise', [
-      'generateImages',
-    ]),
+
     selectedFile (file) {
-      if (this.primaryFile === null) {
-        this.primaryFile = file
+      if (this.defaultImage === null) {
+        this.defaultImage = file
       }
       console.log(this.options.sizes)
     },
@@ -97,7 +95,7 @@ export default {
           this.target = target;
           this.options = options;
           this.imageSettings = settings;
-          this.primaryFile = {
+          this.defaultImage = {
             url: image,
             type: 'image',
           };
@@ -106,30 +104,11 @@ export default {
         }
       );
     },
-    generateAndSetFile (edits) {
-      if (this.options && this.options.sizes) {
-        edits.sizes = this.options.sizes;
-      }
 
-      window.deviseSettings.$bus.$emit('showLoadScreen', 'Images being generated');
-
-      this.generateImages({ original: this.primaryFile.url, settings: edits }).then(response => {
-        if (typeof this.target !== 'undefined') {
-          this.target.value = response.data;
-        }
-        if (typeof this.callback !== 'undefined') {
-          this.callback(response.data);
-        }
-        window.deviseSettings.$bus.$emit('hideLoadScreen');
-        return true;
-      });
-
-      this.close();
-    },
     close () {
       this.show = false;
       this.imageSettings = Object.assign({});
-      this.$set(this, 'primaryFile', null);
+      this.$set(this, 'defaultImage', null);
     },
     selectSizeImage () {
       this.selectingFile = true

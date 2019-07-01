@@ -17,15 +17,15 @@
     <div
       class="dvs-flex dvs-items-stretch dvs-absolute dvs-pin"
       style="margin-top:58px"
+      v-if="activeImage"
     >
       <media-thumbnails
-        :primaryFile="primaryFile"
-        :encoded-edits="encodedEdits"
-        :sizes="sizes"
-        :encodedSize="encodedSize"
+        :defaultImage="defaultImage"
+        :size-edits="sizeEdits"
+        :encode-edits="encodeEdits"
         :active="active"
         @select="setActive"
-        v-if="sizes"
+        v-if="sizes && sizeEdits"
       ></media-thumbnails>
 
       <div
@@ -34,15 +34,16 @@
       >
         <div class="dvs-relative">
           <media-controls
+            v-if="sizeEdits[activeImage.name]"
             :active-image="activeImage"
-            v-model="sizeEdits"
+            v-model="sizeEdits[activeImage.name]"
             @selectsizeimage="selectSizeImage()"
           ></media-controls>
 
           <media-editor-preview
             :sizes="sizes"
             :active-image="activeImage"
-            :encodedSize="encodedSize"
+            :encode-edits="encodeEdits"
           ></media-editor-preview>
         </div>
       </div>
@@ -52,6 +53,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   data () {
     return {
@@ -84,13 +87,17 @@ export default {
   mounted () {
     this.loadOriginalDimentions().then(() => {
       this.setInitialActive()
-      // this.loadImageSettings();
+      this.loadImageSettings();
       this.setCustomSizeToOriginal();
     });
   },
   methods: {
+    ...mapActions('devise', [
+      'generateImages',
+    ]),
     done () {
-      this.$emit('done');
+      this.generateAndSaveImages()
+      // this.$emit('done');
     },
     cancel () {
       this.$emit('cancel');
@@ -108,7 +115,7 @@ export default {
       return false;
     },
     loadOriginalDimentions () {
-      const file = `/styled/preview/${this.primaryFile}`;
+      const file = `/styled/preview/${this.defaultImage}`;
       const img = new Image();
 
       img.onerror = () => {
@@ -135,14 +142,6 @@ export default {
       this.customSize.w = this.originalDims.w;
       this.customSize.h = this.originalDims.h;
     },
-    encodedSize (size) {
-      let encodedString = '';
-      if (this.encodedEdits.length > 0) {
-        encodedString += '&';
-      }
-
-      return `${encodedString}w=${size.w}&h=${size.h}`;
-    },
     clean (obj) {
       for (const propName in obj) {
         if (obj[propName] === null || obj[propName] === undefined) {
@@ -159,56 +158,52 @@ export default {
 
       return obj;
     },
-    // loadImageSettings () {
-    //   Object.entries(this.sizes).forEach(([name, size]) => {
-    //     this.sizeEdits[name] = Object.assign({}, this.defaultEdits, this.imageSettings[name])
-    //     this.sizeEdits[name].w = size.w
-    //     this.sizeEdits[name].h = size.h
-    //     if (this.sizeEdits[name].url === null) {
-    //       this.sizeEdits[name].url = this.primaryFile
-    //     }
-    //   })
-    // },
+
+    generateAndSaveImages () {
+      return new Promise((resolve, reject) => {
+        window.deviseSettings.$bus.$emit('showLoadScreen', 'Images being generated');
+
+        this.generateImages({ defaultImage: this.defaultImage, sizes: this.sizeEdits }).then(response => {
+          // MOVE TO MEDIA MANAGER
+          // if (typeof this.target !== 'undefined') {
+          //   this.target.value = response.data;
+          // }
+          // if (typeof this.callback !== 'undefined') {
+          //   this.callback(response.data);
+          // }
+          return true;
+        }).then(() => {
+          window.deviseSettings.$bus.$emit('hideLoadScreen');
+          console.log('success!!!!', response)
+        }, (error) => {
+          window.deviseSettings.$bus.$emit('hideLoadScreen');
+        });
+      })
+    },
+    loadImageSettings () {
+      Object.entries(this.sizes).forEach(([name, size]) => {
+        this.$set(this.sizeEdits, name, {})
+        this.sizeEdits[name] = Object.assign({}, this.defaultEdits, this.imageSettings[name])
+        this.sizeEdits[name].w = size.w
+        this.sizeEdits[name].h = size.h
+        if (!this.sizeEdits[name].url) {
+          this.sizeEdits[name].url = this.defaultImage
+        }
+      })
+    },
     selectSizeImage () {
       this.$emit('selectsizeimage')
-    }
-  },
-  computed: {
-    // Primary model
-    imageSettings: {
-      get () {
-        return this.value
-      },
-      set () {
-        const sizeEdits = Object.assign({}, this.sizeEdits);
-        const cleanEdits = this.clean(sizeEdits);
-
-        this.$emit('input', cleanEdits)
-      }
     },
-    activeImage () {
-      if (this.active !== 'original') {
-        return {
-          url: `/styled/preview/${this.primaryFile}?${this.encodedEdits}${this.encodedSize(this.sizes[this.active])}`,
-          name: `${this.active}`,
-          sizeLabel: `(${this.sizes[this.active].w}x${this.sizes[this.active].h})`
-        }
-      }
-      return {
-        url: `/styled/preview/${this.primaryFile}`,
-        name: 'Original'
-      }
-    },
-    encodedEdits () {
+    encodeEdits (size) {
       let encodedString = '';
 
-      for (const property in this.sizeEdits) {
-        if (this.sizeEdits[property] !== null) {
+      for (const property in this.sizeEdits[size]) {
+        if (this.sizeEdits[size][property] !== null) {
           if (encodedString !== '') {
             encodedString += '&';
           }
 
-          let propertyValue = this.sizeEdits[property];
+          let propertyValue = this.sizeEdits[size][property];
 
           // Chop off the hash for Glide
           if (property === 'bg') {
@@ -222,8 +217,26 @@ export default {
       return encodedString;
     },
   },
+  computed: {
+    activeImage () {
+      if (this.active !== 'original') {
+        return {
+          url: `/styled/preview/${this.sizeEdits[this.active].url}?${this.encodeEdits(this.active)}`,
+          name: `${this.active}`,
+          sizeLabel: `(${this.sizes[this.active].w}x${this.sizes[this.active].h})`
+        }
+      }
+      return {
+        url: `/styled/preview/${this.defaultImage}`,
+        name: 'Original'
+      }
+    },
+    sizeEditsSummary () {
+      return 'blammo'
+    }
+  },
   props: {
-    primaryFile: {
+    defaultImage: {
       type: String,
       required: true,
     },
@@ -231,7 +244,7 @@ export default {
       type: Object,
       required: false,
     },
-    value: {
+    imageSettings: {
       type: Object,
       required: false,
     },

@@ -1,12 +1,13 @@
 <template>
   <div
-    class="dvs-border-r dvs-border-lighter dvs-bg-grey dvs-p-4 "
+    class="dvs-border-r dvs-border-lighter dvs-bg-grey dvs-p-2 dvs-py-4 "
+    style="width:118px;"
     v-bar
   >
     <div>
       <div class="dvs-flex dvs-flex-col">
         <div
-          v-for="(size, key) in sizes"
+          v-for="(size, key) in sizeEdits"
           :key="key"
           class="dvs-text-center dvs-cursor-pointer dvs-mb-3 dvs-rounded"
           style="width:100px"
@@ -20,7 +21,7 @@
             class="dvs-overflow-hidden dvs-rounded-t dvs-mb-2"
             style="max-width:100px;line-height:0px;"
           >
-            <img :src="`/styled/preview/${primaryFile}?${encodedEdits}${encodedSize(size)}`">
+            <img :src="`/styled/preview/${size.url}?${encodeEdits(key)}`">
           </div>
 
           <div class="dvs-mb-3 dvs-uppercase">
@@ -37,19 +38,15 @@
 export default {
   name: 'MediaEditorThumbnails',
   props: {
-    primaryFile: {
+    defaultImage: {
       type: String,
       required: true
     },
-    encodedEdits: {
-      type: String,
-      required: true
-    },
-    sizes: {
+    sizeEdits: {
       type: Object,
       required: true
     },
-    encodedSize: {
+    encodeEdits: {
       type: Function,
       required: true
     },
@@ -62,6 +59,7 @@ export default {
     setActive (activeSelection) {
       this.$emit('select', activeSelection)
     },
-  }
+  },
+
 }
 </script>

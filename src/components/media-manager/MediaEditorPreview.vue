@@ -5,57 +5,60 @@
 
       <div class="dvs-p-8">
 
-        <template v-if="sizes">
-          <div class="dvs-flex dvs-justify-center">
+        <template v-if="!isCropping">
+          <template v-if="sizes">
+            <div class="dvs-flex dvs-justify-center dvs-items-center">
+              <img
+                :src="activeImage.url"
+                class=" dvs-shadow-lg dvs-border dvs-border-white"
+              >
+            </div>
+          </template>
+
+          <template v-else>
+            <h3 class="dvs-mb-4">Image</h3>
+
+            <help
+              class="dvs-mb-4"
+              v-if="!customSize.w || !customSize.h"
+            >Please provide a width and height for this image</help>
+
+            <div class="dvs-flex dvs-mb-8 dvs-items-center">
+              <fieldset class="dvs-fieldset dvs-mr-4">
+                <label>Width</label>
+                <input
+                  type="number"
+                  v-model="customSize.w"
+                >
+              </fieldset>
+              <fieldset class="dvs-fieldset dvs-mr-4">
+                <label>Height</label>
+                <input
+                  type="number"
+                  v-model="customSize.h"
+                >
+              </fieldset>
+              <fieldset>
+                <button
+                  class="btn btn-sm"
+                  :style="theme.actionButton"
+                  @click="setCustomSizeToOriginal"
+                >Original Dimensions</button>
+              </fieldset>
+            </div>
             <img
-              :src="activeImage.url"
-              class=" dvs-shadow-lg dvs-border dvs-border-white"
+              v-if="customSize.w && customSize.h"
+              :src="`/styled/preview/${source}?${encodedEdits}`"
             >
-          </div>
+          </template>
         </template>
 
-        <template v-else>
-          <h3 class="dvs-mb-4">Image</h3>
-
-          <help
-            class="dvs-mb-4"
-            v-if="!customSize.w || !customSize.h"
-          >Please provide a width and height for this image</help>
-
-          <div class="dvs-flex dvs-mb-8 dvs-items-center">
-            <fieldset class="dvs-fieldset dvs-mr-4">
-              <label>Width</label>
-              <input
-                type="number"
-                v-model="customSize.w"
-              >
-            </fieldset>
-            <fieldset class="dvs-fieldset dvs-mr-4">
-              <label>Height</label>
-              <input
-                type="number"
-                v-model="customSize.h"
-              >
-            </fieldset>
-            <fieldset>
-              <button
-                class="btn btn-sm"
-                :style="theme.actionButton"
-                @click="setCustomSizeToOriginal"
-              >Original Dimensions</button>
-            </fieldset>
-          </div>
-          <img
-            v-if="customSize.w && customSize.h"
-            :src="`/styled/preview/${source}?${encodedEdits}${encodedSize(customSize)}`"
-          >
-        </template>
-
-        <div v-show="isCropping">
-          <div class="dvs-flex dvs-justify-center">
+        <div v-if="isCropping">
+          <div class="dvs-flex dvs-justify-center w-full">
             <img
               :src="activeImage.url"
               ref="croppingimage"
+              class="w-full"
             >
           </div>
         </div>
@@ -80,20 +83,37 @@ export default {
       type: Object,
       required: true,
     },
-    encodedSize: {
+    encodeEdits: {
       type: Function,
       required: true,
     },
   },
   computed: {
-    ...mapState('devise', ['isCropping'])
+    ...mapState('devise', ['isCropping']),
+    aspectRatio () {
+      const size = this.activeImage.name;
+      return this.sizes[size].w / this.sizes[size].h;
+    }
   },
-  mounted () {
-    const image = this.$refs.croppingimage;
+  watch: {
+    isCropping (newValue) {
+      if (newValue) {
+        this.$nextTick(() => {
+          this.initializeCropper()
+        })
+      }
+    }
+  },
+  methods: {
+    initializeCropper () {
+      const image = this.$refs.croppingimage;
 
-    const cropper = new Cropper(image, {
-      aspectRatio: 16 / 9,
-      crop (event) {
+      new Cropper(image, {
+        aspectRatio: this.aspectRatio,
+        autoCropArea: 1,
+        minContainerWidth: '100%',
+        minContainerHeight: '100%',
+        // crop (event) {
         // console.log(event.detail.x);
         // console.log(event.detail.y);
         // console.log(event.detail.width);
@@ -101,8 +121,9 @@ export default {
         // console.log(event.detail.rotate);
         // console.log(event.detail.scaleX);
         // console.log(event.detail.scaleY);
-      },
-    });
+        // },
+      });
+    }
   }
 }
 </script>

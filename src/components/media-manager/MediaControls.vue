@@ -26,7 +26,10 @@
         <crop-icon></crop-icon>
       </template>
       <template v-slot:control>
-        <fieldset class="dvs-fieldset dvs-mb-4">
+        <fieldset
+          class="dvs-fieldset dvs-mb-4"
+          v-if="edits.fit === 'custom'"
+        >
           <label>Toggle Cropping</label>
           <button
             class="dvs-btn"
@@ -40,7 +43,7 @@
           <label>Fitting</label>
           <select v-model="edits.fit">
             <option :label="null">None</option>
-            <option value="crop">Contain</option>
+            <option value="custom">Custom</option>
             <option value="crop">Contain</option>
             <option value="max">Best Fit</option>
             <option value="fill">Fill</option>

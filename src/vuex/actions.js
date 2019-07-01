@@ -120,19 +120,18 @@ const actions = {
   },
 
   generateImages (context, payload) {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
+      console.log(payload)
       window.axios
-        .post(`${context.state.api.baseUrl}media-styles`, payload)
+        .put(`${context.state.api.baseUrl}media-styles`, payload)
         .then(response => {
           context.commit('setFiles', response.data);
           resolve(response);
-        })
-        .catch(error => {
+        }, error => {
           window.deviseSettings.$bus.$emit('showError', error);
+          reject(error)
         });
-    }).catch(error => {
-      window.deviseSettings.$bus.$emit('showError', error);
-    });
+    })
   },
 
   regenerateMedia (context, payload) {
