@@ -19,7 +19,10 @@
         style="min-width:200px;"
         v-if="showControl"
       >
-        <slot name="control"></slot>
+        <slot
+          name="control"
+          :toggle-show-control="toggleShowControl"
+        ></slot>
       </div>
     </div>
   </div>

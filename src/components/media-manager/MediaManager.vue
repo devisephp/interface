@@ -8,7 +8,7 @@
       @click="close"
     ></div>
 
-    <div class="media-manager dvs-min-w-4/5">
+    <div class="media-manager dvs-min-w-4/5 dvs-max-h-screenpad">
 
       <media-selector
         v-if="defaultImage === null || selectingFile !== null"

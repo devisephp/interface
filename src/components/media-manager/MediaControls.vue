@@ -25,7 +25,7 @@
       <template v-slot:button>
         <crop-icon></crop-icon>
       </template>
-      <template v-slot:control>
+      <template v-slot:control="slotProps">
         <fieldset
           class="dvs-fieldset dvs-mb-4"
           v-if="edits.fit === 'custom'"
@@ -34,7 +34,7 @@
           <button
             class="dvs-btn"
             :style="croppingButtonStyle"
-            @click="toggleCropping"
+            @click="startCropping(slotProps.toggleShowControl)"
           >
             <crop-icon></crop-icon>
           </button>
@@ -305,6 +305,10 @@ export default {
     ...mapMutations('devise', ['toggleCropping']),
     selectSizeImage () {
       this.$emit('selectsizeimage')
+    },
+    startCropping (toggle) {
+      this.toggleCropping()
+      toggle()
     }
   }
 }

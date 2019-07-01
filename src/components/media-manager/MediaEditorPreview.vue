@@ -54,11 +54,27 @@
         </template>
 
         <div v-if="isCropping">
-          <div class="dvs-flex dvs-justify-center w-full">
+          <div class="dvs-flex dvs-bg-grey-darkest dvs-p-4">
+            <button
+              class="dvs-btn dvs-mr-2"
+              :style="theme.actionButton"
+              @click="applyCrop"
+            >
+              Apply Crop
+            </button>
+            <button
+              class="dvs-btn dvs-mr-2"
+              :style="theme.actionButtonGhost"
+              @click="cancelCrop"
+            >
+              Remove Crops
+            </button>
+          </div>
+          <div class="dvs-flex dvs-justify-center dvs-w-full">
             <img
               :src="activeImage.url"
               ref="croppingimage"
-              class="w-full"
+              style="max-height:500px"
             >
           </div>
         </div>
@@ -69,7 +85,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 import Cropper from 'cropperjs';
 
 export default {
@@ -88,6 +104,11 @@ export default {
       required: true,
     },
   },
+  data () {
+    return {
+      cropper: null
+    }
+  },
   computed: {
     ...mapState('devise', ['isCropping']),
     aspectRatio () {
@@ -105,24 +126,24 @@ export default {
     }
   },
   methods: {
+    ...mapMutations('devise', ['toggleCropping']),
     initializeCropper () {
       const image = this.$refs.croppingimage;
 
-      new Cropper(image, {
+      this.cropper = new Cropper(image, {
         aspectRatio: this.aspectRatio,
-        autoCropArea: 1,
-        minContainerWidth: '100%',
-        minContainerHeight: '100%',
-        // crop (event) {
-        // console.log(event.detail.x);
-        // console.log(event.detail.y);
-        // console.log(event.detail.width);
-        // console.log(event.detail.height);
-        // console.log(event.detail.rotate);
-        // console.log(event.detail.scaleX);
-        // console.log(event.detail.scaleY);
-        // },
+        maxContainerHeight: '500px',
       });
+    },
+    applyCrop () {
+      const cropData = this.cropper.getData(true);
+
+      this.$emit('applycrop', cropData)
+      this.toggleCropping()
+    },
+    cancelCrop () {
+      this.$emit('removecrop')
+      this.toggleCropping()
     }
   }
 }

@@ -1,8 +1,11 @@
 <template>
 
-  <div class="media-manager-interface">
+  <div
+    class="media-manager-interface dvs-shadow-lg"
+    style="max-width:95vw"
+  >
     <div
-      style="min-height:70px"
+      style="min-height:70px;"
       class="dvs-py-4 dvs-px-8 dvs-rounded-tl dvs-rounded-tr dvs-flex dvs-justify-between dvs-items-center dvs-bg-grey-lighter dvs-border-b dvs-border-lighter dvs-relative"
     >
       <div>
@@ -64,58 +67,63 @@
       </div>
     </div>
 
-    <div class="dvs-flex dvs-items-stretch dvs-h-full dvs-overflow-hidden">
+    <div
+      class="dvs-flex dvs-items-stretch"
+      style="max-height:80vh"
+    >
       <div
         v-bar
         class="dvs-min-w-1/3"
       >
-        <div class="dvs-h-full dvs-p-8 dvs-bg-grey-lightest dvs-flex dvs-flex-col dvs-justify-between dvs-border-r dvs-border-lighter">
-          <form @submit.prevent="search">
-            <div class="mb-8 flex">
-              <fieldset class="dvs-fieldset mr-2">
+        <div>
+          <div class="dvs-h-full dvs-p-8 dvs-bg-grey-lightest dvs-flex dvs-flex-col dvs-justify-between dvs-border-r dvs-border-lighter">
+            <form @submit.prevent="search">
+              <div class="mb-8 flex">
+                <fieldset class="dvs-fieldset mr-2">
+                  <input
+                    type="text"
+                    placeholder="Search"
+                    v-model="searchTerms"
+                    ref="search"
+                    class="mr-2"
+                  >
+                </fieldset>
+                <button
+                  type="submit"
+                  class="dvs-btn dvs-btn-sm"
+                  :style="theme.actionButton"
+                >Search</button>
+              </div>
+            </form>
+
+            <ul class="dvs-list-reset dvs-mb-10 dvs-font-mono dvs-text-sm dvs-tracking-tight">
+              <li
+                v-for="directory in directories"
+                :key="directory.id"
+                class="dvs-cursor-pointer dvs-mt-2 dvs-text-bold"
+                @click="changeDirectories(directory.path)"
+              >
+                <folder-icon class="dvs-mr-2"></folder-icon>
+                {{ directory.name }}
+              </li>
+              <li v-if="directories.length < 1">No directories within this directory</li>
+            </ul>
+
+            <div class="dvs-flex dvs-flex-col">
+              <fieldset class="dvs-fieldset dvs-mb-4">
                 <input
                   type="text"
-                  placeholder="Search"
-                  v-model="searchTerms"
-                  ref="search"
+                  placeholder="New Directory"
+                  v-model="directoryToCreate"
                   class="mr-2"
                 >
               </fieldset>
               <button
-                type="submit"
                 class="dvs-btn dvs-btn-sm"
+                @click="requestCreateDirectory()"
                 :style="theme.actionButton"
-              >Search</button>
+              >Create</button>
             </div>
-          </form>
-
-          <ul class="dvs-list-reset dvs-mb-10 dvs-font-mono dvs-text-sm dvs-tracking-tight">
-            <li
-              v-for="directory in directories"
-              :key="directory.id"
-              class="dvs-cursor-pointer dvs-mt-2 dvs-text-bold"
-              @click="changeDirectories(directory.path)"
-            >
-              <folder-icon class="dvs-mr-2"></folder-icon>
-              {{ directory.name }}
-            </li>
-            <li v-if="directories.length < 1">No directories within this directory</li>
-          </ul>
-
-          <div class="dvs-flex dvs-flex-col">
-            <fieldset class="dvs-fieldset dvs-mb-4">
-              <input
-                type="text"
-                placeholder="New Directory"
-                v-model="directoryToCreate"
-                class="mr-2"
-              >
-            </fieldset>
-            <button
-              class="dvs-btn dvs-btn-sm"
-              @click="requestCreateDirectory()"
-              :style="theme.actionButton"
-            >Create</button>
           </div>
         </div>
       </div>

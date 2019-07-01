@@ -44,6 +44,8 @@
             :sizes="sizes"
             :active-image="activeImage"
             :encode-edits="encodeEdits"
+            @applycrop="applyCrop"
+            @removecrop="removeCrop"
           ></media-editor-preview>
         </div>
       </div>
@@ -72,6 +74,7 @@ export default {
         filt: null,
         bg: null,
         url: null,
+        crop: null
       },
       sizeEdits: {},
       customSize: {
@@ -194,6 +197,17 @@ export default {
     selectSizeImage () {
       this.$emit('selectsizeimage')
     },
+    applyCrop (cropSettings) {
+      this.$set(this.sizeEdits[this.activeImage.name], 'crop', {
+        w: cropSettings.width,
+        h: cropSettings.height,
+        x: cropSettings.x,
+        y: cropSettings.y,
+      })
+    },
+    removeCrop () {
+      this.$set(this.sizeEdits[this.activeImage.name], 'crop', null)
+    },
     encodeEdits (size) {
       let encodedString = '';
 
@@ -208,6 +222,10 @@ export default {
           // Chop off the hash for Glide
           if (property === 'bg') {
             propertyValue = propertyValue.substring(1);
+          }
+
+          if (property === 'crop') {
+            propertyValue = `${propertyValue.w},${propertyValue.h},${propertyValue.x},${propertyValue.y}`;
           }
 
           encodedString += `${property}=${propertyValue}`;
