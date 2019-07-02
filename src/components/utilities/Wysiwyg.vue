@@ -111,6 +111,42 @@
           &quot;
         </button>
 
+        <div>
+          <button
+            class="wysiwyg-editor-button"
+            :class="{ 'is-active': isActive.textcolor({ color: 'red' }) }"
+            @click="showTextColorPicker = true"
+          >
+            <type-icon />
+          </button>
+          <div
+            v-if="showTextColorPicker"
+            class="dvs-absolute dvs-pin-t dvs--mt-8 dvs-bg-grey-lighter dvs-p-4 dvs-rounded dvs-shadow-lg"
+          >
+            <sketch-picker
+              class="dvs-mb-2"
+              v-model="textColor"
+              @cancel="showTextColorPicker = false"
+            />
+
+            <div class="dvs-flex dvs-items-stretch">
+              <button
+                class="dvs-btn dvs-bg-black dvs-text-grey-lighter dvs-mr-2"
+                @click="applyTextColor(commands)"
+              >
+                Apply
+              </button>
+              <button
+                class="dvs-btn dvs-border-black dvs-text-black dvs-border-2"
+                @click="showTextColorPicker = false"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+
+        </div>
+
         <!-- <button
           class="wysiwyg-editor-button"
           :class="{ 'dvs-bg-grey': isActive.code_block() }"
@@ -402,6 +438,7 @@
 </template>
 
 <script>
+import { Sketch } from 'vue-color';
 import { Editor, EditorFloatingMenu, EditorContent, EditorMenuBar } from 'tiptap'
 import {
   Blockquote,
@@ -428,6 +465,7 @@ import {
   TableRow,
 } from 'tiptap-extensions'
 import TextAlign from './wysiwyg/tiptap/extensions/TextAlign'
+import TextColor from './wysiwyg/tiptap/extensions/TextColor'
 
 export default {
   props: {
@@ -439,6 +477,7 @@ export default {
     EditorContent,
     EditorFloatingMenu,
     EditorMenuBar,
+    'sketch-picker': Sketch,
     BoldIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/BoldIcon'),
     ItalicIcon: () =>
@@ -465,6 +504,8 @@ export default {
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/AlignCenterIcon'),
     AlignRightIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/AlignRightIcon'),
+    TypeIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/TypeIcon'),
     StrikeIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ './icons/StrikeIcon'),
     TableIcon: () =>
@@ -525,13 +566,16 @@ export default {
           new TableHeader(),
           new TableCell(),
           new TableRow(),
-          new TextAlign()
+          new TextAlign(),
+          new TextColor(),
         ],
         onUpdate: this.update
       }),
       imageToManage: null,
       showSource: false,
-      currentCommand: null
+      currentCommand: null,
+      showTextColorPicker: false,
+      textColor: '#000000'
     }
   },
   mounted () {
@@ -560,6 +604,11 @@ export default {
     },
     updateContent (content) {
       this.editor.setContent(content)
+    },
+    applyTextColor (commands) {
+      const { r, g, b, a } = this.textColor.rgba;
+      commands.textcolor({ color: `rgba(${r},${g},${b},${a})` })
+      this.showTextColorPicker = false
     }
   }
 }

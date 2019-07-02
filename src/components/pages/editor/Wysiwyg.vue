@@ -20,6 +20,7 @@
         <wysiwyg
           ref="editor"
           v-model="text"
+          style="min-height:300px;"
         ></wysiwyg>
       </template>
     </field-editor>
