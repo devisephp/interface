@@ -8,7 +8,7 @@
         <div
           class="dvs-rounded-full dvs-mr-2 dvs-w-2 dvs-h-2 dvs-mr-2"
           @click="toggleEnabled"
-          :class="{'dvs-bg-green': options.enabled, 'dvs-bg-white': !options.enabled, 'dvs-invisible': !options.enabler}"
+          :class="{'dvs-bg-green': value.enabled, 'dvs-bg-white': !value.enabled, 'dvs-invisible': !options.enabler}"
         ></div>
         <div
           class="dvs-flex dvs-items-center dvs-justify-stretch dvs-w-full"
@@ -56,11 +56,8 @@
 
             <slot name="editor"></slot>
 
-            <div class="dvs-flex dvs-flex-col dvs-items-center dvs-mt-4 dvs-mb-4 dvs-justify-between">
-              <div
-                class="dvs-flex dvs-items-center"
-                :class="{'dvs-mb-6': options.enabler}"
-              >
+            <div class="dvs-flex dvs-items-center dvs-mt-4 dvs-mb-4 dvs-justify-between">
+              <div class="dvs-flex dvs-items-center">
                 <button
                   class="dvs-btn dvs-mr-2"
                   @click="toggleShowEditor"
@@ -135,10 +132,7 @@ export default {
       return 'This field is not enabled. Edit the field and toggle the enable switch to turn it on.';
     },
     toggleEnabled (e) {
-      if (!this.options.enabler) {
-        e.preventDefault();
-      }
-      this.options.enabled = !this.options.enabled;
+      this.value.enabled = !this.value.enabled
     },
     resetValue () {
       this.showErase = false;
