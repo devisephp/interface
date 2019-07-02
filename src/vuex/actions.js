@@ -121,7 +121,6 @@ const actions = {
 
   generateImages (context, payload) {
     return new Promise((resolve, reject) => {
-      console.log(payload)
       window.axios
         .put(`${context.state.api.baseUrl}media-styles`, payload)
         .then(response => {

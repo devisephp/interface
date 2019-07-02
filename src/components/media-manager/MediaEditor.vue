@@ -37,7 +37,7 @@
             v-if="sizeEdits[activeImage.name]"
             :active-image="activeImage"
             v-model="sizeEdits[activeImage.name]"
-            @selectsizeimage="selectSizeImage()"
+            @selectsizeimage="selectSizeImage"
           ></media-controls>
 
           <media-editor-preview
@@ -162,22 +162,19 @@ export default {
       return obj;
     },
 
+    setImage (file) {
+      this.sizeEdits[this.active].url = file.url
+    },
+
     generateAndSaveImages () {
       return new Promise((resolve, reject) => {
         window.deviseSettings.$bus.$emit('showLoadScreen', 'Images being generated');
 
         this.generateImages({ defaultImage: this.defaultImage, sizes: this.sizeEdits }).then(response => {
-          // MOVE TO MEDIA MANAGER
-          // if (typeof this.target !== 'undefined') {
-          //   this.target.value = response.data;
-          // }
-          // if (typeof this.callback !== 'undefined') {
-          //   this.callback(response.data);
-          // }
+          this.$emit('generatedImages')
           return true;
         }).then(() => {
           window.deviseSettings.$bus.$emit('hideLoadScreen');
-          console.log('success!!!!', response)
         }, (error) => {
           window.deviseSettings.$bus.$emit('hideLoadScreen');
         });
@@ -195,7 +192,7 @@ export default {
       })
     },
     selectSizeImage () {
-      this.$emit('selectsizeimage')
+      this.$emit('selectsizeimage', this.active)
     },
     applyCrop (cropSettings) {
       this.$set(this.sizeEdits[this.activeImage.name], 'crop', {

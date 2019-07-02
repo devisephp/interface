@@ -11,20 +11,22 @@
     <div class="media-manager dvs-min-w-4/5 dvs-max-h-screenpad">
 
       <media-selector
-        v-if="defaultImage === null || selectingFile !== null"
+        v-if="defaultImage === null || selectingFile"
         @selectedfile="selectedFile"
       >
       </media-selector>
 
-      <template v-else-if="defaultImage && defaultImage.type === 'image'">
+      <template v-show="defaultImage && defaultImage.type === 'image'">
         <div v-if="typeof options !== 'undefined' && options.sizes">
           <media-editor
+            ref="sizesmediaeditor"
             :imageSettings="imageSettings"
             :default-image="defaultImage.url"
             :sizes="options.sizes"
             @selectsizeimage="selectSizeImage"
             @cancel="defaultImage = null"
             @done="close"
+            @generatedImages="close"
           />
         </div>
 
@@ -34,6 +36,7 @@
             :default-image="defaultImage.url"
             @cancel="defaultImage = null"
             @done="close"
+            @generatedImages="close"
           />
         </div>
       </template>
@@ -57,7 +60,7 @@ export default {
       searchTerms: null,
       searchResults: [],
       defaultImage: null,
-      selectingFile: null,
+      selectingFile: false,
       searchResultsLimit: 100,
       currentlyOpenFile: null,
       options: null,
@@ -74,7 +77,10 @@ export default {
       if (this.defaultImage === null) {
         this.defaultImage = file
       }
-      console.log(this.options.sizes)
+      this.selectingFile = false
+      this.$nextTick(() => {
+        this.$refs.sizesmediaeditor.setImage(file)
+      })
     },
     startOpenerListener () {
       window.deviseSettings.$bus.$on(
