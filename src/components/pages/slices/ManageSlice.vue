@@ -37,6 +37,7 @@
                 </div>
 
                 <div
+                  v-if="modelQueries.length > 0"
                   class="dvs-btn dvs-text-base dvs-ml-4 dvs-p-8 dvs-w-1/2"
                   :style="theme.actionButtonGhost"
                   @click="newSlice.type = 'model'"
@@ -122,6 +123,9 @@ const defaultInsertSlice = {
 };
 
 export default {
+  computed: {
+    ...mapState('devise', ['modelQueries'])
+  },
   data () {
     return {
       newSlice: Object.assign({}, defaultInsertSlice),

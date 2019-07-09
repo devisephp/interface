@@ -114,9 +114,7 @@ const state = {
   models: {
     data: [],
   },
-  modelQueries: {
-    data: [],
-  },
+  modelQueries: [],
   modelSettings: {},
   mothership: null,
   currentPage: {
