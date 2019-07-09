@@ -73,7 +73,7 @@
     >
       <div
         v-bar
-        class="dvs-min-w-1/3"
+        class="dvs-min-w-1/3 dvs-max-h-full"
       >
         <div>
           <div class="dvs-h-full dvs-p-8 dvs-bg-grey-lightest dvs-flex dvs-flex-col dvs-justify-between dvs-border-r dvs-border-lighter">
@@ -129,7 +129,7 @@
       </div>
 
       <div
-        class="dvs-flex-grow dvs-relative dvs-overflow-y-scroll dvs-p-4"
+        class="dvs-flex-grow dvs-relative dvs-overflow-y-scroll dvs-p-4 dvs-max-h-full"
         :class="{'w-full': directories.length < 1}"
       >
         <div

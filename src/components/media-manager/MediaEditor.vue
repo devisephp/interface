@@ -25,7 +25,6 @@
         :encode-edits="encodeEdits"
         :active="active"
         @select="setActive"
-        v-if="sizes && sizeEdits"
       ></media-thumbnails>
 
       <div
@@ -37,6 +36,7 @@
             v-if="sizeEdits[activeImage.name]"
             :active-image="activeImage"
             v-model="sizeEdits[activeImage.name]"
+            @settooriginal="setCustomSizeToOriginal"
             @selectsizeimage="selectSizeImage"
           ></media-controls>
 
@@ -74,13 +74,13 @@ export default {
         filt: null,
         bg: null,
         url: null,
-        crop: null
-      },
-      sizeEdits: {},
-      customSize: {
+        crop: null,
         w: null,
         h: null,
+        originalw: null,
+        originalh: null
       },
+      sizeEdits: {},
       originalDims: {
         w: null,
         h: null,
@@ -88,11 +88,8 @@ export default {
     };
   },
   mounted () {
-    this.loadOriginalDimentions().then(() => {
-      this.setInitialActive()
-      this.loadImageSettings();
-      this.setCustomSizeToOriginal();
-    });
+    this.setInitialActive()
+    this.loadImageSettings();
   },
   methods: {
     ...mapActions('devise', [
@@ -114,10 +111,11 @@ export default {
         this.setActive(firstSize);
         return true;
       }
-      this.setActive('original');
+
+      this.setActive('custom');
       return false;
     },
-    loadOriginalDimentions () {
+    getOriginalDimentions () {
       const file = `/styled/preview/${this.defaultImage}`;
       const img = new Image();
 
@@ -129,21 +127,15 @@ export default {
       return new Promise((resolve) => {
         img.onload = () => {
           this.$nextTick(() => {
-            this.setOriginalDims(img)
             resolve(img)
           })
         }
       })
     },
-    setOriginalDims (img) {
-      this.originalDims.w = img.width;
-      this.originalDims.h = img.height;
-
-      this.setCustomSizeToOriginal();
-    },
     setCustomSizeToOriginal () {
-      this.customSize.w = this.originalDims.w;
-      this.customSize.h = this.originalDims.h;
+      const activeImage = this.sizeEdits[this.active]
+      activeImage.w = activeImage.originalw;
+      activeImage.h = activeImage.originalh;
     },
     clean (obj) {
       for (const propName in obj) {
@@ -154,11 +146,6 @@ export default {
         }
       }
 
-      if (this.customSize.w && this.customSize.h) {
-        obj.w = this.customSize.w;
-        obj.h = this.customSize.h;
-      }
-
       return obj;
     },
 
@@ -167,29 +154,62 @@ export default {
     },
 
     generateAndSaveImages () {
-      return new Promise((resolve, reject) => {
+      return new Promise(() => {
         window.deviseSettings.$bus.$emit('showLoadScreen', 'Images being generated');
 
-        this.generateImages({ defaultImage: this.defaultImage, sizes: this.sizeEdits }).then(response => {
+        this.generateImages({ defaultImage: this.defaultImage, sizes: this.sizeEdits }).then(() => {
           this.$emit('generatedImages')
           return true;
         }).then(() => {
           window.deviseSettings.$bus.$emit('hideLoadScreen');
-        }, (error) => {
+        }, () => {
           window.deviseSettings.$bus.$emit('hideLoadScreen');
         });
       })
     },
     loadImageSettings () {
-      Object.entries(this.sizes).forEach(([name, size]) => {
-        this.$set(this.sizeEdits, name, {})
-        this.sizeEdits[name] = Object.assign({}, this.defaultEdits, this.imageSettings[name])
-        this.sizeEdits[name].w = size.w
-        this.sizeEdits[name].h = size.h
-        if (!this.sizeEdits[name].url) {
-          this.sizeEdits[name].url = this.defaultImage
+      if (this.sizes) {
+        Object.entries(this.sizes).forEach(([name, size]) => {
+          if (name !== 'custom') {
+            this.createSizeEdit(name, size)
+          }
+        })
+      } else {
+        this.createSizeEdit('custom')
+      }
+    },
+    createSizeEdit (name, size) {
+      // Create the size
+      this.$set(this.sizeEdits, name, {})
+
+      // Set the defaults and override those with anything loaded from the database
+      this.sizeEdits[name] = Object.assign({}, this.defaultEdits, this.imageSettings[name])
+
+      // If there is no url use the default image
+      if (!this.sizeEdits[name].url) {
+        this.sizeEdits[name].url = this.defaultImage
+      }
+
+      // If there is a size specified by the slice then use that for the initial
+      // size but only if there isn't a size set already by the database
+      if (size) {
+        if (this.sizeEdits[name].w === null || !this.sizeEdits[name].h === null) {
+          this.sizeEdits[name].w = size.w
+          this.sizeEdits[name].h = size.h
         }
-      })
+        this.sizeEdits[name].originalw = size.w
+        this.sizeEdits[name].originalh = size.h
+        // If there is no size we know it's non-slice set size - probably a custom
+        // from the admin. Let's get the sizes from the selected image and populate
+        // those if they aren't already loaded from the db.
+      } else if (this.sizeEdits[name].w === null || !this.sizeEdits[name].h === null) {
+        this.getOriginalDimentions().then(img => {
+          this.sizeEdits[name].w = img.width
+          this.sizeEdits[name].h = img.height
+          this.sizeEdits[name].originalw = img.width
+          this.sizeEdits[name].originalh = img.height
+        })
+      }
     },
     selectSizeImage () {
       this.$emit('selectsizeimage', this.active)
@@ -208,6 +228,7 @@ export default {
     encodeEdits (size) {
       let encodedString = '';
 
+      // eslint-disable-next-line guard-for-in
       for (const property in this.sizeEdits[size]) {
         if (this.sizeEdits[size][property] !== null) {
           if (encodedString !== '') {
@@ -227,6 +248,8 @@ export default {
 
           encodedString += `${property}=${propertyValue}`;
         }
+
+
       }
 
       return encodedString;
@@ -234,11 +257,11 @@ export default {
   },
   computed: {
     activeImage () {
-      if (this.active !== 'original') {
+      if (this.active && typeof this.sizeEdits !== 'undefined' && this.sizeEdits[this.active]) {
         return {
           url: `/styled/preview/${this.sizeEdits[this.active].url}?${this.encodeEdits(this.active)}`,
           name: `${this.active}`,
-          sizeLabel: `(${this.sizes[this.active].w}x${this.sizes[this.active].h})`
+          sizeLabel: `(${this.sizeEdits[this.active].w}x${this.sizeEdits[this.active].h})`
         }
       }
       return {
@@ -246,9 +269,6 @@ export default {
         name: 'Original'
       }
     },
-    sizeEditsSummary () {
-      return 'blammo'
-    }
   },
   props: {
     defaultImage: {

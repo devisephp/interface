@@ -97,7 +97,10 @@ const getters = {
   sites: state => state.sites,
 
   site: (state) => {
-    return window.deviseSettings.$sites.find(site => site.current)
+    if (window.deviseSettings.$sites) {
+      return window.deviseSettings.$sites.find(site => site.current)
+    }
+    return []
   },
 
   additionalSiteSettings: (state, getters, rootState) => {

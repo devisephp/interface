@@ -23,6 +23,35 @@
 
     <editor-control v-model="edits">
       <template v-slot:button>
+        size
+      </template>
+      <template v-slot:control="slotProps">
+        <fieldset class="dvs-fieldset dvs-mr-4">
+          <label>Width</label>
+          <input
+            type="text"
+            v-model.number="edits.w"
+          >
+        </fieldset>
+        <fieldset class="dvs-fieldset dvs-mr-4">
+          <label>Height</label>
+          <input
+            type="text"
+            v-model.number="edits.h"
+          >
+        </fieldset>
+        <fieldset>
+          <button
+            class="btn btn-sm"
+            :style="theme.actionButton"
+            @click="setCustomSizeToOriginal"
+          >Original Dimensions</button>
+        </fieldset>
+      </template>
+    </editor-control>
+
+    <editor-control v-model="edits">
+      <template v-slot:button>
         <crop-icon></crop-icon>
       </template>
       <template v-slot:control="slotProps">
@@ -255,13 +284,8 @@ export default {
   },
   computed: {
     ...mapState('devise', ['isCropping']),
-    edits: {
-      get () {
-        return this.value
-      },
-      set (value) {
-        this.$emit('input', value)
-      }
+    edits () {
+      return this.value
     },
     editorColor: {
       get () {
@@ -305,6 +329,9 @@ export default {
     ...mapMutations('devise', ['toggleCropping']),
     selectSizeImage () {
       this.$emit('selectsizeimage')
+    },
+    setCustomSizeToOriginal () {
+      this.$emit('settooriginal')
     },
     startCropping (toggle) {
       this.toggleCropping()

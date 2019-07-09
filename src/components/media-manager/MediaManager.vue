@@ -8,7 +8,7 @@
       @click="close"
     ></div>
 
-    <div class="media-manager dvs-min-w-4/5 dvs-max-h-screenpad">
+    <div class="media-manager dvs-min-w-4/5 dvs-max-h-screenpad dvs-overflow-hidden">
 
       <media-selector
         v-if="defaultImage === null || selectingFile"
@@ -16,7 +16,7 @@
       >
       </media-selector>
 
-      <template v-show="defaultImage && defaultImage.type === 'image'">
+      <template v-if="defaultImage && defaultImage.type === 'image'">
         <div v-if="typeof options !== 'undefined' && options.sizes">
           <media-editor
             ref="sizesmediaeditor"
@@ -78,9 +78,12 @@ export default {
         this.defaultImage = file
       }
       this.selectingFile = false
-      this.$nextTick(() => {
-        this.$refs.sizesmediaeditor.setImage(file)
-      })
+
+      if (this.options.sizes) {
+        this.$nextTick(() => {
+          this.$refs.sizesmediaeditor.setImage(file)
+        })
+      }
     },
     startOpenerListener () {
       window.deviseSettings.$bus.$on(
@@ -91,6 +94,7 @@ export default {
           this.options = options;
 
           this.show = true;
+          this.selectingFile = true;
         }
       );
 
