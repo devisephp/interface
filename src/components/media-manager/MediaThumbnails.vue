@@ -1,7 +1,7 @@
 <template>
   <div
     class="dvs-border-r dvs-border-lighter dvs-bg-grey dvs-p-2 dvs-py-4 "
-    style="width:118px;"
+    style="width:118px;min-width:118px;"
     v-bar
   >
     <div>

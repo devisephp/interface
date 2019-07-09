@@ -372,6 +372,22 @@ const actions = {
     });
   },
 
+  getModelQueries (context) {
+    return new Promise(resolve => {
+      window.axios
+        .get(`${context.state.api.baseUrl}model-queries/`)
+        .then(response => {
+          context.commit('setModelQueries', response.data);
+          resolve(response);
+        })
+        .catch(error => {
+          window.deviseSettings.$bus.$emit('showError', error);
+        });
+    }).catch(error => {
+      window.deviseSettings.$bus.$emit('showError', error);
+    });
+  },
+
   getModelSettings (context, modelQuery) {
     return new Promise(resolve => {
       window.axios

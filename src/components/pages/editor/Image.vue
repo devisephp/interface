@@ -162,9 +162,9 @@ export default {
     },
     mediaSelected (imagesAndSettings) {
       if (typeof imagesAndSettings === 'object') {
-        this.alt = imagesAndSettings.alt;
-        this.url = imagesAndSettings.images.orig_optimized;
-        this.media = imagesAndSettings.images;
+        this.alt = imagesAndSettings.images.alt;
+        this.url = imagesAndSettings.images.defaultImage;
+        this.media = imagesAndSettings.images.media;
         this.settings = imagesAndSettings.settings;
       } else {
         this.url = imagesAndSettings;

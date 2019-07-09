@@ -84,6 +84,10 @@ export default {
     state.models = payload;
   },
 
+  setModelQueries (state, payload) {
+    state.modelQueries = payload;
+  },
+
   setModelSettings (state, payload) {
     state.modelSettings = payload;
   },

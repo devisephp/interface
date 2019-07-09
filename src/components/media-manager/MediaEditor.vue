@@ -82,10 +82,6 @@ export default {
         originalh: null
       },
       sizeEdits: {},
-      originalDims: {
-        w: null,
-        h: null,
-      },
     };
   },
   mounted () {
@@ -159,8 +155,11 @@ export default {
       return new Promise(() => {
         window.deviseSettings.$bus.$emit('showLoadScreen', 'Images being generated');
 
-        this.generateImages({ defaultImage: this.defaultImage, sizes: this.sizeEdits }).then(() => {
-          this.$emit('generatedImages')
+        this.generateImages({ defaultImage: this.defaultImage, sizes: this.sizeEdits }).then(response => {
+          this.$emit('generatedImages', {
+            images: response.data,
+            settings: this.sizeEdits,
+          })
           return true;
         }).then(() => {
           window.deviseSettings.$bus.$emit('hideLoadScreen');

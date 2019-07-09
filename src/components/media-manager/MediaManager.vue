@@ -26,7 +26,7 @@
             @selectsizeimage="selectSizeImage"
             @cancel="defaultImage = null"
             @done="close"
-            @generatedImages="close"
+            @generatedImages="setValue"
           />
         </div>
 
@@ -36,7 +36,7 @@
             :default-image="defaultImage.url"
             @cancel="defaultImage = null"
             @done="close"
-            @generatedImages="close"
+            @generatedImages="setValue"
           />
         </div>
       </template>
@@ -72,7 +72,15 @@ export default {
     this.startOpenerListener();
   },
   methods: {
-
+    setValue (value) {
+      if (typeof this.target !== 'undefined') {
+        this.target.value = value;
+      }
+      if (typeof this.callback !== 'undefined') {
+        this.callback(value);
+      }
+      this.close()
+    },
     selectedFile (file) {
       if (this.defaultImage === null) {
         this.defaultImage = file
@@ -116,9 +124,10 @@ export default {
     },
 
     close () {
-      this.show = false;
-      this.imageSettings = Object.assign({});
+      this.selectingFile = false;
       this.$set(this, 'defaultImage', null);
+      this.imageSettings = Object.assign({});
+      this.show = false;
     },
     selectSizeImage () {
       this.selectingFile = true

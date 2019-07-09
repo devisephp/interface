@@ -114,17 +114,21 @@ export default {
     },
     mediaSelected (imagesAndSettings) {
       if (typeof this.image !== 'object') {
-        this.image = imagesAndSettings.images.orig_optimized
-        return imagesAndSettings.images.orig_optimized;
+        this.image = imagesAndSettings.images.defaultImage;
+        return imagesAndSettings.images.defaultImage;
       }
 
       const value = {
-        url: imagesAndSettings.images.orig_optimized,
+        url: imagesAndSettings.images.defaultImage
       };
 
       if (typeof imagesAndSettings === 'object') {
-        value.media = imagesAndSettings.images;
+        value.alt = imagesAndSettings.images.alt;
+        value.url = imagesAndSettings.images.defaultImage;
+        value.media = imagesAndSettings.images.media;
         value.settings = imagesAndSettings.settings;
+      } else {
+        value.url = imagesAndSettings;
       }
 
       this.image = Object.assign({}, value);
