@@ -35,7 +35,7 @@
           </div>
           <div class="dvs-flex dvs-justify-center dvs-w-full">
             <img
-              :src="activeImage.url"
+              :src="activeImage.baseImageUrl"
               ref="croppingimage"
               style="max-height:500px"
             >
@@ -77,7 +77,7 @@ export default {
     aspectRatio () {
       const size = this.activeImage.name;
       return this.sizes[size].w / this.sizes[size].h;
-    }
+    },
   },
   watch: {
     isCropping (newValue) {

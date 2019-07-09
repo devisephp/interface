@@ -79,11 +79,11 @@ export default {
       }
       this.selectingFile = false
 
-      if (this.options.sizes) {
-        this.$nextTick(() => {
+      this.$nextTick(() => {
+        if (this.$refs.sizesmediaeditor) {
           this.$refs.sizesmediaeditor.setImage(file)
-        })
-      }
+        }
+      })
     },
     startOpenerListener () {
       window.deviseSettings.$bus.$on(

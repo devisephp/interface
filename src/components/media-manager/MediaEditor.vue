@@ -22,6 +22,7 @@
       <media-thumbnails
         :defaultImage="defaultImage"
         :size-edits="sizeEdits"
+        :sizes="sizes"
         :encode-edits="encodeEdits"
         :active="active"
         @select="setActive"
@@ -96,8 +97,9 @@ export default {
       'generateImages',
     ]),
     done () {
-      this.generateAndSaveImages()
-      // this.$emit('done');
+      this.generateAndSaveImages().then(() => {
+        this.$emit('done');
+      })
     },
     cancel () {
       this.$emit('cancel');
@@ -260,6 +262,7 @@ export default {
       if (this.active && typeof this.sizeEdits !== 'undefined' && this.sizeEdits[this.active]) {
         return {
           url: `/styled/preview/${this.sizeEdits[this.active].url}?${this.encodeEdits(this.active)}`,
+          baseImageUrl: `/styled/preview/${this.sizeEdits[this.active].url}`,
           name: `${this.active}`,
           sizeLabel: `(${this.sizeEdits[this.active].w}x${this.sizeEdits[this.active].h})`
         }
@@ -268,7 +271,7 @@ export default {
         url: `/styled/preview/${this.defaultImage}`,
         name: 'Original'
       }
-    },
+    }
   },
   props: {
     defaultImage: {

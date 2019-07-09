@@ -23,27 +23,29 @@
 
     <editor-control v-model="edits">
       <template v-slot:button>
-        size
+        <maximize-icon></maximize-icon>
       </template>
       <template v-slot:control="slotProps">
-        <fieldset class="dvs-fieldset dvs-mr-4">
+        <fieldset class="dvs-fieldset dvs-mb-4">
           <label>Width</label>
           <input
             type="text"
             v-model.number="edits.w"
+            class="dvs-w-full"
           >
         </fieldset>
-        <fieldset class="dvs-fieldset dvs-mr-4">
+        <fieldset class="dvs-fieldset dvs-mb-4">
           <label>Height</label>
           <input
             type="text"
             v-model.number="edits.h"
+            class="dvs-w-full"
           >
         </fieldset>
         <fieldset>
           <button
-            class="btn btn-sm"
-            :style="theme.actionButton"
+            class="dvs-btn dvs-w-full dvs-btn-sm"
+            :style="theme.actionButtonGhost"
             @click="setCustomSizeToOriginal"
           >Original Dimensions</button>
         </fieldset>
@@ -324,6 +326,8 @@ export default {
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SlidersIcon'),
     ImageIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ImageIcon'),
+    MaximizeIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/MaximizeIcon'),
   },
   methods: {
     ...mapMutations('devise', ['toggleCropping']),
