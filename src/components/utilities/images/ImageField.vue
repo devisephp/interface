@@ -125,6 +125,7 @@ export default {
       if (typeof imagesAndSettings === 'object') {
         value.alt = imagesAndSettings.images.alt;
         value.url = imagesAndSettings.images.defaultImage;
+        value.defaultImage = imagesAndSettings.images.defaultImage;
         value.media = imagesAndSettings.images.media;
         value.settings = imagesAndSettings.settings;
       } else {

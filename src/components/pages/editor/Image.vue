@@ -137,6 +137,7 @@ export default {
     },
     cancel () {
       this.url = this.originalValue.url;
+      this.defaultImage = this.originalValue.defaultImage;
       this.alt = this.originalValue.alt;
       this.media = this.originalValue.media;
       this.settings = this.originalValue.settings;
@@ -147,6 +148,7 @@ export default {
     },
     resetValue () {
       this.url = null;
+      this.defaultImage = null;
       this.enabled = false;
       this.alt = null;
       this.media = [];
@@ -164,6 +166,7 @@ export default {
       if (typeof imagesAndSettings === 'object') {
         this.alt = imagesAndSettings.images.alt;
         this.url = imagesAndSettings.images.defaultImage;
+        this.defaultImage = imagesAndSettings.images.defaultImage;
         this.media = imagesAndSettings.images.media;
         this.settings = imagesAndSettings.settings;
       } else {
@@ -181,6 +184,16 @@ export default {
     },
   },
   computed: {
+    defaultImage: {
+      get () {
+        return this.value.defaultImage;
+      },
+      set (value) {
+        const valueObj = Object.assign(this.value, { defaultImage: value });
+        this.$emit('input', valueObj);
+        this.$emit('change', valueObj);
+      },
+    },
     url: {
       get () {
         return this.value.url;

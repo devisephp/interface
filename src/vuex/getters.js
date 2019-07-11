@@ -103,6 +103,11 @@ const getters = {
     return []
   },
 
+  siteByRouteParam: (state, getters, rootState) => {
+    const id = parseInt(rootState.route.params.siteId, 0);
+    return state.sites.data.find(site => site.id === id);
+  },
+
   additionalSiteSettings: (state, getters, rootState) => {
     const id = parseInt(getters.site.id, 0);
     // Cause... why not

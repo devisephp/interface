@@ -7,6 +7,7 @@
         :key="mq.key"
         class="dvs-p-4 dvs-rounded dvs-mb-2 dvs-flex dvs-justify-between"
         :style="theme.panelCard"
+        @click="selectModelQuery(mq)"
       >
         <div>
           {{ mq.description }}
@@ -37,10 +38,16 @@ import { mapState } from 'vuex';
 
 export default {
   name: 'QuerySelector',
+  props: {
+
+  },
   computed: {
     ...mapState('devise', ['modelQueries'])
   },
   methods: {
+    selectModelQuery (query) {
+
+    }
   }
 }
 </script>
