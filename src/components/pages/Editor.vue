@@ -92,7 +92,24 @@
           />
         </template>
       </draggable>
+    </div>
 
+    <div
+      v-if="additionalPageSettings"
+      class="dvs-px-8"
+    >
+      <fieldset class="dvs-fieldset">
+        <label class="dvs-mb-2">Adddddditional Page Settings</label>
+      </fieldset>
+
+      <slice-editor-fields
+        v-model="currentPage.settings.fields"
+        :the-fields="additionalPageSettings"
+      />
+
+    </div>
+
+    <div class="dvs-flex dvs-flex-col dvs-items-center dvs-px-8 dvs-pb-8">
       <manage-slice
         ref="manageSlice"
         v-if="createSlice === true"
@@ -171,6 +188,9 @@ export default {
     };
   },
   mounted () {
+    console.log(this.currentPage.settings.fields.disableBooking);
+    this.currentPage.settings.fields = Object.assign({}, this.additionalPageSettings, this.currentPage.settings.fields)
+
     setTimeout(() => {
       this.$watch(
         'currentPage',
@@ -312,6 +332,15 @@ export default {
     currentPageSlices () {
       return this.currentPage.slices
     },
+    additionalPageSettings () {
+      if (window.deviseSettings.$config.additionalPageSettings) {
+        const site = window.deviseSettings.$config.additionalPageSettings.find(s => s.siteId === this.currentPage.site_id);
+        if (site) {
+          return site.fields
+        }
+      }
+      return false
+    }
   },
   mixins: [Strings],
   components: {
@@ -324,6 +353,7 @@ export default {
     draggable: () => import(/* webpackChunkName: "devise-editors" */ 'vuedraggable'),
     ManageSlice: () => import(/* webpackChunkName: "devise-editors" */ './slices/ManageSlice'),
     SliceEditor: () => import(/* webpackChunkName: "devise-editors" */ './slices/SliceEditor'),
+    SliceEditorFields: () => import(/* webpackChunkName: "devise-editors" */ "./slices/SliceEditorFields"),
     Toggle: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/Toggle'),
   },
 };

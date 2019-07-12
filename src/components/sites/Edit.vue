@@ -50,7 +50,7 @@
               :style="theme.panelSidebar"
             >
               <slice-editor-fields
-                v-model="localValue.settings.additionalSiteSettings"
+                v-model="localValue.settings.fields"
                 :the-fields="additionalSiteSettings"
               />
             </div>
@@ -152,7 +152,7 @@ export default {
         languages: [],
         model_queries: null,
         settings: {
-          additionalSiteSettings: {},
+          fields: {},
           defaultLayout: '',
           colors: {},
           googleAnalytics: '',
@@ -195,7 +195,7 @@ export default {
       this.getSites().then(() => {
         let colors = {};
         let googleAnalytics = '';
-        let additionalSiteSettings = {};
+        let fields = {};
 
         if (this.site.settings === null) {
           this.$set(this.site, 'settings', {});
@@ -207,19 +207,17 @@ export default {
         if (typeof this.site.settings.googleAnalytics !== 'undefined') {
           ({ googleAnalytics } = this.site.settings);
         }
-        if (typeof this.site.settings.additionalSiteSettings !== 'undefined') {
-          ({ additionalSiteSettings } = this.site.settings);
+        if (typeof this.site.settings.fields !== 'undefined') {
+          ({ fields } = this.site.settings);
         }
 
         this.localValue = Object.assign({}, this.site, {
           settings: {
             colors,
             googleAnalytics,
-            additionalSiteSettings: Object.assign({}, this.additionalSiteSettings, additionalSiteSettings)
+            fields: Object.assign({}, this.additionalSiteSettings, fields)
           },
         });
-
-        console.log(this.localValue)
 
         this.loadedSettings = true;
 
