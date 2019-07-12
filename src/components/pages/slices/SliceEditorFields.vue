@@ -2,7 +2,7 @@
   <div>
     <fieldset
       v-for="(field, key) in theFields"
-      class="dvs-fieldset dvs-mb-1"
+      class="dvs-fieldset dvs-mb-1 dvs-leading-loose"
       :key="key"
     >
       <div>

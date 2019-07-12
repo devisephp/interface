@@ -60,7 +60,7 @@
 
                 <div v-if="step === 2">
                   <fieldset class="dvs-fieldset dvs-mb-16">
-                    <query-selector v-model="newSlice.slice" />
+                    <query-selector v-model="modelQuery" />
                   </fieldset>
                 </div>
 
@@ -115,11 +115,7 @@ import SlicesMixin from '../../../mixins/Slices';
 const defaultInsertSlice = {
   type: null,
   slice: null,
-  data: {
-    name: 'modelData',
-    model: null,
-    modelQuery: null,
-  },
+  modelQuery: null
 };
 
 export default {
@@ -129,7 +125,8 @@ export default {
   data () {
     return {
       newSlice: Object.assign({}, defaultInsertSlice),
-      step: 1
+      step: 1,
+      modelQuery: null
     };
   },
   mounted () {
@@ -158,15 +155,14 @@ export default {
         metadata: {
           instance_id: 0,
           label: this.newSlice.slice.name,
-          model_query: this.newSlice.data.modelQuery
-            ? `class=${this.newSlice.data.modelQuery}`
-            : null,
+          model_query: this.modelQuery,
           name: component.name,
           type: this.newSlice.type,
           view: component.view,
           has_child_slot: component.has_child_slot,
         },
       };
+
       for (const field in component.fields) {
         if (component.fields.hasOwnProperty(field)) {
           const defaults = component.fields[field].default;

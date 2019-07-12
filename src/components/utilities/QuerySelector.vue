@@ -2,32 +2,42 @@
   <div>
     <h3 class="dvs-uppercase dvs-mb-4">Select A Data Set</h3>
     <div>
-      <div
-        v-for="mq in modelQueries"
-        :key="mq.key"
-        class="dvs-p-4 dvs-rounded dvs-mb-2 dvs-flex dvs-justify-between"
-        :style="theme.panelCard"
-        @click="selectModelQuery(mq)"
-      >
-        <div>
-          {{ mq.description }}
-        </div>
-
-        <div
-          class="dvs-text-xs dvs-uppercase dvs-text-right"
-          v-if="mq.params.length > 0"
+      <fieldset>
+        <label for="querykey">Data Set Query</label>
+        <select
+          name="querykey"
+          id="querykey"
+          v-model="query.key"
         >
-          Parameters
-          <fieldset
-            v-for="(param, key) in mq.params"
-            :key="key"
-            class="dvs-fieldset dvs-mt-2"
+          <option
+            :value="null"
+            disabled
           >
-            <label>{{ param }}</label>
-            <input type="text">
-          </fieldset>
-        </div>
+            Please Select a Data Set Query
+          </option>
+          <option
+            :value="mq.key"
+            v-for="mq in modelQueries"
+            :key="mq.key"
+          >{{ mq.description }}</option>
+        </select>
+      </fieldset>
 
+      <div
+        class="dvs-mt-6"
+        v-if="selectedModelQuery && selectedModelQuery.params.length > 0"
+      >
+        <fieldset
+          v-for="(param, key) in selectedModelQuery.params"
+          :key="key"
+          class="dvs-fieldset"
+        >
+          <label>{{ param }}</label>
+          <input
+            type="text"
+            v-model="query.params[key]"
+          >
+        </fieldset>
       </div>
     </div>
   </div>
@@ -39,15 +49,29 @@ import { mapState } from 'vuex';
 export default {
   name: 'QuerySelector',
   props: {
-
+    value: {}
+  },
+  watch: {
+    query: {
+      handler (value) {
+        this.$emit('input', value)
+      },
+      deep: true
+    }
   },
   computed: {
-    ...mapState('devise', ['modelQueries'])
+    ...mapState('devise', ['modelQueries']),
+    selectedModelQuery () {
+      return this.modelQueries.find(mq => mq.key === this.query.key)
+    },
   },
-  methods: {
-    selectModelQuery (query) {
-
+  data () {
+    return {
+      query: {
+        key: null,
+        params: []
+      }
     }
-  }
+  },
 }
 </script>
