@@ -105,7 +105,10 @@ const getters = {
 
   siteByRouteParam: (state, getters, rootState) => {
     const id = parseInt(rootState.route.params.siteId, 0);
-    return state.sites.data.find(site => site.id === id);
+    if (state.sites.data) {
+      return state.sites.data.find(site => site.id === id);
+    }
+    return null
   },
 
   additionalSiteSettings: (state, getters, rootState) => {
