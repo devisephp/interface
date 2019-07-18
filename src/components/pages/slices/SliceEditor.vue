@@ -183,7 +183,7 @@
       v-if="sliceOpen"
     >
       <slice-editor-fields
-        :fields="sliceConfig(slice).fields"
+        :the-fields="sliceConfig(slice).fields"
         v-model="theFields"
         @editfield="editField"
       />

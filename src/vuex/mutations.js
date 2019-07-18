@@ -54,6 +54,14 @@ export default {
     state.directories = payload;
   },
 
+
+  /*
+   * Media Editor
+   */
+  toggleCropping (state) {
+    state.isCropping = !state.isCropping
+  },
+
   // Meta
   setMeta (state, payload) {
     state.meta = payload;
@@ -74,6 +82,10 @@ export default {
   // Models
   setModels (state, payload) {
     state.models = payload;
+  },
+
+  setModelQueries (state, payload) {
+    state.modelQueries = payload;
   },
 
   setModelSettings (state, payload) {

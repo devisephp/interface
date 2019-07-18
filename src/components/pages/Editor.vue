@@ -92,7 +92,28 @@
           />
         </template>
       </draggable>
+    </div>
 
+    <div
+      v-if="additionalPageSettings"
+      class="dvs-px-8"
+    >
+      <fieldset class="dvs-fieldset dvs-mb-2">
+        <label
+          class="dvs-mb-2 dvs-cursor-pointer"
+          @click="additionalSettingsOpen = !additionalSettingsOpen"
+        >Additional Page Settings</label>
+      </fieldset>
+
+      <slice-editor-fields
+        v-show="additionalSettingsOpen"
+        v-model="currentPage.settings.fields"
+        :the-fields="additionalPageSettings"
+      />
+
+    </div>
+
+    <div class="dvs-flex dvs-flex-col dvs-items-center dvs-px-8 dvs-pb-8">
       <manage-slice
         ref="manageSlice"
         v-if="createSlice === true"
@@ -167,10 +188,15 @@ export default {
       createSlice: false,
       showTimeTravel: false,
       timeTravelDate: null,
+      additionalSettingsOpen: false,
       queryString,
     };
   },
   mounted () {
+    if (this.additionalPageSettings) {
+      this.currentPage.settings.fields = Object.assign({}, this.additionalPageSettings, this.currentPage.settings.fields)
+    }
+
     setTimeout(() => {
       this.$watch(
         'currentPage',
@@ -312,6 +338,16 @@ export default {
     currentPageSlices () {
       return this.currentPage.slices
     },
+    additionalPageSettings () {
+
+      if (window.deviseSettings.$config.additionalPageSettings) {
+        const site = window.deviseSettings.$config.additionalPageSettings.find(s => s.siteId === this.currentPage.site_id);
+        if (site) {
+          return site.fields
+        }
+      }
+      return false
+    }
   },
   mixins: [Strings],
   components: {
@@ -324,6 +360,7 @@ export default {
     draggable: () => import(/* webpackChunkName: "devise-editors" */ 'vuedraggable'),
     ManageSlice: () => import(/* webpackChunkName: "devise-editors" */ './slices/ManageSlice'),
     SliceEditor: () => import(/* webpackChunkName: "devise-editors" */ './slices/SliceEditor'),
+    SliceEditorFields: () => import(/* webpackChunkName: "devise-editors" */ "./slices/SliceEditorFields"),
     Toggle: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/Toggle'),
   },
 };

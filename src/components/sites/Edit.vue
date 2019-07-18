@@ -50,8 +50,8 @@
               :style="theme.panelSidebar"
             >
               <slice-editor-fields
-                v-model="localValue.settings.additionalSiteSettings"
-                :fields="additionalSiteSettings"
+                v-model="localValue.settings.fields"
+                :the-fields="additionalSiteSettings"
               />
             </div>
           </div>
@@ -152,6 +152,7 @@ export default {
         languages: [],
         model_queries: null,
         settings: {
+          fields: {},
           defaultLayout: '',
           colors: {},
           googleAnalytics: '',
@@ -169,7 +170,6 @@ export default {
   methods: {
     ...mapActions('devise', ['getLanguages', 'getSites', 'updateSite']),
     requestEditSite () {
-      this.localValue.settings.additionalSiteSettings = this.additionalSiteSettings
       this.updateSite({ site: this.site, data: this.localValue }).then(() => {
         // var site = self.siteById(self.site.id)
         // self.goToPage('devise-sites-index')
@@ -195,7 +195,7 @@ export default {
       this.getSites().then(() => {
         let colors = {};
         let googleAnalytics = '';
-        let additionalSiteSettings = {};
+        let fields = {};
 
         if (this.site.settings === null) {
           this.$set(this.site, 'settings', {});
@@ -207,14 +207,15 @@ export default {
         if (typeof this.site.settings.googleAnalytics !== 'undefined') {
           ({ googleAnalytics } = this.site.settings);
         }
-        if (typeof this.site.settings.additionalSiteSettings !== 'undefined') {
-          ({ additionalSiteSettings } = this.site.settings);
+        if (typeof this.site.settings.fields !== 'undefined') {
+          ({ fields } = this.site.settings);
         }
-        this.localValue = Object.assign({}, this.localValue, this.site, {
+
+        this.localValue = Object.assign({}, this.site, {
           settings: {
             colors,
             googleAnalytics,
-            additionalSiteSettings
+            fields: Object.assign({}, this.additionalSiteSettings, fields)
           },
         });
 
@@ -234,7 +235,10 @@ export default {
     },
   },
   computed: {
-    ...mapGetters('devise', ['languages', 'site', 'siteById']),
+    ...mapGetters('devise', ['languages', 'siteByRouteParam']),
+    site () {
+      return this.siteByRouteParam;
+    },
     editInvalid () {
       return this.localValue.name === null || this.localValue.domain === null;
     },

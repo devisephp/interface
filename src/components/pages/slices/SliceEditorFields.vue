@@ -1,8 +1,8 @@
 <template>
   <div>
     <fieldset
-      v-for="(field, key) in fields"
-      class="dvs-fieldset dvs-mb-1"
+      v-for="(field, key) in theFields"
+      class="dvs-fieldset dvs-mb-1 dvs-leading-loose"
       :key="key"
     >
       <div>
@@ -105,7 +105,7 @@
 export default {
   name: 'SliceEditorFields',
   props: {
-    fields: {
+    theFields: {
       required: true,
       type: Array | Object
     },

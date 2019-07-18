@@ -97,7 +97,18 @@ const getters = {
   sites: state => state.sites,
 
   site: (state) => {
-    return window.deviseSettings.$sites.find(site => site.current)
+    if (window.deviseSettings.$sites) {
+      return window.deviseSettings.$sites.find(site => site.current)
+    }
+    return []
+  },
+
+  siteByRouteParam: (state, getters, rootState) => {
+    const id = parseInt(rootState.route.params.siteId, 0);
+    if (state.sites.data) {
+      return state.sites.data.find(site => site.id === id);
+    }
+    return null
   },
 
   additionalSiteSettings: (state, getters, rootState) => {

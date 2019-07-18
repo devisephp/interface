@@ -53,19 +53,17 @@ const actions = {
    * Languages
    */
   getLanguages (context) {
-    return new Promise(resolve => {
-      window.axios
-        .get(`${context.state.api.baseUrl}languages/`)
+    return new Promise((resolve, reject) => {
+      window.axios.get(`${context.state.api.baseUrl}languages/`)
         .then(response => {
           context.commit('setLanguages', response.data);
-          resolve(response);
+          resolve(response)
         })
         .catch(error => {
           window.deviseSettings.$bus.$emit('showError', error);
+          reject(error)
         });
-    }).catch(error => {
-      window.deviseSettings.$bus.$emit('showError', error);
-    });
+    })
   },
 
   createLanguage (context, language) {
@@ -122,19 +120,17 @@ const actions = {
   },
 
   generateImages (context, payload) {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       window.axios
-        .post(`${context.state.api.baseUrl}media-styles`, payload)
+        .put(`${context.state.api.baseUrl}media-styles`, payload)
         .then(response => {
           context.commit('setFiles', response.data);
           resolve(response);
-        })
-        .catch(error => {
+        }, error => {
           window.deviseSettings.$bus.$emit('showError', error);
+          reject(error)
         });
-    }).catch(error => {
-      window.deviseSettings.$bus.$emit('showError', error);
-    });
+    })
   },
 
   regenerateMedia (context, payload) {
@@ -366,6 +362,22 @@ const actions = {
         .get(`${context.state.api.baseUrl}models/`)
         .then(response => {
           context.commit('setModels', response.data);
+          resolve(response);
+        })
+        .catch(error => {
+          window.deviseSettings.$bus.$emit('showError', error);
+        });
+    }).catch(error => {
+      window.deviseSettings.$bus.$emit('showError', error);
+    });
+  },
+
+  getModelQueries (context) {
+    return new Promise(resolve => {
+      window.axios
+        .get(`${context.state.api.baseUrl}model-queries/`)
+        .then(response => {
+          context.commit('setModelQueries', response.data);
           resolve(response);
         })
         .catch(error => {

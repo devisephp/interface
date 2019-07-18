@@ -100,6 +100,9 @@ const state = {
   searchableMedia: {
     data: [],
   },
+  // Media Editor
+  isCropping: false,
+  // Languages
   languages: {
     data: [],
   },
@@ -111,6 +114,7 @@ const state = {
   models: {
     data: [],
   },
+  modelQueries: [],
   modelSettings: {},
   mothership: null,
   currentPage: {

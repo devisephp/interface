@@ -37,6 +37,7 @@
                 </div>
 
                 <div
+                  v-if="modelQueries.length > 0"
                   class="dvs-btn dvs-text-base dvs-ml-4 dvs-p-8 dvs-w-1/2"
                   :style="theme.actionButtonGhost"
                   @click="newSlice.type = 'model'"
@@ -51,15 +52,17 @@
 
               <!-- Slice Selector -->
               <div v-else>
-                <fieldset class="dvs-fieldset dvs-mb-4">
-                  <div
-                    class="dvs-mb-4"
-                    v-if="newSlice.type === 'model'"
-                  >
-                    <query-builder v-model="newSlice.data"></query-builder>
-                  </div>
-                  <slice-selector v-model="newSlice.slice" />
-                </fieldset>
+                <div v-if="step === 1">
+                  <fieldset class="dvs-fieldset dvs-mb-16">
+                    <slice-selector v-model="newSlice.slice" />
+                  </fieldset>
+                </div>
+
+                <div v-if="step === 2">
+                  <fieldset class="dvs-fieldset dvs-mb-16">
+                    <query-selector v-model="modelQuery" />
+                  </fieldset>
+                </div>
 
                 <div
                   class="dvs-absolute dvs-z-10 dvs-pin-b dvs-pin-l dvs-pin-r dvs-p-4 dvs-px-6"
@@ -69,8 +72,20 @@
                     class="dvs-btn dvs-mr-2"
                     :style="theme.actionButton"
                     @click="addSlice"
-                    v-if="mode === 'inserting'"
+                    v-if="mode === 'inserting' && newSlice.type !== 'model'"
                   >Insert</button>
+                  <button
+                    class="dvs-btn dvs-mr-2"
+                    :style="theme.actionButton"
+                    @click="nextStep"
+                    v-else-if="mode === 'inserting' && newSlice.type === 'model' && step === 1"
+                  >Next</button>
+                  <button
+                    class="dvs-btn dvs-mr-2"
+                    :style="theme.actionButton"
+                    @click="addSlice"
+                    v-else-if="mode === 'inserting' && newSlice.type === 'model' && step === 2"
+                  >Insert Model Slice</button>
                   <button
                     class="dvs-btn dvs-mr-2"
                     :style="theme.actionButton"
@@ -94,26 +109,28 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapState, mapActions } from 'vuex';
 import SlicesMixin from '../../../mixins/Slices';
 
 const defaultInsertSlice = {
   type: null,
   slice: null,
-  data: {
-    name: 'modelData',
-    model: null,
-    modelQuery: null,
-  },
+  modelQuery: null
 };
 
 export default {
+  computed: {
+    ...mapState('devise', ['modelQueries'])
+  },
   data () {
     return {
       newSlice: Object.assign({}, defaultInsertSlice),
+      step: 1,
+      modelQuery: null
     };
   },
   mounted () {
+    this.getModelQueries();
     this.getSlicesDirectories();
 
     this.$nextTick(() => {
@@ -124,7 +141,7 @@ export default {
     });
   },
   methods: {
-    ...mapActions('devise', ['getSlicesDirectories', 'getModelSettings']),
+    ...mapActions('devise', ['getModelQueries', 'getSlicesDirectories', 'getModelSettings']),
     cancelManageSlice () {
       this.$set(this, 'newSlice', defaultInsertSlice);
       this.$emit('cancel');
@@ -138,15 +155,14 @@ export default {
         metadata: {
           instance_id: 0,
           label: this.newSlice.slice.name,
-          model_query: this.newSlice.data.modelQuery
-            ? `class=${this.newSlice.data.modelQuery}`
-            : null,
+          model_query: this.modelQuery,
           name: component.name,
           type: this.newSlice.type,
           view: component.view,
           has_child_slot: component.has_child_slot,
         },
       };
+
       for (const field in component.fields) {
         if (component.fields.hasOwnProperty(field)) {
           const defaults = component.fields[field].default;
@@ -176,6 +192,9 @@ export default {
         }
       }
     },
+    nextStep () {
+      this.step += 1;
+    },
     addSlice () {
       this.$emit('addSlice', this.buildSlice());
     },
@@ -188,6 +207,7 @@ export default {
   },
   computed: {
     ...mapGetters('devise', ['componentFromView', 'slicesDirectories']),
+    ...mapState('devise', ['modelQueries']),
   },
   props: {
     slice: {
@@ -200,8 +220,8 @@ export default {
   },
   components: {
     Panel: () => import(/* webpackChunkName: "devise-utilities" */ '../../utilities/Panel.vue'),
-    QueryBuilder: () =>
-      import(/* webpackChunkName: "devise-utilities" */ '../../utilities/QueryBuilder.vue'),
+    QuerySelector: () =>
+      import(/* webpackChunkName: "devise-utilities" */ '../../utilities/QuerySelector.vue'),
     SliceSelector: () => import(/* webpackChunkName: "devise-slices" */ './SliceSelector.vue'),
   },
   mixins: [SlicesMixin],

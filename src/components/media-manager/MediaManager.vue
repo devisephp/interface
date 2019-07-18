@@ -1,418 +1,42 @@
 <template>
   <div
     class="dvs-min-h-screen dvs-fixed dvs-pin dvs-flex dvs-justify-center dvs-items-center dvs-z-60 dvs-text-grey-darker"
-    :class="{'dvs-pointer-events-none': !loaded}"
     v-if="show"
   >
     <div
       class="dvs-blocker dvs-z-30"
       @click="close"
     ></div>
-    <div class="media-manager dvs-min-w-4/5">
-      <div
-        v-if="!loaded"
-        class="media-manager-interface"
+
+    <div class="media-manager dvs-min-w-4/5 dvs-max-h-screenpad dvs-overflow-hidden">
+
+      <media-selector
+        v-if="defaultImage === null || selectingFile"
+        @selectedfile="selectedFile"
       >
-        <div class="dvs-absolute dvs-absolute-center dvs-w-1/2">
-          <loadbar :percentage="0.5" />
-        </div>
-      </div>
+      </media-selector>
 
-      <div
-        v-else-if="loaded && selectedFile === null"
-        class="media-manager-interface"
-      >
-        <div
-          style="min-height:70px"
-          class="dvs-py-4 dvs-px-8 dvs-rounded-tl dvs-rounded-tr dvs-flex dvs-justify-between dvs-items-center dvs-bg-grey-lighter dvs-border-b dvs-border-lighter dvs-relative"
-        >
-          <div>
-            <div class="dvs-font-bold">Media Manager</div>
-            <div
-              class="dvs-flex dvs-mt-2 dvs-justify-between dvs-items-center dvs-font-mono dvs-text-sm dvs-tracking-tight"
-              v-if="currentDirectory !== ''"
-            >
-              <breadcrumbs
-                :currentDirectory="currentDirectory"
-                @chooseDirectory="changeDirectories"
-              ></breadcrumbs>
-            </div>
-          </div>
-          <div class="dvs-flex dvs-items-center">
-            <fieldset class="dvs-fieldset dvs-mr-8">
-              <div class="dvs-flex dvs-items-center">
-                <label class="dvs-mr-2 dvs-my-2">Remember Location?</label>
-                <input
-                  class="dvs-my-2"
-                  type="checkbox"
-                  v-model="cookieSettings"
-                >
-              </div>
-            </fieldset>
-            <fieldset class="dvs-fieldset dvs-mr-8">
-              <div class="dvs-flex dvs-items-center">
-                <label class="dvs-mr-2 dvs-my-2">Contact Sheet</label>
-                <input
-                  class="dvs-my-2"
-                  type="radio"
-                  value="contactSheet"
-                  v-model="mode"
-                >
-              </div>
-            </fieldset>
-            <fieldset class="dvs-fieldset dvs-mr-8">
-              <div class="dvs-flex dvs-items-center">
-                <label class="dvs-mr-2 dvs-my-2">Thumbnails</label>
-                <input
-                  class="dvs-my-2"
-                  type="radio"
-                  value="thumbnails"
-                  v-model="mode"
-                >
-              </div>
-            </fieldset>
-            <fieldset class="dvs-fieldset">
-              <div class="dvs-flex dvs-items-center">
-                <label class="dvs-mr-2 dvs-my-2">List</label>
-                <input
-                  class="dvs-my-2"
-                  type="radio"
-                  value="list"
-                  v-model="mode"
-                >
-              </div>
-            </fieldset>
-          </div>
-        </div>
-
-        <div class="dvs-flex dvs-items-stretch dvs-h-full dvs-overflow-hidden">
-          <div
-            v-bar
-            class="dvs-min-w-1/3"
-          >
-            <div class="dvs-h-full dvs-p-8 dvs-bg-grey-lightest dvs-flex dvs-flex-col dvs-justify-between dvs-border-r dvs-border-lighter">
-              <form @submit.prevent="search">
-                <div class="mb-8 flex">
-                  <fieldset class="dvs-fieldset mr-2">
-                    <input
-                      type="text"
-                      placeholder="Search"
-                      v-model="searchTerms"
-                      ref="search"
-                      class="mr-2"
-                    >
-                  </fieldset>
-                  <button
-                    type="submit"
-                    class="dvs-btn dvs-btn-sm"
-                    :style="theme.actionButton"
-                  >Search</button>
-                </div>
-              </form>
-
-              <ul class="dvs-list-reset dvs-mb-10 dvs-font-mono dvs-text-sm dvs-tracking-tight">
-                <li
-                  v-for="directory in directories"
-                  :key="directory.id"
-                  class="dvs-cursor-pointer dvs-mt-2 dvs-text-bold"
-                  @click="changeDirectories(directory.path)"
-                >
-                  <folder-icon class="dvs-mr-2"></folder-icon>
-                  {{ directory.name }}
-                </li>
-                <li v-if="directories.length < 1">No directories within this directory</li>
-              </ul>
-
-              <div class="dvs-flex dvs-flex-col">
-                <fieldset class="dvs-fieldset dvs-mb-4">
-                  <input
-                    type="text"
-                    placeholder="New Directory"
-                    v-model="directoryToCreate"
-                    class="mr-2"
-                  >
-                </fieldset>
-                <button
-                  class="dvs-btn dvs-btn-sm"
-                  @click="requestCreateDirectory()"
-                  :style="theme.actionButton"
-                >Create</button>
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="dvs-flex-grow dvs-relative dvs-overflow-y-scroll dvs-p-4"
-            :class="{'w-full': directories.length < 1}"
-          >
-            <div
-              class="dvs-p-8 dvs-flex"
-              v-if="searchResults.length > 0"
-            >
-              <h4>
-                Showing up to {{ searchResultsLimit }} results for:
-                <strong>{{ searchTerms }}</strong>
-              </h4>
-              <div @click="closeSearch">
-                <close-icon
-                  class="dvs-ml-2 dvs-cursor-pointer"
-                  w="30"
-                  h="30"
-                />
-              </div>
-            </div>
-
-            <div
-              class="dvs-p-8 dvs-flex"
-              v-else-if="searchableMedia.data.length > 0 && searchTerms !== null && searchTerms !== ''"
-            >
-              <h4>
-                Hit "Search" for results of:
-                <strong>{{ searchTerms }}</strong>
-              </h4>
-              <div @click="closeSearch">
-                <close-icon
-                  class="dvs-ml-2 dvs-cursor-pointer"
-                  w="30"
-                  h="30"
-                />
-              </div>
-            </div>
-
-            <!-- File uploader -->
-            <uploader
-              :current-directory="currentDirectory"
-              @all-files-uploaded="refreshDirectory"
-            ></uploader>
-
-            <!-- Delete Directory -->
-            <div
-              v-if="currentFiles.length < 1 && directories.length < 1 && currentDirectory !== ''"
-              class="dvs-flex dvs-justify-center dvs-items-center dvs-absolute dvs-absolute-center"
-            >
-              <div
-                class="dvs-bg-white dvs-text-grey-dark dvs-rounded dvs-p-8 dvs--mt-15 dvs-text-center dvs-shadow dvs-cursor-pointer"
-                @click="requestDeleteDirectory()"
-              >
-                <trash-icon
-                  h="40"
-                  w="40"
-                  :style="{color: theme.panel.color}"
-                />
-                <h6 class="dvs-mt-2 dvs-text-sm">Delete this directory</h6>
-              </div>
-            </div>
-
-            <!-- Directories but no files -->
-            <div
-              v-if="currentFiles.length < 1 && directories.length > 0 && currentDirectory !== ''"
-              class="dvs-flex dvs-justify-center dvs-items-center dvs-absolute dvs-absolute-center"
-            >
-              <div class="dvs-bg-white dvs-rounded dvs-p-8 dvs--mt-15 dvs-text-center dvs-shadow">
-                <folder-icon
-                  h="40"
-                  w="40"
-                  :style="{color: theme.panel.color}"
-                />
-                <h6 class="dvs-mt-2 dvs-text-sm">
-                  <span>No files in this directory</span>
-                </h6>
-              </div>
-            </div>
-
-            <!-- Files -->
-            <ul
-              class="dvs-list-reset dvs-flex dvs-justify-center dvs-flex-wrap"
-              v-else
-            >
-              <li
-                v-for="file in currentFiles"
-                :key="file.id"
-                class="dvs-relative dvs-bg-white dvs-card"
-                :class="{
-                  'dvs-cursor-pointer': !file.on,
-                  'dvs-border-b dvs-border-lighter dvs-p-0 dvs-mx-0 w-1/2': mode === 'thumbnails',
-                  'dvs-p-0 dvs-mb-4 dvs-mt-2': mode !== 'thumbnails',
-                  'dvs-mx-2': mode === 'contactSheet',
-                  'dvs-w-full': mode === 'list'
-                }"
-                @click="openFile(file)"
-              >
-                <!-- Close File if On -->
-                <div
-                  v-if="file === currentlyOpenFile"
-                  @click.stop.prevent="closeFile(file)"
-                  class="dvs-absolute z-10 dvs-pin-t dvs-pin-r dvs-mt-4 dvs-mr-4 dvs-cursor-pointer"
-                >
-                  <close-icon
-                    w="30"
-                    h="30"
-                  />
-                </div>
-
-                <!-- Closed File -->
-                <div
-                  class="dvs-overflow-hidden"
-                  v-if="file !== currentlyOpenFile"
-                >
-                  <!-- Contact Sheet -->
-                  <div
-                    class="dvs-overflow-hidden dvs-text-center"
-                    style="width:100px;height:105px"
-                    v-if="mode === 'contactSheet'"
-                  >
-                    <img
-                      :src="`/styled/preview/${file.url}?w=100&h=100`"
-                      style="min-width:75px;height:75px"
-                    >
-                    <div class="dvs-text-xs dvs-font-bold dvs-px-2">{{ file.name }}</div>
-                  </div>
-
-                  <!-- Thumbnails Mode -->
-                  <div
-                    class="dvs-grid-preview dvs-relative"
-                    :style="`background-size:cover;background-image:url('${`/styled/preview/${file.url}?w=600&h=300&q=100&sharp=2`}')`"
-                    v-else-if="mode === 'thumbnails'"
-                  ></div>
-
-                  <!-- List Mode -->
-                  <div
-                    class="dvs-w-full dvs-flex dvs-items-center"
-                    v-else
-                  >
-                    <img
-                      :src="`/styled/preview/${file.url}?w=100&h=100`"
-                      style="min-width:75px;height:75px"
-                    >
-                    <div class="dvs-px-4 dvs-font-bold">{{ file.name }}</div>
-                  </div>
-                </div>
-
-                <!-- Open File -->
-                <div
-                  v-else
-                  class="dvs-flex dvs-p-4 dvs-overflow-hidden"
-                >
-                  <div class="dvs-w-1/2 dvs-mr-8 dvs-flex dvs-flex-col dvs-justify-between">
-                    <img
-                      :src="`/styled/preview/${file.url}?w=500&h=500`"
-                      class="dvs-cursor-pointer dvs-mb-4"
-                    >
-                    <div class="dvs-flex">
-                      <div
-                        class="dvs-mr-4 dvs-cursor-pointer"
-                        :style="{color: theme.actionButton.background}"
-                        v-devise-alert-confirm="{callback: confirmedDeleteFile, arguments: file, message: 'Are you sure you want to delete this media?'}"
-                      >
-                        <trash-icon
-                          h="20"
-                          w="20"
-                        />
-                      </div>
-                      <a
-                        class="dvs-mr-4"
-                        :href="file.url"
-                        target="_blank"
-                        :style="{color: theme.actionButton.background}"
-                      >
-                        <link-icon
-                          h="20"
-                          w="20"
-                        />
-                      </a>
-                      <a
-                        :href="file.url"
-                        target="_blank"
-                        :style="{color: theme.actionButton.background}"
-                        download
-                      >
-                        <download-icon
-                          h="20"
-                          w="20"
-                        />
-                      </a>
-                    </div>
-                  </div>
-                  <div class="dvs-w-1/2">
-                    <h6 class="dvs-text-xs dvs-uppercase dvs-mb-1">Filename</h6>
-                    <p class="dvs-text-sm">{{ file.name }}</p>
-
-                    <fieldset class="dvs-fieldset dvs-mb-4">
-                      <label class="dvs-text-xs dvs-uppercase dvs-mb-1">URL</label>
-                      <input
-                        type="text"
-                        :value="file.url"
-                        readonly
-                      >
-                    </fieldset>
-
-                    <fieldset class="dvs-fieldset dvs-mb-4">
-                      <label class="dvs-text-xs dvs-uppercase dvs-mb-1">Global Caption</label>
-                      <div class="dvs-flex">
-                        <input
-                          type="text"
-                          v-model="file.alt"
-                          class="dvs-mr-4"
-                        >
-                        <button
-                          class="dvs-btn dvs-btn-sm"
-                          :style="theme.actionButton"
-                          @click="requestSaveCaption(file)"
-                        >
-                          Save Caption
-                        </button>
-                      </div>
-                    </fieldset>
-
-                    <p v-if="callback">
-                      <button
-                        @click="selectSourceFile(file)"
-                        class="dvs-btn"
-                        :style="theme.actionButton"
-                      >Select</button>
-                    </p>
-
-                    <template v-if="isActive(file)">
-                      <h6 class="dvs-my-2 dvs-text-sm">Appears On</h6>
-                      <ul class="dvs-list-reset">
-                        <li
-                          v-for="field in file.fields"
-                          :key="field.id"
-                          class="dvs-py-2"
-                        >
-                          <a
-                            :href="field.page_slug"
-                            target="_blank"
-                            class="dvs-btn dvs-btn-sm"
-                          >{{ field.page_title }} - {{ field.field_name }}</a>
-                        </li>
-                      </ul>
-                    </template>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <template v-else-if="selectedFile && selectedFile.type === 'image'">
+      <template v-if="defaultImage && defaultImage.type === 'image'">
         <div v-if="typeof options !== 'undefined' && options.sizes">
           <media-editor
-            :source="selectedFile.url"
-            :sizes="options.sizes"
+            ref="sizesmediaeditor"
             :imageSettings="imageSettings"
-            @cancel="selectedFile = null"
-            @done="generateAndSetFile"
+            :default-image="defaultImage.url"
+            :sizes="options.sizes"
+            @selectsizeimage="selectSizeImage"
+            @cancel="defaultImage = null"
+            @done="close"
+            @generatedImages="setValue"
           />
         </div>
 
         <div v-else>
           <media-editor
-            :source="selectedFile.url"
             :imageSettings="imageSettings"
-            @cancel="selectedFile = null"
-            @done="generateAndSetFile"
+            :default-image="defaultImage.url"
+            @cancel="defaultImage = null"
+            @done="close"
+            @generatedImages="setValue"
           />
         </div>
       </template>
@@ -421,7 +45,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
 
 const Cookies = require('js-cookie');
 
@@ -429,14 +53,14 @@ export default {
   data () {
     return {
       show: false,
-      loaded: false,
       mode: 'list',
       directoryToCreate: '',
       target: null,
       callback: null,
       searchTerms: null,
       searchResults: [],
-      selectedFile: null,
+      defaultImage: null,
+      selectingFile: false,
       searchResultsLimit: 100,
       currentlyOpenFile: null,
       options: null,
@@ -448,207 +72,66 @@ export default {
     this.startOpenerListener();
   },
   methods: {
-    ...mapActions('devise', [
-      'setCurrentDirectory',
-      'generateImages',
-      'getCurrentFiles',
-      'getCurrentDirectories',
-      'mediaSearch',
-      'deleteFile',
-      'createDirectory',
-      'deleteDirectory',
-      'saveCaption'
-    ]),
-    startOpenerListener () {
-      const self = this;
+    setValue (value) {
+      if (typeof this.target !== 'undefined') {
+        this.target.value = value;
+      }
+      if (typeof this.callback !== 'undefined') {
+        this.callback(value);
+      }
+      this.close()
+    },
+    selectedFile (file) {
+      if (this.defaultImage === null) {
+        this.defaultImage = file
+      }
+      this.selectingFile = false
 
+      this.$nextTick(() => {
+        if (this.$refs.sizesmediaeditor) {
+          this.$refs.sizesmediaeditor.setImage(file)
+        }
+      })
+    },
+    startOpenerListener () {
       window.deviseSettings.$bus.$on(
         'devise-launch-media-manager',
         ({ target, callback, options }) => {
-          self.callback = callback;
-          self.target = target;
-          self.options = options;
+          this.callback = callback;
+          this.target = target;
+          this.options = options;
 
-          self.loadInitialLocation();
-
-          self.show = true;
+          this.show = true;
+          this.selectingFile = true;
         }
       );
 
       window.deviseSettings.$bus.$on(
         'devise-launch-media-editor',
         ({ target, callback, options, image, settings }) => {
-          self.callback = callback;
-          self.target = target;
-          self.options = options;
-          self.imageSettings = settings;
-          self.selectedFile = {
+          this.callback = callback;
+          this.target = target;
+          this.options = options;
+          this.imageSettings = settings;
+          this.defaultImage = {
             url: image,
             type: 'image',
           };
 
-          self.loadInitialLocation();
-
-          self.show = true;
+          this.show = true;
         }
       );
     },
-    loadInitialLocation () {
-      const cookieLocation = Cookies.get('devise-mediamanager-location');
-      if (cookieLocation) {
-        this.changeDirectories(cookieLocation);
-        this.cookieSettings = true;
-      } else {
-        this.changeDirectories('');
-      }
 
-      const cookieMode = Cookies.get('devise-mediamanager-mode');
-      if (cookieMode) {
-        this.mode = cookieMode;
-      }
-    },
-    changeDirectories (directory) {
-      const self = this;
-      self.loaded = false;
-      this.searchTerms = null;
-      this.$set(this, 'searchResults', []);
-
-      self.setCurrentDirectory(directory).then(() => {
-        self.getCurrentFiles(self.options).then(() => {
-          self.getCurrentDirectories().then(() => {
-            self.loaded = true;
-
-            if (self.cookieSettings) {
-              Cookies.set('devise-mediamanager-location', directory);
-            }
-          });
-        });
-      });
-    },
-    isActive (file) {
-      return file.used_count > 0;
-    },
-    refreshDirectory () {
-      this.changeDirectories(this.currentDirectory);
-    },
-    uploadError () {
-      window.deviseSettings.$bus.$emit('showError', {
-        title: 'Upload Error',
-        message:
-          'There was a problem uploading your file. The file may be too large to be uploaded.',
-      });
-    },
-    getUrlParam (paramName) {
-      const reParam = new RegExp(`(?:[?&]|&)${paramName}=([^&]+)`, 'i');
-      const match = window.location.search.match(reParam);
-
-      return match && match.length > 1 ? match[1] : null;
-    },
-    openFile (file) {
-      this.$set(this, 'currentlyOpenFile', file);
-    },
-    closeFile () {
-      this.$set(this, 'currentlyOpenFile', {});
-    },
-    selectSourceFile (file) {
-      this.selectedFile = file;
-
-      if ((this.options && this.options.type === 'file') || (file && file.type === 'file')) {
-        if (typeof this.target !== 'undefined') {
-          this.target.value = this.selectedFile.url;
-        }
-        if (typeof this.callback !== 'undefined') {
-          this.callback(this.selectedFile.url);
-        }
-
-        this.close();
-      }
-    },
-    generateAndSetFile (edits) {
-      const self = this;
-
-      if (this.options && this.options.sizes) {
-        edits.sizes = this.options.sizes;
-      }
-
-      window.deviseSettings.$bus.$emit('showLoadScreen', 'Images being generated');
-
-      this.generateImages({ original: this.selectedFile.url, settings: edits }).then(response => {
-        if (typeof self.target !== 'undefined') {
-          self.target.value = response.data;
-        }
-        if (typeof self.callback !== 'undefined') {
-          self.callback(response.data);
-        }
-        window.deviseSettings.$bus.$emit('hideLoadScreen');
-        return true;
-      });
-
-      this.close();
-    },
-    confirmedDeleteFile (file) {
-      const self = this;
-      this.deleteFile(file).then(() => {
-        self.changeDirectories(self.currentDirectory);
-      });
-    },
-    requestSaveCaption (file) {
-      const payload = {
-        image: file.url,
-        alt_text: file.alt
-      }
-      this.saveCaption(payload)
-    },
-    requestCreateDirectory () {
-      const self = this;
-
-      // check to see if the directory already exists in the current location
-      const existingMatches = this.directories.filter(dir => dir.name === self.directoryToCreate);
-
-      if (existingMatches.length === 0) {
-        this.createDirectory({
-          directory: self.currentDirectory,
-          name: self.directoryToCreate,
-        }).then(() => {
-          self.changeDirectories(self.currentDirectory);
-          self.directoryToCreate = '';
-        });
-      } else {
-        window.deviseSettings.$bus.$emit('showError', {
-          title: 'Duplicate Name',
-          message: 'There was already a directory with this name created in the current location.',
-        });
-      }
-    },
-    requestDeleteDirectory () {
-      const self = this;
-      this.deleteDirectory(self.currentDirectory).then(() => {
-        self.changeDirectories('');
-      });
-    },
-    search () {
-      this.mediaSearch(this.searchTerms).then(results => {
-        this.searchResults = results;
-        if (results.length < 1) {
-          window.deviseSettings.$bus.$emit(
-            'showError',
-            {
-              'title': 'Hey there',
-              'message': `No search results for "${this.searchTerms}"`
-            }
-          )
-        }
-      });
-    },
-    closeSearch () {
-      this.searchTerms = null;
-      this.$set(this, 'searchResults', []);
-    },
     close () {
-      this.show = false;
+      this.selectingFile = false;
+      this.$set(this, 'defaultImage', null);
       this.imageSettings = Object.assign({});
-      this.$set(this, 'selectedFile', null);
+      this.show = false;
     },
+    selectSizeImage () {
+      this.selectingFile = true
+    }
   },
   computed: {
     ...mapGetters('devise', ['files', 'directories', 'currentDirectory', 'searchableMedia']),
@@ -669,7 +152,9 @@ export default {
     loaded (newValue) {
       if (newValue === true) {
         this.$nextTick(() => {
-          this.$refs.search.focus()
+          if (this.$refs.search) {
+            this.$refs.search.focus()
+          }
         })
       }
     },
@@ -686,20 +171,8 @@ export default {
     },
   },
   components: {
-    Loadbar: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/Loadbar.vue'),
-    Breadcrumbs: () => import(/* webpackChunkName: "devise-media" */ './Breadcrumbs.vue'),
     MediaEditor: () => import(/* webpackChunkName: "devise-media" */ './MediaEditor.vue'),
-    Uploader: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/Uploader.vue'),
-    FolderIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/FolderIcon'),
-    TrashIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/TrashIcon'),
-    CloseIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/XIcon'),
-    LinkIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/LinkIcon'),
-    DownloadIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/DownloadCloudIcon'),
+    MediaSelector: () => import(/* webpackChunkName: "devise-media" */ './MediaSelector.vue'),
   },
 };
 </script>

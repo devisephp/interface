@@ -91,7 +91,8 @@
 
 <script>
 import Vue from 'vue';
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
+import { setInterval } from 'timers';
 
 export default {
   name: 'Administration',
@@ -108,8 +109,13 @@ export default {
     setTimeout(() => {
       this.everythingIsLoaded = true;
     }, 2000);
+
+    setInterval(() => {
+      this.pollIfLoggedIn()
+    }, 30000);
   },
   methods: {
+    ...mapActions('devise', ['getLanguages']),
     loadAdminPage (menuItem) {
       if (menuItem.routeName === 'media-manager') {
         window.deviseSettings.$bus.$emit('devise-launch-media-manager', {});
@@ -141,6 +147,11 @@ export default {
 
       return styles;
     },
+    pollIfLoggedIn () {
+      this.getLanguages().then(() => { }, (error) => {
+        window.location.reload(true)
+      })
+    }
   },
   computed: {
     ...mapState('devise', ['adminMenu']),

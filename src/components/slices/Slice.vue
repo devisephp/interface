@@ -178,9 +178,20 @@ export default {
       const mediaRequest = { sizes: {} };
 
       // Check if all the sizes in the configuration are present in the media property
+      // eslint-disable-next-line guard-for-in
       for (const sizeName in field.sizes) {
-        if (typeof this.devise[fieldName].media[sizeName] === 'undefined') {
+        if (
+          field.sizes.hasOwnProperty(sizeName) &&
+          typeof this.devise[fieldName].media[sizeName] === 'undefined'
+        ) {
           mediaRequest.sizes[sizeName] = field.sizes[sizeName];
+        }
+
+        if (
+          field.sizes.hasOwnProperty(sizeName) &&
+          typeof this.devise[fieldName].sizes[sizeName] === 'undefined'
+        ) {
+          this.devise[fieldName].sizes[sizeName] = field.sizes[sizeName];
         }
       }
 
