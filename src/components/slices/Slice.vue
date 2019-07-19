@@ -19,6 +19,7 @@
 <script>
 import ResizeObserver from 'resize-observer-polyfill'; // eslint-disable-line
 import { Sketch } from 'vue-color';
+import queryString from 'query-string';
 
 import mezr from 'mezr';
 
@@ -66,6 +67,10 @@ export default {
 
     this.addListeners();
 
+    this.cleanupImageFields();
+
+    // TODO - Revisit this. With the new system we could probably open it up
+    // to any user. However, we don't want every user to see the tippy message.
     if (this.can('manage slices')) {
       this.checkMediaSizesForRegeneration();
     }
@@ -148,7 +153,7 @@ export default {
         }
       }
     },
-    checkMediaSizesForRegeneration () {
+    cleanupImageFields () {
       // If the current slice even has fields
       if (typeof this.currentView.fields !== 'undefined') {
         for (const fieldName in this.currentView.fields) {
@@ -157,6 +162,27 @@ export default {
 
             // If the field is an image
             if (field.type === 'image' && this.devise[fieldName].url !== null) {
+              // do a little cleanup
+              // delete this.devise[fieldName].sizes
+              delete this.devise[fieldName].settings
+            }
+          }
+        }
+      }
+    },
+    checkMediaSizesForRegeneration () {
+      // If the current slice even has fields
+      if (typeof this.currentView.fields !== 'undefined') {
+        for (const fieldName in this.currentView.fields) {
+          if (this.currentView.fields.hasOwnProperty(fieldName)) {
+            const field = this.currentView.fields[fieldName];
+
+            // If the field is an image in media mode (not a direct url)
+            if (
+              field.type === 'image' &&
+              this.devise[fieldName].mode === 'media' &&
+              this.devise[fieldName].url !== null
+            ) {
               // If sizes are defined on the image configuration and an image has already been selected
               if (
                 typeof field.sizes !== 'undefined' &&
@@ -182,26 +208,29 @@ export default {
       for (const sizeName in field.sizes) {
         if (
           field.sizes.hasOwnProperty(sizeName) &&
-          typeof this.devise[fieldName].media[sizeName] === 'undefined'
+          (
+            typeof this.devise[fieldName].media[sizeName] === 'undefined' ||
+            !this.devise[fieldName].media[sizeName]
+          )
         ) {
           mediaRequest.sizes[sizeName] = field.sizes[sizeName];
-        }
-
-        if (
-          field.sizes.hasOwnProperty(sizeName) &&
-          typeof this.devise[fieldName].sizes[sizeName] === 'undefined'
-        ) {
-          this.devise[fieldName].sizes[sizeName] = field.sizes[sizeName];
         }
       }
 
       // Check to see if any of the sizes have changed
       for (const sizeName in field.sizes) {
         if (field.sizes.hasOwnProperty(sizeName)) {
-          const storedSize = this.devise[fieldName].sizes[sizeName];
           const fieldSize = field.sizes[sizeName];
-          if (!storedSize || storedSize.w !== fieldSize.w || storedSize.h !== fieldSize.h) {
-            mediaRequest.sizes[sizeName] = fieldSize;
+          const storedSize = this.devise[fieldName].media[sizeName];
+
+          if (storedSize) {
+            const paramsIndex = storedSize.indexOf("?");
+            const paramsString = storedSize.substring(paramsIndex)
+            const params = queryString.parse(paramsString);
+
+            if (!params || parseInt(params.w, 0) !== parseInt(fieldSize.w, 0) || parseInt(params.h, 0) !== parseInt(fieldSize.h, 0)) {
+              mediaRequest.sizes[sizeName] = fieldSize;
+            }
           }
         }
       }

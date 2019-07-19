@@ -1,6 +1,5 @@
 export default function (el, binding) {
 
-  console.log(binding.value)
   if (binding.value !== null) {
     let { image, srcAttr, breakpoint } = binding.value;
     const { lazy, background } = binding.modifiers;
