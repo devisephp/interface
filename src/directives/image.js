@@ -28,8 +28,7 @@ export default function (el, binding) {
       }
 
       // We couldn't find the size so return the first one
-      const defaultSize = Object.keys(sizes)[0];
-      return { size: defaultSize, settings: sizes[defaultSize] };
+      return false
     };
 
     const setImage = () => {
@@ -40,7 +39,7 @@ export default function (el, binding) {
         let theSize = null;
 
         // Get the image size if sizes are present
-        if (image.sizes) {
+        if (image.media) {
           theSize = theImageSize();
 
           if (theSize) {

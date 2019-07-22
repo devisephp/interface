@@ -15,9 +15,15 @@
             </div>
           </template>
         </template>
-
-        <div v-if="isCropping">
-          <div class="dvs-flex dvs-bg-grey-darkest dvs-p-4">
+        <div
+          class="dvs-blocker dvs-z-30"
+          v-if="isCropping"
+        ></div>
+        <div
+          v-if="isCropping"
+          class="dvs-relative dvs-z-40 dvs-bg-black dvs-rounded dvs-shadow-lg"
+        >
+          <div class="dvs-flex dvs-bg-grey-darkest dvs-p-4 dvs-rounded-t">
             <button
               class="dvs-btn dvs-mr-2"
               :style="theme.actionButton"

@@ -20,11 +20,11 @@
         <div v-if="typeof options !== 'undefined' && options.sizes">
           <media-editor
             ref="sizesmediaeditor"
-            :imageSettings="imageSettings"
+            :image-settings="imageSettings"
             :default-image="defaultImage.url"
             :sizes="options.sizes"
             @selectsizeimage="selectSizeImage"
-            @cancel="defaultImage = null"
+            @cancel="close"
             @done="close"
             @generatedImages="setValue"
           />
@@ -32,9 +32,9 @@
 
         <div v-else>
           <media-editor
-            :imageSettings="imageSettings"
+            :image-settings="imageSettings"
             :default-image="defaultImage.url"
-            @cancel="defaultImage = null"
+            @cancel="close"
             @done="close"
             @generatedImages="setValue"
           />

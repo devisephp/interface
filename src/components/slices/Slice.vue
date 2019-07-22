@@ -163,8 +163,8 @@ export default {
             // If the field is an image
             if (field.type === 'image' && this.devise[fieldName].url !== null) {
               // do a little cleanup
-              // delete this.devise[fieldName].sizes
-              delete this.devise[fieldName].settings
+              delete this.devise[fieldName].sizes;
+              this.$set(this.devise[fieldName], 'sizes', field.sizes);
             }
           }
         }
@@ -200,11 +200,7 @@ export default {
       }
     },
     determineMediaRegenerationNeeds (field, fieldName) {
-      // Build the sizes needed
-      const mediaRequest = { sizes: {} };
-
       // Check if all the sizes in the configuration are present in the media property
-      // eslint-disable-next-line guard-for-in
       for (const sizeName in field.sizes) {
         if (
           field.sizes.hasOwnProperty(sizeName) &&
@@ -213,7 +209,8 @@ export default {
             !this.devise[fieldName].media[sizeName]
           )
         ) {
-          mediaRequest.sizes[sizeName] = field.sizes[sizeName];
+          this.makeMediaRegenerationRequest(field, fieldName)
+          return true
         }
       }
 
@@ -229,26 +226,24 @@ export default {
             const params = queryString.parse(paramsString);
 
             if (!params || parseInt(params.w, 0) !== parseInt(fieldSize.w, 0) || parseInt(params.h, 0) !== parseInt(fieldSize.h, 0)) {
-              mediaRequest.sizes[sizeName] = fieldSize;
+              this.makeMediaRegenerationRequest(field, fieldName)
+              return true
             }
           }
         }
       }
 
-      // If there are any sizes needed
-      if (Object.keys(mediaRequest.sizes).length > 0) {
-        // Build the request payload
-        const payload = {
-          allSizes: field.sizes,
-          sizes: mediaRequest,
-          instanceId: this.devise.metadata.instance_id,
-          fieldName,
-          component: this.devise.metadata.name,
-        };
-        this.makeMediaRegenerationRequest(payload);
-      }
+      return false
     },
-    makeMediaRegenerationRequest (payload) {
+    makeMediaRegenerationRequest (field, fieldName) {
+      // Build the request payload
+      const payload = {
+        allSizes: field.sizes,
+        instanceId: this.devise.metadata.instance_id,
+        fieldName,
+        component: this.devise.metadata.name,
+      };
+
       this.regenerateMedia(payload).then(() => {
         window.deviseSettings.$bus.$emit('showMessage', {
           title: 'New Images Generated',

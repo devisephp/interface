@@ -178,7 +178,7 @@ export default {
       window.deviseSettings.$bus.$emit('devise-launch-media-editor', {
         callback: this.mediaSelected,
         options: this.options,
-        image: this.value.media.original,
+        image: this.value.defaultImage,
         settings: this.settings,
       });
     },
