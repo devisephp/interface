@@ -428,7 +428,7 @@ export default {
         return window.deviseSettings.$deviseComponents[this.devise.name];
       }
       return window.deviseSettings.$deviseComponents[this.devise.metadata.name];
-    },
+    }
   },
   props: ['editorMode', 'sliceIndex'],
   mixins: [Strings],

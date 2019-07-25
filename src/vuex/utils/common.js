@@ -10,6 +10,12 @@ const funcs = {
 
     const filters = JSON.parse(JSON.stringify(filter));
 
+    Object.keys(filters).forEach((f) => {
+      if (filters[f] === null) {
+        delete filters[f];
+      }
+    });
+
     let params = {};
     const sortParams = funcs.buildSortParams(filters.sort);
     const relatedParams = funcs.buildRelatedParams(filters.related);
