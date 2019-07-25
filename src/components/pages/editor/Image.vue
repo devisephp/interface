@@ -175,10 +175,12 @@ export default {
     },
     launchMediaEditor () {
       this.options.type = 'image';
+      const image = this.value.defaultImage ? this.value.defaultImage : this.value.url;
+
       window.deviseSettings.$bus.$emit('devise-launch-media-editor', {
         callback: this.mediaSelected,
         options: this.options,
-        image: this.value.defaultImage,
+        image,
         settings: this.settings,
       });
     },
