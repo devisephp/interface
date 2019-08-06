@@ -109,7 +109,6 @@ export default {
       window.deviseSettings.$bus.$on(
         'devise-launch-media-editor',
         ({ target, callback, options, image, settings }) => {
-          console.log(image);
           this.callback = callback;
           this.target = target;
           this.options = options;

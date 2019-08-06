@@ -36,7 +36,7 @@
     "v-debounce": "^0.1.2",
     "vue": "^2.5.22",
     "vue-color": "^2.7.0",
-    "vue-feather-icons": "^4.22.0",
+    "vue-feather-icons": "^5.0.0",
     "vue-flatpickr-component": "^8.1.1",
     "vue-good-table": "^2.16.2",
     "vue-notifications": "^0.9.0",
