@@ -592,8 +592,9 @@ export default {
       });
     },
     mediaSelected (imagesAndSettings) {
+      // console.log(imagesAndSettings);
       if (typeof imagesAndSettings === 'object') {
-        this.currentCommand({ src: imagesAndSettings.images.orig_optimized })
+        this.currentCommand({ src: imagesAndSettings.images.media.custom })
       }
     },
     update (e) {

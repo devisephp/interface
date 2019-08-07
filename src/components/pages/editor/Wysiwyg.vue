@@ -47,7 +47,6 @@ export default {
   methods: {
     toggleEditor () {
       this.showEditor = !this.showEditor;
-      this.focusForm();
     },
     cancel () {
       this.text = this.originalValue.text;
@@ -58,16 +57,7 @@ export default {
     resetValue () {
       this.enabled = false;
       this.$refs.editor.empty();
-    },
-    focusForm () {
-      if (this.showEditor) {
-        this.$nextTick(() => {
-          setTimeout(() => {
-            this.$refs.editor.theEditor.$el.focus();
-          }, 200);
-        });
-      }
-    },
+    }
   },
   computed: {
     text: {

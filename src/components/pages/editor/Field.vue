@@ -45,16 +45,22 @@
             >
               <span>{{ options.label }}</span>
               <br>
-              <small
-                class="dvs-text-xs"
-                v-if="options.instructions"
-              >
-                Hint from Developer:
-                <span class="dvs-italic dvs-font-normal">{{ options.instructions }}</span>
-              </small>
+
             </h6>
 
             <slot name="editor"></slot>
+
+            <div
+              class="dvs-text-sm mt-4 border-b border-t py-2"
+              :style="{'border-color':theme.panel.color}"
+              v-if="options.instructions"
+            >
+              <div class="opacity-75 uppercase mb-2 text-xs">Hint from Developer:</div>
+              <span
+                class="dvs-font-normal"
+                v-html="options.instructions"
+              ></span>
+            </div>
 
             <div class="dvs-flex dvs-items-center dvs-mt-4 dvs-mb-4 dvs-justify-between">
               <div class="dvs-flex dvs-items-center">

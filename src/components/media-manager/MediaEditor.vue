@@ -163,7 +163,7 @@ export default {
           return true;
         }).then(() => {
           window.deviseSettings.$bus.$emit('hideLoadScreen');
-        }, () => {
+        }, (e) => {
           window.deviseSettings.$bus.$emit('hideLoadScreen');
         });
       })
