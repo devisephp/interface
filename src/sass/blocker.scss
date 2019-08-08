@@ -10,8 +10,11 @@
 }
 
 .dvs-sidebar-hint {
-  @apply fixed pin-t pin-l bg-red;
-
+  @apply fixed pin-t pin-l rounded-r-full rounded-b-full ml-1 mt-1;
+  
+  background: rgb(2,0,36);
+  background: linear-gradient(144deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
+  z-index: 9999999999;
   height:50px;
   width:50px;
 }
