@@ -3,7 +3,6 @@ import { mapGetters } from 'vuex';
 import Vuebar from 'vuebar';
 import VueNotifications from 'vue-notifications';
 import iziToast from 'izitoast'; // https://github.com/dolce/iziToast
-import VueTippy from 'vue-tippy'
 import VueScrollactive from 'vue-scrollactive';
 import Devise from './Devise.vue';
 import DeviseStore from './vuex/store';
@@ -159,18 +158,6 @@ const DevisePlugin = {
 
     // For administration sidebars
     Vue.use(VueScrollactive);
-
-    // Tips and popups
-    Vue.use(VueTippy, {
-      interactive: true,
-      animation: 'shift-toward',
-      arrow: true,
-      inertia: true,
-      interactiveBorder: 20,
-      maxWidth: '300px',
-      theme: 'devise',
-      trigger: 'mouseenter focus',
-    })
 
     // enables passive event listeners by default for some events
     // require('default-passive-events');

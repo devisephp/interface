@@ -152,10 +152,6 @@
         </div>
       </div>
     </div>
-
-    <portal to="devise-root">
-      <analytic-totals />
-    </portal>
   </div>
 
   <div v-else>
@@ -356,7 +352,6 @@ export default {
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/PlusCircleIcon'),
     RefreshIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/RefreshCcwIcon'),
-    AnalyticTotals: () => import(/* webpackChunkName: "devise-pages" */ './AnalyticTotals'),
     draggable: () => import(/* webpackChunkName: "devise-editors" */ 'vuedraggable'),
     ManageSlice: () => import(/* webpackChunkName: "devise-editors" */ './slices/ManageSlice'),
     SliceEditor: () => import(/* webpackChunkName: "devise-editors" */ './slices/SliceEditor'),

@@ -28,18 +28,11 @@ export default {
     },
   },
   computed: {
-    ...mapGetters('devise', ['adminMenu', 'mothershipApiKey']),
+    ...mapGetters('devise', ['adminMenu']),
     show () {
       // Page Editor
       if (this.item.routeName === 'devise-page-editor') {
         if (!this.editablePage) {
-          return false;
-        }
-      }
-
-      // Mothership
-      if (this.item.routeName === 'devise-mothership-index') {
-        if (this.mothershipApiKey === null) {
           return false;
         }
       }

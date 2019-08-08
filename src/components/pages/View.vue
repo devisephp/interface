@@ -85,45 +85,6 @@
           class="dvs-mb-8 dvs-font-hairline"
         >{{ localValue.title }}</h1>
 
-        <template v-if="analytics.data">
-          <h3
-            class="dvs-mb-8 dvs-pr-16"
-            :style="{color: theme.panel.color}"
-          >{{ localValue.title }} Analytics</h3>
-          <div class="flex dvs-mb-8">
-            <fieldset class="dvs-fieldset mr-8">
-              <label>Analytics Start Date</label>
-              <date-picker
-                v-model="analyticsDateRange.start"
-                :settings="{date: true, time: false}"
-                placeholder="Start Date"
-                @update="retrieveAnalytics()"
-              />
-            </fieldset>
-            <fieldset class="dvs-fieldset">
-              <label>Analytics End Date</label>
-              <date-picker
-                v-model="analyticsDateRange.end"
-                :settings="{date: true, time: false}"
-                placeholder="End Date"
-                @update="retrieveAnalytics()"
-              />
-            </fieldset>
-          </div>
-          <div
-            class="dvs-mb-12"
-            v-if="mothershipApiKey"
-          >
-            <line-chart
-              class="dvs-mb-8"
-              :chart-data="analytics.data"
-              :options="options"
-              :width="800"
-              :height="200"
-            />
-          </div>
-        </template>
-
         <h3
           class="dvs-mb-8 dvs-pr-16"
           :style="{color: theme.panel.color}"
@@ -188,7 +149,6 @@
                     :settings="{date: true, time: true}"
                     placeholder="Start Date"
                     title="The date in which this version will begin appearing."
-                    v-tippy
                   />
                 </fieldset>
 
@@ -199,7 +159,6 @@
                     :settings="{date: true, time: true}"
                     placeholder="End Date"
                     title="The date when this page version will stop appearing. This page will either fall back to another page version or produce a 404: Page Not Found if a user attempts to load it."
-                    v-tippy
                   />
                 </fieldset>
 
@@ -212,7 +171,6 @@
                     type="number"
                     v-model.number="localValue.versions[key].ab_testing_amount"
                     title="This is the weight in which a page will show up. The number can be any number you want and is divided by the total weights of all other page versions."
-                    v-tippy
                   >
                 </fieldset>
               </div>
@@ -222,7 +180,6 @@
                   class="dvs-btn dvs-mr-4 dvs-px-8"
                   @click="requestSaveVersion(version)"
                   title="Save Version Settings"
-                  v-tippy
                   :style="theme.actionButton"
                 >
                   <checkmark-icon
@@ -234,7 +191,6 @@
                   class="dvs-btn dvs-mr-4 dvs-px-8"
                   @click="requestCopyVersion(version)"
                   title="Copy Version"
-                  v-tippy
                   :style="theme.actionButtonGhost"
                 >
                   <copy-icon
@@ -244,7 +200,6 @@
                 </button>
                 <button
                   class="dvs-btn dvs-mr-2 dvs-px-8"
-                  v-tippy
                   v-devise-alert-confirm="{callback: requestDeleteVersion, arguments:version, message: 'Are you sure you want to delete this version?'}"
                   :style="theme.actionButtonGhost"
                 >
@@ -498,11 +453,6 @@ export default {
   name: 'PagesView',
   data () {
     return {
-      analytics: {},
-      analyticsDateRange: {
-        start: null,
-        end: null,
-      },
       localValue: {},
       modulesToLoad: 2,
       showCopy: false,
@@ -548,7 +498,6 @@ export default {
   mounted () {
     this.retrievePage();
     this.retrieveAllLanguages();
-    this.setDefaultAnalytics();
   },
   methods: {
     ...mapActions('devise', [
@@ -556,7 +505,6 @@ export default {
       'copyPageVersion',
       'deletePage',
       'deletePageVersion',
-      'getPageAnalytics',
       'getPage',
       'getLanguages',
       'translatePage',
@@ -632,8 +580,6 @@ export default {
         });
         self.pageToTranslate.slug = self.localValue.slug;
         window.deviseSettings.$bus.$emit('incrementLoadbar', self.modulesToLoad);
-
-        self.retrieveAnalytics();
       });
     },
     retrieveAllLanguages () {
@@ -642,55 +588,12 @@ export default {
         window.deviseSettings.$bus.$emit('incrementLoadbar', self.modulesToLoad);
       });
     },
-    setDefaultAnalytics () {
-      const today = new Date();
-      const oneWeekAgo = new Date();
-      oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-
-      this.analyticsDateRange.end = this.formatDate(today);
-      this.analyticsDateRange.start = this.formatDate(oneWeekAgo);
-    },
-    retrieveAnalytics () {
-      const self = this;
-
-      if (this.mothershipApiKey) {
-        if (
-          typeof this.analyticsDateRange.start !== 'string' &&
-          this.analyticsDateRange.start[0]
-        ) {
-          this.analyticsDateRange.start = this.formatDate(
-            new Date(this.analyticsDateRange.start[0])
-          );
-        }
-
-        if (typeof this.analyticsDateRange.end !== 'string' && this.analyticsDateRange.end[0]) {
-          this.analyticsDateRange.end = this.formatDate(new Date(this.analyticsDateRange.end[0]));
-        }
-
-        this.getPageAnalytics({ slug: this.localValue.slug, dates: self.analyticsDateRange }).then(
-          response => {
-            response.data.data.datasets.map((dataset, index) => {
-              dataset.backgroundColor = [self.colors[index].background];
-              dataset.fontColor = self.theme.panel.color;
-              dataset.borderColor = [self.colors[index].border];
-              dataset.pointRadius = 4;
-              dataset.pointHoverRadius = 10;
-              dataset.fill = false;
-
-              return dataset;
-            });
-
-            self.$set(self, 'analytics', response.data);
-          }
-        );
-      }
-    },
     toggleVersionSettings (version) {
       this.$set(version, 'showSettings', !version.showSettings);
     },
   },
   computed: {
-    ...mapGetters('devise', ['languages', 'mothershipApiKey']),
+    ...mapGetters('devise', ['languages']),
     ...mapState('devise', ['layouts']),
     options () {
       return {
@@ -734,7 +637,6 @@ export default {
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/EditIcon'),
     CheckmarkIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/CheckIcon'),
-    LineChart: () => import(/* webpackChunkName: "devise-charts" */ './analytics/Line'),
     MetaForm: () => import(/* webpackChunkName: "devise-meta" */ '../meta/MetaForm'),
   },
   mixins: [Dates, AdministrationMixin],

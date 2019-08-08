@@ -97,10 +97,6 @@ export default {
     state.mothership = payload;
   },
 
-  setChanges (state, payload) {
-    state.changes = payload;
-  },
-
   // Current Page
   setCurrentPage (state, page) {
     Object.assign({}, state.currentPage, page);
@@ -148,12 +144,6 @@ export default {
   updatePageVersion (state, { page, version, data }) {
     let theVersion = page.versions.find(ver => ver.id === version.id);
     theVersion = data;
-    return theVersion;
-  },
-
-  updatePageVersionAnalytics (state, { page, version, data }) {
-    let theVersion = page.versions.find(ver => ver.id === version.id);
-    theVersion = Object.assign({}, theVersion, { analytics: data });
     return theVersion;
   },
 

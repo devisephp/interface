@@ -7,11 +7,6 @@
           :style="theme.actionButton"
           @click.prevent="showCreate = true"
         >Create New Site</button>
-        <button
-          class="dvs-btn dvs-btn-sm dvs-mx-1"
-          :style="theme.actionButton"
-          @click.prevent="requestSyncSites"
-        >Sync Sites with Mothership</button>
       </div>
 
       <h2
@@ -165,17 +160,11 @@ export default {
       'updateSite',
       'deleteSite',
     ]),
-    requestSyncSites () {
-      if (this.mothershipApiKey !== null) {
-        this.syncSites(this.sites.data);
-      }
-    },
     requestCreateSite () {
       this.createSite(this.newSite).then(() => {
         this.newSite.name = null;
         this.newSite.domain = null;
         this.showCreate = false;
-        this.requestSyncSites();
       });
     },
     showEditSite (site) {
@@ -231,7 +220,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters('devise', ['sites', 'languages', 'mothershipApiKey']),
+    ...mapGetters('devise', ['sites', 'languages']),
     createInvalid () {
       return this.newSite.name === null || this.newSite.domain === null;
     },

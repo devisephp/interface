@@ -1,15 +1,3 @@
-const MothershipIndex = () =>
-  import(/* webpackChunkName: "devise-mothership" */ '../components/mothership/Index');
-const MothershipAnalytics = () =>
-  import(/* webpackChunkName: "devise-mothership" */ '../components/mothership/Analytics');
-const MothershipBackups = () =>
-  import(/* webpackChunkName: "devise-mothership" */ '../components/mothership/Backups');
-const MothershipReleases = () =>
-  import(/* webpackChunkName: "devise-mothership" */ '../components/mothership/Releases');
-const MothershipChanges = () =>
-  import(/* webpackChunkName: "devise-mothership" */ '../components/mothership/Changes');
-const MothershipHealthReports = () =>
-  import(/* webpackChunkName: "devise-mothership" */ '../components/mothership/HealthReports');
 const LanguagesManage = () =>
   import(/* webpackChunkName: "devise-languages" */ '../components/languages/Manage');
 const AdministrationIndex = () =>
@@ -104,66 +92,6 @@ const routes = [
     name: 'devise-page-settings',
     components: {
       devise: PageSettings,
-    },
-    meta: {
-      parentRouteName: 'devise-settings',
-    },
-  },
-  {
-    path: '/devise/mothership',
-    name: 'devise-mothership-index',
-    components: {
-      devise: MothershipIndex,
-    },
-    meta: {
-      parentRouteName: 'devise-settings',
-    },
-  },
-  {
-    path: '/devise/mothership/analytics',
-    name: 'devise-ms-analytics-index',
-    components: {
-      devise: MothershipAnalytics,
-    },
-    meta: {
-      parentRouteName: 'devise-settings',
-    },
-  },
-  {
-    path: '/devise/mothership/releases',
-    name: 'devise-ms-releases-index',
-    components: {
-      devise: MothershipReleases,
-    },
-    meta: {
-      parentRouteName: 'devise-settings',
-    },
-  },
-  {
-    path: '/devise/mothership/changes',
-    name: 'devise-ms-changes-index',
-    components: {
-      devise: MothershipChanges,
-    },
-    meta: {
-      parentRouteName: 'devise-settings',
-    },
-  },
-  {
-    path: '/devise/mothership/analytics',
-    name: 'devise-ms-backups-index',
-    components: {
-      devise: MothershipBackups,
-    },
-    meta: {
-      parentRouteName: 'devise-settings',
-    },
-  },
-  {
-    path: '/devise/mothership/health-reports',
-    name: 'devise-ms-healthreports-index',
-    components: {
-      devise: MothershipHealthReports,
     },
     meta: {
       parentRouteName: 'devise-settings',
