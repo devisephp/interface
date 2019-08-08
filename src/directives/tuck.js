@@ -1,85 +1,33 @@
-import { TweenMax, TimelineLite } from 'gsap';
-
 export default {
-  inserted(el) {
-    const offset = 5;
-
-    const style = window.getComputedStyle ? getComputedStyle(el, null) : el.currentStyle;
-
-    const marginLeft = parseInt(style.marginLeft, 0) || 0;
-    const marginRight = parseInt(style.marginRight, 0) || 0;
-    const marginTop = parseInt(style.marginTop, 0) || 0;
-
-    const elX = el.offsetLeft - marginLeft;
-    const elY = el.offsetTop - marginTop;
-
+  inserted (el) {
     let initTimeout = null;
-    let elWidth = el.offsetWidth;
-    let elHeight = el.offsetHeight;
 
     const blocker = document.createElement('div');
     blocker.classList.add('dvs-blocker');
     document.body.appendChild(blocker);
 
-    function calculateTuckX() {
-      const rightSide = elX + elWidth + marginLeft + marginRight;
-      const leftSide = elX;
-      const halfWindow = window.innerWidth / 2;
+    const sidebarHint = document.createElement('div');
+    sidebarHint.classList.add('dvs-sidebar-hint');
+    document.body.appendChild(sidebarHint);
 
-      if (rightSide - halfWindow > halfWindow - leftSide) {
-        return window.innerWidth - offset - marginLeft;
-      }
+    el.style.transition = '500ms all';
+    blocker.style.transition = '800ms all';
 
-      return -elWidth + offset;
-    }
-
-    function hide() {
-      elWidth = el.offsetWidth;
-      elHeight = el.offsetHeight;
-
-      const timeline = new TimelineLite();
-      const tuckX = calculateTuckX();
-
-      TweenMax.to(el, 1, {
-        left: `${tuckX}px`,
-        width: `${elWidth}px`,
-        height: `${elHeight}px`,
-        ease: Elastic.easeOut.config(0.5, 0.5), // eslint-disable-line
-      });
-
-      timeline
-        .to(blocker, 0.5, {
-          opacity: 0,
-          ease: Power3.easeIn, // eslint-disable-line
-        })
-        .to(blocker, 0, {
-          top: `${window.innerHeight}px`,
-        });
-
+    function hide () {
+      el.style.opacity = 0;
+      el.classList.add('pointer-events-none');
+      blocker.style.opacity = 0;
+      blocker.classList.add('pointer-events-none');
       window.deviseSettings.$bus.$emit('devise-close-sidebar');
     }
 
-    function show() {
-      const timeline = new TimelineLite();
-
-      // Kill the initial page hide if I mouse over
+    function show () {
       clearTimeout(initTimeout);
-
-      TweenMax.to(el, 1, {
-        top: `${elY}px`,
-        left: `${elX}px`,
-        width: `auto`,
-        ease: Elastic.easeOut.config(0.5, 0.5), // eslint-disable-line
-      });
-
-      timeline
-        .to(blocker, 0, {
-          top: '0px',
-        })
-        .to(blocker, 0.5, {
-          opacity: 0.3,
-          ease: Power3.easeOut, // eslint-disable-line
-        });
+      el.style.opacity = 1;
+      el.classList.add('pointer-events-auto');
+      blocker.style.opacity = 0.75;
+      blocker.classList.add('pointer-events-auto');
+      window.deviseSettings.$bus.$emit('devise-open-sidebar');
     }
 
     initTimeout = setTimeout(() => {

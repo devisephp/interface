@@ -97,7 +97,6 @@
 </template>
 
 <script>
-import { TweenMax } from 'gsap';
 import { mapActions } from 'vuex';
 
 export default {
@@ -114,14 +113,10 @@ export default {
   methods: {
     ...mapActions('devise', ['setPreviewModeInCurrentPage']),
     closePreviewSelector () {
-      TweenMax.to(this.previewSelector, 0.5, {
-        maxHeight: '0px',
-      });
+      this.previewSelector.style.maxHeight = '0px'
     },
     openPreviewSelector () {
-      TweenMax.to(this.previewSelector, 0.5, {
-        maxHeight: '500px',
-      });
+      this.previewSelector.style.maxHeight = '500px'
     },
     setPreviewMode (mode) {
       this.previewMode = mode;

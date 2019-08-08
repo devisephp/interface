@@ -1,7 +1,7 @@
 {
   "chunk-vendors.css": "css/chunk-vendors.35805143.css",
-  "chunk-vendors.js": "js/chunk-vendors.06069a67.js",
-  "chunk-vendors.js.map": "js/chunk-vendors.06069a67.js.map",
+  "chunk-vendors.js": "js/chunk-vendors.f3905221.js",
+  "chunk-vendors.js.map": "js/chunk-vendors.f3905221.js.map",
   "devise-admin.js": "js/devise-admin.654c031f.js",
   "devise-admin.js.map": "js/devise-admin.654c031f.js.map",
   "devise-administration.js": "js/devise-administration.2008f860.js",
@@ -20,8 +20,8 @@
   "devise-meta.js.map": "js/devise-meta.fe88977e.js.map",
   "devise-pages.js": "js/devise-pages.8636bdc5.js",
   "devise-pages.js.map": "js/devise-pages.8636bdc5.js.map",
-  "devise-previewmode.js": "js/devise-previewmode.f749600a.js",
-  "devise-previewmode.js.map": "js/devise-previewmode.f749600a.js.map",
+  "devise-previewmode.js": "js/devise-previewmode.36d06f23.js",
+  "devise-previewmode.js.map": "js/devise-previewmode.36d06f23.js.map",
   "devise-redirects.js": "js/devise-redirects.acbbcf86.js",
   "devise-redirects.js.map": "js/devise-redirects.acbbcf86.js.map",
   "devise-sites.js": "js/devise-sites.06c569d3.js",
@@ -37,9 +37,9 @@
   "img/loader.gif": "img/loader.182c4747.gif",
   "img/logo-devise-painted-1.jpg": "img/logo-devise-painted-1.888c5916.jpg",
   "main.css": "css/main.a7d18c16.css",
-  "main.js": "js/main.df845eb6.js",
-  "main.js.map": "js/main.df845eb6.js.map",
-  "styles.css": "css/styles.3384fecc.css",
+  "main.js": "js/main.83bb7589.js",
+  "main.js.map": "js/main.83bb7589.js.map",
+  "styles.css": "css/styles.f5c8f023.css",
   "styles.js": "js/styles.4134055d.js",
   "styles.js.map": "js/styles.4134055d.js.map"
 }

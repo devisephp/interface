@@ -8,3 +8,10 @@
   }
 
 }
+
+.dvs-sidebar-hint {
+  @apply fixed pin-t pin-l bg-red;
+
+  height:50px;
+  width:50px;
+}
