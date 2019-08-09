@@ -18,9 +18,11 @@ export default {
 
     function hide () {
       el.style.opacity = 0;
+      el.classList.remove('dvs-pointer-events-auto');
       el.classList.add('dvs-pointer-events-none');
 
       blocker.style.opacity = 0;
+      blocker.classList.remove('dvs-pointer-events-auto');
       blocker.classList.add('dvs-pointer-events-none');
 
       sidebarHint.classList.remove('hidden');
@@ -39,9 +41,11 @@ export default {
       clearTimeout(initTimeout);
 
       el.style.opacity = 1;
+      el.classList.remove('dvs-pointer-events-none');
       el.classList.add('dvs-pointer-events-auto');
 
       blocker.style.opacity = 0.75;
+      blocker.classList.remove('dvs-pointer-events-none');
       blocker.classList.add('dvs-pointer-events-auto');
 
       sidebarHint.style.opacity = 0;
