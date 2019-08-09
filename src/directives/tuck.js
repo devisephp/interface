@@ -60,6 +60,7 @@ export default {
       hide();
     }, 1500);
 
+    el.addEventListener('mouseenter', show);
     sidebarHint.addEventListener('click', show);
     blocker.addEventListener('click', hide);
   },
