@@ -13,7 +13,7 @@ export default function (el, binding) {
     }
 
     const theImageSize = () => {
-      const { sizes } = image;
+      const { sizes, media } = image;
 
       // Search the sizes for the right size based on the current breakpoint
       for (const size in sizes) {
@@ -26,7 +26,6 @@ export default function (el, binding) {
           // If breakpoints isn't set assume only one size and return it
         }
       }
-
       // We couldn't find the size so return the first one
       return false
     };
@@ -49,6 +48,8 @@ export default function (el, binding) {
             if (image.media[theSize.size]) {
               theImage = image.media[theSize.size];
             }
+          } else if (image.media.custom) {
+            theImage = image.media.custom
           }
         } else {
           noSize = true;
