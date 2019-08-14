@@ -9,7 +9,7 @@ export default {
     const sidebarHint = document.createElement('div');
     sidebarHint.classList.add('dvs-sidebar-hint');
     sidebarHint.style.opacity = 0;
-    sidebarHint.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" w="25" h="25" class="dvs-m-3 feather feather-power"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg>`;
+    sidebarHint.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" w="25" h="25" class="feather feather-power" style="margin:12px;"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg>`;
     document.body.appendChild(sidebarHint);
 
     sidebarHint.style.transition = '500ms all ease-in-out';

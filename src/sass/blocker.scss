@@ -12,6 +12,7 @@
 .dvs-sidebar-hint {
   @apply fixed pin-t pin-l rounded-r-full rounded-b-full ml-1 mt-1 cursor-pointer shadow-lg dvs-text-grey-darkest;
   
+  font-size:16px;
   opacity: 0;
   top: '-100px';
   left: '-100px';
@@ -21,4 +22,5 @@
   z-index: 9999999999;
   height:50px;
   width:50px;
+
 }

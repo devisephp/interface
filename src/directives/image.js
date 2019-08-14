@@ -13,7 +13,7 @@ export default function (el, binding) {
     }
 
     const theImageSize = () => {
-      const { sizes, media } = image;
+      const { sizes } = image;
 
       // Search the sizes for the right size based on the current breakpoint
       for (const size in sizes) {
