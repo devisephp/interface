@@ -1,6 +1,106 @@
 import commonUtils from './utils/common';
 
 const actions = {
+
+  // Generic
+  getGeneric (context, payload) {
+    return new Promise((resolve) => {
+      window.axios
+        .get(
+          `${context.state.api.baseUrl}${
+          payload.config.apiendpoint
+          }/?${commonUtils.buildFilterParams(payload.filters)}`
+        )
+        .then((response) => {
+          context.commit('setGeneric', { config: payload.config, response });
+          resolve(response);
+        })
+        .catch((error) => {
+          window.deviseSettings.$bus.$emit('showError', error);
+        });
+    }).catch((error) => {
+      window.deviseSettings.$bus.$emit('showError', error);
+    });
+  },
+
+  getGenericRecord (context, payload) {
+    return new Promise((resolve) => {
+      window.axios
+        .get(
+          `${context.state.api.baseUrl}${payload.config.apiendpoint}/${payload.id}`
+        )
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          window.deviseSettings.$bus.$emit('showError', error);
+        });
+    }).catch((error) => {
+      window.deviseSettings.$bus.$emit('showError', error);
+    });
+  },
+
+  createGeneric (context, payload) {
+    return new Promise((resolve) => {
+      window.axios
+        .post(`${context.state.api.baseUrl}${payload.config.apiendpoint}/`, payload.record)
+        .then((response) => {
+          window.deviseSettings.$bus.$emit('showMessage', {
+            title: 'Success!',
+            message: `${payload.record[payload.config.recordLabel]} has been created.`,
+          });
+          resolve(response);
+        })
+
+        .catch((error) => {
+          window.deviseSettings.$bus.$emit('showError', error);
+        });
+    }).catch((error) => {
+      window.deviseSettings.$bus.$emit('showError', error);
+    });
+  },
+
+  updateGeneric (context, payload) {
+    return new Promise((resolve) => {
+      window.axios
+        .put(
+          `${context.state.api.baseUrl}${payload.config.apiendpoint}/${payload.record.id}`,
+          payload.record
+        )
+        .then((response) => {
+          window.deviseSettings.$bus.$emit('showMessage', {
+            title: 'Success!',
+            message: `${payload.record[payload.config.recordLabel]} has been saved.`,
+          });
+          resolve(response);
+        })
+        .catch((error) => {
+          window.deviseSettings.$bus.$emit('showError', error);
+        });
+    }).catch((error) => {
+      window.deviseSettings.$bus.$emit('showError', error);
+    });
+  },
+
+  deleteGeneric (context, payload) {
+    return new Promise((resolve) => {
+      window.axios
+        .delete(`${context.state.api.baseUrl}${payload.config.apiendpoint}/${payload.record.id}`)
+        .then((response) => {
+          window.deviseSettings.$bus.$emit('showMessage', {
+            title: 'Success!',
+            message: `${payload.record[payload.config.recordLabel]} has been deleted.`,
+          });
+          resolve(response);
+        })
+        .catch((error) => {
+          window.deviseSettings.$bus.$emit('showError', error);
+        });
+    }).catch((error) => {
+      window.deviseSettings.$bus.$emit('showError', error);
+    });
+  },
+
   /*
    * Breakpoint
    */
@@ -973,26 +1073,6 @@ const actions = {
         .get(`${context.state.api.baseUrl}users/`)
         .then(response => {
           context.commit('setUsers', response.data);
-          resolve(response);
-        })
-        .catch(error => {
-          window.deviseSettings.$bus.$emit('showError', error);
-        });
-    }).catch(error => {
-      window.deviseSettings.$bus.$emit('showError', error);
-    });
-  },
-
-  createUser (context, user) {
-    return new Promise(resolve => {
-      window.axios
-        .post(`${context.state.api.baseUrl}users/`, user)
-        .then(response => {
-          window.deviseSettings.$bus.$emit('showMessage', {
-            title: 'Success!',
-            message: `${user.name} has been created.`,
-          });
-          context.commit('createUser', response.data.data);
           resolve(response);
         })
         .catch(error => {

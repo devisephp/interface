@@ -4,77 +4,60 @@
     :class="[deviseOptions.adminClass]"
   >
     <panel
-      class="dvs-m-8 dvs-fixed dvs-z-9980"
-      style="min-width:360px;"
-      :panel-style="theme.panel"
+      class="dvs-m-8 dvs-fixed dvs-pin dvs-z-9980 dvs-flex"
       v-tuck
     >
-      <div class="dvs-flex">
-        <div
-          :style="theme.panelSidebar"
-          class="dvs-flex dvs-flex-col dvs-relative"
-        >
-          <preview-mode />
+      <div class="dvs-flex dvs-shadow dvs-flex-col dvs-relative dvs-rounded dvs-bg-admin-bg">
+        <preview-mode />
 
-          <template v-for="(menuItem, key) in allowedAdminMenu">
-            <button
-              :key="key"
-              :style="checkActivePanelSidebar(menuItem)"
-              class="dvs-outline-none dvs-transitions-hover-slow dvs-cursor-pointer dvs-border-b"
-              @click.prevent="loadAdminPage(menuItem)"
-            >
-              <component
-                v-bind:is="menuItem.icon"
-                class="dvs-m-4"
-                w="25"
-                h="25"
-              ></component>
-            </button>
-          </template>
-          <a
-            href="/logout}"
-            :style="theme.panelSidebar"
-            class="dvs-outline-none dvs-transitions-hover-slow dvs-cursor-pointer dvs-border-b"
-            onclick="event.preventDefault(); document.getElementById('dvs-logout-form').submit();"
+        <template v-for="(menuItem, key) in allowedAdminMenu">
+          <button
+            :key="key"
+            :class="checkActivePanelSidebar(menuItem)"
+            class="dvs-outline-none dvs-transitions-hover-slow dvs-cursor-pointer dvs-border-b dvs-text-admin-fg"
+            @click.prevent="loadAdminPage(menuItem)"
           >
-            <power-icon
+            <component
+              v-bind:is="menuItem.icon"
               class="dvs-m-4"
               w="25"
               h="25"
-            />
-          </a>
-
-          <form
-            id="dvs-logout-form"
-            action="/logout"
-            method="POST"
-            style="display: none;"
-          >
-            <input
-              type="hidden"
-              name="_token"
-              :value="csrf_field"
-            >
-          </form>
-        </div>
-
-        <div
-          class="dvs-max-h-screenpad dvs-flex-grow"
-          id="dvs-admin-content-container"
-          ref="admin-route-wrapper"
-          v-bar="{preventParentScroll: true}"
+            ></component>
+          </button>
+        </template>
+        <a
+          href="/logout}"
+          class="dvs-outline-none dvs-transitions-hover-slow dvs-cursor-pointer"
+          onclick="event.preventDefault(); document.getElementById('dvs-logout-form').submit();"
         >
-          <div>
-            <div>
-              <transition
-                name="dvs-fade"
-                mode="out-in"
-              >
-                <router-view name="devise"></router-view>
-              </transition>
-            </div>
-          </div>
-        </div>
+          <power-icon
+            class="dvs-m-4"
+            w="25"
+            h="25"
+          />
+        </a>
+
+        <form
+          id="dvs-logout-form"
+          action="/logout"
+          method="POST"
+          style="display: none;"
+        >
+          <input
+            type="hidden"
+            name="_token"
+            :value="csrf_field"
+          >
+        </form>
+      </div>
+      <div class="dvs-flex dvs-w-full">
+
+        <transition
+          name="dvs-fade"
+          mode="out-in"
+        >
+          <router-view name="devise"></router-view>
+        </transition>
       </div>
     </panel>
 
@@ -126,14 +109,13 @@ export default {
       }
     },
     checkActivePanelSidebar (menuItem) {
-      const styles = Object.assign({}, this.theme.panelSidebar);
       if (this.$route.meta && this.$route.meta.parentRouteName) {
         if (
           this.$route.name === 'devise-pages-view' &&
           this.$route.params.pageId === this.currentPage.id &&
           menuItem.routeName === 'devise-pages-view'
         ) {
-          styles.background = this.theme.panelSidebar.secondaryColor;
+          return [' dvs-bg-admin-highlight dvs-bg-fg']
         }
 
         if (
@@ -141,11 +123,11 @@ export default {
           (this.$route.name !== 'devise-pages-view' ||
             this.$route.params.pageId !== this.currentPage.id)
         ) {
-          styles.background = this.theme.panelSidebar.secondaryColor;
+          return [' dvs-bg-admin-highlight dvs-bg-fg']
         }
       }
 
-      return styles;
+      return [];
     },
     pollIfLoggedIn () {
       this.getLanguages().then(() => { }, (error) => {

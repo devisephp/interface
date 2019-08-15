@@ -130,6 +130,12 @@ let colors = {
   // 'pink-light': '#fa7ea8',
   // 'pink-lighter': '#ffbbca',
   // 'pink-lightest': '#ffebef',
+
+  'admin-bg': 'rgba(225,128,92,0.9)',
+  'admin-fg': '#FFFFFF',
+  'admin-secondary-fg': 'rgba(255,255,255,0.7)',
+  'admin-highlight-fg': '#ffffff',
+  'admin-highlight': '#74DC99',
 };
 
 module.exports = {

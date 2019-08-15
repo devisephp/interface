@@ -4,14 +4,6 @@
       id="devise-admin-content"
       class="dvs-flex"
     >
-      <action-bar>
-        <li
-          class="dvs-btn dvs-btn-sm dvs-mb-2"
-          :style="theme.actionButton"
-          @click="goToPage('devise-pages-create')"
-        >Create New Page</li>
-      </action-bar>
-
       <div
         class="dvs-w-2/5 dvs-border-r dvs--my-10 dvs--ml-10 dvs-mr-8 dvs-p-8"
         :style="{borderColor:theme.panelCard.background, background:theme.panelCard.background}"
@@ -221,8 +213,6 @@ export default {
     },
   },
   components: {
-    ActionBar: () =>
-      import(/* webpackChunkName: "devise-utilities" */ '../utilities/ActionBar'),
     Pagination: () =>
       import(/* webpackChunkName: "devise-tables" */ '../utilities/tables/Pagination'),
   },

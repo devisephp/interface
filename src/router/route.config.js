@@ -15,8 +15,8 @@ const PagesView = () => import(/* webpackChunkName: "devise-pages" */ '../compon
 const SitesIndex = () =>
   import(/* webpackChunkName: "devise-sites" */ '../components/sites/Index');
 const SitesEdit = () => import(/* webpackChunkName: "devise-sites" */ '../components/sites/Edit');
-const UsersIndex = () =>
-  import(/* webpackChunkName: "devise-users" */ '../components/users/Index');
+const UsersAdmin = () =>
+  import(/* webpackChunkName: "devise-users" */ '../components/users/Admin');
 const UsersEdit = () => import(/* webpackChunkName: "devise-users" */ '../components/users/Edit');
 const RedirectsIndex = () =>
   import(/* webpackChunkName: "devise-redirects" */ '../components/redirects/Index');
@@ -149,25 +149,25 @@ const routes = [
   },
   {
     path: '/devise/users',
-    name: 'devise-users-index',
+    name: 'devise-users-admin',
     components: {
-      devise: UsersIndex,
+      devise: UsersAdmin,
     },
     meta: {
       parentRouteName: 'devise-settings',
     },
   },
-  {
-    path: '/devise/users/:userId/edit',
-    name: 'devise-users-edit',
-    components: {
-      devise: UsersEdit,
-    },
-    meta: {
-      parentRouteName: 'devise-settings',
-    },
-    props: true,
-  },
+  // {
+  //   path: '/devise/users/:userId/edit',
+  //   name: 'devise-users-edit',
+  //   components: {
+  //     devise: UsersEdit,
+  //   },
+  //   meta: {
+  //     parentRouteName: 'devise-settings',
+  //   },
+  //   props: true,
+  // },
   {
     path: '/devise/redirects',
     name: 'devise-redirects-index',

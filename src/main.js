@@ -93,6 +93,10 @@ const DevisePlugin = {
     Vue.component('messages', Messages);
     Vue.component('devise-installer', Installer);
 
+    Vue.component('devise-user-create', () =>
+      import(/* webpackChunkName: "devise-administration-users" */ './components/users/steps/Create.vue')
+    );
+
     // Vue.component('Sidebar', Sidebar);
 
     if (typeof store.state.adminMenu !== 'undefined') {

@@ -45,39 +45,44 @@ const state = {
       permissions: 'manage settings',
       menu: [
         {
-          label: 'Pages',
-          routeName: 'devise-pages-index',
-          permissions: 'manage pages',
-        },
-        {
-          label: 'Users',
-          routeName: 'devise-users-index',
-          permissions: 'manage users',
-        },
-        // {
-        //   label: 'Mothership',
-        //   routeName: 'devise-mothership-index',
-        //   permissions: 'manage mothership',
-        // },
-        {
-          label: 'Global Meta',
-          routeName: 'devise-meta-manage',
-          permissions: 'manage meta',
-        },
-        {
-          label: 'Sites',
-          routeName: 'devise-sites-index',
-          permissions: 'manage sites',
-        },
-        {
-          label: 'Languages',
-          routeName: 'devise-languages-manage',
-          permissions: 'manage languages',
-        },
-        {
-          label: 'Redirects',
-          routeName: 'devise-redirects-index',
-          permissions: 'manage redirects',
+          label: 'Site Settings',
+          children: [
+            {
+              label: 'Pages',
+              routeName: 'devise-pages-index',
+              permissions: 'manage pages',
+            },
+            {
+              label: 'Users',
+              routeName: 'devise-users-admin',
+              permissions: 'manage users',
+            },
+            // {
+            //   label: 'Mothership',
+            //   routeName: 'devise-mothership-index',
+            //   permissions: 'manage mothership',
+            // },
+            {
+              label: 'Global Meta',
+              routeName: 'devise-meta-manage',
+              permissions: 'manage meta',
+            },
+            {
+              label: 'Sites',
+              routeName: 'devise-sites-index',
+              permissions: 'manage sites',
+            },
+            {
+              label: 'Languages',
+              routeName: 'devise-languages-manage',
+              permissions: 'manage languages',
+            },
+            {
+              label: '301 Redirects',
+              routeName: 'devise-redirects-index',
+              permissions: 'manage redirects',
+            },
+          ]
         },
       ],
     },

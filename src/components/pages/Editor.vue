@@ -2,70 +2,78 @@
 <template>
   <!-- eslint-disable vue/valid-v-for -->
   <div
-    class="dvs-pb-16"
-    v-if="can('manage slices')"
+    class="dvs-ml-16 dvs-max-h-screenpad dvs-self-center dvs-shadow-lg dvs-bg-admin-bg dvs-rounded"
+    id="dvs-admin-content-container"
+    ref="admin-route-wrapper"
+    v-bar="{preventParentScroll: true}"
   >
-    <div class="dvs-absolute dvs-pin-t dvs-pin-r dvs-mt-4 dvs-mr-4">
-      <toggle
-        :mini="true"
-        @change="setDevMode"
-        :id="randomString(8)"
-      ></toggle>
-    </div>
+    <div>
+      <div>
+        <div
+          class="dvs-pb-16"
+          v-if="can('manage slices')"
+        >
+          <div class="dvs-absolute dvs-pin-t dvs-pin-r dvs-mt-4 dvs-mr-4">
+            <toggle
+              :mini="true"
+              @change="setDevMode"
+              :id="randomString(8)"
+            ></toggle>
+          </div>
 
-    <div class="dvs-p-8">
-      <fieldset
-        class="dvs-fieldset"
-        v-if="!showTimeTravel"
-      >
-        <div class="flex flex-col items-stretch">
-          <label>Page Version</label>
-          <select
-            @change="selectVersion"
-            class="dvs-small"
-            :style="theme.panelCard"
-          >
-            <option
-              :value="version.id"
-              v-for="version in currentPage.versions"
-              :key="version.id"
-              :selected="version.current"
+          <div class="dvs-p-8">
+            <fieldset
+              class="dvs-fieldset"
+              v-if="!showTimeTravel"
             >
-              {{ version.name }}
-              <template v-if="version.current">(Currently Viewing)</template>
-              <template v-if="version.is_live"> (Live)</template>
-            </option>
-            <option value="timetravel">Time Travel Preview</option>
-          </select>
-        </div>
-      </fieldset>
+              <div class="flex flex-col items-stretch">
+                <label>Page Version</label>
+                <select
+                  @change="selectVersion"
+                  class="dvs-small"
+                  :style="theme.panelCard"
+                >
+                  <option
+                    :value="version.id"
+                    v-for="version in currentPage.versions"
+                    :key="version.id"
+                    :selected="version.current"
+                  >
+                    {{ version.name }}
+                    <template v-if="version.current">(Currently Viewing)</template>
+                    <template v-if="version.is_live"> (Live)</template>
+                  </option>
+                  <option value="timetravel">Time Travel Preview</option>
+                </select>
+              </div>
+            </fieldset>
 
-      <fieldset v-else>
-        <label>Preview Date Time</label>
-        <div class="dvs-flex">
-          <date-picker
-            ref="datepicker"
-            v-model="timeTravelDate"
-            :settings=" { date: true, time: true }"
-          />
-          <button
-            @click="timeTravel"
-            :style="{color: theme.actionButtonGhost.color}"
-            class="dvs-rounded dvs-btn dvs-btn-sm dvs-flex dvs-justify-center dvs-items-center dvs-uppercase dvs-text-xs dvs-font-bold"
-          >Go</button>
-        </div>
-      </fieldset>
-    </div>
+            <fieldset v-else>
+              <label>Preview Date Time</label>
+              <div class="dvs-flex">
+                <date-picker
+                  ref="datepicker"
+                  v-model="timeTravelDate"
+                  :settings=" { date: true, time: true }"
+                />
+                <button
+                  @click="timeTravel"
+                  :style="{color: theme.actionButtonGhost.color}"
+                  class="dvs-rounded dvs-btn dvs-btn-sm dvs-flex dvs-justify-center dvs-items-center dvs-uppercase dvs-text-xs dvs-font-bold"
+                >Go</button>
+              </div>
+            </fieldset>
+          </div>
 
-    <div class="dvs-px-8">
-      <fieldset class="dvs-fieldset">
-        <label>Page Slices</label>
-      </fieldset>
-    </div>
+          <div class="dvs-px-8">
+            <fieldset class="dvs-fieldset">
+              <label>Page Slices</label>
+            </fieldset>
+          </div>
 
-    <div class="dvs-flex dvs-flex-col dvs-items-center dvs-px-8 dvs-pb-8">
-      <draggable
-        v-bind="{
+          <div class="dvs-flex dvs-flex-col dvs-items-center dvs-px-8 dvs-pb-8">
+            <draggable
+              v-bind="{
           group: {name: 'g1'},
           animation:200,
           ghostClass: 'dvs-ghost',
@@ -74,99 +82,101 @@
           emptyInsertThreshold: 10,
           removeCloneOnHide: false
         }"
-        :list="currentPageSlices"
-        tag="ul"
-        class="dvs-list-reset dvs-w-full"
-      >
+              :list="currentPageSlices"
+              tag="ul"
+              class="dvs-list-reset dvs-w-full"
+            >
 
-        <template v-for="slice in currentPageSlices">
-          <slice-editor
-            @opened="openSlice(slice)"
-            :key="randomString(8)"
-            :devise="slice"
-            @addSlice="addSlice"
-            @editSlice="editSlice"
-            @removeSlice="removeSlice"
-            @copySlice="copySlice"
-            :depth="1"
-          />
-        </template>
-      </draggable>
-    </div>
+              <template v-for="slice in currentPageSlices">
+                <slice-editor
+                  @opened="openSlice(slice)"
+                  :key="randomString(8)"
+                  :devise="slice"
+                  @addSlice="addSlice"
+                  @editSlice="editSlice"
+                  @removeSlice="removeSlice"
+                  @copySlice="copySlice"
+                  :depth="1"
+                />
+              </template>
+            </draggable>
+          </div>
 
-    <div
-      v-if="additionalPageSettings"
-      class="dvs-px-8"
-    >
-      <fieldset class="dvs-fieldset dvs-mb-2">
-        <label
-          class="dvs-mb-2 dvs-cursor-pointer"
-          @click="additionalSettingsOpen = !additionalSettingsOpen"
-        >Additional Page Settings</label>
-      </fieldset>
+          <div
+            v-if="additionalPageSettings"
+            class="dvs-px-8"
+          >
+            <fieldset class="dvs-fieldset dvs-mb-2">
+              <label
+                class="dvs-mb-2 dvs-cursor-pointer"
+                @click="additionalSettingsOpen = !additionalSettingsOpen"
+              >Additional Page Settings</label>
+            </fieldset>
 
-      <slice-editor-fields
-        v-show="additionalSettingsOpen"
-        v-model="currentPage.settings.fields"
-        :the-fields="additionalPageSettings"
-      />
+            <slice-editor-fields
+              v-show="additionalSettingsOpen"
+              v-model="currentPage.settings.fields"
+              :the-fields="additionalPageSettings"
+            />
 
-    </div>
+          </div>
 
-    <div class="dvs-flex dvs-flex-col dvs-items-center dvs-px-8 dvs-pb-8">
-      <manage-slice
-        ref="manageSlice"
-        v-if="createSlice === true"
-        @addSlice="addSlice"
-        @cancel="createSlice = false"
-        mode="inserting"
-      />
+          <div class="dvs-flex dvs-flex-col dvs-items-center dvs-px-8 dvs-pb-8">
+            <manage-slice
+              ref="manageSlice"
+              v-if="createSlice === true"
+              @addSlice="addSlice"
+              @cancel="createSlice = false"
+              mode="inserting"
+            />
 
-      <div
-        class="dvs-absolute dvs-pin-b dvs-pin-l dvs-pin-r dvs-flex dvs-justify-around dvs-p-2"
-        :style="theme.panelSidebar"
-      >
+            <div
+              class="dvs-absolute dvs-pin-b dvs-pin-l dvs-pin-r dvs-flex dvs-justify-around dvs-p-2"
+              :style="theme.panelSidebar"
+            >
 
-        <div
-          :style="theme.actionButton"
-          class="dvs-btn dvs-btn-sm dvs-flex-grow dvs-flex dvs-justify-center dvs-items-center"
-          @click.prevent="requestSavePage()"
-        >
-          <refresh-icon
-            w="15"
-            h="15"
-            v-if="saving"
-            animate="rotate"
-          />
-          <span class="dvs-ml-2">Save Page</span>
+              <div
+                :style="theme.actionButton"
+                class="dvs-btn dvs-btn-sm dvs-flex-grow dvs-flex dvs-justify-center dvs-items-center"
+                @click.prevent="requestSavePage()"
+              >
+                <refresh-icon
+                  w="15"
+                  h="15"
+                  v-if="saving"
+                  animate="rotate"
+                />
+                <span class="dvs-ml-2">Save Page</span>
+              </div>
+
+              <div class="dvs-flex dvs-justify-center">
+                <button
+                  :style="{color: theme.actionButtonGhost.color}"
+                  class="dvs-rounded dvs-btn dvs-btn-sm dvs-flex dvs-justify-center dvs-items-center dvs-uppercase dvs-text-xs dvs-font-bold"
+                  @click.prevent="requestAddSlice"
+                >
+                  <add-icon class="text-xl mr-1" />Add Slice
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="dvs-flex dvs-justify-center">
-          <button
-            :style="{color: theme.actionButtonGhost.color}"
-            class="dvs-rounded dvs-btn dvs-btn-sm dvs-flex dvs-justify-center dvs-items-center dvs-uppercase dvs-text-xs dvs-font-bold"
-            @click.prevent="requestAddSlice"
-          >
-            <add-icon class="text-xl mr-1" />Add Slice
-          </button>
+        <div v-else>
+
+          <div class="dvs-p-8">
+            <fieldset class="dvs-fieldset">
+              <div class="flex flex-col items-stretch">
+                <h4>Administration</h4>
+                <p class="mt-4">Use the icons along the left column to navigate.</p>
+              </div>
+            </fieldset>
+          </div>
+
         </div>
       </div>
     </div>
   </div>
-
-  <div v-else>
-
-    <div class="dvs-p-8">
-      <fieldset class="dvs-fieldset">
-        <div class="flex flex-col items-stretch">
-          <h4>Administration</h4>
-          <p class="mt-4">Use the icons along the left column to navigate.</p>
-        </div>
-      </fieldset>
-    </div>
-
-  </div>
-
 </template>
 
 <script>
