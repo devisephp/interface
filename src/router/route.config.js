@@ -17,7 +17,6 @@ const SitesIndex = () =>
 const SitesEdit = () => import(/* webpackChunkName: "devise-sites" */ '../components/sites/Edit');
 const UsersAdmin = () =>
   import(/* webpackChunkName: "devise-users" */ '../components/users/Admin');
-const UsersEdit = () => import(/* webpackChunkName: "devise-users" */ '../components/users/Edit');
 const RedirectsIndex = () =>
   import(/* webpackChunkName: "devise-redirects" */ '../components/redirects/Index');
 const RedirectsEdit = () =>

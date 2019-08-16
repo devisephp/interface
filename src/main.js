@@ -4,6 +4,7 @@ import Vuebar from 'vuebar';
 import VueNotifications from 'vue-notifications';
 import iziToast from 'izitoast'; // https://github.com/dolce/iziToast
 import VueScrollactive from 'vue-scrollactive';
+import Vue2Scrollbar from 'vue2-scrollbar';
 import Devise from './Devise.vue';
 import DeviseStore from './vuex/store';
 import DeviseBus from './event-bus';
@@ -92,9 +93,16 @@ const DevisePlugin = {
     Vue.component('slices', Slices);
     Vue.component('messages', Messages);
     Vue.component('devise-installer', Installer);
+    Vue.component('vue-scrollbar', Vue2Scrollbar);
 
     Vue.component('devise-user-create', () =>
       import(/* webpackChunkName: "devise-administration-users" */ './components/users/steps/Create.vue')
+    );
+    Vue.component('devise-user-edit', () =>
+      import(/* webpackChunkName: "devise-administration-users" */ './components/users/steps/Edit.vue')
+    );
+    Vue.component('devise-user-delete', () =>
+      import(/* webpackChunkName: "devise-administration-users" */ './components/users/steps/Delete.vue')
     );
 
     // Vue.component('Sidebar', Sidebar);

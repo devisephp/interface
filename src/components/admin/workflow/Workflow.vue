@@ -1,7 +1,7 @@
 <template>
   <admin-container v-if="currentStep">
     <template v-slot:message>
-      <div class="flex">
+      <div class="flex items-center">
         <div
           class="dvs-cursor-pointer dvs-flex dvs-flex-col dvs-items-center"
           @click="back"
@@ -25,6 +25,7 @@
         <component
           :is="currentStep.component"
           :step="currentStep"
+          :values="values"
           @done="done"
           @cancel="cancel"
         ></component>
@@ -39,10 +40,12 @@ export default {
   components: {
     AdminContainer: () =>
       import(/* webpackChunkName: "devise-administration" */ '../ui/AdminContainer'),
-    WorkflowMenu: () =>
-      import(/* webpackChunkName: "devise-administration" */ './WorkflowMenu'),
     ArrowLeftCircleIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ArrowLeftCircleIcon'),
+    WorkflowMenu: () =>
+      import(/* webpackChunkName: "devise-administration" */ './WorkflowMenu'),
+    WorkflowSearch: () =>
+      import(/* webpackChunkName: "devise-administration" */ './WorkflowSearch'),
   },
   props: {
     workflow: {
@@ -58,6 +61,13 @@ export default {
     },
     currentStep () {
       return this.workflowStack.slice(-1)[0]
+    },
+    values () {
+      let values = {};
+      this.workflowStack.forEach(step => {
+        values = Object.assign(values, step.value)
+      })
+      return values
     }
   },
   data () {
@@ -72,11 +82,8 @@ export default {
   },
   methods: {
     done (data) {
-      if (data && data.stepKey) {
-        this.loadStep(data.stepKey)
-      } else {
-        this.clearStack()
-      }
+      this.workflowStack[this.workflowStack.length - 1].value = data;
+      this.loadStep()
     },
     cancel () {
       this.clearStack()
@@ -84,18 +91,37 @@ export default {
     back () {
       if (this.workflowStack.length > 1) {
         this.workflowStack.splice(-1, 1)
+        delete this.currentStep.value
       } else {
         this.$router.go(-1);
       }
     },
-    loadStep (stepKey) {
-      const nextStep = this.workflow.find((step) => {
-        return step.key === stepKey
-      })
+    loadStep () {
+      let stepToLoad = null
+
+      if (this.currentStep.end) {
+        this.clearStack();
+        return;
+      }
+
+      const lastStep = this.workflowStack[this.workflowStack.length - 2]
+      const { nextStep } = this.currentStep.value;
+
+      // If a ne
       if (nextStep) {
-        this.workflowStack.push(nextStep);
+        stepToLoad = this.workflow.find((s) => {
+          return s.key === nextStep
+        })
+      } else if (lastStep && lastStep.value.stepAfterNext) {
+        stepToLoad = this.workflow.find((s) => {
+          return s.key === lastStep.value.stepAfterNext
+        })
+      }
+
+      if (stepToLoad) {
+        this.workflowStack.push(stepToLoad);
       } else {
-        console.warn(`There is no step registered as ${stepKey}`)
+        console.warn(`There is no step registered as ${stepToLoad}`);
       }
     },
     clearStack () {

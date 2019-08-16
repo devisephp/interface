@@ -54,7 +54,7 @@
 import { mapActions } from 'vuex';
 
 export default {
-  name: 'UsersIndex',
+  name: 'DeviseUsersCreate',
   data () {
     return {
       modulesToLoad: 1,
@@ -70,8 +70,6 @@ export default {
   methods: {
     ...mapActions('devise', ['createGeneric']),
     requestCreateUser () {
-      const self = this;
-      console.log('here')
       this.createGeneric({
         config: {
           apiendpoint: 'users',
@@ -79,12 +77,6 @@ export default {
         },
         record: this.newUser
       }).then(() => {
-        self.newUser.name = null;
-        self.newUser.email = null;
-        self.newUser.password = null;
-        self.newUser.password_confirmation = false;
-        self.showCreate = false;
-
         this.$emit('done')
       });
     },

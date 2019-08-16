@@ -2,7 +2,7 @@
 <template>
   <!-- eslint-disable vue/valid-v-for -->
   <div
-    class="dvs-ml-16 dvs-max-h-screenpad dvs-self-center dvs-shadow-lg dvs-bg-admin-bg dvs-rounded"
+    class="dvs-ml-16 dvs-max-h-screenpad dvs-self-center dvs-shadow-lg dvs-bg-admin-bg dvs-rounded  dvs-pointer-events-auto"
     id="dvs-admin-content-container"
     ref="admin-route-wrapper"
     v-bar="{preventParentScroll: true}"

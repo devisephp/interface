@@ -40,6 +40,25 @@ const actions = {
     });
   },
 
+  searchGeneric (context, payload) {
+    return new Promise((resolve) => {
+      window.axios
+        .get(
+          `${context.state.api.baseUrl}${
+          payload.config.apiendpoint
+          }/?${commonUtils.buildFilterParams(payload.filters)}`
+        )
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          window.deviseSettings.$bus.$emit('showError', error);
+        });
+    }).catch((error) => {
+      window.deviseSettings.$bus.$emit('showError', error);
+    });
+  },
+
   createGeneric (context, payload) {
     return new Promise((resolve) => {
       window.axios
@@ -1056,63 +1075,6 @@ const actions = {
             message: 'Redirect has been deleted.',
           });
           context.commit('deleteRedirect', redirect);
-          resolve(response);
-        })
-        .catch(error => {
-          window.deviseSettings.$bus.$emit('showError', error);
-        });
-    }).catch(error => {
-      window.deviseSettings.$bus.$emit('showError', error);
-    });
-  },
-
-  // Users
-  getUsers (context) {
-    return new Promise(resolve => {
-      window.axios
-        .get(`${context.state.api.baseUrl}users/`)
-        .then(response => {
-          context.commit('setUsers', response.data);
-          resolve(response);
-        })
-        .catch(error => {
-          window.deviseSettings.$bus.$emit('showError', error);
-        });
-    }).catch(error => {
-      window.deviseSettings.$bus.$emit('showError', error);
-    });
-  },
-
-  updateUser (context, payload) {
-    return new Promise(resolve => {
-      window.axios
-        .put(`${context.state.api.baseUrl}users/${payload.user.id}`, payload.data)
-        .then(response => {
-          window.deviseSettings.$bus.$emit('showMessage', {
-            title: 'Success!',
-            message: `${payload.data.name} has been saved.`,
-          });
-          context.commit('updateUser', { user: payload, data: response.data });
-          resolve(response);
-        })
-        .catch(error => {
-          window.deviseSettings.$bus.$emit('showError', error);
-        });
-    }).catch(error => {
-      window.deviseSettings.$bus.$emit('showError', error);
-    });
-  },
-
-  deleteUser (context, user) {
-    return new Promise(resolve => {
-      window.axios
-        .delete(`${context.state.api.baseUrl}users/${user.id}`)
-        .then(response => {
-          window.deviseSettings.$bus.$emit('showMessage', {
-            title: 'Success!',
-            message: `${user.name} has been deleted.`,
-          });
-          context.commit('deleteUser', user);
           resolve(response);
         })
         .catch(error => {

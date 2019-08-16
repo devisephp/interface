@@ -47,8 +47,32 @@
     @apply dvs-py-6 dvs-px-4 dvs-text-lg;
   }
 
+  &.dvs-btn-xl {
+    @apply dvs-py-8 dvs-px-6 dvs-text-xl;
+  }
+
   &:disabled {
     @apply dvs-bg-grey-light
+  }
+
+  &.dvs-btn-primary {
+    @apply dvs-bg-admin-highlight dvs-text-admin-highlight-fg;
+
+    transition: 500ms all;
+
+    &:hover {
+      @apply dvs-opacity-75;
+    }
+  }
+
+  &.dvs-btn-secondary {
+    @apply dvs-bg-admin-bg dvs-text-admin-fg;
+
+    transition: 500ms all;
+
+    &:hover {
+      @apply dvs-opacity-75;
+    }
   }
 
   &.dvs-btn-danger {
