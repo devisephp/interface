@@ -5,7 +5,7 @@
       class="dvs-btn dvs-btn-primary dvs-btn-lg mr-4"
       @click="requestDeleteUser"
     >Remove User</button>
-  </div class="flex justify-center">
+  </div>
 </template>
 
 <script>
