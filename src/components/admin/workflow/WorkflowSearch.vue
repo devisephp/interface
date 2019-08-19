@@ -105,6 +105,7 @@ export default {
       }
     },
     selectSuggestion (suggestion) {
+      console.log(suggestion);
       this.$emit('done', suggestion)
     },
     format (field, data) {

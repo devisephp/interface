@@ -654,6 +654,7 @@ const actions = {
   },
 
   translatePage (context, payload) {
+    console.log(payload)
     return new Promise(resolve => {
       window.axios
         .put(`${context.state.api.baseUrl}pages/${payload.page.id}/copy`, payload.data)
@@ -665,91 +666,6 @@ const actions = {
               }.`,
           });
           context.commit('createPage', response.data);
-          resolve(response);
-        })
-        .catch(error => {
-          window.deviseSettings.$bus.$emit('showError', error);
-        });
-    }).catch(error => {
-      window.deviseSettings.$bus.$emit('showError', error);
-    });
-  },
-
-  createPage (context, page) {
-    return new Promise(resolve => {
-      window.axios
-        .post(`${context.state.api.baseUrl}pages/`, page)
-        .then(response => {
-          window.deviseSettings.$bus.$emit('showMessage', {
-            title: 'Success!',
-            message: `${page.title} has been created.`,
-          });
-          context.commit('createPage', response.data.data);
-          resolve(response);
-        })
-        .catch(error => {
-          window.deviseSettings.$bus.$emit('showError', error);
-        });
-    }).catch(error => {
-      window.deviseSettings.$bus.$emit('showError', error);
-    });
-  },
-
-  updatePage (context, payload) {
-    return new Promise(resolve => {
-      // TODO - Sanitize data
-      // const data = commonUtils.sanitizePageData(payload.data);
-      window.axios
-        .put(`${context.state.api.baseUrl}pages/${payload.data.id}`, payload.data)
-        .then(response => {
-          window.deviseSettings.$bus.$emit('showMessage', {
-            title: 'Success!',
-            message: `${payload.data.title} has been saved.`,
-          });
-          context.commit('updatePage', { page: payload.data, data: response.data });
-          resolve(response);
-        })
-        .catch(error => {
-          window.deviseSettings.$bus.$emit('showError', error);
-        });
-    }).catch(error => {
-      window.deviseSettings.$bus.$emit('showError', error);
-    });
-  },
-
-  deletePage (context, page) {
-    return new Promise(resolve => {
-      window.axios
-        .delete(`${context.state.api.baseUrl}pages/${page.id}`)
-        .then(response => {
-          window.deviseSettings.$bus.$emit('showMessage', {
-            title: 'Success!',
-            message: `${page.title} has been deleted.`,
-          });
-          context.commit('deletePage', page);
-          resolve(response);
-        })
-        .catch(error => {
-          window.deviseSettings.$bus.$emit('showError', error);
-        });
-    }).catch(error => {
-      window.deviseSettings.$bus.$emit('showError', error);
-    });
-  },
-
-  // This is the save used from the page editor
-  savePage (context, page) {
-    const currentVersion = page.versions.find(version => version.current === true);
-    return new Promise(resolve => {
-      window.axios
-        .put(`${context.state.api.baseUrl}pages/${page.id}?version_id=${currentVersion.id}`, page)
-        .then(response => {
-          window.deviseSettings.$bus.$emit('showMessage', {
-            title: 'Success!',
-            message: `${page.title} has been saved.`,
-          });
-          window.deviseSettings.$bus.$emit('devise-page-saved');
-          context.commit('updatePage', { page, data: response.data });
           resolve(response);
         })
         .catch(error => {

@@ -49,7 +49,7 @@ const state = {
           children: [
             {
               label: 'Pages',
-              routeName: 'devise-pages-index',
+              routeName: 'devise-pages-admin',
               permissions: 'manage pages',
             },
             {

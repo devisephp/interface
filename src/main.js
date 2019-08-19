@@ -95,6 +95,7 @@ const DevisePlugin = {
     Vue.component('devise-installer', Installer);
     Vue.component('vue-scrollbar', Vue2Scrollbar);
 
+    // Users Admin
     Vue.component('devise-user-create', () =>
       import(/* webpackChunkName: "devise-administration-users" */ './components/users/steps/Create.vue')
     );
@@ -103,6 +104,26 @@ const DevisePlugin = {
     );
     Vue.component('devise-user-delete', () =>
       import(/* webpackChunkName: "devise-administration-users" */ './components/users/steps/Delete.vue')
+    );
+
+    // Pages Admin
+    Vue.component('devise-page-create', () =>
+      import(/* webpackChunkName: "devise-administration-pages" */ './components/pages/steps/Create.vue')
+    );
+    Vue.component('devise-page-copy', () =>
+      import(/* webpackChunkName: "devise-administration-pages" */ './components/pages/steps/Copy.vue')
+    );
+    Vue.component('devise-page-translate', () =>
+      import(/* webpackChunkName: "devise-administration-pages" */ './components/pages/steps/Translate.vue')
+    );
+    Vue.component('devise-page-settings', () =>
+      import(/* webpackChunkName: "devise-administration-pages" */ './components/pages/steps/EditSettings.vue')
+    );
+    Vue.component('devise-page-versions', () =>
+      import(/* webpackChunkName: "devise-administration-pages" */ './components/pages/steps/EditVersions.vue')
+    );
+    Vue.component('devise-page-delete', () =>
+      import(/* webpackChunkName: "devise-administration-pages" */ './components/pages/steps/Delete.vue')
     );
 
     // Vue.component('Sidebar', Sidebar);

@@ -3,8 +3,8 @@
 
     <button
       class="dvs-btn dvs-btn-primary dvs-btn-lg mr-4"
-      @click="requestDeleteUser"
-    >Remove User</button>
+      @click="requestDeletePage"
+    >Remove Page</button>
   </div>
 </template>
 
@@ -12,7 +12,7 @@
 import { mapActions } from 'vuex';
 
 export default {
-  name: 'DeviseUsersDelete',
+  name: 'DevisePagesDelete',
   props: {
     values: {
       type: Object,
@@ -21,11 +21,11 @@ export default {
   },
   methods: {
     ...mapActions('devise', ['deleteGeneric']),
-    requestDeleteUser () {
+    requestDeletePage () {
       this.deleteGeneric({
         config: {
-          apiendpoint: 'users',
-          recordLabel: 'name'
+          apiendpoint: 'pages',
+          recordLabel: 'title'
         },
         record: this.values
       }).then(() => {

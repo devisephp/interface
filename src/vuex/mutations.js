@@ -14,6 +14,15 @@ export default {
     state.checklist = Object.assign({}, state.checklist, checklist);
   },
 
+  // Generic
+  setGeneric (state, payload) {
+    state[payload.config.store] = payload.response.data;
+  },
+
+  deleteGeneric (state, payload) {
+    state[payload.config.store].data.splice(state.cobrands.data.indexOf(payload.record), 1);
+  },
+
   // Languages
   setLanguages (state, payload) {
     state.languages = payload;

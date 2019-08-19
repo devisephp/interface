@@ -75,6 +75,10 @@
     }
   }
 
+  &.dvs-btn-ghost {
+    @apply dvs-bg-transparent dvs-border-2 dvs-border-admin-fg;
+  }
+
   &.dvs-btn-danger {
     @apply dvs-bg-red-dark dvs-text-white;
 

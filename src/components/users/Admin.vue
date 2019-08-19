@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: 'UserAdmin',
+  name: 'DeviseUserAdmin',
   components: {
     DeviseWorkflow: () =>
       import(/* webpackChunkName: "devise-administration" */ '../admin/workflow/Workflow'),
@@ -16,12 +16,11 @@ export default {
           index: true,
           key: 'user-main-menu',
           component: 'workflow-menu',
-          message: 'Cool! We are working on <strong>Users.</strong>.<br> What would you like to do?',
+          message: 'Cool! We are working on <strong>Users</strong>.<br> What would you like to do?',
           options: [
             {
               label: 'Create a User',
-              nextStep: 'create-user',
-              stepAfterNext: 'user-main-menu',
+              nextStep: 'create-user'
             },
             {
               label: 'Edit a User',

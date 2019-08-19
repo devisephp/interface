@@ -1,34 +1,30 @@
 <template>
-  <div>
-    <div id="devise-admin-content">
-      <h3 class="dvs-mb-8" :style="{color: theme.panel.color}">Add Global Meta</h3>
-
-      <help class="dvs-mb-8">
-        Global Meta are the meta tags that will be attached to every page of this site. They can be overridden on a page level but this gives you to the opportunity to set the
-        <span
-          class="dvs-fonts-mono"
-        >&lt;meta&gt;</span> across
-        <strong>all</strong> pages.
-      </help>
+  <admin-container>
+    <template v-slot:message>
+      Global Meta are the meta tags that will be attached to every page of this site. They can be overridden on a page level but this gives you to the opportunity to set the
+      <span class="dvs-fonts-mono">&lt;meta&gt;</span> across
+      <strong>all</strong> pages.
+    </template>
+    <template v-slot:content>
 
       <meta-form
+        class="dvs-mt-8"
         v-model="localValue.data"
         @request-create-meta="requestCreateMeta"
         @request-update-meta="requestUpdateMeta"
         @request-delete-meta="requestDeleteMeta"
       />
-    </div>
-  </div>
+    </template>
+
+  </admin-container>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
-import MetaForm from './MetaForm.vue';
-
 export default {
   name: 'MetaManage',
-  data() {
+  data () {
     return {
       localValue: {
         data: [],
@@ -36,23 +32,23 @@ export default {
       modulesToLoad: 1,
     };
   },
-  mounted() {
+  mounted () {
     this.retrieveAllMeta();
   },
   methods: {
     ...mapActions('devise', ['getMeta', 'createMeta', 'updateMeta', 'deleteMeta']),
-    requestCreateMeta(newMeta) {
+    requestCreateMeta (newMeta) {
       this.createMeta(newMeta);
     },
-    requestUpdateMeta(meta) {
+    requestUpdateMeta (meta) {
       this.updateMeta(meta).then(() => {
         meta.edit = false;
       });
     },
-    requestDeleteMeta(meta) {
+    requestDeleteMeta (meta) {
       this.deleteMeta(meta);
     },
-    retrieveAllMeta() {
+    retrieveAllMeta () {
       const self = this;
       this.getMeta().then(() => {
         self.localValue = Object.assign({}, self.localValue, self.meta);
@@ -69,7 +65,9 @@ export default {
     ...mapGetters('devise', ['meta']),
   },
   components: {
-    MetaForm,
+    MetaForm: () => import(/* webpackChunkName: "devise-meta" */ './MetaForm'),
+    AdminContainer: () =>
+      import(/* webpackChunkName: "devise-administration" */ '../admin/ui/AdminContainer'),
   },
 };
 </script>
