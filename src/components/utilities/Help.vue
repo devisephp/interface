@@ -25,8 +25,8 @@
     >
       <help-circle-icon></help-circle-icon>
       <div
-        class="dvs-roman dvs-normal-case dvs-font-normal dvs-text-xl dvs-absolute dvs-pin-t dvs-z-30 dvs-text-admin-highlight-fg dvs-bg-admin-highlight dvs-p-8 dvs-rounded dvs-shadow-lg"
-        style="width:350px;"
+        class="dvs-roman dvs-normal-case dvs-font-normal dvs-text-xl dvs-fixed dvs-pin-b dvs-pin-l dvs-ml-4 dvs-mb-4 dvs-z-30 dvs-text-admin-highlight-fg dvs-bg-admin-highlight dvs-p-8 dvs-rounded dvs-shadow-lg"
+        style="width:400px;"
         v-show="showHelp"
       >
         <p>

@@ -7,15 +7,12 @@ const PageEditor = () =>
   import(/* webpackChunkName: "devise-pages" */ '../components/pages/Editor');
 const PagesAdmin = () =>
   import(/* webpackChunkName: "devise-users" */ '../components/pages/Admin');
-const SitesIndex = () =>
-  import(/* webpackChunkName: "devise-sites" */ '../components/sites/Index');
-const SitesEdit = () => import(/* webpackChunkName: "devise-sites" */ '../components/sites/Edit');
+const SitesAdmin = () =>
+  import(/* webpackChunkName: "devise-sites" */ '../components/sites/Admin');
 const UsersAdmin = () =>
   import(/* webpackChunkName: "devise-users" */ '../components/users/Admin');
-const RedirectsIndex = () =>
-  import(/* webpackChunkName: "devise-redirects" */ '../components/redirects/Index');
-const RedirectsEdit = () =>
-  import(/* webpackChunkName: "devise-redirects" */ '../components/redirects/Edit');
+const RedirectsAdmin = () =>
+  import(/* webpackChunkName: "devise-redirects" */ '../components/redirects/Admin');
 
 const routes = [
   {
@@ -92,19 +89,9 @@ const routes = [
   },
   {
     path: '/devise/sites',
-    name: 'devise-sites-index',
+    name: 'devise-sites-admin',
     components: {
-      devise: SitesIndex,
-    },
-    meta: {
-      parentRouteName: 'devise-settings',
-    },
-  },
-  {
-    path: '/devise/sites/:siteId/edit',
-    name: 'devise-sites-edit',
-    components: {
-      devise: SitesEdit,
+      devise: SitesAdmin,
     },
     meta: {
       parentRouteName: 'devise-settings',
@@ -122,25 +109,14 @@ const routes = [
   },
   {
     path: '/devise/redirects',
-    name: 'devise-redirects-index',
+    name: 'devise-redirects-admin',
     components: {
-      devise: RedirectsIndex,
+      devise: RedirectsAdmin,
     },
     meta: {
       parentRouteName: 'devise-settings',
     },
-  },
-  {
-    path: '/devise/redirects/:redirectId/edit',
-    name: 'devise-redirects-edit',
-    components: {
-      devise: RedirectsEdit,
-    },
-    meta: {
-      parentRouteName: 'devise-settings',
-    },
-    props: true,
-  },
+  }
 ];
 
 export default routes;

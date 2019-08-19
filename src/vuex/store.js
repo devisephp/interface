@@ -57,11 +57,6 @@ const state = {
               routeName: 'devise-users-admin',
               permissions: 'manage users',
             },
-            // {
-            //   label: 'Mothership',
-            //   routeName: 'devise-mothership-index',
-            //   permissions: 'manage mothership',
-            // },
             {
               label: 'Global Meta',
               routeName: 'devise-meta-manage',
@@ -69,7 +64,7 @@ const state = {
             },
             {
               label: 'Sites',
-              routeName: 'devise-sites-index',
+              routeName: 'devise-sites-admin',
               permissions: 'manage sites',
             },
             {
@@ -79,7 +74,7 @@ const state = {
             },
             {
               label: '301 Redirects',
-              routeName: 'devise-redirects-index',
+              routeName: 'devise-redirects-admin',
               permissions: 'manage redirects',
             },
           ]

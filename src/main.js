@@ -126,6 +126,28 @@ const DevisePlugin = {
       import(/* webpackChunkName: "devise-administration-pages" */ './components/pages/steps/Delete.vue')
     );
 
+    // Sites Admin
+    Vue.component('devise-site-create', () =>
+      import(/* webpackChunkName: "devise-administration-sites" */ './components/sites/steps/Create.vue')
+    );
+    Vue.component('devise-site-edit', () =>
+      import(/* webpackChunkName: "devise-administration-sites" */ './components/sites/steps/Edit.vue')
+    );
+    Vue.component('devise-site-delete', () =>
+      import(/* webpackChunkName: "devise-administration-sites" */ './components/sites/steps/Delete.vue')
+    );
+
+    // Redirect Admin
+    Vue.component('devise-redirect-create', () =>
+      import(/* webpackChunkName: "devise-administration-redirects" */ './components/redirects/steps/Create.vue')
+    );
+    Vue.component('devise-redirect-edit', () =>
+      import(/* webpackChunkName: "devise-administration-redirects" */ './components/redirects/steps/Edit.vue')
+    );
+    Vue.component('devise-redirect-delete', () =>
+      import(/* webpackChunkName: "devise-administration-redirects" */ './components/redirects/steps/Delete.vue')
+    );
+
     // Vue.component('Sidebar', Sidebar);
 
     if (typeof store.state.adminMenu !== 'undefined') {

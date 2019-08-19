@@ -37,7 +37,7 @@
     </ul>
     <div
       class="dvs-text-center"
-      v-if="searchTerm !== '' && autosuggest.data.length < 1"
+      v-if="searchTerm !== '' && autosuggest.data && autosuggest.data.length < 1"
     >
       No search results found
     </div>
@@ -105,7 +105,6 @@ export default {
       }
     },
     selectSuggestion (suggestion) {
-      console.log(suggestion);
       this.$emit('done', suggestion)
     },
     format (field, data) {
