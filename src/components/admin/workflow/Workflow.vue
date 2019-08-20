@@ -121,6 +121,7 @@ export default {
       if (stepToLoad) {
         this.workflowStack.push(stepToLoad);
       } else {
+        // eslint-disable-next-line no-console
         console.warn(`There is no step registered as ${stepToLoad}`);
       }
     },

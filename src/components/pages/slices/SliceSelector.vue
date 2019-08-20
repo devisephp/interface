@@ -1,30 +1,21 @@
 <template>
   <div class="dvs-relative dvs-mt-8 dvs-mb-8">
-    <div
-      class="dvs-fixed dvs-pin-t dvs-pin-l dvs-pin-r dvs-p-4  dvs-px-6 z-10"
-      :style="theme.panelCard"
-    >
-      <fieldset class="dvs-fieldset">
-        <div class="dvs-flex">
-          <input
-            type="text"
-            ref="filter"
-            placeholder="Filter Slices"
-            v-model="filter"
-          >
-          <button
-            class="dvs-btn dvs-ml-2 dvs-min-w-64"
-            @click="filter=null"
-            :style="theme.actionButton"
-          >Clear Filter</button>
+    <div v-if=" this.allDirectories.length > 0">
+      <div class="dvs-flex dvs-justify-center dvs-py-8 dvs-relative">
+        <input
+          type="text"
+          v-model="filter"
+          class="dvs-bg-transparent dvs-border-b-2 dvs-px-12 dvs-py-2 dvs-text-admin-fg dvs-outline-none dvs-placeholder-admin-fg dvs-text-center"
+          placeholder="Type to begin searching"
+        >
+        <div
+          class="dvs-cursor-pointer"
+          :class="{'dvs-opacity-50': searchTerm === ''}"
+          @click="filter = ''"
+        >
+          <x-icon></x-icon>
         </div>
-      </fieldset>
-    </div>
-    <div
-      style="height:70vh"
-      v-if=" this.allDirectories.length > 0"
-      v-bar="{preventParentScroll: true}"
-    >
+      </div>
       <div>
         <slice-selector-directory
           v-for="(directory, n) in this.allDirectories"

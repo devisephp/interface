@@ -62,8 +62,10 @@
     </panel>
 
     <portal-target
-      class="dvs-relative dvs-z-9999"
+      class="dvs-fixed dvs-pin dvs-z-9999"
+      v-show="!hideDeviseRootPortal"
       name="devise-root"
+      @change="deviseRootPortalContentChanged"
     ></portal-target>
     <media-manager class="dvs-z-9999" />
     <slice-settings />
@@ -82,6 +84,7 @@ export default {
   data () {
     return {
       everythingIsLoaded: false,
+      hideDeviseRootPortal: true
     };
   },
   mounted () {
@@ -133,6 +136,14 @@ export default {
       this.getLanguages().then(() => { }, (error) => {
         window.location.reload(true)
       })
+    },
+    deviseRootPortalContentChanged (content) {
+      console.log(content)
+      if (!content.passengers) {
+        this.hideDeviseRootPortal = true
+      } else {
+        this.hideDeviseRootPortal = false
+      }
     }
   },
   computed: {
