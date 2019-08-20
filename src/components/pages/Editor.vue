@@ -132,7 +132,7 @@
                   class="dvs-btn dvs-btn-sm dvs-flex dvs-justify-center dvs-items-center dvs-uppercase dvs-font-bold dvs-w-2/5 dvs-btn-secondary"
                   @click.prevent="requestAddSlice"
                 >
-                  <add-icon class="dvs-text-xl mr-1" />Add Slice
+                  <add-icon class="dvs-text-xl dvs-mr-1" />Add Slice
                 </button>
               </div>
             </div>
@@ -142,9 +142,9 @@
 
             <div class="dvs-p-8">
               <fieldset class="dvs-fieldset">
-                <div class="flex flex-col items-stretch">
+                <div class="dvs-flex dvs-flex-col dvs-items-stretch">
                   <h4>Administration</h4>
-                  <p class="mt-4">Use the icons along the left column to navigate.</p>
+                  <p class="dvs-mt-4">Use the icons along the left column to navigate.</p>
                 </div>
               </fieldset>
             </div>

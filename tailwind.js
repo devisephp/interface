@@ -131,11 +131,11 @@ let colors = {
   // 'pink-lighter': '#ffbbca',
   // 'pink-lightest': '#ffebef',
 
-  'admin-bg': 'rgba(225,128,92,0.9)',
-  'admin-fg': '#FFFFFF',
-  'admin-secondary-bg': 'rgba(190,98,64,0.9)',
-  'admin-secondary-fg': 'rgba(255,255,255,0.7)',
-  'admin-highlight-bg': 'rgba(100,176,169,1)',
+  'admin-bg': 'rgba(34,44,73,0.9)',
+  'admin-fg': '#CDC9F1',
+  'admin-secondary-bg': 'rgba(24,32,57,0.9)',
+  'admin-secondary-fg': 'rgba(255,255,255,0.8)',
+  'admin-highlight-bg': '#EB8F89',
   'admin-highlight-fg': '#ffffff',
 };
 

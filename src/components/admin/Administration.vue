@@ -11,19 +11,23 @@
         <preview-mode />
 
         <template v-for="(menuItem, key) in allowedAdminMenu">
-          <button
+          <div
+            class="dvs-border-b dvs-border-admin-secondary-bg"
             :key="key"
-            :class="checkActivePanelSidebar(menuItem)"
-            class="dvs-outline-none dvs-transitions-hover-slow dvs-cursor-pointer dvs-border-b dvs-text-admin-fg"
-            @click.prevent="loadAdminPage(menuItem)"
           >
-            <component
-              v-bind:is="menuItem.icon"
-              class="dvs-m-4"
-              w="25"
-              h="25"
-            ></component>
-          </button>
+            <button
+              :class="checkActivePanelSidebar(menuItem)"
+              class="dvs-outline-none dvs-transitions-hover-slow dvs-cursor-pointer dvs-text-admin-fg"
+              @click.prevent="loadAdminPage(menuItem)"
+            >
+              <component
+                v-bind:is="menuItem.icon"
+                class="dvs-m-4"
+                w="25"
+                h="25"
+              ></component>
+            </button>
+          </div>
         </template>
         <a
           href="/logout}"
@@ -118,7 +122,7 @@ export default {
           this.$route.params.pageId === this.currentPage.id &&
           menuItem.routeName === 'devise-pages-view'
         ) {
-          return [' dvs-bg-admin-highlight-bg dvs-bg-fg']
+          return [' dvs-bg-admin-highlight-bg dvs-text-admin-highlight-fg']
         }
 
         if (
@@ -126,7 +130,7 @@ export default {
           (this.$route.name !== 'devise-pages-view' ||
             this.$route.params.pageId !== this.currentPage.id)
         ) {
-          return [' dvs-bg-admin-highlight-bg dvs-bg-fg']
+          return [' dvs-bg-admin-highlight-bg dvs-text-admin-highlight-fg']
         }
       }
 

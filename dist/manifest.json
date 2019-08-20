@@ -1,7 +1,7 @@
 {
   "chunk-vendors.css": "css/chunk-vendors.de44fbfb.css",
-  "chunk-vendors.js": "js/chunk-vendors.1b484ce4.js",
-  "chunk-vendors.js.map": "js/chunk-vendors.1b484ce4.js.map",
+  "chunk-vendors.js": "js/chunk-vendors.75a1ad17.js",
+  "chunk-vendors.js.map": "js/chunk-vendors.75a1ad17.js.map",
   "devise-admin.js": "js/devise-admin.f7bf075f.js",
   "devise-admin.js.map": "js/devise-admin.f7bf075f.js.map",
   "devise-administration-pages.js": "js/devise-administration-pages.fea76fcd.js",
@@ -43,7 +43,7 @@
   "main.css": "css/main.a7d18c16.css",
   "main.js": "js/main.08ec00e9.js",
   "main.js.map": "js/main.08ec00e9.js.map",
-  "styles.css": "css/styles.169d6205.css",
+  "styles.css": "css/styles.8fe3612a.css",
   "styles.js": "js/styles.4134055d.js",
   "styles.js.map": "js/styles.4134055d.js.map"
 }

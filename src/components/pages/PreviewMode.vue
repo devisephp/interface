@@ -1,6 +1,6 @@
 <template>
   <div
-    class="dvs-relative dvs-cursor-pointer dvs-border-b dvs-transitions-hover-slow"
+    class="dvs-relative dvs-cursor-pointer dvs-border-b dvs-border-admin-bg dvs-transitions-hover-slow"
     @mouseenter="openPreviewSelector"
     @mouseleave="closePreviewSelector"
   >
