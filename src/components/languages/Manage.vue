@@ -21,7 +21,7 @@
         </fieldset>
 
         <button
-          class="dvs-btn dvs-btn-primary"
+          class="dvs-btn dvs-btn-primary dvs-text-xs"
           :disabled="newLanguage.code === null"
           @click="requestCreateLanguage"
         >Add New Language</button>
@@ -33,7 +33,7 @@
           :key="key"
           class="dvs-flex dvs-justify-between dvs-items-center dvs-mb-2"
         >
-          <div class="dvs-text-xl dvs-font-bold dvs-mb-4 dvs-bg-admin-fg dvs-text-admin-bg dvs-p-4 dvs-rounded dvs-shadow dvs-flex-grow">
+          <div class="dvs-text-xl dvs-font-bold dvs-mb-4 dvs-p-2 dvs-px-4 dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-rounded dvs-shadow dvs-flex-grow">
             <template v-if="!language.editCode">{{ language.code }}</template>
             <fieldset class="dvs-fieldset">
               <input
@@ -44,7 +44,7 @@
             </fieldset>
           </div>
 
-          <div class="dvs-flex dvs-justify-between dvs-mb-4  dvs-items-center">
+          <div class="dvs-flex dvs-justify-between dvs-ml-2 dvs-mb-4  dvs-items-center">
             <button
               v-if="!language.editCode"
               class="dvs-btn dvs-btn-ghost dvs-text-admin-fg dvs-btn-xs dvs-ml-4"
@@ -53,15 +53,13 @@
               <CreateIcon />
             </button>
             <button
-              class="dvs-btn dvs-mr-2"
+              class="dvs-btn dvs-btn-primary dvs-text-xs dvs-mr-2"
               v-if="language.editCode"
-              :style="theme.actionButton"
               @click="localValue.data[key].editCode = requestUpdateLanguage(localValue.data[key])"
             >Save Language Code</button>
             <button
-              class="dvs-btn"
+              class="dvs-btn dvs-btn-secondary dvs-text-xs"
               v-if="language.editCode"
-              :style="theme.actionButtonGhost"
               @click="language.editCode = false"
             >Cancel</button>
           </div>

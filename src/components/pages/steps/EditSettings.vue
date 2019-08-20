@@ -75,12 +75,12 @@
     </fieldset>
 
     <button
-      class="dvs-btn dvs-btn-primary mr-4"
+      class="dvs-btn dvs-btn-primary dvs-text-xs mr-4"
       @click="requestEditPage"
       :disabled="editInvalid"
     >Edit Page</button>
     <button
-      class="dvs-btn dvs-btn-secondary"
+      class="dvs-btn dvs-btn-secondary dvs-text-xs"
       @click="cancel"
     >Cancel</button>
   </form>

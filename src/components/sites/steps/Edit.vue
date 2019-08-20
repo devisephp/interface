@@ -47,12 +47,12 @@
     </fieldset>
 
     <button
-      class="dvs-btn dvs-btn-primary mr-4"
+      class="dvs-btn dvs-btn-primary dvs-text-xs mr-2"
       @click="requestEditSite"
       :disabled="editInvalid"
     >Edit Site</button>
     <button
-      class="dvs-btn dvs-btn-secondary"
+      class="dvs-btn dvs-btn-secondary dvs-text-xs"
       @click="cancel"
     >Cancel</button>
   </form>

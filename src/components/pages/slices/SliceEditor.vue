@@ -46,23 +46,6 @@
       class="dvs-collapsed dvs-px-4"
       v-if="sliceOpen"
     >
-      <slice-editor-fields
-        :the-fields="sliceConfig(slice).fields"
-        v-model="theFields"
-        @editfield="editField"
-      />
-    </div>
-
-    <div class="dvs-collapsed">
-      <help v-if="slice.metadata.type === 'model'">Be aware that these entries are model entries. That means they are managed in your database by another tool or by an admin section in your adminitration.</help>
-    </div>
-    <div
-      class="dvs-collapsed dvs-px-4 dvs-pl-10"
-      v-if="hasChildSlot"
-      :style="{
-          minHeight: '15px'
-        }"
-    >
       <div class="dvs-pt-2 dvs-flex dvs-items-end dvs-flex-wrap">
         <div>
           <div
@@ -163,6 +146,24 @@
           </div>
         </div>
       </div>
+
+      <slice-editor-fields
+        :the-fields="sliceConfig(slice).fields"
+        v-model="theFields"
+        @editfield="editField"
+      />
+    </div>
+
+    <div class="dvs-collapsed">
+      <help v-if="slice.metadata.type === 'model'">Be aware that these entries are model entries. That means they are managed in your database by another tool or by an admin section in your adminitration.</help>
+    </div>
+    <div
+      class="dvs-collapsed dvs-px-4 dvs-pl-10"
+      v-if="hasChildSlot"
+      :style="{
+          minHeight: '15px'
+        }"
+    >
       <draggable
         v-model="slice.slices"
         tag="ul"

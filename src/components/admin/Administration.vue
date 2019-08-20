@@ -118,7 +118,7 @@ export default {
           this.$route.params.pageId === this.currentPage.id &&
           menuItem.routeName === 'devise-pages-view'
         ) {
-          return [' dvs-bg-admin-highlight dvs-bg-fg']
+          return [' dvs-bg-admin-highlight-bg dvs-bg-fg']
         }
 
         if (
@@ -126,7 +126,7 @@ export default {
           (this.$route.name !== 'devise-pages-view' ||
             this.$route.params.pageId !== this.currentPage.id)
         ) {
-          return [' dvs-bg-admin-highlight dvs-bg-fg']
+          return [' dvs-bg-admin-highlight-bg dvs-bg-fg']
         }
       }
 

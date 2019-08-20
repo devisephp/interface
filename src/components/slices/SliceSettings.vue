@@ -4,20 +4,17 @@
     style="top:30px; right:30px;"
   >
     <div
-      class="dvs-z-50 dvs-min-w-96 dvs-z-50 dvs-rounded dvs-shadow-lg dvs-flex dvs-items-stretch"
-      :style="theme.panel"
+      class="dvs-z-50 dvs-min-w-96 dvs-z-50 dvs-rounded dvs-bg-admin-bg dvs-text-admin-fg dvs-shadow-lg dvs-flex dvs-items-stretch"
       v-if="showEditor"
     >
       <div
         id="dvs-admin-sidebar"
-        class="dvs-pin-l dvs-z-10"
+        class="dvs-pin-l dvs-z-10 dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg"
         :style="{
           position:'relative',
           bottom: 'auto',
           width:'175px',
-          margin:0,
-          borderColor:theme.panelCard.background,
-          background:theme.panelCard.background
+          margin:0
         }"
       >
         <ul>
@@ -35,10 +32,9 @@
           >Mobile</li>
         </ul>
 
-        <div class="dvs-absolute dvs-pin-l dvs-pin-r dvs-pin-b dvs-p-4">
+        <div class="dvs-absolute dvs-text-xs dvs-pin-l dvs-pin-r dvs-pin-b dvs-p-4">
           <button
-            class="dvs-btn dvs-w-full dvs-mb-2"
-            :style="theme.actionButton"
+            class="dvs-btn dvs-btn-primary dvs-w-full dvs-mb-2"
             @click="closeEditor"
           >Done</button>
         </div>

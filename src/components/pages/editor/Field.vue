@@ -75,7 +75,7 @@
             <div
               @click="showErase = true"
               v-if="!showErase && !noReset"
-              class="dvs-absolute dvs-pin-b dvs-pin-l dvs-pin-r dvs-uppercase dvs-text-center dvs-text-xs dvs-p-2 dvs-cursor-pointer dvs-bg-admin-highlight dvs-text-admin-highlight-fg"
+              class="dvs-absolute dvs-pin-b dvs-pin-l dvs-pin-r dvs-uppercase dvs-text-center dvs-text-xs dvs-p-2 dvs-cursor-pointer dvs-bg-admin-highlight-bg dvs-text-admin-highlight-fg"
               style="height:30px;"
             >reset</div>
             <div

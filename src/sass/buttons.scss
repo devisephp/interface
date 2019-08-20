@@ -56,7 +56,7 @@
   }
 
   &.dvs-btn-primary {
-    @apply dvs-bg-admin-highlight dvs-text-admin-highlight-fg;
+    @apply dvs-bg-admin-highlight-bg dvs-text-admin-highlight-fg;
 
     transition: 500ms all;
 

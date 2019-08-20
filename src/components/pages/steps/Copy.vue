@@ -51,12 +51,12 @@
     </fieldset>
 
     <button
-      class="dvs-btn dvs-bg-admin-highlight dvs-text-admin-highlight-fg mr-4"
+      class="dvs-btn dvs-btn-primary dvs-text-xs mr-4"
       @click="requestCopyPage"
       :disabled="createInvalid"
     >Create</button>
     <button
-      class="dvs-btn dvs-bg-admin-bg dvs-text-admin-fg"
+      class="dvs-btn dvs-btn-secondary dvs-text-xs "
       @click="cancel"
     >Cancel</button>
   </form>

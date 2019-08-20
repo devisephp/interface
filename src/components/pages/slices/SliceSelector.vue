@@ -1,6 +1,6 @@
 <template>
   <div class="dvs-relative dvs-mb-8">
-    <div class="dvs-flex dvs-justify-center dvs-p-4 dvs-pb-8 dvs-fixed dvs-pin-b dvs-pin-r dvs-m-4  dvs-text-admin-secondary-fg dvs-bg-admin-secondary-bg dvs-w-1/3 dvs-rounded dvs-shadow">
+    <div class="dvs-flex dvs-justify-center dvs-p-4 dvs-pb-8  dvs-text-admin-fg  dvs-w-full">
       <input
         type="text"
         v-model="filter"

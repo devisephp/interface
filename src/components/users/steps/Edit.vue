@@ -51,12 +51,12 @@
     </template>
 
     <button
-      class="dvs-btn dvs-btn-primary mr-4"
+      class="dvs-btn dvs-btn-primary dvs-text-xs mr-2"
       @click="requestEditUser"
       :disabled="editInvalid"
     >Edit User</button>
     <button
-      class="dvs-btn dvs-btn-secondary"
+      class="dvs-btn dvs-btn-secondary dvs-text-xs"
       @click="cancel"
     >Cancel</button>
   </form>

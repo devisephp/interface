@@ -60,36 +60,35 @@
                         <query-selector v-model="modelQuery" />
                       </div>
                     </div>
-
-                    <div class="dvs-fixed dvs-text-xs dvs-z-10 dvs-pin-b dvs-pin-l dvs-p-6 dvs-m-4 dvs-bg-admin-bg dvs-text-admin-fg dvs-rounded dvs-px-6">
-                      <button
-                        class="dvs-btn dvs-btn-primary dvs-mr-2"
-                        @click="addSlice"
-                        v-if="mode === 'inserting' && newSlice.type !== 'model'"
-                      >Insert</button>
-                      <button
-                        class="dvs-btn dvs-btn-primary dvs-mr-2"
-                        @click="nextStep"
-                        v-else-if="mode === 'inserting' && newSlice.type === 'model' && step === 1"
-                      >Next</button>
-                      <button
-                        class="dvs-btn dvs-btn-primary dvs-mr-2"
-                        @click="addSlice"
-                        v-else-if="mode === 'inserting' && newSlice.type === 'model' && step === 2"
-                      >Insert Model Slice</button>
-                      <button
-                        class="dvs-btn dvs-btn-primary dvs-mr-2"
-                        @click="editSlice"
-                        v-else
-                      >Replace</button>
-                      <button
-                        class="dvs-btn dvs-btn-secondary"
-                        @click="cancelManageSlice"
-                      >Cancel</button>
-                    </div>
                   </div>
                 </transition>
               </div>
+            </div>
+            <div class="dvs-absolute dvs-z-40 dvs-pin-b dvs-pin-r dvs-mr-1 dvs-mb-1 dvs-mr-10 dvs-text-xs dvs-z-10 dvs-p-6 dvs-bg-admin-bg dvs-text-admin-fg dvs-rounded dvs-shadow dvs-px-6">
+              <button
+                class="dvs-btn dvs-btn-primary dvs-mr-2"
+                @click="addSlice"
+                v-if="mode === 'inserting' && newSlice.type !== 'model'"
+              >Insert</button>
+              <button
+                class="dvs-btn dvs-btn-primary dvs-mr-2"
+                @click="nextStep"
+                v-else-if="mode === 'inserting' && newSlice.type === 'model' && step === 1"
+              >Next</button>
+              <button
+                class="dvs-btn dvs-btn-primary dvs-mr-2"
+                @click="addSlice"
+                v-else-if="mode === 'inserting' && newSlice.type === 'model' && step === 2"
+              >Insert Model Slice</button>
+              <button
+                class="dvs-btn dvs-btn-primary dvs-mr-2"
+                @click="editSlice"
+                v-else
+              >Replace</button>
+              <button
+                class="dvs-btn dvs-btn-secondary"
+                @click="cancelManageSlice"
+              >Cancel</button>
             </div>
           </template>
         </admin-container>

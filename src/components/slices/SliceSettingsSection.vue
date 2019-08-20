@@ -1,9 +1,6 @@
 <template>
   <div>
-    <h3
-      class="dvs-uppercase dvs-mb-2"
-      :style="{color: theme.panelCard.color}"
-    >{{ responsiveMode }}</h3>
+    <h3 class="dvs-uppercase dvs-mb-2">{{ responsiveMode }}</h3>
     <fieldset class="dvs-fieldset dvs-mb-8">
       <label>ID of Slice</label>
       <input
@@ -19,7 +16,7 @@
       class="dvs-flex dvs-justify-center dvs-my-4"
       id="dvs-slice-manager-margins-padding"
     >
-      <div :style="theme.panelCard">
+      <div class="dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg">
         <div class="dvs-flex dvs-p-2 dvs-pb-0">
           <div class="dvs-text-xs dvs-uppercase dvs-w-1/3">Margin</div>
           <div class="dvs-w-1/3 dvs-text-center">
@@ -41,7 +38,7 @@
             >
           </div>
           <div class="dvs-p-2">
-            <div :style="theme.actionButton">
+            <div class="dvs-bg-admin-highlight-bg dvs-text-admin-highlight-fg">
               <div class="dvs-flex dvs-p-2 dvs-pb-0">
                 <div class="dvs-text-xs dvs-uppercase dvs-w-1/3">Padding</div>
                 <div class="dvs-w-1/3 dvs-text-center">
@@ -118,8 +115,7 @@
       </div>
       <button
         v-show="!showBackgroundColor"
-        class="dvs-btn dvs-mr-2"
-        :style="theme.actionButton"
+        class="dvs-btn dvs-btn-primary dvs-mr-2 dvs-text-xs"
         @click="showBackgroundColor = true"
       >Set Background Color</button>
     </div>
@@ -134,15 +130,13 @@
       </div>
       <button
         v-show="!showTextColor"
-        class="dvs-btn dvs-mr-2"
-        :style="theme.actionButton"
+        class="dvs-btn dvs-btn-primary dvs-mr-2 dvs-text-xs"
         @click="showTextColor = true"
       >Set Text Color</button>
     </div>
 
     <button
-      class="dvs-btn dvs-rounded"
-      :style="theme.actionButtonGhost"
+      class="dvs-btn dvs-rounded dvs-btn-secondary dvs-text-xs"
       @click="resetStyles"
     >Reset all Settings</button>
   </div>

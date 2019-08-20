@@ -34,7 +34,7 @@ export default {
       if (this.value !== null) {
         if (file.value === this.value.value) {
           return [
-            'dvs-bg-admin-highlight dvs-text-admin-highlight-fg'
+            'dvs-bg-admin-highlight-bg dvs-text-admin-highlight-fg'
           ];
         }
       }

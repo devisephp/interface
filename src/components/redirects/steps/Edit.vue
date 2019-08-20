@@ -17,12 +17,12 @@
     </fieldset>
 
     <button
-      class="dvs-btn dvs-btn-primary mr-4"
+      class="dvs-btn dvs-btn-primary dvs-text-xs mr-2"
       @click="requestEditRedirect"
       :disabled="editInvalid"
     >Edit 301 Redirect</button>
     <button
-      class="dvs-btn dvs-btn-secondary"
+      class="dvs-btn dvs-btn-secondary dvs-text-xs"
       @click="cancel"
     >Cancel</button>
   </form>

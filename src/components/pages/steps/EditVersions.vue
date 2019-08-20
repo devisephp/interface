@@ -4,21 +4,21 @@
       <help>Page versions allow your team to create alternate versions of a page for devlopment, historical purposes, and for A/B testing which allow you to run two pages at once to test user success rates</help>
     </div>
 
-    <div class="dvs-mb-16 dvs-flex dvs-justify-around dvs-flex-wrap">
+    <div class="dvs-flex dvs-justify-around dvs-flex-wrap">
       <div
         v-for="(version, key) in localValue.versions"
         :key="key"
-        class="dvs-rounded dvs-shadow dvs-mb-4 dvs-bg-admin-fg dvs-text-admin-bg dvs-w-2/5"
+        class="dvs-rounded dvs-shadow-lg dvs-mb-4 dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-w-2/5"
       >
         <div
-          class="dvs-text-admin-highlight-fg dvs-bg-admin-highlight dvs-text-sm dvs-uppercase dvs-p-2 dvs-font-bold dvs-text-center"
+          class="dvs-text-admin-highlight-fg dvs-bg-admin-highlight-bg dvs-text-sm dvs-uppercase dvs-p-2 dvs-font-bold dvs-text-center"
           v-if="version.is_live"
         >(Currently Live)</div>
         <div class=" dvs-p-6">
           <div class="dvs-text-base dvs-font-bold dvs-mb-4 dvs-flex dvs-justify-between">
             {{ version.name }}
           </div>
-          <div class="dvs-mb-16">
+          <div>
             <div>
               <fieldset class="dvs-fieldset dvs-mb-4">
                 <label>Version Name</label>
@@ -78,7 +78,7 @@
 
             <div class="dvs-flex dvs-flex-wrap">
               <button
-                class="dvs-btn dvs-btn-primary dvs-px-4 dvs-mr-2"
+                class="dvs-btn dvs-btn-primary dvs-text-sm dvs-px-4 dvs-mr-2"
                 @click="requestSaveVersion(version)"
                 title="Save Version Settings"
               >
@@ -88,7 +88,7 @@
                 />
               </button>
               <button
-                class="dvs-btn dvs-btn-secondary dvs-px-4 dvs-mr-2"
+                class="dvs-btn dvs-bg-admin-bg dvs-text-admin-fg dvs-text-sm dvs-px-4 dvs-mr-2"
                 @click="requestCopyVersion(version)"
                 title="Copy Version"
               >
@@ -98,7 +98,7 @@
                 />
               </button>
               <button
-                class="dvs-btn dvs-btn-secondary dvs-px-4"
+                class="dvs-btn dvs-bg-admin-bg dvs-text-admin-fg dvs-text-sm dvs-px-4"
                 v-devise-alert-confirm="{callback: requestDeleteVersion, arguments:version, message: 'Are you sure you want to delete this version?'}"
                 title="Delete Version"
               >
@@ -112,11 +112,6 @@
         </div>
       </div>
     </div>
-
-    <button
-      class="dvs-btn dvs-btn-primary"
-      @click="done"
-    >Done</button>
   </form>
 </template>
 
