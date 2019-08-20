@@ -1,21 +1,24 @@
 <template>
-  <div class="dvs-mb-8 dvs-w-full">
-    <h3
-      class="dvs-capitalize dvs-ml-2 dvs-mb-2 dvs-border-b dvs-w-full dvs-pb-2"
-      :style="{color: theme.panel.color}"
-    >
+  <div class="dvs-mb-8 dvs-w-full dvs-text-admin-fg">
+    <div class="dvs-uppercase dvs-text-sm dvs-ml-2 dvs-mb-2 dvs-w-full dvs-pb-2 dvs-opacity-75">
       {{ this.name }}
-      <small>({{ this.directory.path }})</small>
-    </h3>
+    </div>
     <div class="dvs-flex dvs-flex-wrap dvs-items-stretch">
       <div
-        class="dvs-cursor-pointer dvs-w-1/3 dvs-mb-1 dvs-flex dvs-justify-stretch dvs-items-stretch dvs-p-2 dvs-rounded-sm dvs-self-stretch dvs-border-box"
+        class="dvs-cursor-pointer dvs-w-1/3 dvs-mb-1 dvs-flex dvs-justify-stretch dvs-items-stretch dvs-p-2 dvs-border-box"
         @click="toggleSelectSlice(file)"
-        :style="isSelected(file)"
         v-for="(file, key) in currentDirectoryFiles"
         :key="key"
       >
-        <slice-selector-slice :file="file"></slice-selector-slice>
+        <div
+          class="dvs-w-full dvs-shadow dvs-rounded"
+          :class="isSelected(file)"
+        >
+          <slice-selector-slice
+            :file="file"
+            class="dvs-mr-4"
+          ></slice-selector-slice>
+        </div>
       </div>
     </div>
   </div>
@@ -30,16 +33,15 @@ export default {
     isSelected (file) {
       if (this.value !== null) {
         if (file.value === this.value.value) {
-          return {
-            color: this.theme.panelCard.background,
-            backgroundColor: this.theme.actionButton.background,
-          };
+          return [
+            'dvs-bg-admin-highlight dvs-text-admin-highlight-fg'
+          ];
         }
       }
 
-      return {
-        backgroundColor: this.theme.panelCard.background,
-      };
+      return [
+        'dvs-bg-admin-fg dvs-text-admin-bg'
+      ];
     },
     toggleSelectSlice (slice) {
       if (!this.value || slice.value !== this.value.value) {

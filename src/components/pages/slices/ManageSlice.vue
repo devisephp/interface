@@ -50,48 +50,40 @@
                   <!-- Slice Selector -->
                   <div v-else>
                     <div v-if="step === 1">
-                      <fieldset class="dvs-fieldset dvs-mb-16">
+                      <div class="dvs-mb-16">
                         <slice-selector v-model="newSlice.slice" />
-                      </fieldset>
+                      </div>
                     </div>
 
                     <div v-if="step === 2">
-                      <fieldset class="dvs-fieldset dvs-mb-16">
+                      <div class="dvs-mb-16">
                         <query-selector v-model="modelQuery" />
-                      </fieldset>
+                      </div>
                     </div>
 
-                    <div
-                      class="dvs-absolute dvs-z-10 dvs-pin-b dvs-pin-l dvs-pin-r dvs-p-4 dvs-px-6"
-                      :style="theme.panelCard"
-                    >
+                    <div class="dvs-fixed dvs-text-xs dvs-z-10 dvs-pin-b dvs-pin-l dvs-p-6 dvs-m-4 dvs-bg-admin-bg dvs-text-admin-fg dvs-rounded dvs-px-6">
                       <button
-                        class="dvs-btn dvs-mr-2"
-                        :style="theme.actionButton"
+                        class="dvs-btn dvs-btn-primary dvs-mr-2"
                         @click="addSlice"
                         v-if="mode === 'inserting' && newSlice.type !== 'model'"
                       >Insert</button>
                       <button
-                        class="dvs-btn dvs-mr-2"
-                        :style="theme.actionButton"
+                        class="dvs-btn dvs-btn-primary dvs-mr-2"
                         @click="nextStep"
                         v-else-if="mode === 'inserting' && newSlice.type === 'model' && step === 1"
                       >Next</button>
                       <button
-                        class="dvs-btn dvs-mr-2"
-                        :style="theme.actionButton"
+                        class="dvs-btn dvs-btn-primary dvs-mr-2"
                         @click="addSlice"
                         v-else-if="mode === 'inserting' && newSlice.type === 'model' && step === 2"
                       >Insert Model Slice</button>
                       <button
-                        class="dvs-btn dvs-mr-2"
-                        :style="theme.actionButton"
+                        class="dvs-btn dvs-btn-primary dvs-mr-2"
                         @click="editSlice"
                         v-else
                       >Replace</button>
                       <button
-                        class="dvs-btn"
-                        :style="theme.actionButtonGhost"
+                        class="dvs-btn dvs-btn-secondary"
                         @click="cancelManageSlice"
                       >Cancel</button>
                     </div>

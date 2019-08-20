@@ -1,21 +1,23 @@
 <template>
-  <div class="dvs-relative dvs-mt-8 dvs-mb-8">
-    <div v-if=" this.allDirectories.length > 0">
-      <div class="dvs-flex dvs-justify-center dvs-py-8 dvs-relative">
-        <input
-          type="text"
-          v-model="filter"
-          class="dvs-bg-transparent dvs-border-b-2 dvs-px-12 dvs-py-2 dvs-text-admin-fg dvs-outline-none dvs-placeholder-admin-fg dvs-text-center"
-          placeholder="Type to begin searching"
-        >
-        <div
-          class="dvs-cursor-pointer"
-          :class="{'dvs-opacity-50': searchTerm === ''}"
-          @click="filter = ''"
-        >
-          <x-icon></x-icon>
-        </div>
+  <div class="dvs-relative dvs-mb-8">
+    <div class="dvs-flex dvs-justify-center dvs-p-4 dvs-pb-8 dvs-fixed dvs-pin-b dvs-pin-r dvs-m-4  dvs-text-admin-secondary-fg dvs-bg-admin-secondary-bg dvs-w-1/3 dvs-rounded dvs-shadow">
+      <input
+        type="text"
+        v-model="filter"
+        ref="filter"
+        class="dvs-bg-transparent dvs-border-b-2 dvs-px-12 dvs-py-2 dvs-text-admin-fg dvs-outline-none dvs-placeholder-admin-fg dvs-text-center"
+        placeholder="Type to begin searching"
+      >
+      <div
+        class="dvs-cursor-pointer"
+        :class="{'dvs-opacity-50': searchTerm === ''}"
+        @click="filter = ''"
+      >
+        <x-icon></x-icon>
       </div>
+    </div>
+    <div v-if=" this.allDirectories.length > 0">
+
       <div>
         <slice-selector-directory
           v-for="(directory, n) in this.allDirectories"
