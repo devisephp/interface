@@ -1,160 +1,24 @@
 <template>
   <!-- eslint-disable vue/valid-v-for -->
   <li
-    class="dvs-my-4 dvs-collapsable"
+    class="dvs-collapsable dvs-mb-4"
     :class="{'dvs-open': sliceOpen}"
   >
     <strong class="dvs-block dvs-mb-2 dvs-switch-sm dvs-text-sm dvs-flex dvs-justify-between dvs-items-center dvs-w-full">
-      <div
-        class="dvs-flex dvs-items-center dvs-justify-between dvs-w-full"
-        :style="{color: theme.panel.color}"
-      >
-        <div class="dvs-flex dvs-w-full">
-          <div class="handle dvs-mr-2 dvs-cursor-move">
-            <menu-icon
-              style="margin-top:2px;"
-              :style="theme.panelIcons"
-            />
+      <div class="dvs-flex dvs-items-center dvs-justify-between dvs-w-full dvs-px-4">
+        <div class="dvs-flex dvs-items-center dvs-w-full">
+          <div class="handle dvs-mr-2 dvs-cursor-move dvs-text-admin-fg dvs-opacity-50">
+            <menu-icon />
           </div>
           <div
             dusk="slice-label"
-            class="dvs-relative dvs-w-full dvs-cursor-pointer"
+            class="dvs-relative dvs-w-full dvs-cursor-pointer dvs-text-admin-fg"
             :class="{'dvs-opacity-75': !sliceHasFieldsOrSlices}"
             @click="toggleSlice()"
             @mouseenter="markSlice(true, slice)"
             @mouseleave="markSlice(false, slice)"
             v-html="editorLabel"
           ></div>
-        </div>
-        <div
-          class="dvs-ml-2 dvs-relative dvs-p-2 dvs-rounded-sm dvs-flex dvs-items-center"
-          @mouseenter="moreHovered = true"
-          @mouseleave="moreHovered = false"
-          :style="{backgroundColor: this.theme.panelCard.background}"
-        >
-          <more-icon
-            w="10"
-            h="10"
-            :style="{color: 'white'}"
-          />
-
-          <div
-            class="dvs-overflow-hidden dvs-absolute dvs-z-10 dvs-pin-t dvs-pin-r dvs-rounded-sm"
-            style="width:175px;"
-            :style="{backgroundColor: this.theme.panelCard.background}"
-            v-if="moreHovered"
-          >
-            <div class="dvs-pt-2 dvs-flex dvs-items-end dvs-flex-wrap">
-              <div class="dvs-w-1/2">
-                <div
-                  class="dvs-mr-2 dvs-ml-2 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-border dvs-rounded-sm dvs-p-2"
-                  :class="{'dvs-cursor-pointer': hasChildSlot, 'dvs-cursor-not-allowed dvs-opacity-50': !hasChildSlot}"
-                  :style="{ borderColor: theme.panelIcons.color }"
-                  @click="requestInsertSlice()"
-                >
-                  <add-icon
-                    w="25"
-                    h="25"
-                    :style="theme.panelIcons"
-                  />
-                  <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Insert Slice</div>
-                </div>
-              </div>
-
-              <div class="dvs-w-1/2">
-                <div
-                  class="dvs-cursor-pointer dvs-mr-2 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-border dvs-rounded-sm dvs-p-2"
-                  :style="{ borderColor: theme.panelIcons.color }"
-                  @click="jumpToSlice()"
-                >
-                  <locate-icon
-                    w="25"
-                    h="25"
-                    :style="theme.panelIcons"
-                  />
-                  <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Find</div>
-                </div>
-              </div>
-
-              <div class="dvs-w-1/2">
-                <div
-                  class="dvs-cursor-pointer dvs-ml-2 dvs-mr-2 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-border dvs-rounded-sm dvs-p-2"
-                  :style="{ borderColor: theme.panelIcons.color }"
-                  @click="copySlice(slice, false)"
-                >
-                  <copy-icon
-                    w="25"
-                    h="25"
-                    :style="theme.panelIcons"
-                  />
-                  <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Duplicate</div>
-                </div>
-              </div>
-
-              <div class="dvs-w-1/2">
-                <div
-                  class="dvs-cursor-pointer dvs-mr-2 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-border dvs-rounded-sm dvs-p-2"
-                  :style="{ borderColor: theme.panelIcons.color }"
-                  @click="sliceSettings()"
-                >
-                  <cog-icon
-                    w="25"
-                    h="25"
-                    :style="theme.panelIcons"
-                  />
-                  <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Settings</div>
-                </div>
-              </div>
-
-              <div class="dvs-w-1/2">
-                <div
-                  class="dvs-cursor-pointer dvs-ml-2 dvs-mr-2 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-border dvs-rounded-sm dvs-p-2"
-                  :style="{ borderColor: theme.panelIcons.color }"
-                  @click="requestEditSlice()"
-                >
-                  <create-icon
-                    w="25"
-                    h="25"
-                    :style="theme.panelIcons"
-                  />
-                  <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Edit</div>
-                </div>
-              </div>
-
-              <div class="dvs-w-1/2">
-                <div
-                  class="dvs-cursor-pointer dvs-mr-2 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-border dvs-rounded-sm dvs-p-2"
-                  :style="{ borderColor: theme.panelIcons.color }"
-                  @click="removeSlice()"
-                >
-                  <remove-icon
-                    w="25"
-                    h="25"
-                    :style="theme.panelIcons"
-                  />
-                  <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Remove</div>
-                </div>
-              </div>
-
-              <div
-                class="dvs-w-1/2"
-                v-if="!child"
-              >
-                <div
-                  class="dvs-cursor-pointer dvs-ml-2 dvs-mr-2 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-border dvs-rounded-sm dvs-p-2"
-                  :style="{ borderColor: theme.panelIcons.color }"
-                  @click="requestCopyToAnotherPage()"
-                >
-                  <copy-icon
-                    w="25"
-                    h="25"
-                    :style="theme.panelIcons"
-                  />
-                  <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Copy</div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </strong>
@@ -179,7 +43,7 @@
     />
 
     <div
-      class="dvs-collapsed dvs-mb-6"
+      class="dvs-collapsed dvs-px-4"
       v-if="sliceOpen"
     >
       <slice-editor-fields
@@ -190,39 +54,134 @@
     </div>
 
     <div class="dvs-collapsed">
-      <help
-        v-if="slice.metadata.type === 'model'"
-        :style="theme.panel"
-      >Be aware that these entries are model entries. That means they are managed in your database by another tool or by an admin section in your adminitration.</help>
+      <help v-if="slice.metadata.type === 'model'">Be aware that these entries are model entries. That means they are managed in your database by another tool or by an admin section in your adminitration.</help>
     </div>
-
     <div
-      class="dvs-collapsed dvs-ml-4"
+      class="dvs-collapsed dvs-px-4 dvs-pl-10"
       v-if="hasChildSlot"
       :style="{
-          background: this.theme.panelCard.background,
-          padding: '2px',
-          margin: '-4px 0 0 -4px',
           minHeight: '15px'
         }"
     >
+      <div class="dvs-pt-2 dvs-flex dvs-items-end dvs-flex-wrap">
+        <div>
+          <div
+            class="dvs-opacity-50 hover:dvs-opacity-100 dvs-text-xs dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-rounded dvs-mr-1 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-rounded-sm dvs-p-2"
+            style="width:50px;"
+            :class="{'dvs-cursor-pointer': hasChildSlot, 'dvs-cursor-not-allowed dvs-opacity-50': !hasChildSlot}"
+            @click="requestInsertSlice()"
+          >
+            <add-icon
+              w="25"
+              h="25"
+            />
+            <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Slice</div>
+          </div>
+        </div>
+
+        <div>
+          <div
+            class="dvs-opacity-50 hover:dvs-opacity-100 dvs-text-xs dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-rounded dvs-mr-1 dvs-cursor-pointer dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-rounded-sm dvs-p-2"
+            style="width:50px;"
+            @click="jumpToSlice()"
+          >
+            <locate-icon
+              w="25"
+              h="25"
+            />
+            <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Find</div>
+          </div>
+        </div>
+
+        <div>
+          <div
+            class="dvs-opacity-50 hover:dvs-opacity-100 dvs-text-xs dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-rounded dvs-cursor-pointer dvs-mr-1 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-rounded-sm dvs-p-2"
+            style="width:50px;"
+            @click="copySlice(slice, false)"
+          >
+            <copy-icon
+              w="25"
+              h="25"
+            />
+            <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Duplicate</div>
+          </div>
+        </div>
+
+        <div>
+          <div
+            class="dvs-opacity-50 hover:dvs-opacity-100 dvs-text-xs dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-rounded dvs-cursor-pointer dvs-mr-1 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-rounded-sm dvs-p-2"
+            style="width:50px;"
+            @click="sliceSettings()"
+          >
+            <cog-icon
+              w="25"
+              h="25"
+            />
+            <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Settings</div>
+          </div>
+        </div>
+
+        <div>
+          <div
+            class="dvs-opacity-50 hover:dvs-opacity-100 dvs-text-xs dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-rounded dvs-cursor-pointer dvs-mr-1 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-rounded-sm dvs-p-2"
+            style="width:50px;"
+            @click="requestEditSlice()"
+          >
+            <create-icon
+              w="25"
+              h="25"
+            />
+            <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Edit</div>
+          </div>
+        </div>
+
+        <div>
+          <div
+            class="dvs-opacity-50 hover:dvs-opacity-100 dvs-text-xs dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-rounded dvs-cursor-pointer dvs-mr-1 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-rounded-sm dvs-p-2"
+            style="width:50px;"
+            @click="removeSlice()"
+          >
+            <remove-icon
+              w="25"
+              h="25"
+            />
+            <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Remove</div>
+          </div>
+        </div>
+
+        <div v-if="!child">
+          <div
+            class="dvs-opacity-50 hover:dvs-opacity-100 dvs-text-xs dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-rounded dvs-cursor-pointer dvs-mr-1 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-rounded-sm dvs-p-2"
+            style="width:50px;"
+            @click="requestCopyToAnotherPage()"
+          >
+            <copy-icon
+              w="25"
+              h="25"
+            />
+            <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Copy</div>
+          </div>
+        </div>
+      </div>
       <draggable
         v-model="slice.slices"
         tag="ul"
-        class="dvs-list-reset dvs-rounded-sm"
+        class="dvs-list-reset dvs-bg-admin-secondary-bg dvs-rounded-lg dvs-py-1 dvs-pt-3 dvs-mt-1 dvs-mb-6"
         v-if="slice.metadata.type !== 'model'"
-        :style="{
-          padding: '2px',
-          margin: '-4px 0 0 1em',
-          minHeight: '15px'
-        }"
         v-bind="{
           handle: '.handle', 
+          filter: '.dvs-instructions',
           group: {name: 'g1'},
           animation:200,
           ghostClass: 'dvs-ghost',
         }"
       >
+        <div
+          class="dvs-p-4 dvs-text-xs dvs-leading-normal dvs-instructions"
+          v-if="sliceSlices.length < 1"
+        >
+          You can add child slices by dragging them here or by using the dot menu on the right and selecting "Insert Slice"
+        </div>
         <template v-for="s in sliceSlices">
           <slice-editor
             :key="randomString(8)"
@@ -251,7 +210,6 @@ export default {
       manageSlice: false,
       manageSliceMode: 'inserting',
       pageSlices: [],
-      moreHovered: false,
       sliceOpen: false,
       showCopyToAnotherPage: false,
     };
@@ -417,9 +375,10 @@ export default {
             }
 
             if (label) {
-              return `${devMode}<div class="dvs-capitalize">${label}</div><div class="dvs-absolute dvs-pin-t dvs--mt-4 dvs-text-xs dvs-opacity-25 dvs-uppercase">${
+              return `${devMode}<div class="dvs-text-xs dvs-opacity-25 dvs-uppercase dvs-leading-tight">${
                 this.slice.metadata.label
-                }</div>`;
+                }</div>
+                <div class="dvs-capitalize">${label}</div>`;
             }
           }
         }
@@ -450,8 +409,6 @@ export default {
     ManageSlice: () => import(/* webpackChunkName: "devise-editors" */ './ManageSlice'),
     MenuIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/MenuIcon'),
-    MoreIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/MoreVerticalIcon'),
     RemoveIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/TrashIcon'),
     SliceEditor: () => import(/* webpackChunkName: "devise-editors" */ './SliceEditor'),

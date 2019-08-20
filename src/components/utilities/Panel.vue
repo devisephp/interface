@@ -1,10 +1,10 @@
 <template>
   <div class="dvs-panel">
     <div
-      class="dvs-panel-contents dvs-max-h-screenpad dvs-overflow-hidden dvs-w-full dvs-pointer-events-none"
+      class="dvs-panel-contents dvs-max-h-screenpad dvs-overflow-hidden dvs-w-full"
       :style="panelStyle"
     >
-      <div class="dvs-flex dvs-items-start dvs-pointer-events-none">
+      <div class="dvs-flex dvs-items-start">
         <slot />
       </div>
     </div>

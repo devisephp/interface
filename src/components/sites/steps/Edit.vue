@@ -1,60 +1,56 @@
 <template>
   <form @submit.prevent="">
     <fieldset class="dvs-fieldset dvs-mb-4">
-      <label>Name of User</label>
+      <label>Name</label>
       <input
         type="text"
-        autocomplete="off"
         v-model="localValue.name"
-        placeholder="Name of the User"
+        placeholder="Name of the Site"
+        class="w-full"
       >
     </fieldset>
 
     <fieldset class="dvs-fieldset dvs-mb-4">
-      <label>Email</label>
+      <label>
+        Domain
+        <help
+          class="dvs-mb-8"
+          :compact="true"
+        >The domain should not include the http or https:// protocol identifier. So your site entry could be "my-super-awesome-site.com" or "sub-domain.my-super-awesome-site.com". To Support development environments you can override these values in your .env file in the root of your project with something like "SITE_1_DOMAIN=my-super-awesome-site.test" for your local development or staging.</help>
+
+      </label>
       <input
         type="text"
-        autocomplete="off"
-        v-model="localValue.email"
-        placeholder="Email of the User"
+        v-model="localValue.domain"
+        placeholder="Domain of the Site"
+        class="w-full"
       >
     </fieldset>
 
-    <fieldset
-      class="dvs-fieldset dvs-mb-4"
-      v-if="!showPassword"
-    >
-      <button
-        class="dvs-btn dvs-btn-secondary "
-        @click="showPassword = !showPassword"
-      >Edit Password</button>
+    <fieldset class="dvs-fieldset dvs-mb-4">
+      <label>Language</label>
+      <select
+        type="text"
+        v-model="localValue.language_id"
+        class="w-full"
+      >
+        <option
+          :value="null"
+          disabled
+        >Select a Default Language</option>
+        <option
+          v-for="language in languages.data"
+          :key="language.id"
+          :value="language.id"
+        >{{ language.code }}</option>
+      </select>
     </fieldset>
-
-    <template v-if="showPassword">
-      <fieldset class="dvs-fieldset dvs-mb-4">
-        <label>Password</label>
-        <input
-          type="password"
-          autocomplete="off"
-          v-model="localValue.password"
-        >
-      </fieldset>
-
-      <fieldset class="dvs-fieldset dvs-mb-4">
-        <label>Password Confirm</label>
-        <input
-          type="password"
-          autocomplete="off"
-          v-model="localValue.password_confirmation"
-        >
-      </fieldset>
-    </template>
 
     <button
       class="dvs-btn dvs-btn-primary mr-4"
-      @click="requestEditUser"
+      @click="requestEditSite"
       :disabled="editInvalid"
-    >Edit User</button>
+    >Edit Site</button>
     <button
       class="dvs-btn dvs-btn-secondary"
       @click="cancel"
@@ -63,10 +59,10 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 export default {
-  name: 'DeviseUsersEdit',
+  name: 'DeviseSitesEdit',
   props: {
     values: {
       type: Object,
@@ -75,19 +71,19 @@ export default {
   },
   data () {
     return {
-      localValue: {},
-      showPassword: false,
+      localValue: {}
     };
   },
   mounted () {
     this.localValue = { ...this.values }
+    this.loadLanguages()
   },
   methods: {
-    ...mapActions('devise', ['updateGeneric']),
-    requestEditUser () {
+    ...mapActions('devise', ['updateGeneric', 'getGeneric']),
+    requestEditSite () {
       this.updateGeneric({
         config: {
-          apiendpoint: 'users',
+          apiendpoint: 'sites',
           recordLabel: 'name'
         },
         record: this.localValue
@@ -95,18 +91,33 @@ export default {
         this.$emit('done')
       });
     },
+    loadLanguages () {
+      this.getGeneric({
+        config: {
+          apiendpoint: 'languages',
+          store: 'languages',
+        }
+      }).then(response => {
+        if (response.data && response.data.data && response.data.data.length > 0) {
+          const defaultLanguage = response.data.data.find(lang => {
+            return lang.default === 1
+          })
+          this.localValue.language_id = defaultLanguage.id
+        }
+      })
+    },
     cancel () {
       this.$emit('cancel')
-    }
+    },
+
   },
   computed: {
+    ...mapState('devise', ['languages']),
     editInvalid () {
       return (
-        this.localValue.name === null ||
-        this.localValue.email === null ||
-        this.localValue.password === null ||
-        this.localValue.password_confirmation === null ||
-        this.localValue.password !== this.localValue.password_confirmation
+        !this.localValue.name ||
+        !this.localValue.domain ||
+        !this.localValue.language_id
       );
     },
   },

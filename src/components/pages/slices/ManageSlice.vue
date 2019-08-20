@@ -6,16 +6,12 @@
           class="dvs-blocker"
           @click="cancelManageSlice"
         ></div>
-        <panel
-          class="dvs-w-4/5 dvs-relative dvs-z-40 "
-          :panel-style="theme.panel"
-        >
+        <panel class="dvs-w-4/5 dvs-relative dvs-z-40 ">
           <div class="dvs-p-8">
             <!-- Choose the type of the slice -->
             <h3
               class="dvs-mb-8 dvs-uppercase"
               v-if="newSlice.type === null"
-              :style="{color: theme.panel.color}"
             >Choose Type of New Slice</h3>
             <transition name="dvs-fade">
               <!-- Choose the type of the slice -->

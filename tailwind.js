@@ -133,9 +133,10 @@ let colors = {
 
   'admin-bg': 'rgba(225,128,92,0.9)',
   'admin-fg': '#FFFFFF',
+  'admin-secondary-bg': 'rgba(190,98,64,0.9)',
   'admin-secondary-fg': 'rgba(255,255,255,0.7)',
   'admin-highlight-fg': '#ffffff',
-  'admin-highlight': '#74DC99',
+  'admin-highlight': 'rgba(27,213,224,0.6)',
 };
 
 module.exports = {

@@ -57,7 +57,7 @@ export default {
           component: 'workflow-search',
           message: 'Use the form below to search for the site you wish to manage',
           apiendpoint: 'sites',
-          searchPropertyName: 'term',
+          searchPropertyName: 'name',
           resultsDisplayFields: [
             {
               label: 'Name',
