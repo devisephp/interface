@@ -4,13 +4,20 @@ const actions = {
 
   // Generic
   getGeneric (context, payload) {
+    let url = ''
+    if (payload.config.app) {
+      url = `${
+        payload.config.apiendpoint
+        }/?${commonUtils.buildFilterParams(payload.filters)}`
+    } else {
+      url = `${context.state.api.baseUrl}${
+        payload.config.apiendpoint
+        }/?${commonUtils.buildFilterParams(payload.filters)}`
+    }
+
     return new Promise((resolve) => {
       window.axios
-        .get(
-          `${context.state.api.baseUrl}${
-          payload.config.apiendpoint
-          }/?${commonUtils.buildFilterParams(payload.filters)}`
-        )
+        .get(url)
         .then((response) => {
           context.commit('setGeneric', { config: payload.config, response });
           resolve(response);
@@ -110,6 +117,23 @@ const actions = {
             title: 'Success!',
             message: `${payload.record[payload.config.recordLabel]} has been deleted.`,
           });
+          resolve(response);
+        })
+        .catch((error) => {
+          window.deviseSettings.$bus.$emit('showError', error);
+        });
+    }).catch((error) => {
+      window.deviseSettings.$bus.$emit('showError', error);
+    });
+  },
+
+  appGenericSearch (context, payload) {
+    return new Promise((resolve) => {
+      window.axios
+        .get(
+          `${payload.config.apiendpoint}/?${commonUtils.buildFilterParams(payload.filters)}`
+        )
+        .then((response) => {
           resolve(response);
         })
         .catch((error) => {

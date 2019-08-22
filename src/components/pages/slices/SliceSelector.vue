@@ -10,7 +10,7 @@
       >
       <div
         class="dvs-cursor-pointer"
-        :class="{'dvs-opacity-50': searchTerm === ''}"
+        :class="{'dvs-opacity-50': filter === ''}"
         @click="filter = ''"
       >
         <x-icon></x-icon>
@@ -21,6 +21,7 @@
       <div>
         <slice-selector-directory
           v-for="(directory, n) in this.allDirectories"
+          :allowed-views="allowedViews"
           :key="n"
           :directory="directory"
           :value="value"
@@ -33,7 +34,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import SliceSelectorDirectory from './SliceSelectorDirectory.vue';
 
 export default {
@@ -79,6 +80,7 @@ export default {
     },
   },
   computed: {
+    ...mapState('devise', ['modelQueries']),
     ...mapGetters('devise', ['slicesDirectories']),
     allDirectories () {
       if (this.filter !== null && this.filter !== '') {
@@ -92,6 +94,12 @@ export default {
       }
       return [];
     },
+    allowedViews () {
+      const mqc = this.modelQueries.find(mq => {
+        return mq.key === this.modelQuery.key
+      })
+      return mqc.views
+    },
     filteredDirectories () {
       const filters = this.filter.toLowerCase().split(' ');
       const directories = this.getDirectories(
@@ -100,7 +108,6 @@ export default {
       ).filter(directory => {
         if (
           filters.every(filter => {
-            // console.log(directory.path, filter, directory.path.toLowerCase().includes(filter));
             return directory.path.toLowerCase().includes(filter);
           })
         ) {
@@ -127,6 +134,9 @@ export default {
     value: {
       type: Object,
     },
+    modelQuery: {
+      type: Object
+    }
   },
   components: {
     SliceSelectorDirectory,

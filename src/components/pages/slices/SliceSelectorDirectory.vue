@@ -1,5 +1,8 @@
 <template>
-  <div class="dvs-mb-8 dvs-w-full dvs-text-admin-fg">
+  <div
+    class="dvs-mb-8 dvs-w-full dvs-text-admin-fg"
+    v-if="currentDirectoryFiles.length > 0"
+  >
     <div class="dvs-uppercase dvs-text-sm dvs-ml-2 dvs-mb-2 dvs-w-full dvs-pb-2 dvs-opacity-75">
       {{ this.name }}
     </div>
@@ -9,6 +12,7 @@
         @click="toggleSelectSlice(file)"
         v-for="(file, key) in currentDirectoryFiles"
         :key="key"
+        style="min-width:240px;"
       >
         <div
           class="dvs-w-full dvs-shadow dvs-rounded"
@@ -54,6 +58,11 @@ export default {
   computed: {
     ...mapGetters('devise', ['componentFromView']),
     currentDirectoryFiles () {
+      if (this.allowedViews.length > 0) {
+        return this.directory.files.filter(file => {
+          return this.allowedViews.includes(file.value)
+        })
+      }
       return this.directory.files;
     },
     name () {
@@ -68,6 +77,9 @@ export default {
     value: {
       required: true,
     },
+    allowedViews: {
+      type: Array
+    }
   },
   components: {
     SliceSelectorSlice,

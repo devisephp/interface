@@ -142,7 +142,6 @@ export default {
       })
     },
     deviseRootPortalContentChanged (content) {
-      console.log(content)
       if (!content.passengers) {
         this.hideDeviseRootPortal = true
       } else {

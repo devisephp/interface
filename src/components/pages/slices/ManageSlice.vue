@@ -10,11 +10,11 @@
 
       <div class="relative dvs-z-50 dvs-pt-6">
         <admin-container>
+
           <template v-slot:message>
             Adding new slices builds up your page. Below you will need to decide what type of slice you are adding.
           </template>
           <template v-slot:content>
-
             <div class="dvs-w-full dvs-relative dvs-z-40 ">
               <div class="dvs-p-8">
                 <transition name="dvs-fade">
@@ -36,35 +36,40 @@
 
                     <div
                       v-if="modelQueries.length > 0"
-                      class="dvs-btn dvs-text-base dvs-ml-4 dvs-p-8 dvs-w-1/2"
+                      class="dvs-btn dvs-btn-secondary dvs-text-base dvs-ml-4 dvs-p-8 dvs-w-1/2 dvs-shadow-lg"
                       @click="newSlice.type = 'model'"
                     >
                       <div class="dvs-pb-2">Dynamic Slice</div>
                       <div class="dvs-text-4xl dvs-mb-4">
                         <database-icon></database-icon>
                       </div>
-                      <p class="dvs-normal-case dvs-text-sm dvs-font-normal">Slices will repeat on the page based data you define in the next steps.</p>
+                      <p class="dvs-normal-case dvs-text-sm dvs-font-normal">Dynamic slices will be populated by data from the database. Depending on your options on the next screen multiple instances of the slice you select will appear. As models are edited the information on these instances will change.</p>
                     </div>
                   </div>
 
                   <!-- Slice Selector -->
                   <div v-else>
-                    <div v-if="step === 1">
-                      <div class="dvs-mb-16">
-                        <slice-selector v-model="newSlice.slice" />
-                      </div>
-                    </div>
-
-                    <div v-if="step === 2">
+                    <div v-if="step === 1 && newSlice.type === 'model'">
                       <div class="dvs-mb-16">
                         <query-selector v-model="modelQuery" />
+                      </div>
+                    </div>
+                    <div v-else>
+                      <div class="dvs-mb-16">
+                        <slice-selector
+                          :model-query="modelQuery"
+                          v-model="newSlice.slice"
+                        />
                       </div>
                     </div>
                   </div>
                 </transition>
               </div>
             </div>
-            <div class="dvs-absolute dvs-z-40 dvs-pin-b dvs-pin-r dvs-mr-1 dvs-mb-1 dvs-mr-10 dvs-text-xs dvs-z-10 dvs-p-6 dvs-bg-admin-bg dvs-text-admin-fg dvs-rounded dvs-shadow dvs-px-6">
+            <div
+              class="dvs-absolute dvs-z-40 dvs-pin-b dvs-pin-r dvs-mr-1 dvs-mb-1 dvs-mr-10 dvs-text-xs dvs-z-10 dvs-p-6 dvs-bg-admin-bg dvs-text-admin-fg dvs-rounded dvs-shadow dvs-px-6"
+              v-if="newSlice.type !== null"
+            >
               <button
                 class="dvs-btn dvs-btn-primary dvs-mr-2"
                 @click="addSlice"
@@ -74,6 +79,7 @@
                 class="dvs-btn dvs-btn-primary dvs-mr-2"
                 @click="nextStep"
                 v-else-if="mode === 'inserting' && newSlice.type === 'model' && step === 1"
+                :disabled="modelQueryInvalid"
               >Next</button>
               <button
                 class="dvs-btn dvs-btn-primary dvs-mr-2"
@@ -109,9 +115,7 @@ const defaultInsertSlice = {
 };
 
 export default {
-  computed: {
-    ...mapState('devise', ['modelQueries'])
-  },
+  name: 'ManageSlice',
   data () {
     return {
       newSlice: Object.assign({}, defaultInsertSlice),
@@ -198,6 +202,27 @@ export default {
   computed: {
     ...mapGetters('devise', ['componentFromView', 'slicesDirectories']),
     ...mapState('devise', ['modelQueries']),
+    modelQueryInvalid () {
+      if (!this.modelQueryConfig) {
+        return true
+      }
+      let invalid = false
+      this.modelQueryConfig.params.forEach(param => {
+        if (!param.allowedNull && !param.value) {
+          invalid = true
+        }
+      })
+      return invalid
+    },
+    modelQueryConfig () {
+      if (this.modelQuery) {
+        const mqc = this.modelQueries.find(mq => {
+          return mq.key === this.modelQuery.key
+        })
+        return mqc
+      }
+      return null
+    },
   },
   props: {
     slice: {
@@ -212,7 +237,7 @@ export default {
     AdminContainer: () =>
       import(/* webpackChunkName: "devise-administration" */ '../../admin/ui/AdminContainer'),
     QuerySelector: () =>
-      import(/* webpackChunkName: "devise-utilities" */ '../../utilities/QuerySelector.vue'),
+      import(/* webpackChunkName: "devise-query-selector" */ '../../utilities/query-selector/QuerySelector.vue'),
     SliceSelector: () => import(/* webpackChunkName: "devise-slices" */ './SliceSelector.vue'),
     FileTextIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/FileTextIcon'),
