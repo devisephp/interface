@@ -148,13 +148,14 @@
       </div>
 
       <slice-editor-fields
+        v-if="slice.metadata.type !== 'model'"
         :the-fields="sliceConfig(slice).fields"
         v-model="theFields"
         @editfield="editField"
       />
     </div>
 
-    <div class="dvs-collapsed">
+    <div class="dvs-collapsed dvs-px-6 dvs-text-sm">
       <help v-if="slice.metadata.type === 'model'">Be aware that these entries are model entries. That means they are managed in your database by another tool or by an admin section in your adminitration.</help>
     </div>
     <div

@@ -107,7 +107,7 @@ export default {
   props: {
     theFields: {
       required: true,
-      type: Array | Object
+      type: Object
     },
     value: {
       required: true,
