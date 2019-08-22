@@ -11,8 +11,7 @@
         <fieldset class="dvs-fieldset dvs-mb-4">
           <label>Select a different image for {{ activeImage.name }}</label>
           <button
-            class="dvs-btn"
-            :style="theme.actionButton"
+            class="dvs-btn dvs-btn-primary"
             @click="selectSizeImage"
           >
             Select image
@@ -44,8 +43,7 @@
         </fieldset>
         <fieldset>
           <button
-            class="dvs-btn dvs-w-full dvs-btn-sm"
-            :style="theme.actionButtonGhost"
+            class="dvs-btn dvs-w-full dvs-btn-primary dvs-btn-sm"
             @click="setCustomSizeToOriginal"
           >Original Dimensions</button>
         </fieldset>
@@ -64,7 +62,7 @@
           <label>Toggle Cropping</label>
           <button
             class="dvs-btn"
-            :style="croppingButtonStyle"
+            :class="croppingButtonStyle"
             @click="startCropping(slotProps.toggleShowControl)"
           >
             <crop-icon></crop-icon>
@@ -302,9 +300,9 @@ export default {
     },
     croppingButtonStyle () {
       if (this.isCropping) {
-        return this.theme.actionButton;
+        return 'dvs-btn-primary'
       }
-      return this.theme.actionButtonGhost;
+      return 'dvs-btn-ghost'
     },
   },
   components: {

@@ -28,6 +28,7 @@
               class="dvs-my-2"
               type="checkbox"
               v-model="cookieSettings"
+              @click="refreshDirectory"
             >
           </div>
         </fieldset>
@@ -90,8 +91,7 @@
                 </fieldset>
                 <button
                   type="submit"
-                  class="dvs-btn dvs-btn-sm"
-                  :style="theme.actionButton"
+                  class="dvs-btn dvs-btn-primary dvs-btn-sm"
                 >Search</button>
               </div>
             </form>
@@ -119,9 +119,8 @@
                 >
               </fieldset>
               <button
-                class="dvs-btn dvs-btn-sm"
+                class="dvs-btn dvs-btn-primary dvs-btn-sm"
                 @click="requestCreateDirectory()"
-                :style="theme.actionButton"
               >Create</button>
             </div>
           </div>
@@ -167,218 +166,257 @@
         </div>
 
         <!-- File uploader -->
-        <uploader
-          :current-directory="currentDirectory"
-          @all-files-uploaded="refreshDirectory"
-        ></uploader>
+        <transition
+          mode="out-in"
+          name="dvs-fade"
+        >
+          <uploader
+            key="uploader"
+            v-if="!loadingDirectory"
+            :current-directory="currentDirectory"
+            @all-files-uploaded="refreshDirectory"
+          ></uploader>
+          <loading-screen
+            key="loadingscreen"
+            v-else
+            :inline="true"
+            inline-message="Loading Directory"
+          ></loading-screen>
+        </transition>
 
         <!-- Delete Directory -->
-        <div
-          v-if="currentFiles.length < 1 && directories.length < 1 && currentDirectory !== ''"
-          class="dvs-flex dvs-justify-center dvs-items-center dvs-absolute dvs-absolute-center"
+        <transition
+          mode="out-in"
+          name="dvs-fade"
         >
           <div
-            class="dvs-bg-white dvs-text-grey-dark dvs-rounded dvs-p-8 dvs--mt-15 dvs-text-center dvs-shadow dvs-cursor-pointer"
-            @click="requestDeleteDirectory()"
+            v-if="!loadingDirectory && currentFiles.length < 1 && directories.length < 1 && currentDirectory !== ''"
+            class="dvs-absolute dvs-absolute-center-x dvs-pin-b dvs-mb-8"
           >
-            <trash-icon
-              h="40"
-              w="40"
-              :style="{color: theme.panel.color}"
-            />
-            <h6 class="dvs-mt-2 dvs-text-sm">Delete this directory</h6>
+            <div
+              class="dvs-bg-white dvs-text-grey-dark dvs-rounded dvs-p-8 dvs--mt-15 dvs-text-center dvs-shadow dvs-cursor-pointer"
+              @click="requestDeleteDirectory()"
+            >
+              <trash-icon
+                h="40"
+                w="40"
+                class="dvs-text-admin-bg"
+              />
+              <h6 class="dvs-mt-2 dvs-text-sm">Delete this directory</h6>
+            </div>
           </div>
-        </div>
+        </transition>
 
         <!-- Directories but no files -->
-        <div
-          v-if="currentFiles.length < 1 && directories.length > 0 && currentDirectory !== ''"
-          class="dvs-flex dvs-justify-center dvs-items-center dvs-absolute dvs-absolute-center"
+        <transition
+          mode="out-in"
+          name="dvs-fade"
         >
-          <div class="dvs-bg-white dvs-rounded dvs-p-8 dvs--mt-15 dvs-text-center dvs-shadow">
-            <folder-icon
-              h="40"
-              w="40"
-              :style="{color: theme.panel.color}"
-            />
-            <h6 class="dvs-mt-2 dvs-text-sm">
-              <span>No files in this directory</span>
-            </h6>
-          </div>
-        </div>
+          <div v-if="!loadingDirectory">
+            <div
+              v-if="currentFiles.length < 1 && directories.length > 0 && currentDirectory !== ''"
+              class="dvs-flex dvs-justify-center dvs-items-center dvs-absolute dvs-absolute-center"
+            >
+              <div class="dvs-bg-white dvs-rounded dvs-p-8 dvs--mt-15 dvs-text-center dvs-shadow">
+                <folder-icon
+                  h="40"
+                  w="40"
+                  class="dvs-text-admin-bg"
+                />
+                <h6 class="dvs-mt-2 dvs-text-sm">
+                  <span>No files in this directory</span>
+                </h6>
+              </div>
+            </div>
 
-        <!-- Files -->
-        <ul
-          class="dvs-list-reset dvs-flex dvs-justify-center dvs-flex-wrap"
-          v-else
-        >
-          <li
-            v-for="file in currentFiles"
-            :key="file.id"
-            class="dvs-relative dvs-bg-white dvs-card"
-            :class="{
+            <!-- Files -->
+            <ul
+              class="dvs-list-reset dvs-flex dvs-justify-center dvs-flex-wrap"
+              v-else
+            >
+              <li
+                v-for="file in currentFiles"
+                :key="file.id"
+                class="dvs-relative dvs-bg-white dvs-card"
+                :class="{
                   'dvs-cursor-pointer': !file.on,
                   'dvs-border-b dvs-border-lighter dvs-p-0 dvs-mx-0 w-1/2': mode === 'thumbnails',
                   'dvs-p-0 dvs-mb-4 dvs-mt-2': mode !== 'thumbnails',
                   'dvs-mx-2': mode === 'contactSheet',
                   'dvs-w-full': mode === 'list'
                 }"
-            @click="openFile(file)"
-          >
-            <!-- Close File if On -->
-            <div
-              v-if="file === currentlyOpenFile"
-              @click.stop.prevent="closeFile(file)"
-              class="dvs-absolute z-10 dvs-pin-t dvs-pin-r dvs-mt-4 dvs-mr-4 dvs-cursor-pointer"
-            >
-              <close-icon
-                w="30"
-                h="30"
-              />
-            </div>
-
-            <!-- Closed File -->
-            <div
-              class="dvs-overflow-hidden"
-              v-if="file !== currentlyOpenFile"
-            >
-              <!-- Contact Sheet -->
-              <div
-                class="dvs-overflow-hidden dvs-text-center"
-                style="width:100px;height:105px"
-                v-if="mode === 'contactSheet'"
+                @click="openFile(file)"
               >
-                <img
-                  :src="`/styled/preview/${file.url}?w=100&h=100`"
-                  style="min-width:75px;height:75px"
+                <!-- Close File if On -->
+                <div
+                  v-if="file === currentlyOpenFile"
+                  @click.stop.prevent="closeFile(file)"
+                  class="dvs-absolute z-10 dvs-pin-t dvs-pin-r dvs-mt-4 dvs-mr-4 dvs-cursor-pointer"
                 >
-                <div class="dvs-text-xs dvs-font-bold dvs-px-2">{{ file.name }}</div>
-              </div>
-
-              <!-- Thumbnails Mode -->
-              <div
-                class="dvs-grid-preview dvs-relative"
-                :style="`background-size:cover;background-image:url('${`/styled/preview/${file.url}?w=600&h=300&q=100&sharp=2`}')`"
-                v-else-if="mode === 'thumbnails'"
-              ></div>
-
-              <!-- List Mode -->
-              <div
-                class="dvs-w-full dvs-flex dvs-items-center"
-                v-else
-              >
-                <img
-                  :src="`/styled/preview/${file.url}?w=100&h=100`"
-                  style="min-width:75px;height:75px"
-                >
-                <div class="dvs-px-4 dvs-font-bold">{{ file.name }}</div>
-              </div>
-            </div>
-
-            <!-- Open File -->
-            <div
-              v-else
-              class="dvs-flex dvs-p-4 dvs-overflow-hidden"
-            >
-              <div class="dvs-w-1/2 dvs-mr-8 dvs-flex dvs-flex-col dvs-justify-between">
-                <img
-                  :src="`/styled/preview/${file.url}?w=500&h=500`"
-                  class="dvs-cursor-pointer dvs-mb-4"
-                >
-                <div class="dvs-flex">
-                  <div
-                    class="dvs-mr-4 dvs-cursor-pointer"
-                    :style="{color: theme.actionButton.background}"
-                    v-devise-alert-confirm="{callback: confirmedDeleteFile, arguments: file, message: 'Are you sure you want to delete this media?'}"
-                  >
-                    <trash-icon
-                      h="20"
-                      w="20"
-                    />
-                  </div>
-                  <a
-                    class="dvs-mr-4"
-                    :href="file.url"
-                    target="_blank"
-                    :style="{color: theme.actionButton.background}"
-                  >
-                    <link-icon
-                      h="20"
-                      w="20"
-                    />
-                  </a>
-                  <a
-                    :href="file.url"
-                    target="_blank"
-                    :style="{color: theme.actionButton.background}"
-                    download
-                  >
-                    <download-icon
-                      h="20"
-                      w="20"
-                    />
-                  </a>
+                  <close-icon
+                    w="30"
+                    h="30"
+                  />
                 </div>
-              </div>
-              <div class="dvs-w-1/2">
-                <h6 class="dvs-text-xs dvs-uppercase dvs-mb-1">Filename</h6>
-                <p class="dvs-text-sm">{{ file.name }}</p>
 
-                <fieldset class="dvs-fieldset dvs-mb-4">
-                  <label class="dvs-text-xs dvs-uppercase dvs-mb-1">URL</label>
-                  <input
-                    type="text"
-                    :value="file.url"
-                    readonly
+                <!-- Closed File -->
+                <div
+                  class="dvs-overflow-hidden"
+                  v-if="file !== currentlyOpenFile"
+                >
+                  <!-- Contact Sheet -->
+                  <div
+                    class="dvs-overflow-hidden dvs-text-center"
+                    style="width:100px;height:105px"
+                    v-if="mode === 'contactSheet'"
                   >
-                </fieldset>
-
-                <fieldset class="dvs-fieldset dvs-mb-4">
-                  <label class="dvs-text-xs dvs-uppercase dvs-mb-1">Global Caption</label>
-                  <div class="dvs-flex">
-                    <input
-                      type="text"
-                      v-model="file.alt"
-                      class="dvs-mr-4"
+                    <img
+                      :src="`/styled/preview/${file.url}?w=100&h=100&fit=crop`"
+                      style="min-width:75px;height:75px"
                     >
-                    <button
-                      class="dvs-btn dvs-btn-sm"
-                      :style="theme.actionButton"
-                      @click="requestSaveCaption(file)"
-                    >
-                      Save Caption
-                    </button>
+                    <div class="dvs-text-xs dvs-font-bold dvs-px-2">{{ file.name }}</div>
                   </div>
-                </fieldset>
 
-                <p>
-                  <button
-                    @click="selectSourceFile(file)"
-                    class="dvs-btn"
-                    :style="theme.actionButton"
-                  >Select</button>
-                </p>
+                  <!-- Thumbnails Mode -->
+                  <div
+                    class="dvs-grid-preview dvs-relative"
+                    :style="`background-size:cover;background-image:url('${`/styled/preview/${file.url}?w=600&h=600&q=100&sharp=2`}')`"
+                    v-else-if="mode === 'thumbnails'"
+                  ></div>
 
-                <template v-if="isActive(file)">
-                  <h6 class="dvs-my-2 dvs-text-sm">Appears On</h6>
-                  <ul class="dvs-list-reset">
-                    <li
-                      v-for="field in file.fields"
-                      :key="field.id"
-                      class="dvs-py-2"
+                  <!-- List Mode -->
+                  <div
+                    class="dvs-w-full dvs-flex dvs-items-center"
+                    v-else
+                  >
+                    <img
+                      :src="`/styled/preview/${file.url}?w=100&h=100`"
+                      style="min-width:75px;height:75px"
                     >
+                    <div class="dvs-px-4 dvs-font-bold">{{ file.name }}</div>
+                  </div>
+                </div>
+
+                <!-- Open File -->
+                <div
+                  v-else
+                  class="dvs-flex dvs-p-4 dvs-overflow-hidden"
+                >
+                  <div class="dvs-w-1/2 dvs-mr-8 dvs-flex dvs-flex-col dvs-justify-between">
+
+                    <div>
+                      <transition
+                        name="dvs-fade"
+                        mode="out-in"
+                      >
+                        <img
+                          :src="`/styled/preview/${file.url}?w=500&h=500`"
+                          v-show="currentlyOpenFile.loaded"
+                          @load="currentlyOpenFile.loaded = true"
+                          class="dvs-cursor-pointer dvs-mb-4"
+                        >
+                      </transition>
+
+                      <loading-screen
+                        key="loadingscreen"
+                        v-if="!currentlyOpenFile.loaded"
+                        :inline="true"
+                        inline-message="Loading Large Preview"
+                      ></loading-screen>
+                    </div>
+
+                    <div class="dvs-flex">
+                      <div
+                        class="dvs-mr-4 dvs-cursor-pointer dvs-text-admin-bg"
+                        v-devise-alert-confirm="{callback: confirmedDeleteFile, arguments: file, message: 'Are you sure you want to delete this media?'}"
+                      >
+                        <trash-icon
+                          h="20"
+                          w="20"
+                        />
+                      </div>
                       <a
-                        :href="field.page_slug"
+                        class="dvs-mr-4 dvs-text-admin-bg"
+                        :href="`/styled/preview/${file.url}`"
                         target="_blank"
-                        class="dvs-btn dvs-btn-sm"
-                      >{{ field.page_title }} - {{ field.field_name }}</a>
-                    </li>
-                  </ul>
-                </template>
-              </div>
-            </div>
-          </li>
-        </ul>
+                      >
+                        <link-icon
+                          h="20"
+                          w="20"
+                        />
+                      </a>
+                      <a
+                        :href="`/styled/preview/${file.url}`"
+                        target="_blank"
+                        class="dvs-text-admin-bg"
+                        download
+                      >
+                        <download-icon
+                          h="20"
+                          w="20"
+                        />
+                      </a>
+                    </div>
+                  </div>
+                  <div class="dvs-w-1/2">
+                    <h6 class="dvs-text-xs dvs-uppercase dvs-mb-1">Filename</h6>
+                    <p class="dvs-text-sm">{{ file.name }}</p>
+
+                    <fieldset class="dvs-fieldset dvs-mb-4">
+                      <label class="dvs-text-xs dvs-uppercase dvs-mb-1">URL</label>
+                      <input
+                        type="text"
+                        :value="file.url"
+                        readonly
+                      >
+                    </fieldset>
+
+                    <fieldset class="dvs-fieldset dvs-mb-4">
+                      <label class="dvs-text-xs dvs-uppercase dvs-mb-1">Global Caption</label>
+                      <div class="dvs-flex">
+                        <input
+                          type="text"
+                          v-model="file.alt"
+                          class="dvs-mr-4"
+                        >
+                        <button
+                          class="dvs-btn dvs-btn-sm dvs-btn-primary"
+                          @click="requestSaveCaption(file)"
+                        >
+                          Save Caption
+                        </button>
+                      </div>
+                    </fieldset>
+
+                    <p>
+                      <button
+                        @click="selectSourceFile(file)"
+                        class="dvs-btn dvs-btn-sm dvs-btn-primary"
+                      >Select</button>
+                    </p>
+
+                    <template v-if="isActive(file)">
+                      <h6 class="dvs-my-2 dvs-text-sm">Appears On</h6>
+                      <ul class="dvs-list-reset">
+                        <li
+                          v-for="field in file.fields"
+                          :key="field.id"
+                          class="dvs-py-2"
+                        >
+                          <a
+                            :href="field.page_slug"
+                            target="_blank"
+                            class="dvs-btn dvs-btn-sm"
+                          >{{ field.page_title }} - {{ field.field_name }}</a>
+                        </li>
+                      </ul>
+                    </template>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </transition>
       </div>
     </div>
   </div>
@@ -415,6 +453,7 @@ export default {
       searchResultsLimit: 100,
       currentlyOpenFile: null,
       cookieSettings: false,
+      loadingDirectory: false
     };
   },
   mounted () {
@@ -447,12 +486,14 @@ export default {
       }
     },
     changeDirectories (directory) {
+      this.loadingDirectory = true;
       this.searchTerms = null;
       this.$set(this, 'searchResults', []);
 
       this.setCurrentDirectory(directory).then(() => {
         this.getCurrentFiles(this.options).then(() => {
           this.getCurrentDirectories().then(() => {
+            this.loadingDirectory = false
             if (this.cookieSettings) {
               Cookies.set('devise-mediamanager-location', directory);
             }
@@ -480,7 +521,10 @@ export default {
       return match && match.length > 1 ? match[1] : null;
     },
     openFile (file) {
-      this.$set(this, 'currentlyOpenFile', file);
+      if (!this.currentlyOpenFile || file.url !== this.currentlyOpenFile.url) {
+        this.$set(this, 'currentlyOpenFile', file);
+        this.$set(this.currentlyOpenFile, 'loaded', false);
+      }
     },
     closeFile () {
       this.$set(this, 'currentlyOpenFile', {});
@@ -568,6 +612,8 @@ export default {
   components: {
     Breadcrumbs: () => import(/* webpackChunkName: "devise-media" */ './Breadcrumbs.vue'),
     Uploader: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/Uploader.vue'),
+    LoadingScreen: () =>
+      import(/* webpackChunkName: "devise-utilities" */ '../utilities/LoadingScreen.vue'),
     FolderIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/FolderIcon'),
     TrashIcon: () =>

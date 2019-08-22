@@ -9185,10 +9185,9 @@ vue-upload-component@^2.8.19:
   resolved "https://registry.yarnpkg.com/vue-upload-component/-/vue-upload-component-2.8.20.tgz#60824d3f20f3216dca90d8c86a5c980851b04ea0"
   integrity sha512-zrnJvULu4rnZe36Ib2/AZrI/h/mmNbUJZ+acZD652PyumzbvjCOQeYHe00sGifTdYjzzS66CwhTT+ubZ2D0Aow==
 
-vue2-scrollbar@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/vue2-scrollbar/-/vue2-scrollbar-0.0.3.tgz#2db07eea49f1330e483c2b1312862f37711c1d57"
-  integrity sha1-LbB+6knxMw5IPCsTEoYvN3EcHVc=
+vue2-scrollbar@devisephp/vue2-scrollbar:
+  version "0.0.2"
+  resolved "https://codeload.github.com/devisephp/vue2-scrollbar/tar.gz/9839f64839fba48c2f5837917f176649645b1ccf"
   dependencies:
     vue "^2.4.2"
     vue-template-compiler "^2.4.2"

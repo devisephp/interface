@@ -1,6 +1,9 @@
 <template>
   <div>
-    <transition name="dvs-fade">
+    <transition
+      name="dvs-fade"
+      v-if="!inline"
+    >
       <div
         v-if="show"
         class="dvs-fixed dvs-pin"
@@ -15,11 +18,34 @@
         </div>
       </div>
     </transition>
+
+    <transition
+      name="dvs-fade"
+      v-if="inline"
+    >
+      <div class="dvs-flex dvs-flex-col dvs-justify-center dvs-items-center dvs-bg-abs-white dvs-text-grey-darker dvs-rounded dvs-shadow dvs-p-4">
+        <img
+          src="./../../imgs/loader.gif"
+          class="dvs-mb-2"
+        >
+        <div class="dvs-text-black dvs-uppercase dvs-text-xs dvs-font-bold">{{ message }}</div>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+    inline: {
+      type: Boolean,
+      default: false
+    },
+    inlineMessage: {
+      type: String,
+      default: null
+    }
+  },
   data () {
     return {
       show: false,
@@ -27,20 +53,24 @@ export default {
     };
   },
   mounted () {
-    window.deviseSettings.$bus.$on('showLoadScreen', (message) => {
-      this.message = message;
-      this.show = true;
+    if (!this.inline) {
+      window.deviseSettings.$bus.$on('showLoadScreen', (message) => {
+        this.message = message;
+        this.show = true;
 
-      setTimeout(() => {
-        this.message = 'We had issues loading';
+        setTimeout(() => {
+          this.message = 'We had issues loading';
+          this.show = false;
+        }, 15000);
+      });
+
+      window.deviseSettings.$bus.$on('hideLoadScreen', () => {
         this.show = false;
-      }, 15000);
-    });
-
-    window.deviseSettings.$bus.$on('hideLoadScreen', () => {
-      this.show = false;
-      this.message = null;
-    });
+        this.message = null;
+      });
+    } else {
+      this.message = this.inlineMessage
+    }
   },
 };
 </script>

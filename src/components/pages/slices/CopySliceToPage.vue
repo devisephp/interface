@@ -1,68 +1,67 @@
 <template>
-  <div class="dvs-fixed dvs-pin dvs-z-9999">
-    <div
-      class="dvs-absolute dvs-pin dvs-bg-black dvs-opacity-75 dvs-bg-blocker"
-      @click="close"
-    ></div>
-    <div class="dvs-absolute dvs-absolute-center dvs--mt-2 z-10 dvs-text-center">
-      <fieldset class="dvs-fieldset dvs-mb-4">
-        <label :style="{color: theme.panel.color}">Site to copy to</label>
-        <select
-          v-model="siteToCopyTo"
-          @change="clearSearch"
-        >
-          <option
-            v-for="site in sites.data"
-            :key="site.id"
-            :value="site.id"
-          >{{ site.name }}</option>
-        </select>
-      </fieldset>
+  <admin-container class="dvs-mt-16">
+    <template v-slot:message>
+      This allows you to copy slice (field data and all!) to another page.
+    </template>
+    <template v-slot:content>
+      <div class="dvs-p-8 dvs-text-admin-fg">
+        <div class="dvs-mb-8">
+          <fieldset class="dvs-fieldset dvs-mb-4">
+            <label>Site to copy to</label>
+            <select
+              v-model="siteToCopyTo"
+              @change="clearSearch"
+              class="dvs-w-full"
+            >
+              <option
+                v-for="site in sites.data"
+                :key="site.id"
+                :value="site.id"
+              >{{ site.name }}</option>
+            </select>
+          </fieldset>
 
-      <fieldset class="dvs-fieldset">
-        <label :style="{color: theme.panel.color}">Search for Page Version</label>
-        <input
-          type="text"
-          v-model="searchTerm"
-          @keyup="requestSearch"
-        >
-      </fieldset>
+          <fieldset class="dvs-fieldset">
+            <label>Search for Page Version</label>
+            <input
+              type="text"
+              v-model="searchTerm"
+              @keyup="requestSearch"
+              class="dvs-w-full"
+            >
+          </fieldset>
 
-      <div class="dvs-relative">
-        <ul class="dvs-list-reset dvs-bg-white dvs-absolute dvs-text-black dvs-rounded-sm dvs-mt-2 dvs-text-sm">
-          <li
-            v-for="result in searchResults"
-            :key="result.id"
-            class="dvs-px-4 dvs-py-2 dvs-border-b dvs-border-grey dvs-cursor-pointer"
-            @click="selectPage(result)"
-          >
-            {{ result.site }}: {{result.title}} - {{ result.verison_name }} ({{ result.language }})
-          </li>
-        </ul>
-      </div>
-    </div>
-    <panel
-      :panel-style="theme.panel"
-      class="dvs-absolute dvs-absolute-center dvs-p-8"
-      v-bar
-    >
-      <div class="dvs-p-8 dvs-text-center">
-        <h3 class="dvs-mb-20">Copy this slice to another page</h3>
+          <div class="dvs-fixed dvs-z-10 dvs-w-1/3">
+            <ul class="dvs-list-reset dvs-bg-white dvs-absolute dvs-text-black dvs-rounded-sm dvs-mt-2 dvs-text-sm">
+              <li
+                v-for="result in searchResults"
+                :key="result.id"
+                class="dvs-px-4 dvs-py-2 dvs-border-b dvs-border-grey dvs-cursor-pointer"
+                @click="selectPage(result)"
+              >
+                {{ result.site }}: {{result.title}} - {{ result.verison_name }} ({{ result.language }})
+              </li>
+            </ul>
+          </div>
+        </div>
         <div
           v-if="pageToCopyTo.site"
-          class="dvs-mb-4"
+          class="dvs-mb-8"
         >
-          {{ pageToCopyTo.site }}: {{pageToCopyTo.title}} - {{ pageToCopyTo.verison_name }} ({{ pageToCopyTo.language }})
+          Copying to: {{ pageToCopyTo.site }} {{pageToCopyTo.title}} {{ pageToCopyTo.verison_name }} ({{ pageToCopyTo.language }})
         </div>
         <button
-          class="dvs-btn dvs-mt-16"
-          :style="theme.actionButton"
+          class="dvs-btn dvs-btn-primary dvs-mr-2"
           @click="confirmCopy"
           :disabled="!pageToCopyTo.site"
         >Confirm</button>
+        <button
+          class="dvs-btn dvs-btn-secondary"
+          @click="close"
+        >Cancel</button>
       </div>
-    </panel>
-  </div>
+    </template>
+  </admin-container>
 </template>
 
 <script>
@@ -80,7 +79,8 @@ export default {
     ...mapState('devise', ['sites'])
   },
   components: {
-    Panel: () => import(/* webpackChunkName: "devise-utilities" */ "../../utilities/Panel")
+    AdminContainer: () =>
+      import(/* webpackChunkName: "devise-administration" */ '../../admin/ui/AdminContainer'),
   },
   data () {
     return {

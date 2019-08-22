@@ -80,12 +80,10 @@
             >reset</div>
             <div
               v-if="showErase"
-              class="dvs--mb-8 dvs--ml-8 dvs--mr-8"
-              :style="theme.actionButton"
+              class="dvs--mb-8 dvs--ml-8 dvs--mr-8 dvs-btn-primary dvs-btn-sm"
             >
               <button
-                class="dvs-btn dvs-w-full"
-                :style="theme.actionButton"
+                class="dvs-btn dvs-w-full dvs-btn-primary dvs-btn-sm"
                 @click="resetValue"
               >Reset Value to Nothing</button>
             </div>

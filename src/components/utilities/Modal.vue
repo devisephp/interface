@@ -6,11 +6,7 @@
       @click="close"
     ></div>
     <div class="dvs-z-50 dvs-min-w-2/3 dvs-max-h-screen">
-      <panel
-        class="dvs-w-full"
-        :panel-style="theme.panel"
-        v-bar
-      >
+      <panel class="dvs-w-full">
         <div class="dvs-p-8">
           <div
             class="dvs-absolute dvs-pin-t dvs-pin-r dvs-mt-4 dvs-mr-8 dvs-cursor-pointer z-10"
@@ -19,7 +15,7 @@
             <close-icon
               w="40"
               h="40"
-              :style="{color: theme.panel.color }"
+              class="dvs-text-admin-fg"
             />
           </div>
           <slot></slot>

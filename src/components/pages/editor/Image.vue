@@ -67,19 +67,13 @@
             @click="launchMediaEditor($event)"
             class="dvs-mb-8 dvs-mr-4"
           >
-            <button
-              class="dvs-btn"
-              :style="theme.actionButton"
-            >Edit Current Media</button>
+            <button class="dvs-btn dvs-btn-sm dvs-btn-primary">Edit Current Media</button>
           </div>
           <div
             @click="launchMediaManager($event)"
             class="dvs-mb-8 dvs-mr-4"
           >
-            <button
-              class="dvs-btn"
-              :style="theme.actionButton"
-            >Select New Media</button>
+            <button class="dvs-btn dvs-btn-sm dvs-btn-primary">Select New Media</button>
           </div>
         </div>
         <div class="dvs-flex dvs-items-center">
@@ -90,8 +84,7 @@
               <div
                 v-for="(media, size) in media"
                 :key="size"
-                class="dvs-uppercase dvs-text-center dvs-mr-4 dvs-mb-4 dvs-p-4"
-                :style="theme.panelCard"
+                class="dvs-uppercase dvs-text-center dvs-mr-4 dvs-mb-4 dvs-p-4 dvs-bg-admin-secondary-bg"
               >
                 <image-preview
                   :src="`${media}`"

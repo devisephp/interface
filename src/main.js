@@ -267,7 +267,7 @@ const DevisePlugin = {
         },
       },
       computed: {
-        ...mapGetters('devise', ['breakpoint', 'currentPage', 'currentUser', 'lang', 'theme']),
+        ...mapGetters('devise', ['breakpoint', 'currentPage', 'currentUser', 'lang']),
         isLoggedIn () {
           return !!this.currentUser
         }

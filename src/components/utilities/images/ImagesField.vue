@@ -1,7 +1,7 @@
 <template>
   <div class="dvs-mb-8 dvs-w-full">
-    <div class="dvs-flex dvs-items-center dvs-mb-4">
-      <h3 :style="{color: theme.panel.color}">{{ labelText }}</h3>
+    <div class="dvs-flex dvs-items-center dvs-mb-4 dvs-text-admin-fg">
+      <h3>{{ labelText }}</h3>
       <div @click="showMediaManager">
         <images-icon
           class="dvs-ml-4 dvs-cursor-pointer"
@@ -17,10 +17,7 @@
         v-for="(image, key) in images"
         :key="key"
       >
-        <div
-          class="dvs-p-4 dvs-bg-grey-lighter dvs-text-xs dvs-overflow-hidden"
-          :style="theme.panelCard"
-        >
+        <div class="dvs-p-4 dvs-bg-grey-lighter dvs-text-xs dvs-overflow-hidden dvs-bg-admin-bg dvs-text-admin-fg">
           <div @click="loadPreview(image)">
             <search-icon
               class="dvs-cursor-pointer"
@@ -54,8 +51,7 @@
         <div
           v-for="(image, key) in images"
           :key="key"
-          class="dvs-modal dvs-fixed dvs-pin-b dvs-pin-r dvs-mx-8 dvs-mb-8 dvs-z-40 dvs-w-1/2"
-          :style="theme.panel"
+          class="dvs-modal dvs-fixed dvs-pin-b dvs-pin-r dvs-mx-8 dvs-mb-8 dvs-z-40 dvs-w-1/2 dvs-bg-admin-bg dvs-text-admin-fg"
         >
           <img :src="previewImagePath">
           <h6 class="dvs-text-base dvs-mb-4 dvs-mt-4">
@@ -69,9 +65,8 @@
           <div class="dvs-flex dvs-items-center dvs-mt-4 dvs-justify-between">
             <div>
               <button
-                class="dvs-btn dvs-mr-2"
+                class="dvs-btn dvs-mr-2 dvs-btn-secondar"
                 @click="showPreview = false"
-                :style="theme.actionButtonGhost"
               >Close</button>
             </div>
           </div>

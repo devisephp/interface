@@ -378,18 +378,15 @@
 
       <div class="dvs-flex dvs-mb-4">
         <button
-          class="dvs-btn dvs-mr-2"
-          :style="theme.actionButton"
+          class="dvs-btn dvs-mr-2 dvs-btn-primary dvs-btn-sm"
           @click="setImageFloat('left')"
         >Float Left</button>
         <button
-          class="dvs-btn dvs-mr-2"
-          :style="theme.actionButton"
+          class="dvs-btn dvs-mr-2 dvs-btn-primary dvs-btn-sm"
           @click="setImageFloat('')"
         >No Float</button>
         <button
-          class="dvs-btn dvs-mr-2"
-          :style="theme.actionButton"
+          class="dvs-btn dvs-mr-2 dvs-btn-primary dvs-btn-sm"
           @click="setImageFloat('right')"
         >Float Right</button>
       </div>
@@ -410,8 +407,7 @@
       <div class="dvs-pb-8">
         <fieldset class="dvs-fieldset">
           <button
-            class="dvs-btn"
-            :style="theme.actionButton"
+            class="dvs-btn dvs-btn-primary"
             @click="doneEditingImageStyles"
           >Done</button>
         </fieldset>
@@ -422,8 +418,7 @@
       <div>
         <fieldset class="dvs-fieldset">
           <button
-            class="dvs-btn"
-            :style="theme.actionButton"
+            class="dvs-btn dvs-btn-primary"
             @click="removeImage"
           >Remove Image</button>
         </fieldset>
