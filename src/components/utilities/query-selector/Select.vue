@@ -9,10 +9,7 @@
         :value="value.value"
         @change="updateValue"
       >
-        <option
-          :value="null"
-          disabled
-        >Please Select from the Following</option>
+        <option :value="null">Please Select from the Following</option>
         <option
           v-for="(option, value) in options"
           :key="value"
@@ -50,6 +47,7 @@ export default {
     }
   },
   mounted () {
+    this.value.value = null
     if (this.value.api) {
       this.requestOptions();
     }

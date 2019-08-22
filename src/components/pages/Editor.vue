@@ -6,6 +6,7 @@
     class="dvs-ml-16 dvs-max-w-1/2 dvs-self-center dvs-shadow-lg dvs-bg-admin-bg dvs-text-admin-fg dvs-rounded dvs-pointer-events-auto"
     id="dvs-admin-content-container"
     ref="admin-route-wrapper"
+    style="min-width:400px"
   >
     <vue-scrollbar class="dvs-max-h-screenpad ">
 
@@ -143,7 +144,7 @@
                     w="15"
                     h="15"
                     v-if="saving"
-                    animate="rotate"
+                    class="dvs-mr-2 dvs-rotate-ccw"
                   />Save Page
                 </button>
 

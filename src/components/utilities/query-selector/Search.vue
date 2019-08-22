@@ -104,11 +104,14 @@ export default {
   },
   computed: {
     filteredSuggestions () {
-      return this.autosuggest.data.filter(suggestion => {
-        return !this.selected.find(select => {
-          return suggestion.value === select.value
+      if (this.autosuggest.data) {
+        return this.autosuggest.data.filter(suggestion => {
+          return !this.selected.find(select => {
+            return suggestion.value === select.value
+          })
         })
-      })
+      }
+      return [];
     }
   },
   data () {

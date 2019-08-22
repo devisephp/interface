@@ -46,3 +46,28 @@
 .dvs-transitions-hover-slow {
   transition: all 0.8s;
 }
+
+@keyframes rotating {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.dvs-rotate {
+  animation: rotating 2s linear infinite;
+}
+
+
+@keyframes rotating {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+.dvs-rotate-ccw {
+  animation: rotating 2s linear infinite;
+}

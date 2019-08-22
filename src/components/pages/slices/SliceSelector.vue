@@ -95,10 +95,13 @@ export default {
       return [];
     },
     allowedViews () {
-      const mqc = this.modelQueries.find(mq => {
-        return mq.key === this.modelQuery.key
-      })
-      return mqc.views
+      if (this.modelQuery) {
+        const mqc = this.modelQueries.find(mq => {
+          return mq.key === this.modelQuery.key
+        })
+        return mqc.views
+      }
+      return null;
     },
     filteredDirectories () {
       const filters = this.filter.toLowerCase().split(' ');
