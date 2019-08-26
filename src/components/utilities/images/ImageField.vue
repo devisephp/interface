@@ -1,17 +1,19 @@
 <template>
   <div>
-    <div class="dvs-flex dvs-items-center">
-      <fieldset class="dvs-fieldset">
+    <div class="dvs-flex dvs-items-center dvs-w-full">
+      <fieldset class="dvs-fieldset dvs-w-full">
         <input
           v-if="typeof image === 'object'"
           type="text"
           :value="imageUrl"
+          class="dvs-w-full"
           disabled
         >
         <input
           v-else
           type="text"
           :value="image"
+          class="dvs-w-full"
           disabled
         >
       </fieldset>

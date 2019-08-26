@@ -115,9 +115,10 @@ export default {
       }
 
       const lastStep = this.workflowStack[this.workflowStack.length - 2]
-      const { nextStep } = this.currentStep.value;
+      console.log(this.currentStep, this.currentStep.nextStep, typeof this.currentStep.nextStep !== 'undefined', this.currentStep.value, this.currentStep.value.nextStep)
+      const { nextStep } = typeof this.currentStep.nextStep !== 'undefined' ? this.currentStep : this.currentStep.value;
 
-      // If a ne
+      // If a next step
       if (nextStep) {
         stepToLoad = this.workflow.find((s) => {
           return s.key === nextStep
@@ -130,6 +131,7 @@ export default {
 
       if (stepToLoad) {
         this.workflowStack.push(stepToLoad);
+        window.deviseSettings.$bus.$emit('dvs-admin-container-content-changed')
       } else {
         // eslint-disable-next-line no-console
         console.warn(`There is no step registered as ${stepToLoad}`);

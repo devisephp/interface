@@ -5,7 +5,7 @@
     </div>
     <div class="dvs-relative dvs-bg-admin-bg dvs-rounded dvs-shadow-lg dvs-max-w-3/4 dvs-min-w-1/2 dvs-py-10 dvs-pointer-events-auto">
       <vue-scrollbar
-        ref="scrollbar"
+        ref="Scrollbar"
         class=" dvs-px-10"
         :style="{maxHeight: `${maxHeight}px`}"
       >
@@ -26,6 +26,12 @@ export default {
   mounted () {
     const windowHeight = window.innerHeight;
     this.maxHeight = windowHeight * 0.7;
+
+    window.deviseSettings.$bus.$on('dvs-admin-container-content-changed', () => {
+      if (typeof this.$refs.Scrollbar !== 'undefined') {
+        this.$refs.Scrollbar.scrollToY(0)
+      }
+    });
   }
 }
 </script>

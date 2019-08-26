@@ -27,6 +27,8 @@ export default function (el, binding) {
             }
           }
           // If breakpoints isn't set assume only one size and return it
+          const defaultSize = sizes[Object.keys(sizes)[0]]
+          return { defaultSize, settings: sizes[defaultSize] };
         }
       }
       // We couldn't find the size so return the first one

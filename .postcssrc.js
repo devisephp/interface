@@ -46,6 +46,8 @@ module.exports = {
         /fast-*/,
         /sub-navigation-*/,
         /\/*-admin-*/,
+        /vue-scrollbar*/,
+        /scrollbar/,
       ]
     }) : ""
   ],

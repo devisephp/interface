@@ -31,7 +31,7 @@
         </template>
         <a
           href="/logout}"
-          class="dvs-outline-none dvs-transitions-hover-slow dvs-cursor-pointer"
+          class="dvs-outline-none dvs-transitions-hover-slow dvs-cursor-pointer dvs-text-admin-fg"
           onclick="event.preventDefault(); document.getElementById('dvs-logout-form').submit();"
         >
           <power-icon
