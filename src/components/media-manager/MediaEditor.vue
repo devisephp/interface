@@ -3,14 +3,12 @@
     <div class="dvs-py-2 dvs-px-8 dvs-rounded-tl dvs-rounded-tr dvs-flex dvs-justify-between dvs-items-center dvs-bg-grey-lighter dvs-border-b dvs-border-lighter dvs-relative">Media Editor
       <div>
         <button
-          class="dvs-btn dvs-mr-2"
+          class="dvs-btn dvs-btn-primary dvs-btn-sm dvs-mr-2"
           @click="done"
-          :style="theme.actionButton"
         >Done</button>
         <button
-          class="dvs-btn"
+          class="dvs-btn dvs-btn-ghost dvs-btn-sm"
           @click="cancel"
-          :style="theme.actionButtonGhost"
         >Cancel</button>
       </div>
     </div>
@@ -28,10 +26,7 @@
         @select="setActive"
       ></media-thumbnails>
 
-      <div
-        class="dvs-flex-grow"
-        v-bar
-      >
+      <vue-scrollbar class="dvs-flex-grow">
         <div class="dvs-relative">
           <media-controls
             v-if="sizeEdits[activeImage.name]"
@@ -42,15 +37,16 @@
           ></media-controls>
 
           <media-editor-preview
+            v-if="sizeEdits[this.active]"
             :sizes="sizes"
+            :custom-size="{w: sizeEdits[this.active].w, h: this.sizeEdits[this.active].h}"
             :active-image="activeImage"
             :encode-edits="encodeEdits"
             @applycrop="applyCrop"
             @removecrop="removeCrop"
           ></media-editor-preview>
         </div>
-      </div>
-
+      </vue-scrollbar>
     </div>
   </div>
 </template>
@@ -154,7 +150,6 @@ export default {
     generateAndSaveImages () {
       return new Promise(() => {
         window.deviseSettings.$bus.$emit('showLoadScreen', 'Images being generated');
-
         this.generateImages({ defaultImage: this.defaultImage, sizes: this.sizeEdits }).then(response => {
           this.$emit('generatedImages', {
             images: response.data,

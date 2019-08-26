@@ -4,23 +4,20 @@
     :class="[deviseOptions.adminClass]"
   >
     <panel
-      class="dvs-m-8 dvs-fixed dvs-z-9980"
-      style="min-width:360px;"
-      :panel-style="theme.panel"
+      class="dvs-m-8 dvs-fixed dvs-pin dvs-z-9980 dvs-flex dvs-pointer-events-none "
       v-tuck
     >
-      <div class="dvs-flex">
-        <div
-          :style="theme.panelSidebar"
-          class="dvs-flex dvs-flex-col dvs-relative"
-        >
-          <preview-mode />
+      <div class="dvs-flex dvs-shadow dvs-flex-col dvs-relative dvs-rounded dvs-bg-admin-bg dvs-pointer-events-auto">
+        <preview-mode />
 
-          <template v-for="(menuItem, key) in allowedAdminMenu">
+        <template v-for="(menuItem, key) in allowedAdminMenu">
+          <div
+            class="dvs-border-b dvs-border-admin-secondary-bg"
+            :key="key"
+          >
             <button
-              :key="key"
-              :style="checkActivePanelSidebar(menuItem)"
-              class="dvs-outline-none dvs-transitions-hover-slow dvs-cursor-pointer dvs-border-b"
+              :class="checkActivePanelSidebar(menuItem)"
+              class="dvs-outline-none dvs-transitions-hover-slow dvs-cursor-pointer dvs-text-admin-fg"
               @click.prevent="loadAdminPage(menuItem)"
             >
               <component
@@ -30,62 +27,55 @@
                 h="25"
               ></component>
             </button>
-          </template>
-          <a
-            href="/logout}"
-            :style="theme.panelSidebar"
-            class="dvs-outline-none dvs-transitions-hover-slow dvs-cursor-pointer dvs-border-b"
-            onclick="event.preventDefault(); document.getElementById('dvs-logout-form').submit();"
-          >
-            <power-icon
-              class="dvs-m-4"
-              w="25"
-              h="25"
-            />
-          </a>
-
-          <form
-            id="dvs-logout-form"
-            action="/logout"
-            method="POST"
-            style="display: none;"
-          >
-            <input
-              type="hidden"
-              name="_token"
-              :value="csrf_field"
-            >
-          </form>
-        </div>
-
-        <div
-          class="dvs-max-h-screenpad dvs-flex-grow"
-          id="dvs-admin-content-container"
-          ref="admin-route-wrapper"
-          v-bar="{preventParentScroll: true}"
-        >
-          <div>
-            <div>
-              <transition
-                name="dvs-fade"
-                mode="out-in"
-              >
-                <router-view name="devise"></router-view>
-              </transition>
-            </div>
           </div>
-        </div>
+        </template>
+        <a
+          href="/logout}"
+          class="dvs-outline-none dvs-transitions-hover-slow dvs-cursor-pointer"
+          onclick="event.preventDefault(); document.getElementById('dvs-logout-form').submit();"
+        >
+          <power-icon
+            class="dvs-m-4"
+            w="25"
+            h="25"
+          />
+        </a>
+
+        <form
+          id="dvs-logout-form"
+          action="/logout"
+          method="POST"
+          style="display: none;"
+        >
+          <input
+            type="hidden"
+            name="_token"
+            :value="csrf_field"
+          >
+        </form>
+      </div>
+      <div class="dvs-flex dvs-w-full">
+
+        <transition
+          name="dvs-fade"
+          mode="out-in"
+        >
+          <router-view name="devise"></router-view>
+        </transition>
       </div>
     </panel>
 
     <portal-target
-      class="dvs-relative dvs-z-9999"
+      class="dvs-fixed dvs-pin dvs-z-9999"
+      v-show="!hideDeviseRootPortal"
       name="devise-root"
+      @change="deviseRootPortalContentChanged"
     ></portal-target>
     <media-manager class="dvs-z-9999" />
     <slice-settings />
     <loadbar class="dvs-relative dvs-z-9999" />
     <loading-screen class="dvs-relative dvs-z-9999" />
+    <force-save class="dvs-relative dvs-z-9999" />
   </div>
 </template>
 
@@ -99,6 +89,7 @@ export default {
   data () {
     return {
       everythingIsLoaded: false,
+      hideDeviseRootPortal: true
     };
   },
   mounted () {
@@ -126,14 +117,13 @@ export default {
       }
     },
     checkActivePanelSidebar (menuItem) {
-      const styles = Object.assign({}, this.theme.panelSidebar);
       if (this.$route.meta && this.$route.meta.parentRouteName) {
         if (
           this.$route.name === 'devise-pages-view' &&
           this.$route.params.pageId === this.currentPage.id &&
           menuItem.routeName === 'devise-pages-view'
         ) {
-          styles.background = this.theme.panelSidebar.secondaryColor;
+          return [' dvs-bg-admin-highlight-bg dvs-text-admin-highlight-fg']
         }
 
         if (
@@ -141,16 +131,23 @@ export default {
           (this.$route.name !== 'devise-pages-view' ||
             this.$route.params.pageId !== this.currentPage.id)
         ) {
-          styles.background = this.theme.panelSidebar.secondaryColor;
+          return [' dvs-bg-admin-highlight-bg dvs-text-admin-highlight-fg']
         }
       }
 
-      return styles;
+      return [];
     },
     pollIfLoggedIn () {
-      this.getLanguages().then(() => { }, (error) => {
+      this.getLanguages().then(() => { }, () => {
         window.location.reload(true)
       })
+    },
+    deviseRootPortalContentChanged (content) {
+      if (!content.passengers) {
+        this.hideDeviseRootPortal = true
+      } else {
+        this.hideDeviseRootPortal = false
+      }
     }
   },
   computed: {
@@ -183,6 +180,8 @@ export default {
       import(/* webpackChunkName: "devise-media" */ '../media-manager/MediaEditor.vue'),
     MediaManager: () =>
       import(/* webpackChunkName: "devise-media" */ '../media-manager/MediaManager.vue'),
+    ForceSave: () =>
+      import(/* webpackChunkName: "devise-utilities" */ '../utilities/ForceSave.vue'),
     PreviewMode: () =>
       import(/* webpackChunkName: "devise-previewmode" */ '../pages/PreviewMode.vue'),
     BackIcon: () =>

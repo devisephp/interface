@@ -14,6 +14,15 @@ export default {
     state.checklist = Object.assign({}, state.checklist, checklist);
   },
 
+  // Generic
+  setGeneric (state, payload) {
+    state[payload.config.store] = payload.response.data;
+  },
+
+  deleteGeneric (state, payload) {
+    state[payload.config.store].data.splice(state.cobrands.data.indexOf(payload.record), 1);
+  },
+
   // Languages
   setLanguages (state, payload) {
     state.languages = payload;
@@ -99,7 +108,11 @@ export default {
 
   // Current Page
   setCurrentPage (state, page) {
-    Object.assign({}, state.currentPage, page);
+    state.currentPage = Object.assign({}, state.currentPage, page);
+  },
+
+  setCurrentPageVersionLastUpdate (state, page) {
+    state.currentPage.version_last_updated_at = page.version_last_updated_at
   },
 
   setPreviewModeInCurrentPage (state, mode) {

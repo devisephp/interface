@@ -4,6 +4,7 @@ import Vuebar from 'vuebar';
 import VueNotifications from 'vue-notifications';
 import iziToast from 'izitoast'; // https://github.com/dolce/iziToast
 import VueScrollactive from 'vue-scrollactive';
+import Vue2Scrollbar from 'vue2-scrollbar';
 import Devise from './Devise.vue';
 import DeviseStore from './vuex/store';
 import DeviseBus from './event-bus';
@@ -92,6 +93,60 @@ const DevisePlugin = {
     Vue.component('slices', Slices);
     Vue.component('messages', Messages);
     Vue.component('devise-installer', Installer);
+    Vue.component('vue-scrollbar', Vue2Scrollbar);
+
+    // Users Admin
+    Vue.component('devise-user-create', () =>
+      import(/* webpackChunkName: "devise-administration-users" */ './components/users/steps/Create.vue')
+    );
+    Vue.component('devise-user-edit', () =>
+      import(/* webpackChunkName: "devise-administration-users" */ './components/users/steps/Edit.vue')
+    );
+    Vue.component('devise-user-delete', () =>
+      import(/* webpackChunkName: "devise-administration-users" */ './components/users/steps/Delete.vue')
+    );
+
+    // Pages Admin
+    Vue.component('devise-page-create', () =>
+      import(/* webpackChunkName: "devise-administration-pages" */ './components/pages/steps/Create.vue')
+    );
+    Vue.component('devise-page-copy', () =>
+      import(/* webpackChunkName: "devise-administration-pages" */ './components/pages/steps/Copy.vue')
+    );
+    Vue.component('devise-page-translate', () =>
+      import(/* webpackChunkName: "devise-administration-pages" */ './components/pages/steps/Translate.vue')
+    );
+    Vue.component('devise-page-settings', () =>
+      import(/* webpackChunkName: "devise-administration-pages" */ './components/pages/steps/EditSettings.vue')
+    );
+    Vue.component('devise-page-versions', () =>
+      import(/* webpackChunkName: "devise-administration-pages" */ './components/pages/steps/EditVersions.vue')
+    );
+    Vue.component('devise-page-delete', () =>
+      import(/* webpackChunkName: "devise-administration-pages" */ './components/pages/steps/Delete.vue')
+    );
+
+    // Sites Admin
+    Vue.component('devise-site-create', () =>
+      import(/* webpackChunkName: "devise-administration-sites" */ './components/sites/steps/Create.vue')
+    );
+    Vue.component('devise-site-edit', () =>
+      import(/* webpackChunkName: "devise-administration-sites" */ './components/sites/steps/Edit.vue')
+    );
+    Vue.component('devise-site-delete', () =>
+      import(/* webpackChunkName: "devise-administration-sites" */ './components/sites/steps/Delete.vue')
+    );
+
+    // Redirect Admin
+    Vue.component('devise-redirect-create', () =>
+      import(/* webpackChunkName: "devise-administration-redirects" */ './components/redirects/steps/Create.vue')
+    );
+    Vue.component('devise-redirect-edit', () =>
+      import(/* webpackChunkName: "devise-administration-redirects" */ './components/redirects/steps/Edit.vue')
+    );
+    Vue.component('devise-redirect-delete', () =>
+      import(/* webpackChunkName: "devise-administration-redirects" */ './components/redirects/steps/Delete.vue')
+    );
 
     // Vue.component('Sidebar', Sidebar);
 
@@ -212,7 +267,7 @@ const DevisePlugin = {
         },
       },
       computed: {
-        ...mapGetters('devise', ['breakpoint', 'currentPage', 'currentUser', 'lang', 'theme']),
+        ...mapGetters('devise', ['breakpoint', 'currentPage', 'currentUser', 'lang']),
         isLoggedIn () {
           return !!this.currentUser
         }

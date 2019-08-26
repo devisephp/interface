@@ -3,6 +3,11 @@
 @import "./../../node_modules/trumbowyg/dist/plugins/table/ui/trumbowyg.table.css";
 @import "./../../node_modules/izitoast/dist/css/iziToast.css";
 @import "./../../node_modules/cropperjs/dist/cropper.min.css";
+@import "./../../node_modules/vue2-scrollbar/dist/style/vue2-scrollbar.css";
+
+.vue-scrollbar__wrapper {
+    @apply bg-transparent;    
+}
 
 // Vuebar
 .vb-content {

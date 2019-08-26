@@ -27,9 +27,9 @@ export default {
       const self = this;
       // Error came from axios most likely
       if (
-        typeof error.response !== 'undefined' &&
-        typeof error.response.data !== 'undefined' &&
-        typeof error.response.data.errors !== 'undefined'
+        (typeof error.response !== 'undefined' &&
+          typeof error.response.data !== 'undefined' &&
+          typeof error.response.data.errors !== 'undefined')
       ) {
         this.title = error.response.data.message;
         for (const property in error.response.data.errors) {
@@ -53,7 +53,7 @@ export default {
         self.appendError({
           id: this.genUniqueKey(error),
           code: error.response.status,
-          title,
+          title: `${error.response.status}: ${title}`,
           message: error.response.data.message,
         });
       } else if (typeof error.data !== 'undefined' && error.data !== null) {
@@ -78,11 +78,12 @@ export default {
           message: error.message,
         });
       } else {
+
         self.appendError({
           id: this.genUniqueKey(error),
-          code: error.status,
-          title: 'Unable to reach server',
-          message: 'Please check your internet connection',
+          code: error.code,
+          title: `${error.code}: ${error.title}`,
+          message: error.message,
         });
       }
     },

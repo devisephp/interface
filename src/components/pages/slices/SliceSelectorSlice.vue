@@ -7,22 +7,19 @@
       :height-of-preview="200"
     ></slice-diagram>
     <div>
-      <div class="dvs-cursor-pointer mb-1">{{ file.name }}</div>
+      <div class="dvs-cursor-pointer">{{ file.name }}</div>
       <div
-        class="dvs-text-sm dvs-mb-2"
-        :style="{color:theme.panel.color}"
+        class="dvs-text-2xs dvs-mb-2 dvs-opacity-75"
         v-if="description"
       >{{description}}</div>
       <div
-        class="dvs-text-xs dvs-flex dvs-items-align"
-        :style="theme.panelIcons"
+        class="dvs-text-xs dvs-flex dvs-items-align dvs-opacity-75"
         v-if="childSlot"
       >
         <information-circle-icon class="dvs-mr-1" />Can contain sub-slices
       </div>
       <div
-        class="dvs-text-xs dvs-flex dvs-items-align"
-        :style="theme.panelIcons"
+        class="dvs-text-xs dvs-flex dvs-items-align dvs-opacity-75"
         v-if="database"
       >
         <cube-icon class="dvs-mr-1" />Database driven

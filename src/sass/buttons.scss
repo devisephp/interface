@@ -5,7 +5,7 @@
 }
 
 .dvs-btn {
-  @apply dvs-p-3 dvs-px-8 dvs-text-center dvs-rounded dvs-uppercase dvs-text-xs dvs-font-bold dvs-cursor-pointer dvs-outline-none;
+  @apply dvs-p-3 dvs-px-8 dvs-text-center dvs-rounded dvs-uppercase dvs-font-bold dvs-cursor-pointer dvs-outline-none;
 
   transition: background-color 0.5s;
 
@@ -47,8 +47,36 @@
     @apply dvs-py-6 dvs-px-4 dvs-text-lg;
   }
 
+  &.dvs-btn-xl {
+    @apply dvs-py-8 dvs-px-6 dvs-text-xl;
+  }
+
   &:disabled {
     @apply dvs-bg-grey-light
+  }
+
+  &.dvs-btn-primary {
+    @apply dvs-bg-admin-highlight-bg dvs-text-admin-highlight-fg;
+
+    transition: 500ms all;
+
+    &:hover {
+      @apply dvs-opacity-75;
+    }
+  }
+
+  &.dvs-btn-secondary {
+    @apply dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg;
+
+    transition: 500ms all;
+
+    &:hover {
+      @apply dvs-opacity-75;
+    }
+  }
+
+  &.dvs-btn-ghost {
+    @apply dvs-bg-transparent dvs-border-2 dvs-border-admin-fg;
   }
 
   &.dvs-btn-danger {

@@ -1,6 +1,173 @@
 import commonUtils from './utils/common';
 
 const actions = {
+
+  // Generic
+  getGeneric (context, payload) {
+    let root = false
+    let url = `${context.state.api.baseUrl}${
+      payload.config.apiendpoint
+      }/?${commonUtils.buildFilterParams(payload.filters)}`
+
+    if (payload.config.app) {
+      root = true
+      url = `${
+        payload.config.apiendpoint
+        }/?${commonUtils.buildFilterParams(payload.filters)}`
+    }
+
+    return new Promise((resolve) => {
+      window.axios
+        .get(url)
+        .then((response) => {
+          context.commit('setGeneric', { config: payload.config, response }, { root });
+          resolve(response);
+        })
+        .catch((error) => {
+          window.deviseSettings.$bus.$emit('showError', error);
+        });
+    }).catch((error) => {
+      window.deviseSettings.$bus.$emit('showError', error);
+    });
+  },
+
+  getGenericRecord (context, payload) {
+
+    let url = `${context.state.api.baseUrl}${payload.config.apiendpoint}/${payload.id}`
+
+    if (payload.config.app) {
+      url = `${payload.config.apiendpoint}/${payload.id}`
+    }
+
+    return new Promise((resolve) => {
+      window.axios
+        .get(url)
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          window.deviseSettings.$bus.$emit('showError', error);
+        });
+    }).catch((error) => {
+      window.deviseSettings.$bus.$emit('showError', error);
+    });
+  },
+
+  searchGeneric (context, payload) {
+    let url = `${context.state.api.baseUrl}${payload.config.apiendpoint}/?${commonUtils.buildFilterParams(payload.filters)}`
+
+    if (payload.config.app) {
+      url = `${payload.config.apiendpoint}/?${commonUtils.buildFilterParams(payload.filters)}`
+    }
+
+    return new Promise((resolve) => {
+      window.axios
+        .get(url)
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          window.deviseSettings.$bus.$emit('showError', error);
+        });
+    }).catch((error) => {
+      window.deviseSettings.$bus.$emit('showError', error);
+    });
+  },
+
+  createGeneric (context, payload) {
+    let url = ''
+    if (payload.config.app) {
+      url = payload.config.apiendpoint
+    } else {
+      url = `${context.state.api.baseUrl}${payload.config.apiendpoint}`
+    }
+
+    return new Promise((resolve) => {
+      window.axios
+        .post(url, payload.record)
+        .then((response) => {
+          window.deviseSettings.$bus.$emit('showMessage', {
+            title: 'Success!',
+            message: `${payload.record[payload.config.recordLabel]} has been created.`,
+          });
+          resolve(response);
+        })
+
+        .catch((error) => {
+          window.deviseSettings.$bus.$emit('showError', error);
+        });
+    }).catch((error) => {
+      window.deviseSettings.$bus.$emit('showError', error);
+    });
+  },
+
+  updateGeneric (context, payload) {
+    let url = `${context.state.api.baseUrl}${payload.config.apiendpoint}/${payload.record.id}`
+
+    if (payload.config.app) {
+      url = `${payload.config.apiendpoint}/${payload.record.id}`
+    }
+
+    return new Promise((resolve) => {
+      window.axios
+        .put(url, payload.record)
+        .then((response) => {
+          window.deviseSettings.$bus.$emit('showMessage', {
+            title: 'Success!',
+            message: `${payload.record[payload.config.recordLabel]} has been saved.`,
+          });
+          resolve(response);
+        })
+        .catch((error) => {
+          window.deviseSettings.$bus.$emit('showError', error);
+        });
+    }).catch((error) => {
+      window.deviseSettings.$bus.$emit('showError', error);
+    });
+  },
+
+  deleteGeneric (context, payload) {
+    let url = `${context.state.api.baseUrl}${payload.config.apiendpoint}/${payload.record.id}`
+
+    if (payload.config.app) {
+      url = `${payload.config.apiendpoint}/${payload.record.id}`
+    }
+
+    return new Promise((resolve) => {
+      window.axios
+        .delete(url)
+        .then((response) => {
+          window.deviseSettings.$bus.$emit('showMessage', {
+            title: 'Success!',
+            message: `${payload.record[payload.config.recordLabel]} has been deleted.`,
+          });
+          resolve(response);
+        })
+        .catch((error) => {
+          window.deviseSettings.$bus.$emit('showError', error);
+        });
+    }).catch((error) => {
+      window.deviseSettings.$bus.$emit('showError', error);
+    });
+  },
+
+  appGenericSearch (context, payload) {
+    return new Promise((resolve) => {
+      window.axios
+        .get(
+          `${payload.config.apiendpoint}/?${commonUtils.buildFilterParams(payload.filters)}`
+        )
+        .then((response) => {
+          resolve(response);
+        })
+        .catch((error) => {
+          window.deviseSettings.$bus.$emit('showError', error);
+        });
+    }).catch((error) => {
+      window.deviseSettings.$bus.$emit('showError', error);
+    });
+  },
+
   /*
    * Breakpoint
    */
@@ -556,91 +723,6 @@ const actions = {
     });
   },
 
-  createPage (context, page) {
-    return new Promise(resolve => {
-      window.axios
-        .post(`${context.state.api.baseUrl}pages/`, page)
-        .then(response => {
-          window.deviseSettings.$bus.$emit('showMessage', {
-            title: 'Success!',
-            message: `${page.title} has been created.`,
-          });
-          context.commit('createPage', response.data.data);
-          resolve(response);
-        })
-        .catch(error => {
-          window.deviseSettings.$bus.$emit('showError', error);
-        });
-    }).catch(error => {
-      window.deviseSettings.$bus.$emit('showError', error);
-    });
-  },
-
-  updatePage (context, payload) {
-    return new Promise(resolve => {
-      // TODO - Sanitize data
-      // const data = commonUtils.sanitizePageData(payload.data);
-      window.axios
-        .put(`${context.state.api.baseUrl}pages/${payload.data.id}`, payload.data)
-        .then(response => {
-          window.deviseSettings.$bus.$emit('showMessage', {
-            title: 'Success!',
-            message: `${payload.data.title} has been saved.`,
-          });
-          context.commit('updatePage', { page: payload.data, data: response.data });
-          resolve(response);
-        })
-        .catch(error => {
-          window.deviseSettings.$bus.$emit('showError', error);
-        });
-    }).catch(error => {
-      window.deviseSettings.$bus.$emit('showError', error);
-    });
-  },
-
-  deletePage (context, page) {
-    return new Promise(resolve => {
-      window.axios
-        .delete(`${context.state.api.baseUrl}pages/${page.id}`)
-        .then(response => {
-          window.deviseSettings.$bus.$emit('showMessage', {
-            title: 'Success!',
-            message: `${page.title} has been deleted.`,
-          });
-          context.commit('deletePage', page);
-          resolve(response);
-        })
-        .catch(error => {
-          window.deviseSettings.$bus.$emit('showError', error);
-        });
-    }).catch(error => {
-      window.deviseSettings.$bus.$emit('showError', error);
-    });
-  },
-
-  // This is the save used from the page editor
-  savePage (context, page) {
-    const currentVersion = page.versions.find(version => version.current === true);
-    return new Promise(resolve => {
-      window.axios
-        .put(`${context.state.api.baseUrl}pages/${page.id}?version_id=${currentVersion.id}`, page)
-        .then(response => {
-          window.deviseSettings.$bus.$emit('showMessage', {
-            title: 'Success!',
-            message: `${page.title} has been saved.`,
-          });
-          window.deviseSettings.$bus.$emit('devise-page-saved');
-          context.commit('updatePage', { page, data: response.data });
-          resolve(response);
-        })
-        .catch(error => {
-          window.deviseSettings.$bus.$emit('showError', error);
-        });
-    }).catch(error => {
-      window.deviseSettings.$bus.$emit('showError', error);
-    });
-  },
-
   // Page versions
   copyPageVersion (context, payload) {
     return new Promise(resolve => {
@@ -709,85 +791,43 @@ const actions = {
     });
   },
 
+  // This is the save used from the page editor
+  savePage (context, payload) {
+    const { page } = payload
+    const { forceSave } = payload
+    const currentVersion = page.versions.find(version => version.current === true);
+
+    let url = `${context.state.api.baseUrl}pages/${page.id}?version_id=${currentVersion.id}`
+    if (forceSave) {
+      url = `${context.state.api.baseUrl}pages/${page.id}?version_id=${currentVersion.id}&force=1`
+    }
+
+    return new Promise((resolve, reject) => {
+      window.axios
+        .put(url, page)
+        .then(response => {
+          window.deviseSettings.$bus.$emit('showMessage', {
+            title: 'Success!',
+            message: `${page.title} has been saved.`,
+          });
+          window.deviseSettings.$bus.$emit('devise-page-saved');
+          context.commit('setCurrentPageVersionLastUpdate', response.data.data);
+          resolve(response);
+        })
+        .catch(error => {
+          // If the page was saved after another person saved
+          if (error.response.status === 480) {
+            resolve(480)
+          } else {
+            window.deviseSettings.$bus.$emit('showError', error);
+            reject(error)
+          }
+        });
+    });
+  },
+
   setPreviewModeInCurrentPage (context, payload) {
     context.commit('setPreviewModeInCurrentPage', payload);
-  },
-
-  // Sites
-  getSites (context) {
-    return new Promise(resolve => {
-      window.axios
-        .get(`${context.state.api.baseUrl}sites/`)
-        .then(response => {
-          context.commit('setSites', response.data);
-          resolve(response);
-        })
-        .catch(error => {
-          window.deviseSettings.$bus.$emit('showError', error);
-        });
-    }).catch(error => {
-      window.deviseSettings.$bus.$emit('showError', error);
-    });
-  },
-
-  createSite (context, site) {
-    return new Promise(resolve => {
-      window.axios
-        .post(`${context.state.api.baseUrl}sites/`, site)
-        .then(response => {
-          window.deviseSettings.$bus.$emit('showMessage', {
-            title: 'Success!',
-            message: `${site.name} has been created.`,
-          });
-          context.commit('createSite', response.data.data);
-          resolve(response);
-        })
-        .catch(error => {
-          window.deviseSettings.$bus.$emit('showError', error);
-        });
-    }).catch(error => {
-      window.deviseSettings.$bus.$emit('showError', error);
-    });
-  },
-
-  updateSite (context, payload) {
-    return new Promise(resolve => {
-      window.axios
-        .put(`${context.state.api.baseUrl}sites/${payload.site.id}`, payload.data)
-        .then(response => {
-          window.deviseSettings.$bus.$emit('showMessage', {
-            title: 'Success!',
-            message: `${payload.site.name} has been saved.`,
-          });
-          context.commit('updateSite', { site: payload.site, data: response.data.data });
-          resolve(response);
-        })
-        .catch(error => {
-          window.deviseSettings.$bus.$emit('showError', error);
-        });
-    }).catch(error => {
-      window.deviseSettings.$bus.$emit('showError', error);
-    });
-  },
-
-  deleteSite (context, site) {
-    return new Promise(resolve => {
-      window.axios
-        .delete(`${context.state.api.baseUrl}sites/${site.id}`)
-        .then(response => {
-          window.deviseSettings.$bus.$emit('showMessage', {
-            title: 'Success!',
-            message: `${site.name} has been deleted.`,
-          });
-          context.commit('deleteSite', site);
-          resolve(response);
-        })
-        .catch(error => {
-          window.deviseSettings.$bus.$emit('showError', error);
-        });
-    }).catch(error => {
-      window.deviseSettings.$bus.$emit('showError', error);
-    });
   },
 
   // Slices
@@ -889,159 +929,7 @@ const actions = {
     });
   },
 
-  // Redirects
-  getRedirects (context) {
-    return new Promise(resolve => {
-      window.axios
-        .get(`${context.state.api.baseUrl}redirects/`)
-        .then(response => {
-          context.commit('setRedirects', response.data);
-          resolve(response);
-        })
-        .catch(error => {
-          window.deviseSettings.$bus.$emit('showError', error);
-        });
-    }).catch(error => {
-      window.deviseSettings.$bus.$emit('showError', error);
-    });
-  },
 
-  createRedirect (context, redirect) {
-    return new Promise(resolve => {
-      window.axios
-        .post(`${context.state.api.baseUrl}redirects/`, redirect)
-        .then(response => {
-          window.deviseSettings.$bus.$emit('showMessage', {
-            title: 'Success!',
-            message: 'Redirect has been created.',
-          });
-          context.commit('createRedirect', response.data.data);
-          resolve(response);
-        })
-        .catch(error => {
-          window.deviseSettings.$bus.$emit('showError', error);
-        });
-    }).catch(error => {
-      window.deviseSettings.$bus.$emit('showError', error);
-    });
-  },
-
-  updateRedirect (context, payload) {
-    return new Promise(resolve => {
-      window.axios
-        .put(`${context.state.api.baseUrl}redirects/${payload.redirect.id}`, payload.data)
-        .then(response => {
-          window.deviseSettings.$bus.$emit('showMessage', {
-            title: 'Success!',
-            message: 'Redirect has been saved.',
-          });
-          context.commit('updateRedirect', { redirect: payload, data: response.data });
-          resolve(response);
-        })
-        .catch(error => {
-          window.deviseSettings.$bus.$emit('showError', error);
-        });
-    }).catch(error => {
-      window.deviseSettings.$bus.$emit('showError', error);
-    });
-  },
-
-  deleteRedirect (context, redirect) {
-    return new Promise(resolve => {
-      window.axios
-        .delete(`${context.state.api.baseUrl}redirects/${redirect.id}`)
-        .then(response => {
-          window.deviseSettings.$bus.$emit('showMessage', {
-            title: 'Success!',
-            message: 'Redirect has been deleted.',
-          });
-          context.commit('deleteRedirect', redirect);
-          resolve(response);
-        })
-        .catch(error => {
-          window.deviseSettings.$bus.$emit('showError', error);
-        });
-    }).catch(error => {
-      window.deviseSettings.$bus.$emit('showError', error);
-    });
-  },
-
-  // Users
-  getUsers (context) {
-    return new Promise(resolve => {
-      window.axios
-        .get(`${context.state.api.baseUrl}users/`)
-        .then(response => {
-          context.commit('setUsers', response.data);
-          resolve(response);
-        })
-        .catch(error => {
-          window.deviseSettings.$bus.$emit('showError', error);
-        });
-    }).catch(error => {
-      window.deviseSettings.$bus.$emit('showError', error);
-    });
-  },
-
-  createUser (context, user) {
-    return new Promise(resolve => {
-      window.axios
-        .post(`${context.state.api.baseUrl}users/`, user)
-        .then(response => {
-          window.deviseSettings.$bus.$emit('showMessage', {
-            title: 'Success!',
-            message: `${user.name} has been created.`,
-          });
-          context.commit('createUser', response.data.data);
-          resolve(response);
-        })
-        .catch(error => {
-          window.deviseSettings.$bus.$emit('showError', error);
-        });
-    }).catch(error => {
-      window.deviseSettings.$bus.$emit('showError', error);
-    });
-  },
-
-  updateUser (context, payload) {
-    return new Promise(resolve => {
-      window.axios
-        .put(`${context.state.api.baseUrl}users/${payload.user.id}`, payload.data)
-        .then(response => {
-          window.deviseSettings.$bus.$emit('showMessage', {
-            title: 'Success!',
-            message: `${payload.data.name} has been saved.`,
-          });
-          context.commit('updateUser', { user: payload, data: response.data });
-          resolve(response);
-        })
-        .catch(error => {
-          window.deviseSettings.$bus.$emit('showError', error);
-        });
-    }).catch(error => {
-      window.deviseSettings.$bus.$emit('showError', error);
-    });
-  },
-
-  deleteUser (context, user) {
-    return new Promise(resolve => {
-      window.axios
-        .delete(`${context.state.api.baseUrl}users/${user.id}`)
-        .then(response => {
-          window.deviseSettings.$bus.$emit('showMessage', {
-            title: 'Success!',
-            message: `${user.name} has been deleted.`,
-          });
-          context.commit('deleteUser', user);
-          resolve(response);
-        })
-        .catch(error => {
-          window.deviseSettings.$bus.$emit('showError', error);
-        });
-    }).catch(error => {
-      window.deviseSettings.$bus.$emit('showError', error);
-    });
-  },
 
   // Checklist
   refreshChecklist (context) {

@@ -19,6 +19,7 @@
         <select
           ref="focusInput"
           v-model="selectValue"
+          class="dvs-w-full"
         >
           <option
             :value="null"

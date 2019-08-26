@@ -21,10 +21,7 @@
             v-if="getWarning(key)"
             @click="showWarning = key"
           >
-            <div
-              class="dvs-absolute dvs-pin-t dvs-pin-r dvs-rounded-full dvs-p-2 dvs-flex dvs-justify-center dvs-items-center dvs-text-xs dvs-mr-1 dvs-mt-1"
-              :style="theme.actionButton"
-            >
+            <div class="dvs-absolute dvs-pin-t dvs-pin-r dvs-rounded-full dvs-p-2 dvs-flex dvs-justify-center dvs-items-center dvs-text-xs dvs-mr-1 dvs-mt-1 dvs-btn-sm dvs-btn-primary">
               <alert-triangle-icon></alert-triangle-icon>
             </div>
           </div>
@@ -46,8 +43,7 @@
               ></div>
 
               <button
-                class="dvs-btn"
-                :style="theme.actionButton"
+                class="dvs-btn dvs-btn-sm dvs-btn-primary"
                 @click="showWarning = false"
               >Got It</button>
             </devise-modal>
@@ -58,7 +54,20 @@
             style="width:100px;height:100px;line-height:0px;"
             @click="setActive(key)"
           >
-            <img :src="`/styled/preview/${size.url}?${encodeEdits(key)}`">
+            <transition name="dvs-fade">
+              <img
+                :src="`/styled/preview/${size.url}?${encodeEdits(key)}`"
+                @load="loaded = true"
+                v-show="loaded"
+              >
+            </transition>
+
+            <loading-screen
+              v-show="!loaded"
+              :inline="true"
+              inline-message="Loading Image"
+            ></loading-screen>
+
           </div>
 
           <div
@@ -100,12 +109,15 @@ export default {
   },
   components: {
     DeviseModal: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/Modal'),
+    LoadingScreen: () =>
+      import(/* webpackChunkName: "devise-utilities" */ '../utilities/LoadingScreen.vue'),
     AlertTriangleIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/AlertTriangleIcon'),
   },
   data () {
     return {
-      showWarning: false
+      showWarning: false,
+      loaded: false,
     }
   },
   methods: {

@@ -15,7 +15,7 @@
   }
 
   a {
-    @apply dvs-no-underline dvs-text-blue;
+    @apply dvs-no-underline;
 
     &:hover {
       @apply dvs-underline;

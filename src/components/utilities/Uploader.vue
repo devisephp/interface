@@ -38,15 +38,13 @@
         v-show="!$refs.upload || !$refs.upload.active"
         @click.prevent="$refs.upload.active = true"
         type="button"
-        class="dvs-btn dvs-mb-4"
-        :style="theme.actionButton"
+        class="dvs-btn dvs-btn-primary dvs-mb-4"
       >Start upload</button>
       <button
         v-show="$refs.upload && $refs.upload.active"
         @click.prevent="$refs.upload.active = false"
         type="button"
-        class="dvs-btn dvs-mb-4"
-        :style="theme.actionButtonGhost"
+        class="dvs-btn dvs-btn-danger dvs-mb-4"
       >Stop upload</button>
       <table class="dvs-w-full dvs-border-collapse">
         <tr class="dvs-border-b-2">
@@ -81,8 +79,9 @@
               style="height:5px;"
             >
               <div
+                class="dvs-bg-highlight-bg"
                 style="height:3px;"
-                :style="{background: theme.actionButton.background, width: `${file.progress}%`}"
+                :style="{width: `${file.progress}%`}"
               ></div>
             </div>
           </td>

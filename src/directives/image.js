@@ -20,8 +20,11 @@ export default function (el, binding) {
         if (sizes.hasOwnProperty(size)) {
           const sizeSettings = sizes[size];
 
-          if (sizeSettings.breakpoints && sizeSettings.breakpoints.includes(breakpoint)) {
-            return { size, settings: sizeSettings };
+          if (sizeSettings.breakpoints) {
+            sizeSettings.breakpoints = sizeSettings.breakpoints.map(bp => bp.toLowerCase())
+            if (sizeSettings.breakpoints.includes(breakpoint.toLowerCase())) {
+              return { size, settings: sizeSettings };
+            }
           }
           // If breakpoints isn't set assume only one size and return it
         }

@@ -5,23 +5,14 @@ const AdministrationIndex = () =>
 const MetaManage = () => import(/* webpackChunkName: "devise-meta" */ '../components/meta/Manage');
 const PageEditor = () =>
   import(/* webpackChunkName: "devise-pages" */ '../components/pages/Editor');
-const PageCreate = () =>
-  import(/* webpackChunkName: "devise-pages" */ '../components/pages/Create');
-const PageSettings = () =>
-  import(/* webpackChunkName: "devise-pages" */ '../components/pages/Settings');
-const PagesIndex = () =>
-  import(/* webpackChunkName: "devise-pages" */ '../components/pages/Index');
-const PagesView = () => import(/* webpackChunkName: "devise-pages" */ '../components/pages/View');
-const SitesIndex = () =>
-  import(/* webpackChunkName: "devise-sites" */ '../components/sites/Index');
-const SitesEdit = () => import(/* webpackChunkName: "devise-sites" */ '../components/sites/Edit');
-const UsersIndex = () =>
-  import(/* webpackChunkName: "devise-users" */ '../components/users/Index');
-const UsersEdit = () => import(/* webpackChunkName: "devise-users" */ '../components/users/Edit');
-const RedirectsIndex = () =>
-  import(/* webpackChunkName: "devise-redirects" */ '../components/redirects/Index');
-const RedirectsEdit = () =>
-  import(/* webpackChunkName: "devise-redirects" */ '../components/redirects/Edit');
+const PagesAdmin = () =>
+  import(/* webpackChunkName: "devise-users" */ '../components/pages/Admin');
+const SitesAdmin = () =>
+  import(/* webpackChunkName: "devise-sites" */ '../components/sites/Admin');
+const UsersAdmin = () =>
+  import(/* webpackChunkName: "devise-users" */ '../components/users/Admin');
+const RedirectsAdmin = () =>
+  import(/* webpackChunkName: "devise-redirects" */ '../components/redirects/Admin');
 
 const routes = [
   {
@@ -46,31 +37,10 @@ const routes = [
     },
   },
   {
-    path: '/devise/pages',
-    name: 'devise-pages-index',
+    path: '/devise/pages/',
+    name: 'devise-pages-admin',
     components: {
-      devise: PagesIndex,
-    },
-    meta: {
-      parentRouteName: 'devise-settings',
-    },
-    permissions: 'manage pages'
-  },
-  {
-    path: '/devise/pages/create',
-    name: 'devise-pages-create',
-    components: {
-      devise: PageCreate,
-    },
-    meta: {
-      parentRouteName: 'devise-settings',
-    },
-  },
-  {
-    path: '/devise/pages/:pageId',
-    name: 'devise-pages-view',
-    components: {
-      devise: PagesView,
+      devise: PagesAdmin,
     },
     meta: {
       parentRouteName: 'devise-settings',
@@ -85,16 +55,6 @@ const routes = [
     },
     meta: {
       parentRouteName: 'devise-page-editor',
-    },
-  },
-  {
-    path: '/devise/page/settings',
-    name: 'devise-page-settings',
-    components: {
-      devise: PageSettings,
-    },
-    meta: {
-      parentRouteName: 'devise-settings',
     },
   },
   {
@@ -129,19 +89,9 @@ const routes = [
   },
   {
     path: '/devise/sites',
-    name: 'devise-sites-index',
+    name: 'devise-sites-admin',
     components: {
-      devise: SitesIndex,
-    },
-    meta: {
-      parentRouteName: 'devise-settings',
-    },
-  },
-  {
-    path: '/devise/sites/:siteId/edit',
-    name: 'devise-sites-edit',
-    components: {
-      devise: SitesEdit,
+      devise: SitesAdmin,
     },
     meta: {
       parentRouteName: 'devise-settings',
@@ -149,46 +99,24 @@ const routes = [
   },
   {
     path: '/devise/users',
-    name: 'devise-users-index',
+    name: 'devise-users-admin',
     components: {
-      devise: UsersIndex,
+      devise: UsersAdmin,
     },
     meta: {
       parentRouteName: 'devise-settings',
     },
-  },
-  {
-    path: '/devise/users/:userId/edit',
-    name: 'devise-users-edit',
-    components: {
-      devise: UsersEdit,
-    },
-    meta: {
-      parentRouteName: 'devise-settings',
-    },
-    props: true,
   },
   {
     path: '/devise/redirects',
-    name: 'devise-redirects-index',
+    name: 'devise-redirects-admin',
     components: {
-      devise: RedirectsIndex,
+      devise: RedirectsAdmin,
     },
     meta: {
       parentRouteName: 'devise-settings',
     },
-  },
-  {
-    path: '/devise/redirects/:redirectId/edit',
-    name: 'devise-redirects-edit',
-    components: {
-      devise: RedirectsEdit,
-    },
-    meta: {
-      parentRouteName: 'devise-settings',
-    },
-    props: true,
-  },
+  }
 ];
 
 export default routes;

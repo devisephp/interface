@@ -1,33 +1,27 @@
 <template>
-  <div class="dvs-relative dvs-mt-8 dvs-mb-8">
-    <div
-      class="dvs-fixed dvs-pin-t dvs-pin-l dvs-pin-r dvs-p-4  dvs-px-6 z-10"
-      :style="theme.panelCard"
-    >
-      <fieldset class="dvs-fieldset">
-        <div class="dvs-flex">
-          <input
-            type="text"
-            ref="filter"
-            placeholder="Filter Slices"
-            v-model="filter"
-          >
-          <button
-            class="dvs-btn dvs-ml-2 dvs-min-w-64"
-            @click="filter=null"
-            :style="theme.actionButton"
-          >Clear Filter</button>
-        </div>
-      </fieldset>
+  <div class="dvs-relative dvs-mb-8">
+    <div class="dvs-flex dvs-justify-center dvs-p-4 dvs-pb-8  dvs-text-admin-fg  dvs-w-full">
+      <input
+        type="text"
+        v-model="filter"
+        ref="filter"
+        class="dvs-bg-transparent dvs-border-b-2 dvs-px-12 dvs-py-2 dvs-text-admin-fg dvs-outline-none dvs-placeholder-admin-fg dvs-text-center"
+        placeholder="Type to begin searching"
+      >
+      <div
+        class="dvs-cursor-pointer"
+        :class="{'dvs-opacity-50': filter === ''}"
+        @click="filter = ''"
+      >
+        <x-icon></x-icon>
+      </div>
     </div>
-    <div
-      style="height:70vh"
-      v-if=" this.allDirectories.length > 0"
-      v-bar="{preventParentScroll: true}"
-    >
+    <div v-if=" this.allDirectories.length > 0">
+
       <div>
         <slice-selector-directory
           v-for="(directory, n) in this.allDirectories"
+          :allowed-views="allowedViews"
           :key="n"
           :directory="directory"
           :value="value"
@@ -40,7 +34,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import SliceSelectorDirectory from './SliceSelectorDirectory.vue';
 
 export default {
@@ -86,6 +80,7 @@ export default {
     },
   },
   computed: {
+    ...mapState('devise', ['modelQueries']),
     ...mapGetters('devise', ['slicesDirectories']),
     allDirectories () {
       if (this.filter !== null && this.filter !== '') {
@@ -99,6 +94,15 @@ export default {
       }
       return [];
     },
+    allowedViews () {
+      if (this.modelQuery) {
+        const mqc = this.modelQueries.find(mq => {
+          return mq.key === this.modelQuery.key
+        })
+        return mqc.views
+      }
+      return null;
+    },
     filteredDirectories () {
       const filters = this.filter.toLowerCase().split(' ');
       const directories = this.getDirectories(
@@ -107,7 +111,6 @@ export default {
       ).filter(directory => {
         if (
           filters.every(filter => {
-            // console.log(directory.path, filter, directory.path.toLowerCase().includes(filter));
             return directory.path.toLowerCase().includes(filter);
           })
         ) {
@@ -134,6 +137,9 @@ export default {
     value: {
       type: Object,
     },
+    modelQuery: {
+      type: Object
+    }
   },
   components: {
     SliceSelectorDirectory,

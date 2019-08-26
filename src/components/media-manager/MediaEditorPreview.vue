@@ -8,10 +8,21 @@
         <template v-if="!isCropping">
           <template>
             <div class="dvs-flex dvs-justify-center dvs-items-center">
-              <img
-                :src="activeImage.url"
-                class=" dvs-shadow-lg dvs-border dvs-border-white"
-              >
+              <transition name="dvs-fade">
+                <img
+                  :src="activeImage.url"
+                  @load="loaded = true"
+                  v-show="loaded"
+                  class=" dvs-shadow-lg dvs-border dvs-border-white"
+                >
+              </transition>
+
+              <loading-screen
+                v-show="!loaded"
+                :inline="true"
+                inline-message="Loading Image"
+              ></loading-screen>
+
             </div>
           </template>
         </template>
@@ -25,15 +36,13 @@
         >
           <div class="dvs-flex dvs-bg-grey-darkest dvs-p-4 dvs-rounded-t">
             <button
-              class="dvs-btn dvs-mr-2"
-              :style="theme.actionButton"
+              class="dvs-btn dvs-btn-primary dvs-btn-sm dvs-mr-2"
               @click="applyCrop"
             >
               Apply Crop
             </button>
             <button
-              class="dvs-btn dvs-mr-2"
-              :style="theme.actionButtonGhost"
+              class="dvs-btn dvs-mr-2 dvs-btn-ghost dvs-btn-sm dvs-text-white"
               @click="cancelCrop"
             >
               Remove Crops
@@ -59,10 +68,17 @@ import Cropper from 'cropperjs';
 
 export default {
   name: 'MediaEditorPreview',
+  components: {
+    LoadingScreen: () =>
+      import(/* webpackChunkName: "devise-utilities" */ '../utilities/LoadingScreen.vue'),
+  },
   props: {
     sizes: {
       type: Object,
       required: false,
+    },
+    customSize: {
+      type: Object
     },
     activeImage: {
       type: Object,
@@ -75,14 +91,20 @@ export default {
   },
   data () {
     return {
-      cropper: null
+      cropper: null,
+      loaded: false
     }
   },
   computed: {
     ...mapState('devise', ['isCropping']),
     aspectRatio () {
       const size = this.activeImage.name;
-      return this.sizes[size].w / this.sizes[size].h;
+      if (this.sizes && this.sizes[size]) {
+        return this.sizes[size].w / this.sizes[size].h;
+      } if (this.customSize) {
+        return this.customSize.w / this.customSize.h;
+      }
+      return 1;
     },
   },
   watch: {

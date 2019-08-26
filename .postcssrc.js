@@ -45,6 +45,7 @@ module.exports = {
         /slide-*/,
         /fast-*/,
         /sub-navigation-*/,
+        /\/*-admin-*/,
       ]
     }) : ""
   ],

@@ -130,6 +130,13 @@ let colors = {
   // 'pink-light': '#fa7ea8',
   // 'pink-lighter': '#ffbbca',
   // 'pink-lightest': '#ffebef',
+
+  'admin-bg': 'rgba(34,44,73,0.9)',
+  'admin-fg': '#CDC9F1',
+  'admin-secondary-bg': 'rgba(24,32,57,0.9)',
+  'admin-secondary-fg': 'rgba(255,255,255,0.8)',
+  'admin-highlight-bg': '#EB8F89',
+  'admin-highlight-fg': '#ffffff',
 };
 
 module.exports = {
@@ -883,7 +890,7 @@ module.exports = {
     pointerEvents: ['responsive'],
     position: ['responsive'],
     resize: ['responsive'],
-    shadows: ['responsive'],
+    shadows: ['responsive', 'hover'],
     svgFill: false,
     svgStroke: false,
     textAlign: ['responsive'],

@@ -1,25 +1,45 @@
 <template>
-  <div>
-    <h3
-      class="dvs-p-8 dvs-font-light dvs-uppercase dvs-border-b"
-      :style="{color: theme.panel.color, borderColor: theme.panel.color, backgroundColor: theme.panelCard.background}"
-    >{{ currentMenu.label }}</h3>
-    <ul class="dvs-list-reset dvs-pb-8">
-      <li
-        class="dvs-py-3 dvs-px-8 dvs-border-t"
-        :class="{'dvs-pt-8': key === 0}"
-        :style="{ borderTopColor: theme.panelCard.background}"
-        v-for="(menuItem, key) in currentMenuItems"
-        :key="menuItem.id"
-      >
-        <div
-          :style="{color: theme.panel.color}"
-          @click="goToPage(menuItem.routeName, menuItem.parameters)"
-          class="dvs-block dvs-switch-sm dvs-flex dvs-justify-between dvs-items-center dvs-cursor-pointer"
-        >{{ menuItem.label }}</div>
-      </li>
-    </ul>
-  </div>
+  <admin-container>
+    <template v-slot:message>
+      Welcome Back!<br>
+      What are you looking to work on?
+    </template>
+    <template v-slot:content>
+      <ul class="dvs-list-reset dvs-flex dvs-flex-wrap dvs-justify-between">
+        <li
+          class="dvs-py-6 dvs-mr-8"
+          v-for="(menuItem, key) in currentMenuItems"
+          :key="menuItem.id"
+        >
+          <div
+            v-if="menuItem.routeName"
+            @click="goToPage(menuItem.routeName, menuItem.parameters)"
+            class="dvs-block dvs-switch-sm dvs-flex dvs-justify-between dvs-items-center dvs-cursor-pointer"
+          >{{ menuItem.label }}</div>
+          <div
+            v-else
+            class="dvs-uppercase dvs-text-xs dvs-text-admin-secondary-fg"
+          >{{ menuItem.label }}</div>
+          <ul
+            class="dvs-list-reset dvs-text-sm"
+            v-if="menuItem.children"
+          >
+            <li
+              class="dvs-pt-3"
+              v-for="(childMenuItem) in menuItem.children"
+              :key="childMenuItem.id"
+            >
+              <div
+                v-if="childMenuItem.routeName"
+                @click="goToPage(childMenuItem.routeName, childMenuItem.parameters)"
+                class="dvs-block dvs-switch-sm dvs-flex dvs-justify-between dvs-items-center dvs-cursor-pointer"
+              >{{ childMenuItem.label }}</div>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </template>
+  </admin-container>
 </template>
 
 <script>
@@ -27,6 +47,10 @@ import { mapState } from 'vuex';
 
 export default {
   name: 'DeviseIndex',
+  components: {
+    AdminContainer: () =>
+      import(/* webpackChunkName: "devise-administration" */ './ui/AdminContainer'),
+  },
   methods: {
     findMenu (menu) {
       let safeMenu = menu;

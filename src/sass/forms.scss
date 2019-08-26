@@ -1,5 +1,5 @@
 #devise-admin {
-  fieldset {
+  fieldset.dvs-fieldset {
     box-sizing:border-box;
 
     label {
@@ -24,19 +24,7 @@
     input[type="number"],
     input[type="email"],
     input[type="phone"] {
-      @apply border-0 dvs-px-4 dvs-py-3 dvs-leading-tight dvs-text-sm dvs-bg-grey-lighter dvs-text-grey-darkest dvs-rounded dvs-appearance-none dvs-outline-none;
-
-      &.dvs-w-auto {
-        @apply dvs-w-auto;
-      }
-
-      &.dvs-small {
-        @apply dvs-px-3 dvs-py-2 dvs-rounded-sm dvs-text-xs;
-      }
-
-      &.dvs-dark {
-        @apply dvs-bg-grey-darker dvs-text-white;
-      }
+      @apply border-0 dvs-px-4 dvs-py-3 dvs-leading-tight dvs-text-sm dvs-rounded dvs-appearance-none dvs-outline-none;
     }
 
     input[type="checkbox"] {

@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="dvs-relative dvs-px-3 dvs-py-1 dvs-rounded-sm dvs-text-xs dvs-cursor-pointer"
-    :style="theme.panelSidebar"
-  >
+  <div class="dvs-relative dvs-text-xs dvs-cursor-pointer">
     <div class="dvs-flex dvs-justify-between dvs-items-center">
       <div class="dvs-large-label dvs-flex dvs-items-center dvs-mr-2 dvs-font-bold dvs-w-full">
         <div
@@ -11,16 +8,9 @@
           :class="{'dvs-bg-green': value.enabled, 'dvs-bg-white': !value.enabled, 'dvs-invisible': !options.enabler}"
         ></div>
         <div
-          class="dvs-flex dvs-items-center dvs-justify-stretch dvs-w-full"
+          class="dvs-flex dvs-items-center dvs-justify-stretch dvs-w-3/4 dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-px-4 dvs-rounded"
           @click="toggleShowEditor"
         >
-          <!-- Swatch -->
-          <div
-            v-if="options.swatch && options.color"
-            :style="`background-color:${options.color}`"
-            class="dvs-rounded-sm dvs-mr-2"
-            style="width:10px; height:10px;"
-          ></div>
           {{devLabel}} {{ options.label }}
         </div>
       </div>
@@ -35,14 +25,10 @@
         ></div>
         <panel
           id="field-panel"
-          class="dvs-fixed dvs-pin-b dvs-pin-r dvs-mx-8 dvs-mb-8 dvs-z-40 dvs-max-w-full"
-          :panel-style="theme.panel"
+          class="dvs-fixed dvs-pin-b dvs-pin-r dvs-mx-8 dvs-mb-8 dvs-z-40 dvs-max-w-full dvs-bg-admin-bg dvs-text-admin-fg dvs-rounded"
         >
           <div class="dvs-p-8 dvs-flex dvs-flex-col">
-            <h6
-              class="dvs-text-base dvs-mb-2 dvs-w-full"
-              :style="{color: theme.panel.color}"
-            >
+            <h6 class="dvs-text-base dvs-mb-2 dvs-w-full">
               <span>{{ options.label }}</span>
               <br>
 
@@ -52,7 +38,6 @@
 
             <div
               class="dvs-text-sm mt-4 border-b border-t py-2"
-              :style="{'border-color':theme.panel.color}"
               v-if="options.instructions"
             >
               <div class="opacity-75 uppercase mb-2 text-xs">Hint from Developer:</div>
@@ -63,16 +48,17 @@
             </div>
 
             <div class="dvs-flex dvs-items-center dvs-mt-4 dvs-mb-4 dvs-justify-between">
-              <div class="dvs-flex dvs-items-center">
+              <div
+                class="dvs-flex dvs-items-center dvs-w-full dvs-text-xs"
+                style="max-width:300px;"
+              >
                 <button
-                  class="dvs-btn dvs-mr-2"
+                  class="dvs-btn dvs-btn-primary dvs-mr-2 dvs-w-1/2"
                   @click="toggleShowEditor"
-                  :style="theme.actionButton"
                 >Done</button>
                 <button
-                  class="dvs-btn dvs-mr-2"
+                  class="dvs-btn dvs-btn-secondary dvs-mr-2 dvs-w-1/2"
                   @click="cancel"
-                  :style="theme.actionButtonGhost"
                 >Cancel</button>
               </div>
               <div
@@ -89,18 +75,15 @@
             <div
               @click="showErase = true"
               v-if="!showErase && !noReset"
-              class="dvs-absolute dvs-pin-b dvs-pin-l dvs-pin-r dvs-uppercase dvs-text-center dvs-text-xs dvs-p-2 dvs-opacity-50 hover:dvs-opacity-100 dvs-cursor-pointer"
+              class="dvs-absolute dvs-pin-b dvs-pin-l dvs-pin-r dvs-uppercase dvs-text-center dvs-text-xs dvs-p-2 dvs-cursor-pointer dvs-bg-admin-highlight-bg dvs-text-admin-highlight-fg"
               style="height:30px;"
-              :style="{backgroundColor: theme.panelCard.background}"
             >reset</div>
             <div
               v-if="showErase"
-              class="dvs--mb-8 dvs--ml-8 dvs--mr-8"
-              :style="theme.actionButton"
+              class="dvs--mb-8 dvs--ml-8 dvs--mr-8 dvs-btn-primary dvs-btn-sm"
             >
               <button
-                class="dvs-btn dvs-w-full"
-                :style="theme.actionButton"
+                class="dvs-btn dvs-w-full dvs-btn-primary dvs-btn-sm"
                 @click="resetValue"
               >Reset Value to Nothing</button>
             </div>
@@ -137,7 +120,7 @@ export default {
       }
       return 'This field is not enabled. Edit the field and toggle the enable switch to turn it on.';
     },
-    toggleEnabled (e) {
+    toggleEnabled () {
       this.value.enabled = !this.value.enabled
     },
     resetValue () {

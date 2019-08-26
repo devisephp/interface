@@ -1,14 +1,12 @@
 <template>
   <div
-    class="dvs-relative dvs-cursor-pointer dvs-border-b dvs-transitions-hover-slow"
+    class="dvs-relative dvs-cursor-pointer dvs-border-b dvs-border-admin-bg dvs-transitions-hover-slow"
     @mouseenter="openPreviewSelector"
     @mouseleave="closePreviewSelector"
-    :style="theme.panelSidebar"
   >
     <div
       class="dvs-m-4 dvs-cursor-pointer"
       v-if="previewMode === 'desktop'"
-      :style="{color: theme.panelSidebar.secondaryColor}"
     >
       <desktop-icon
         w="25"
@@ -18,7 +16,6 @@
     <div
       class="dvs-m-4 dvs-cursor-pointer"
       v-if="previewMode === 'tablet'"
-      :style="{color: theme.panelSidebar.secondaryColor}"
     >
       <tablet-icon
         w="25"
@@ -28,7 +25,6 @@
     <div
       class="dvs-m-4 dvs-cursor-pointer"
       v-if="previewMode === 'mobile-portrait'"
-      :style="{color: theme.panelSidebar.secondaryColor}"
     >
       <phone-icon
         w="25"
@@ -39,7 +35,6 @@
       class="dvs-m-4 dvs-cursor-pointer"
       style="transform:rotate(90deg)"
       v-if="previewMode === 'mobile-landscape'"
-      :style="{color: theme.panelSidebar.secondaryColor}"
     >
       <phone-icon
         w="25"
@@ -48,12 +43,10 @@
     </div>
     <div
       ref="previewSelector"
-      class="dvs-flex dvs-overflow-hidden dvs-flex-col dvs-rounded-sm dvs-absolute dvs-pin-t dvs-pin-l dvs-mt-2 dvs-ml-10 dvs-z-10"
-      :style="theme.panelSidebar"
+      class="dvs-flex dvs-overflow-hidden dvs-flex-col dvs-rounded-sm dvs-absolute dvs-pin-t dvs-pin-l dvs-mt-2 dvs-ml-10 dvs-z-10 dvs-bg-admin-bg"
     >
       <div
         class="dvs-p-3 dvs-cursor-pointer dvs-border-b"
-        :style="onStyle('desktop')"
         @click="setPreviewMode('desktop')"
       >
         <desktop-icon
@@ -63,7 +56,6 @@
       </div>
       <div
         class="dvs-p-3 dvs-cursor-pointer dvs-border-b"
-        :style="onStyle('tablet')"
         @click="setPreviewMode('tablet')"
       >
         <tablet-icon
@@ -73,7 +65,6 @@
       </div>
       <div
         class="dvs-p-3 dvs-cursor-pointer dvs-border-b"
-        :style="onStyle('mobile-portrait')"
         @click="setPreviewMode('mobile-portrait')"
       >
         <phone-icon
@@ -84,7 +75,6 @@
       <div
         class="dvs-p-3 dvs-cursor-pointer"
         style="transform:rotate(90deg)"
-        :style="onStyle('mobile-landscape')"
         @click="setPreviewMode('mobile-landscape')"
       >
         <phone-icon
@@ -121,15 +111,7 @@ export default {
     setPreviewMode (mode) {
       this.previewMode = mode;
       this.setPreviewModeInCurrentPage(mode);
-    },
-    onStyle (type) {
-      if (this.previewMode === type) {
-        return {
-          color: this.theme.panelSidebar.secondaryColor,
-        };
-      }
-      return {};
-    },
+    }
   },
   components: {
     DesktopIcon: () =>

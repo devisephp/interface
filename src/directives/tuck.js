@@ -17,9 +17,9 @@ export default {
     blocker.style.transition = '800ms all';
 
     function hide () {
+      document.body.classList.remove('dvs-admin-open')
+
       el.style.opacity = 0;
-      el.classList.remove('dvs-pointer-events-auto');
-      el.classList.add('dvs-pointer-events-none');
 
       blocker.style.opacity = 0;
       blocker.classList.remove('dvs-pointer-events-auto');
@@ -40,9 +40,9 @@ export default {
     function show () {
       clearTimeout(initTimeout);
 
+      document.body.classList.add('dvs-admin-open')
+
       el.style.opacity = 1;
-      el.classList.remove('dvs-pointer-events-none');
-      el.classList.add('dvs-pointer-events-auto');
 
       blocker.style.opacity = 0.75;
       blocker.classList.remove('dvs-pointer-events-none');
