@@ -58,6 +58,7 @@ export default {
           message: 'Use the form below to search for the site you wish to manage',
           apiendpoint: 'sites',
           searchPropertyName: 'name',
+          app: false,
           resultsDisplayFields: [
             {
               label: 'Name',

@@ -4,15 +4,14 @@ const actions = {
 
   // Generic
   getGeneric (context, payload) {
-    let url = ''
     let root = false
+    let url = `${context.state.api.baseUrl}${
+      payload.config.apiendpoint
+      }/?${commonUtils.buildFilterParams(payload.filters)}`
+
     if (payload.config.app) {
       root = true
       url = `${
-        payload.config.apiendpoint
-        }/?${commonUtils.buildFilterParams(payload.filters)}`
-    } else {
-      url = `${context.state.api.baseUrl}${
         payload.config.apiendpoint
         }/?${commonUtils.buildFilterParams(payload.filters)}`
     }
@@ -34,11 +33,15 @@ const actions = {
 
   getGenericRecord (context, payload) {
 
+    let url = `${context.state.api.baseUrl}${payload.config.apiendpoint}/${payload.id}`
+
+    if (payload.config.app) {
+      url = `${payload.config.apiendpoint}/${payload.id}`
+    }
+
     return new Promise((resolve) => {
       window.axios
-        .get(
-          `${context.state.api.baseUrl}${payload.config.apiendpoint}/${payload.id}`
-        )
+        .get(url)
         .then((response) => {
           resolve(response);
         })
@@ -51,13 +54,15 @@ const actions = {
   },
 
   searchGeneric (context, payload) {
+    let url = `${context.state.api.baseUrl}${payload.config.apiendpoint}/?${commonUtils.buildFilterParams(payload.filters)}`
+
+    if (payload.config.app) {
+      url = `${payload.config.apiendpoint}/?${commonUtils.buildFilterParams(payload.filters)}`
+    }
+
     return new Promise((resolve) => {
       window.axios
-        .get(
-          `${context.state.api.baseUrl}${
-          payload.config.apiendpoint
-          }/?${commonUtils.buildFilterParams(payload.filters)}`
-        )
+        .get(url)
         .then((response) => {
           resolve(response);
         })
@@ -97,12 +102,15 @@ const actions = {
   },
 
   updateGeneric (context, payload) {
+    let url = `${context.state.api.baseUrl}${payload.config.apiendpoint}/${payload.record.id}`
+
+    if (payload.config.app) {
+      url = `${payload.config.apiendpoint}/${payload.record.id}`
+    }
+
     return new Promise((resolve) => {
       window.axios
-        .put(
-          `${context.state.api.baseUrl}${payload.config.apiendpoint}/${payload.record.id}`,
-          payload.record
-        )
+        .put(url, payload.record)
         .then((response) => {
           window.deviseSettings.$bus.$emit('showMessage', {
             title: 'Success!',
@@ -119,9 +127,15 @@ const actions = {
   },
 
   deleteGeneric (context, payload) {
+    let url = `${context.state.api.baseUrl}${payload.config.apiendpoint}/${payload.record.id}`
+
+    if (payload.config.app) {
+      url = `${payload.config.apiendpoint}/${payload.record.id}`
+    }
+
     return new Promise((resolve) => {
       window.axios
-        .delete(`${context.state.api.baseUrl}${payload.config.apiendpoint}/${payload.record.id}`)
+        .delete(url)
         .then((response) => {
           window.deviseSettings.$bus.$emit('showMessage', {
             title: 'Success!',
@@ -688,7 +702,6 @@ const actions = {
   },
 
   translatePage (context, payload) {
-    console.log(payload)
     return new Promise(resolve => {
       window.axios
         .put(`${context.state.api.baseUrl}pages/${payload.page.id}/copy`, payload.data)
@@ -779,25 +792,37 @@ const actions = {
   },
 
   // This is the save used from the page editor
-  savePage (context, page) {
+  savePage (context, payload) {
+    const { page } = payload
+    const { forceSave } = payload
     const currentVersion = page.versions.find(version => version.current === true);
-    return new Promise(resolve => {
+
+    let url = `${context.state.api.baseUrl}pages/${page.id}?version_id=${currentVersion.id}`
+    if (forceSave) {
+      url = `${context.state.api.baseUrl}pages/${page.id}?version_id=${currentVersion.id}&force=1`
+    }
+
+    return new Promise((resolve, reject) => {
       window.axios
-        .put(`${context.state.api.baseUrl}pages/${page.id}?version_id=${currentVersion.id}`, page)
+        .put(url, page)
         .then(response => {
           window.deviseSettings.$bus.$emit('showMessage', {
             title: 'Success!',
             message: `${page.title} has been saved.`,
           });
           window.deviseSettings.$bus.$emit('devise-page-saved');
-          context.commit('updatePage', { page, data: response.data });
+          context.commit('setCurrentPageVersionLastUpdate', response.data.data);
           resolve(response);
         })
         .catch(error => {
-          window.deviseSettings.$bus.$emit('showError', error);
+          // If the page was saved after another person saved
+          if (error.response.status === 480) {
+            resolve(480)
+          } else {
+            window.deviseSettings.$bus.$emit('showError', error);
+            reject(error)
+          }
         });
-    }).catch(error => {
-      window.deviseSettings.$bus.$emit('showError', error);
     });
   },
 

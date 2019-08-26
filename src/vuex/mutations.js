@@ -108,7 +108,11 @@ export default {
 
   // Current Page
   setCurrentPage (state, page) {
-    Object.assign({}, state.currentPage, page);
+    state.currentPage = Object.assign({}, state.currentPage, page);
+  },
+
+  setCurrentPageVersionLastUpdate (state, page) {
+    state.currentPage.version_last_updated_at = page.version_last_updated_at
   },
 
   setPreviewModeInCurrentPage (state, mode) {

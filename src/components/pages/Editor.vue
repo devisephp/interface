@@ -214,9 +214,15 @@ export default {
     ...mapActions('devise', ['savePage', 'setDevMode']),
     requestSavePage () {
       this.saving = true;
-      this.savePage(this.currentPage).then(() => {
+      this.savePage({ page: this.currentPage }).then((response) => {
+        // If someone else saved before we saved
+        if (response === 480) {
+          window.deviseSettings.$bus.$emit('showForceSave');
+        } else {
+          window.onbeforeunload = null;
+        }
+      }).finally(() => {
         this.saving = false;
-        window.onbeforeunload = null;
       });
     },
     toggleSlice (slice) {

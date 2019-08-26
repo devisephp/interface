@@ -155,8 +155,32 @@
       />
     </div>
 
-    <div class="dvs-collapsed dvs-px-6 dvs-text-sm">
-      <help v-if="slice.metadata.type === 'model'">Be aware that these entries are model entries. That means they are managed in your database by another tool or by an admin section in your adminitration.</help>
+    <div
+      class="dvs-collapsed dvs-px-6 dvs-text-sm"
+      v-if="slice.metadata.type === 'model'"
+    >
+      <div class="dvs-mb-8">
+        <help>Be aware that these entries are model entries. That means they are managed in your database by another tool or by an admin section in your adminitration.</help>
+      </div>
+
+      <div
+        class="dvs-px-4 dvs-flex dvs-items-center"
+        v-for="(record, key) in pageSlices"
+        :key="key"
+      >
+        <div
+          class="dvs-cursor-pointer"
+          @click="goToModel(record)"
+          v-if="record.settings.admin.route"
+        >
+          <link-icon></link-icon>
+        </div>
+        <div
+          class="dvs-mb-2 dvs-ml-4"
+          v-html="buildEditorLabel(record, null)"
+        ></div>
+      </div>
+
     </div>
     <div
       class="dvs-collapsed dvs-px-4 dvs-pl-10"
@@ -240,6 +264,11 @@ export default {
       window.window.deviseSettings.$bus.$emit('openSliceSettings', this.slice);
     },
 
+    // Navigating Models
+    goToModel (model) {
+      this.$router.push({ name: model.settings.admin.route, params: model.settings.admin.params });
+    },
+
     // Adding, Editing and Removing Slices
     requestInsertSlice () {
       if (this.hasChildSlot) {
@@ -301,6 +330,49 @@ export default {
       // Send out the notification
       window.deviseSettings.$bus.$emit('devise-field-edited', { field, value });
     },
+    buildEditorLabel (fields, instanceId) {
+      const acceptedFieldTypes = {
+        text: 'text',
+        number: 'text',
+        datetime: 'text',
+        image: 'url',
+        link: 'text',
+        select: 'value',
+      };
+
+      let devMode = '';
+      if (this.devMode) {
+        devMode = `<div class="dvs-text-sm dvs-uppercase dvs-opacity-75">Instance Id: ${
+          instanceId
+          }</div>`;
+      }
+
+      for (const field in fields) {
+        if (fields.hasOwnProperty(field)) {
+          const f = fields[field];
+
+          if (f.editorLabel && f[acceptedFieldTypes[f.type]]) {
+            let label = f[acceptedFieldTypes[f.type]];
+
+            if (f.type === 'image') {
+              label = `<div class="dvs-rounded dvs-bg-cover" style="background-image: url('${label}'); height:100px; width:200px;"></div>`;
+            } else {
+              label = `${label.toLowerCase()}`;
+            }
+
+            if (label) {
+              return `${devMode}<div class="dvs-text-xs dvs-opacity-25 dvs-uppercase dvs-leading-tight">${
+                this.slice.metadata.label
+                }</div>
+                <div class="dvs-capitalize">${label}</div>`;
+            }
+          }
+        }
+      }
+      return `${devMode}<div class="dvs-capitalize">${
+        this.slice.metadata.label
+        }</div>`;
+    }
   },
   computed: {
     ...mapGetters('devise', ['component', 'fieldConfig', 'sliceConfig']),
@@ -347,48 +419,8 @@ export default {
       return false;
     },
     editorLabel () {
-      const acceptedFieldTypes = {
-        text: 'text',
-        number: 'text',
-        datetime: 'text',
-        image: 'url',
-        link: 'text',
-        select: 'value',
-      };
-
-      let devMode = '';
-      if (this.devMode) {
-        devMode = `<div class="dvs-text-sm dvs-uppercase dvs-opacity-75">Instance Id: ${
-          this.slice.metadata.instance_id
-          }</div>`;
-      }
-
-      for (const field in this.theFields) {
-        if (this.theFields.hasOwnProperty(field)) {
-          const f = this.theFields[field];
-
-          if (f.editorLabel && f[acceptedFieldTypes[f.type]]) {
-            let label = f[acceptedFieldTypes[f.type]];
-
-            if (f.type === 'image') {
-              label = `<div class="dvs-rounded dvs-bg-cover" style="background-image: url('${label}'); height:100px; width:200px;"></div>`;
-            } else {
-              label = `${label.toLowerCase()}`;
-            }
-
-            if (label) {
-              return `${devMode}<div class="dvs-text-xs dvs-opacity-25 dvs-uppercase dvs-leading-tight">${
-                this.slice.metadata.label
-                }</div>
-                <div class="dvs-capitalize">${label}</div>`;
-            }
-          }
-        }
-      }
-      return `${devMode}<div class="dvs-capitalize">${
-        this.slice.metadata.label
-        }</div>`;
-    },
+      return this.buildEditorLabel(this.theFields, this.slice.metadata.instance_id)
+    }
   },
   props: {
     child: {
@@ -408,6 +440,8 @@ export default {
     draggable: () => import(/* webpackChunkName: "devise-editors" */ 'vuedraggable'),
     LocateIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/TargetIcon'),
+    LinkIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/LinkIcon'),
     ManageSlice: () => import(/* webpackChunkName: "devise-editors" */ './ManageSlice'),
     MenuIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/MenuIcon'),

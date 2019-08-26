@@ -100,6 +100,7 @@ export default {
           component: 'workflow-search',
           message: 'Use the form below to search for the page you wish to manage',
           apiendpoint: 'pages-suggest',
+          app: false,
           searchPropertyName: 'term',
           resultsDisplayFields: [
             {

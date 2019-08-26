@@ -76,7 +76,9 @@ export default {
     }
   },
   mounted () {
-    if (this.index) {
+    if (this.$route.params && this.$route.params.workflowKey) {
+      this.jumpToStep(this.$route.params.workflowKey)
+    } else if (this.index) {
       this.workflowStack.push(this.index);
     }
   },
@@ -95,6 +97,14 @@ export default {
       } else {
         this.$router.go(-1);
       }
+    },
+    jumpToStep (jumpToStep) {
+      const stepToLoad = this.workflow.find((s) => {
+        return s.key === jumpToStep
+      })
+      this.$set(stepToLoad, 'jumpedTo', true)
+      this.$set(stepToLoad, 'jumpedToParams', this.$route.params)
+      this.workflowStack.push(stepToLoad);
     },
     loadStep () {
       let stepToLoad = null

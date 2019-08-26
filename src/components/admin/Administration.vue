@@ -75,6 +75,7 @@
     <slice-settings />
     <loadbar class="dvs-relative dvs-z-9999" />
     <loading-screen class="dvs-relative dvs-z-9999" />
+    <force-save class="dvs-relative dvs-z-9999" />
   </div>
 </template>
 
@@ -137,7 +138,7 @@ export default {
       return [];
     },
     pollIfLoggedIn () {
-      this.getLanguages().then(() => { }, (error) => {
+      this.getLanguages().then(() => { }, () => {
         window.location.reload(true)
       })
     },
@@ -179,6 +180,8 @@ export default {
       import(/* webpackChunkName: "devise-media" */ '../media-manager/MediaEditor.vue'),
     MediaManager: () =>
       import(/* webpackChunkName: "devise-media" */ '../media-manager/MediaManager.vue'),
+    ForceSave: () =>
+      import(/* webpackChunkName: "devise-utilities" */ '../utilities/ForceSave.vue'),
     PreviewMode: () =>
       import(/* webpackChunkName: "devise-previewmode" */ '../pages/PreviewMode.vue'),
     BackIcon: () =>

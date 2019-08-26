@@ -58,6 +58,7 @@ export default {
           message: 'Use the form below to search for the user you wish to edit',
           apiendpoint: 'users',
           searchPropertyName: 'name',
+          app: false,
           resultsDisplayFields: [
             {
               label: 'Name',

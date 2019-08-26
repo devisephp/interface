@@ -150,7 +150,6 @@ export default {
     generateAndSaveImages () {
       return new Promise(() => {
         window.deviseSettings.$bus.$emit('showLoadScreen', 'Images being generated');
-
         this.generateImages({ defaultImage: this.defaultImage, sizes: this.sizeEdits }).then(response => {
           this.$emit('generatedImages', {
             images: response.data,

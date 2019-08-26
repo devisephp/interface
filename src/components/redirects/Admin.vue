@@ -58,6 +58,7 @@ export default {
           message: 'Use the form below to search for the redirect you wish to manage',
           apiendpoint: 'redirects',
           searchPropertyName: 'term',
+          app: false,
           resultsDisplayFields: [
             {
               label: 'From URL',

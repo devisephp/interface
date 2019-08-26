@@ -85,11 +85,12 @@ export default {
     ...mapActions('devise', ['searchGeneric']),
     requestSearch (term) {
       if (term !== '') {
+        const isApp = this.step.app === true || typeof this.step.app === 'undefined' ? true : this.step.app;
         const searchData = {};
         searchData[this.step.searchPropertyName] = term;
 
         this.searchGeneric({
-          config: { apiendpoint: this.step.apiendpoint },
+          config: { apiendpoint: this.step.apiendpoint, app: isApp },
           filters: searchData
         }).then(results => {
           this.autosuggest = results.data;
