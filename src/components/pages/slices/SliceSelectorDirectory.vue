@@ -58,7 +58,7 @@ export default {
   computed: {
     ...mapGetters('devise', ['componentFromView']),
     currentDirectoryFiles () {
-      if (this.allowedViews) {
+      if (this.allowedViews && this.allowedViews.length) {
         return this.directory.files.filter(file => {
           return this.allowedViews.includes(file.value)
         })

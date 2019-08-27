@@ -143,6 +143,7 @@ export default {
   },
   components: {
     SliceSelectorDirectory,
+    XIcon: () => import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/XIcon'),
   },
 };
 </script>

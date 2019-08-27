@@ -131,6 +131,8 @@ export default {
       // If slice is set it's an edit
       if (this.slice) {
         this.newSlice.type = this.slice.metadata.type;
+        console.log(this.slice)
+        this.modelQuery = this.slice.metadata.model_query
       }
     });
   },

@@ -95,6 +95,8 @@ export default {
   name: 'DeviseQuerySelectorSearch',
   components: {
     draggable: () => import(/* webpackChunkName: "devise-editors" */ 'vuedraggable'),
+    XIcon: () => import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/XIcon'),
+    MenuIcon: () => import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/MenuIcon'),
   },
   props: {
     value: {
@@ -107,7 +109,7 @@ export default {
       if (this.autosuggest.data) {
         return this.autosuggest.data.filter(suggestion => {
           return !this.selected.find(select => {
-            return suggestion.value === select.value
+            return suggestion === select
           })
         })
       }
@@ -150,8 +152,15 @@ export default {
       const term = e.target.value;
 
       if (term !== '') {
+        const selectedIds = []
+
+        this.selected.forEach(s => {
+          selectedIds.push(s.id)
+        })
+
         const searchData = {
-          searchterm: term
+          searchterm: term,
+          selected: selectedIds
         };
 
         this.appGenericSearch({

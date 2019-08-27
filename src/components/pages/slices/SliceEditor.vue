@@ -171,7 +171,7 @@
         <div
           class="dvs-cursor-pointer"
           @click="goToModel(record)"
-          v-if="record.settings.admin.route"
+          v-if="record.settings && record.settings.admin && record.settings.admin.route"
         >
           <link-icon></link-icon>
         </div>
