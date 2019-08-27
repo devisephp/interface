@@ -21,7 +21,7 @@ export default function (el, binding) {
           const sizeSettings = sizes[size];
 
           if (sizeSettings.breakpoints) {
-            sizeSettings.breakpoints = sizeSettings.breakpoints.map(bp => bp.toLowerCase())
+            sizeSettings.breakpoints.map(bp => bp.toLowerCase())
             if (sizeSettings.breakpoints.includes(breakpoint.toLowerCase())) {
               return { size, settings: sizeSettings };
             }
@@ -32,6 +32,7 @@ export default function (el, binding) {
         }
       }
       // We couldn't find the size so return the first one
+
       return false
     };
 
