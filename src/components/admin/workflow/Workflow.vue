@@ -109,13 +109,12 @@ export default {
     loadStep () {
       let stepToLoad = null
 
-      if (this.currentStep.end) {
+      if (this.currentStep.end || this.currentStep.value.end) {
         this.clearStack();
         return;
       }
 
       const lastStep = this.workflowStack[this.workflowStack.length - 2]
-      console.log(this.currentStep, this.currentStep.nextStep, typeof this.currentStep.nextStep !== 'undefined', this.currentStep.value, this.currentStep.value.nextStep)
       const { nextStep } = typeof this.currentStep.nextStep !== 'undefined' ? this.currentStep : this.currentStep.value;
 
       // If a next step
@@ -130,15 +129,16 @@ export default {
       }
 
       if (stepToLoad) {
-        this.workflowStack.push(stepToLoad);
+        this.workflowStack.push(Object.assign({}, stepToLoad));
         window.deviseSettings.$bus.$emit('dvs-admin-container-content-changed')
       } else {
         // eslint-disable-next-line no-console
-        console.warn(`There is no step registered as ${stepToLoad}`);
+        console.warn(`There is no step registered as ${nextStep}`);
       }
     },
     clearStack () {
       this.workflowStack = [this.index];
+      window.deviseSettings.$bus.$emit('dvs-admin-container-content-changed');
     }
   }
 }

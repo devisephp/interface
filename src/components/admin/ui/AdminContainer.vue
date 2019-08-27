@@ -16,6 +16,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'DeviseAdminContainer',
   data () {
@@ -28,9 +29,12 @@ export default {
     this.maxHeight = windowHeight * 0.7;
 
     window.deviseSettings.$bus.$on('dvs-admin-container-content-changed', () => {
-      if (typeof this.$refs.Scrollbar !== 'undefined') {
-        this.$refs.Scrollbar.scrollToY(0)
-      }
+      this.$nextTick(() => {
+        if (typeof this.$refs.Scrollbar !== 'undefined') {
+          this.$refs.Scrollbar.calculateSize()
+          this.$refs.Scrollbar.scrollToY(0)
+        }
+      })
     });
   }
 }
