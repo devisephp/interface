@@ -20,6 +20,7 @@
 
           <template v-if="typeof currentPage !== 'undefined' && currentPage.slices">
             <slices
+              v-if="timeToShow"
               :slices="currentPage.slices"
               :editor-mode="can('access admin') && !isPreviewFrame"
             ></slices>
@@ -62,15 +63,14 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import { setTimeout } from 'timers';
 
 export default {
   name: 'Devise',
   data () {
     return {
-      showLoadbar: false,
-      loadbarPercentage: 0,
-      pageMode: false,
-    };
+      timeToShow: false
+    }
   },
   created () {
     this.setSizeAndBreakpoint();
@@ -79,7 +79,15 @@ export default {
     window.devise = this;
     window.deviseSettings.$bus = window.deviseSettings.$bus;
 
-    this.initDevise();
+    if (this.can('access admin')) {
+      this.initDevise();
+    } else {
+      window.deviseSettings.$bus.$emit('devise-loaded');
+    }
+
+    this.$nextTick(() => {
+      this.timeToShow = true
+    })
   },
   methods: {
     ...mapActions('devise', ['setBreakpoint']),

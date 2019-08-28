@@ -1,6 +1,5 @@
 import PortalVue from 'portal-vue';
 import { mapGetters } from 'vuex';
-import Vuebar from 'vuebar';
 import VueNotifications from 'vue-notifications';
 import iziToast from 'izitoast'; // https://github.com/dolce/iziToast
 import VueScrollactive from 'vue-scrollactive';
@@ -21,6 +20,8 @@ import alertConfirm from './directives/alert-confirm';
 
 const DevisePlugin = {
   install (Vue, { store, router, bus, options }) {
+    const startDevise = 'start-devise'
+    performance.mark(startDevise);
 
     // Register tuck directive
     Vue.directive('tuck', Tuck);
@@ -80,9 +81,6 @@ const DevisePlugin = {
 
     // Portals to render items outside of their component
     Vue.use(PortalVue);
-
-    // VueBar - custom scrollbars
-    Vue.use(Vuebar);
 
     // Scrollactive 
     Vue.use(VueScrollactive);
@@ -293,6 +291,9 @@ const DevisePlugin = {
     ) {
       store.commit('devise/setLayouts', window.deviseSettings.$config.layouts);
     }
+
+    performance.measure("beginning of install to here", startDevise);
+    console.log(performance.getEntriesByType("measure"));
   },
 };
 
