@@ -6,119 +6,119 @@
     >
       <div class="dvs-bg-grey-light dvs-flex dvs-flex-wrap dvs-items-center dvs-rounded dvs-rounded-b-none">
 
-        <button
+        <div
           class="wysiwyg-editor-button"
           :class="{ 'dvs-bg-grey': isActive.bold() }"
           @click="commands.bold"
         >
           <bold-icon />
-        </button>
+        </div>
 
-        <button
+        <div
           class="wysiwyg-editor-button"
           :class="{ 'dvs-bg-grey': isActive.italic() }"
           @click="commands.italic"
         >
           <italic-icon />
-        </button>
+        </div>
 
-        <button
+        <div
           class="wysiwyg-editor-button"
           :class="{ 'dvs-bg-grey': isActive.strike() }"
           @click="commands.strike"
         >
           <strike-icon />
-        </button>
+        </div>
 
-        <button
+        <div
           class="wysiwyg-editor-button"
           :class="{ 'dvs-bg-grey': isActive.underline() }"
           @click="commands.underline"
         >
           <underline-icon />
-        </button>
+        </div>
 
-        <button
+        <div
           class="wysiwyg-editor-button"
           :class="{ 'dvs-bg-grey': isActive.underline() }"
           @click="launchMediaManager(commands.image)"
         >
           <image-icon />
-        </button>
+        </div>
 
-        <!-- <button
+        <!-- <div
           class="wysiwyg-editor-button"
           :class="{ 'dvs-bg-grey': isActive.code() }"
           @click="commands.code"
         >
           <code-icon />
-        </button> -->
+        </div> -->
 
-        <button
+        <div
           class="wysiwyg-editor-button"
           :class="{ 'dvs-bg-grey': isActive.paragraph() }"
           @click="commands.paragraph"
         >
           P
-        </button>
+        </div>
 
-        <button
+        <div
           class="wysiwyg-editor-button"
           :class="{ 'dvs-bg-grey': isActive.heading({ level: 1 }) }"
           @click="commands.heading({ level: 1 })"
         >
           H1
-        </button>
+        </div>
 
-        <button
+        <div
           class="wysiwyg-editor-button"
           :class="{ 'dvs-bg-grey': isActive.heading({ level: 2 }) }"
           @click="commands.heading({ level: 2 })"
         >
           H2
-        </button>
+        </div>
 
-        <button
+        <div
           class="wysiwyg-editor-button"
           :class="{ 'dvs-bg-grey': isActive.heading({ level: 3 }) }"
           @click="commands.heading({ level: 3 })"
         >
           H3
-        </button>
+        </div>
 
-        <button
+        <div
           class="wysiwyg-editor-button"
           :class="{ 'dvs-bg-grey': isActive.bullet_list() }"
           @click="commands.bullet_list"
         >
           <menu-icon />
-        </button>
+        </div>
 
-        <button
+        <div
           class="wysiwyg-editor-button"
           :class="{ 'dvs-bg-grey': isActive.ordered_list() }"
           @click="commands.ordered_list"
         >
           <list-icon />
-        </button>
+        </div>
 
-        <button
-          class="dvs-p-2 dvs-text-2xl dvs-font-bold dvs-font-display"
+        <div
+          class="dvs-p-2 dvs-text-2xl dvs-font-bold dvs-font-display wysiwyg-editor-button"
           style="line-height:0.5; font-family:Verdana"
           :class="{ 'dvs-bg-grey': isActive.blockquote() }"
           @click="commands.blockquote"
         >
           &quot;
-        </button>
+        </div>
 
         <div>
-          <button
+          <div
             class="wysiwyg-editor-button"
             :class="{ 'is-active': isActive.textcolor({ color: 'red' }) }"
             @click="showTextColorPicker = true"
           >
             <type-icon />
-          </button>
+          </div>
           <div
             v-if="showTextColorPicker"
             class="dvs-absolute dvs-pin-t dvs--mt-8 dvs-bg-grey-lighter dvs-p-4 dvs-rounded dvs-shadow-lg"
@@ -130,143 +130,143 @@
             />
 
             <div class="dvs-flex dvs-items-stretch">
-              <button
+              <div
                 class="dvs-btn dvs-bg-black dvs-text-grey-lighter dvs-mr-2"
                 @click="applyTextColor(commands)"
               >
                 Apply
-              </button>
-              <button
+              </div>
+              <div
                 class="dvs-btn dvs-border-black dvs-text-black dvs-border-2"
                 @click="showTextColorPicker = false"
               >
                 Cancel
-              </button>
+              </div>
             </div>
           </div>
 
         </div>
 
-        <!-- <button
+        <!-- <div
           class="wysiwyg-editor-button"
           :class="{ 'dvs-bg-grey': isActive.code_block() }"
           @click="commands.code_block"
         >
           <code-icon />
-        </button> -->
-        <button
+        </div> -->
+        <div
           class="wysiwyg-editor-button"
           :class="{ 'is-active': isActive.alignment({ textAlign: 'left' }) }"
           @click="commands.alignment({ textAlign: 'left' })"
         >
           <align-left-icon />
-        </button>
+        </div>
 
-        <button
+        <div
           class="wysiwyg-editor-button"
           :class="{ 'is-active': isActive.alignment({ textAlign: 'center' }) }"
           @click="commands.alignment({ textAlign: 'center' })"
         >
           <align-center-icon />
-        </button>
+        </div>
 
-        <button
+        <div
           class="wysiwyg-editor-button"
           :class="{ 'is-active': isActive.alignment({ textAlign: 'center' }) }"
           @click="commands.alignment({ textAlign: 'right' })"
         >
           <align-right-icon />
-        </button>
+        </div>
 
-        <button
+        <div
           class="wysiwyg-editor-button"
           @click="commands.horizontal_rule"
         >
           <minus-icon />
-        </button>
+        </div>
 
-        <button
+        <div
           class="wysiwyg-editor-button"
           @click="commands.undo"
         >
           <corner-up-left-icon />
-        </button>
+        </div>
 
-        <button
+        <div
           class="wysiwyg-editor-button"
           @click="commands.redo"
         >
           <corner-up-right-icon />
-        </button>
+        </div>
 
-        <button
+        <div
           class="wysiwyg-editor-button"
           @click="commands.createTable({rowsCount: 3, colsCount: 3, withHeaderRow: false })"
         >
           <table-icon />
-        </button>
+        </div>
 
-        <button
+        <div
           class="wysiwyg-editor-button"
           :class="{ 'dvs-bg-grey': showSource }"
           @click="showSource = !showSource"
         >
           <code-icon />
-        </button>
+        </div>
 
         <span
           v-if="isActive.table()"
           class="dvs-bg-grey dvs-flex dvs-items-center"
         >
           <span class="dvs-text-2xs dvs-uppercase dvs-px-2 dvs-text-grey-darker">Table Controls</span>
-          <button
+          <div
             class="wysiwyg-editor-button"
             @click="commands.deleteTable"
           >
             <delete-table-icon />
-          </button>
-          <button
+          </div>
+          <div
             class="wysiwyg-editor-button"
             @click="commands.addColumnBefore"
           >
             <add-col-before-icon />
-          </button>
-          <button
+          </div>
+          <div
             class="wysiwyg-editor-button"
             @click="commands.addColumnAfter"
           >
             <add-col-after-icon />
-          </button>
-          <button
+          </div>
+          <div
             class="wysiwyg-editor-button"
             @click="commands.deleteColumn"
           >
             <delete-col-icon />
-          </button>
-          <button
+          </div>
+          <div
             class="wysiwyg-editor-button"
             @click="commands.addRowBefore"
           >
             <add-row-before-icon />
-          </button>
-          <button
+          </div>
+          <div
             class="wysiwyg-editor-button"
             @click="commands.addRowAfter"
           >
             <add-row-after-icon />
-          </button>
-          <button
+          </div>
+          <div
             class="wysiwyg-editor-button"
             @click="commands.deleteRow"
           >
             <delete-row-icon />
-          </button>
-          <button
+          </div>
+          <div
             class="wysiwyg-editor-button"
             @click="commands.toggleCellMerge"
           >
             <combine-cells-icon />
-          </button>
+          </div>
         </span>
 
       </div>
@@ -281,77 +281,77 @@
         :class="{ 'is-active': menu.isActive }"
         :style="`top: ${menu.top}px`"
       >
-        <button
+        <div
           class="wysiwyg-editor-button"
           :class="{ 'dvs-bg-grey': isActive.underline() }"
           @click="launchMediaManager(commands.image)"
         >
           <image-icon />
-        </button>
+        </div>
 
-        <button
+        <div
           class="wysiwyg-editor-button"
           :class="{ 'dvs-bg-grey': isActive.paragraph() }"
           @click="commands.paragraph"
         >
           P
-        </button>
+        </div>
 
-        <button
+        <div
           class="wysiwyg-editor-button"
           :class="{ 'dvs-bg-grey': isActive.heading({ level: 1 }) }"
           @click="commands.heading({ level: 1 })"
         >
           H1
-        </button>
+        </div>
 
-        <button
+        <div
           class="wysiwyg-editor-button"
           :class="{ 'dvs-bg-grey': isActive.heading({ level: 2 }) }"
           @click="commands.heading({ level: 2 })"
         >
           H2
-        </button>
+        </div>
 
-        <button
+        <div
           class="wysiwyg-editor-button"
           :class="{ 'dvs-bg-grey': isActive.heading({ level: 3 }) }"
           @click="commands.heading({ level: 3 })"
         >
           H3
-        </button>
+        </div>
 
-        <button
+        <div
           class="wysiwyg-editor-button"
           :class="{ 'dvs-bg-grey': isActive.bullet_list() }"
           @click="commands.bullet_list"
         >
           <menu-icon />
-        </button>
+        </div>
 
-        <button
+        <div
           class="wysiwyg-editor-button"
           :class="{ 'dvs-bg-grey': isActive.ordered_list() }"
           @click="commands.ordered_list"
         >
           <list-icon />
-        </button>
+        </div>
 
-        <button
-          class="dvs-p-2 dvs-text-2xl dvs-font-bold dvs-font-display"
+        <div
+          class="dvs-p-2 dvs-text-2xl dvs-font-bold dvs-font-display wysiwyg-editor-button"
           style="line-height:0.5;"
           :class="{ 'dvs-bg-grey': isActive.blockquote() }"
           @click="commands.blockquote"
         >
           &quot;
-        </button>
+        </div>
 
-        <button
+        <div
           class="wysiwyg-editor-button"
           @click="commands.createTable({rowsCount: 3, colsCount: 3, withHeaderRow: false })"
         >
           <table-icon />
-        </button>
+        </div>
 
       </div>
     </editor-floating-menu>
@@ -377,18 +377,18 @@
       <h4 class="dvs-pb-4">Image Positioning:</h4>
 
       <div class="dvs-flex dvs-mb-4">
-        <button
+        <div
           class="dvs-btn dvs-mr-2 dvs-btn-primary dvs-btn-sm"
           @click="setImageFloat('left')"
-        >Float Left</button>
-        <button
+        >Float Left</div>
+        <div
           class="dvs-btn dvs-mr-2 dvs-btn-primary dvs-btn-sm"
           @click="setImageFloat('')"
-        >No Float</button>
-        <button
+        >No Float</div>
+        <div
           class="dvs-btn dvs-mr-2 dvs-btn-primary dvs-btn-sm"
           @click="setImageFloat('right')"
-        >Float Right</button>
+        >Float Right</div>
       </div>
 
       <div class="dvs-mb-4">
@@ -406,10 +406,10 @@
 
       <div class="dvs-pb-8">
         <fieldset class="dvs-fieldset">
-          <button
+          <div
             class="dvs-btn dvs-btn-primary"
             @click="doneEditingImageStyles"
-          >Done</button>
+          >Done</div>
         </fieldset>
       </div>
 
@@ -417,10 +417,10 @@
 
       <div>
         <fieldset class="dvs-fieldset">
-          <button
+          <div
             class="dvs-btn dvs-btn-primary"
             @click="removeImage"
-          >Remove Image</button>
+          >Remove Image</div>
         </fieldset>
       </div>
     </div>
@@ -564,7 +564,8 @@ export default {
           new TextAlign(),
           new TextColor(),
         ],
-        onUpdate: this.update
+        onUpdate: this.update,
+        autoFocus: false
       }),
       imageToManage: null,
       showSource: false,

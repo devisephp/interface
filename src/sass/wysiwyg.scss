@@ -124,7 +124,7 @@
 }
 
 .wysiwyg-editor-button {
-  @apply dvs-p-3 dvs-text-xs dvs-font-bold;
+  @apply dvs-cursor-pointer dvs-p-3 dvs-text-xs dvs-font-bold dvs-text-grey-darkest;
 }
 
 .editor__floating-menu {

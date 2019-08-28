@@ -78,7 +78,7 @@
               <button
                 class="dvs-btn dvs-btn-primary dvs-mr-2"
                 @click="nextStep"
-                v-else-if="mode === 'inserting' && newSlice.type === 'model' && step === 1"
+                v-else-if="newSlice.type === 'model' && step === 1"
                 :disabled="modelQueryInvalid"
               >Next</button>
               <button
@@ -131,7 +131,6 @@ export default {
       // If slice is set it's an edit
       if (this.slice) {
         this.newSlice.type = this.slice.metadata.type;
-        console.log(this.slice)
         this.modelQuery = this.slice.metadata.model_query
       }
     });

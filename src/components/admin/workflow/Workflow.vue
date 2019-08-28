@@ -94,6 +94,7 @@ export default {
       if (this.workflowStack.length > 1) {
         this.workflowStack.splice(-1, 1)
         delete this.currentStep.value
+        window.deviseSettings.$bus.$emit('dvs-admin-container-content-changed')
       } else {
         this.$router.go(-1);
       }

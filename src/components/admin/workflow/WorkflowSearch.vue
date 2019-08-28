@@ -19,17 +19,17 @@
       <li
         v-for="(suggestion, key) in autosuggest.data"
         :key="key"
-        class="dvs-bg-admin-bg dvs-shadow hover:dvs-shadow-lg dvs-rounded dvs-my-4 dvs-p-2 dvs-cursor-pointer"
+        class="dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-shadow hover:dvs-shadow-lg dvs-rounded dvs-my-4 dvs-p-4 dvs-cursor-pointer"
         @click="selectSuggestion(suggestion)"
       >
-        <div class="dvs-text-lg dvs-mb-2">{{ suggestion[mainLabelField] }}</div>
+        <div class="dvs-text-lg dvs-mb-2 dvs-font-light">{{ suggestion[mainLabelField] }}</div>
         <ul class="dvs-list-reset dvs-flex">
           <li
             v-for="(subField, subkey) in subLabelFields"
             :key="subkey"
-            class="dvs-mr-4 dvs-text-xs dvs-leading-tight"
+            class="dvs-mr-4 dvs-text-xs dvs-leading-tight dvs-w-1/4 dvs-bg-admin-bg dvs-text-admin-fg dvs-rounded dvs-p-3 opacity-75"
           >
-            <div class="dvs-uppercase dvs-text-xs dvs-text-admin-secondary-fg">{{ subField.label }}</div>
+            <div class="dvs-uppercase dvs-text-xs">{{ subField.label }}</div>
             <div>{{ format(subField, suggestion[subField.field]) }}</div>
           </li>
         </ul>

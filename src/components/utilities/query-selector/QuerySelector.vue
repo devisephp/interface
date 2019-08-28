@@ -5,7 +5,7 @@
       <select
         name="querykey"
         id="querykey"
-        v-model="query.key"
+        v-model="query"
         class="w-full"
       >
         <option
@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   name: 'QuerySelector',
@@ -75,7 +75,7 @@ export default {
   },
   watch: {
     selectedModelQuery: {
-      handler (newValue) {
+      handler (newValue, oldValue) {
         const finalParams = []
         newValue.params.forEach(param => {
           finalParams.push(param.value)
@@ -84,6 +84,13 @@ export default {
           key: newValue.key,
           params: finalParams
         }
+
+        // If it's the first time 
+        if (!oldValue) {
+          finalModelQuery.params = this.loadPreviousParams()
+          console.log(finalModelQuery)
+        }
+
         this.$emit('input', finalModelQuery)
       },
       deep: true
@@ -92,17 +99,34 @@ export default {
   computed: {
     ...mapState('devise', ['modelQueries']),
     selectedModelQuery () {
-      return this.modelQueries.find(mq => mq.key === this.query.key)
+      return this.modelQueries.find(mq => mq.key === this.query)
     },
   },
   data () {
     return {
-      query: {
-        key: null,
-        params: []
-      },
-      modelQuery: {}
+      query: '',
+      initialParams: []
     }
   },
+  mounted () {
+    if (this.value && this.value.key) {
+      this.loadPreviousState()
+    }
+  },
+  methods: {
+    loadPreviousState () {
+      this.query = this.value.key
+      this.initialParams = this.value.params
+    },
+    loadPreviousParams () {
+      const params = []
+      this.selectedModelQuery.params.forEach((p, key) => {
+        const param = Object.assign({}, p);
+        this.$set(param, 'value', this.initialParams[key])
+        this.selectedModelQuery.params[key] = Object.assign({}, param)
+      })
+      return params
+    }
+  }
 }
 </script>

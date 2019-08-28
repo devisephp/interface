@@ -55,7 +55,7 @@
       <li
         v-for="(suggestion, key) in selected"
         :key="key"
-        class="dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-rounded dvs-my-4 dvs-p-2 dvs-flex"
+        class="dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-shadow hover:dvs-shadow-lg dvs-rounded dvs-my-4 dvs-p-4 dvs-cursor-pointer"
       >
         <div
           class="dvs-mr-4 handle"
@@ -70,9 +70,9 @@
             <li
               v-for="(subField, subkey) in subLabelFields(suggestion.displayFields)"
               :key="subkey"
-              class="dvs-mr-4 dvs-text-xs dvs-leading-tight"
+              class="dvs-mr-4 dvs-text-xs dvs-leading-tight dvs-w-1/4 dvs-bg-admin-bg dvs-text-admin-fg dvs-rounded dvs-p-3 opacity-75"
             >
-              <div class="dvs-uppercase dvs-text-xs dvs-text-admin-secondary-fg">{{ subField.label }}</div>
+              <div class="dvs-uppercase dvs-text-xs">{{ subField.label }}</div>
               <div>{{ subField.value }}</div>
             </li>
           </ul>
@@ -125,8 +125,13 @@ export default {
       selected: []
     }
   },
+  mounted () {
+    if (this.value.value && Object.keys(this.value.value).length > this.selected.length) {
+      this.requestLegacySelected()
+    }
+  },
   methods: {
-    ...mapActions('devise', ['appGenericSearch']),
+    ...mapActions('devise', ['appGenericSearch', 'getGeneric']),
     update () {
       const newValue = this.value
       newValue.value = []
@@ -184,6 +189,23 @@ export default {
       secondaryFields.shift()
       return secondaryFields;
     },
+    requestLegacySelected () {
+      if (this.value.editApi) {
+        this.getGeneric({
+          config: {
+            apiendpoint: this.value.editApi,
+            app: true
+          },
+          filters: {
+            ids: this.value.value.join(',')
+          }
+        }).then(response => {
+          this.selected = [...response.data.data]
+        })
+      } else {
+        console.warn('Devise: You must have an editApi endpoint configured AppServiceProvider ModelQuery::set to edit model slices')
+      }
+    }
   }
 }
 </script>
