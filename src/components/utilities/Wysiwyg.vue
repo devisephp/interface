@@ -433,7 +433,6 @@
 </template>
 
 <script>
-import { Sketch } from 'vue-color';
 import { Editor, EditorFloatingMenu, EditorContent, EditorMenuBar } from 'tiptap'
 import {
   Blockquote,
@@ -461,6 +460,8 @@ import {
 } from 'tiptap-extensions'
 import TextAlign from './wysiwyg/tiptap/extensions/TextAlign'
 import TextColor from './wysiwyg/tiptap/extensions/TextColor'
+
+const { Sketch } = import(/* webpackChunkName: "vue-color" */ 'vue-color')
 
 export default {
   props: {

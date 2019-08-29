@@ -18,7 +18,7 @@
 
 <script>
 import ResizeObserver from 'resize-observer-polyfill'; // eslint-disable-line
-import { Sketch } from 'vue-color';
+const { Sketch } = import(/* webpackChunkName: "vue-color" */ 'vue-color')
 import queryString from 'query-string';
 
 import mezr from 'mezr';
@@ -28,7 +28,7 @@ import { mapGetters, mapActions } from 'vuex';
 import Strings from '../../mixins/Strings';
 import Slice from './Slice.vue'; // eslint-disable-line
 
-const tinycolor = require('tinycolor2');
+const tinycolor = require(/* webpackChunkName: "tinycolor2" */ 'tinycolor2');
 
 export default {
   /* eslint-disable camelcase */

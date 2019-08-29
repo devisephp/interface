@@ -9,11 +9,10 @@
 </template>
 
 <script>
-import flatPickr from 'vue-flatpickr-component';
-import dayjs from 'dayjs';
+const dayjs = require(/* webpackChunkName: "dayjs" */ 'dayjs');
 
 export default {
-  data() {
+  data () {
     return {
       config: {
         noCalendar: !this.settings.date,
@@ -23,11 +22,11 @@ export default {
     };
   },
   methods: {
-    updateValue(value) {
+    updateValue (value) {
       value = this.formatValue(value);
       this.localDateTime = value;
     },
-    formatValue(value) {
+    formatValue (value) {
       if (this.settings.format) {
         return dayjs(value).format(this.settings.format);
       }
@@ -50,17 +49,18 @@ export default {
   },
   computed: {
     localDateTime: {
-      get() {
+      get () {
         return this.value;
       },
-      set(value) {
+      set (value) {
         this.$emit('input', value);
         this.$emit('change', value);
       },
     },
   },
   components: {
-    flatPickr,
+    flatPickr: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-flatpickr-component'),
   },
   props: ['value', 'settings', 'placeholder'],
 };

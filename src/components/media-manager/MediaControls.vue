@@ -264,11 +264,11 @@
 </template>
 
 <script>
-import { Sketch } from 'vue-color';
-
 import { mapMutations, mapState } from 'vuex';
 
-const tinycolor = require('tinycolor2');
+const { Sketch } = import(/* webpackChunkName: "vue-color" */ 'vue-color')
+
+const tinycolor = require(/* webpackChunkName: "tinycolor2" */ 'tinycolor2');
 
 export default {
   name: 'MediaEditorControls',

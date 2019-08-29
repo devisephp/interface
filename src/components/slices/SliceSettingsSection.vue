@@ -143,7 +143,7 @@
 </template>
 
 <script>
-import { Sketch } from 'vue-color';
+const { Sketch } = import(/* webpackChunkName: "vue-color" */ 'vue-color')
 
 export default {
   data () {

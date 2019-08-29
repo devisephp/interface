@@ -75,7 +75,7 @@ export default {
   mixins: [Strings, Field],
   components: {
     FieldEditor: () => import(/* webpackChunkName: "devise-editors" */ './Field'),
-    Wysiwyg: () => import(/* webpackChunkName: "devise-utilities" */ '../../utilities/Wysiwyg'),
+    Wysiwyg: () => import(/* webpackChunkName: "devise-wysiwyg" */ '../../utilities/Wysiwyg'),
   },
 };
 </script>

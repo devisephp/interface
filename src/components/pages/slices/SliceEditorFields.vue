@@ -125,7 +125,7 @@ export default {
     SelectEditor: () => import(/* webpackChunkName: "devise-editors" */ '../editor/Select'),
     TextareaEditor: () => import(/* webpackChunkName: "devise-editors" */ '../editor/Textarea'),
     TextEditor: () => import(/* webpackChunkName: "devise-editors" */ '../editor/Text'),
-    WysiwygEditor: () => import(/* webpackChunkName: "devise-editors" */ '../editor/Wysiwyg'),
+    WysiwygEditor: () => import(/* webpackChunkName: "devise-wysiwyg" */ '../editor/Wysiwyg'),
   },
   methods: {
     editField (value, field, key) {

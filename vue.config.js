@@ -23,7 +23,7 @@ const pagesObject = {
 module.exports = {
   outputDir: './dist',
   publicPath: '/devise',
-  runtimeCompiler: true,
+  runtimeCompiler: false,
   filenameHashing: process.env.NODE_ENV === 'production',
   configureWebpack: {
     plugins: [
