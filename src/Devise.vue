@@ -18,14 +18,6 @@
           <slot name="on-top"></slot>
           <slot name="static-content"></slot>
 
-          <template v-if="typeof currentPage !== 'undefined' && currentPage.slices">
-            <slices
-              v-if="timeToShow"
-              :slices="currentPage.slices"
-              :editor-mode="can('access admin') && !isPreviewFrame"
-            ></slices>
-          </template>
-
           <!-- Logged in - no slices yet -->
           <div
             v-if="isLoggedIn && typeof currentPage !== 'undefined' && currentPage.slices && currentPage.slices.length < 1"
