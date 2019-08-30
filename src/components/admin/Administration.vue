@@ -87,10 +87,12 @@ import { setInterval } from 'timers';
 const Help = import(/* webpackChunkName: "devise-administration" */ "../utilities/Help.vue")
 const alertConfirm = import(/* webpackChunkName: "devise-administration" */ '../../directives/alert-confirm')
 const Tuck = import(/* webpackChunkName: "devise-administration" */ '../../directives/tuck')
+const Vue2Scrollbar = require(/* webpackChunkName: "devise-administration" */ 'vue2-scrollbar');
 
 Vue.directive('tuck', Tuck);
 Vue.directive('devise-alert-confirm', alertConfirm);
 Vue.component('help', Help);
+Vue.component('vue-scrollbar', Vue2Scrollbar);
 
 export default {
   name: 'Administration',

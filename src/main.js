@@ -13,7 +13,7 @@ import Slices from './components/slices/Slices.vue';
 
 const EditPage = import(/* webpackChunkName: "devise-administration" */ './components/pages/Editor.vue')
 // const Installer = import(/* webpackChunkName: "devise-installer" */ './components/installer/Installer.vue');
-const Vue2Scrollbar = require(/* webpackChunkName: "vue-scrollbar" */ 'vue2-scrollbar');
+
 
 const DevisePlugin = {
   install (Vue, { store, router, bus, options }) {
@@ -76,16 +76,11 @@ const DevisePlugin = {
     // Portals to render items outside of their component
     Vue.use(PortalVue);
 
-    // Scrollactive 
-    Vue.use(VueScrollactive);
-
     // Register global components
-
     Vue.component('devise', Devise);
     Vue.component('slices', Slices);
     Vue.component('messages', Messages);
     // Vue.component('devise-installer', Installer);
-    Vue.component('vue-scrollbar', Vue2Scrollbar);
 
     // Users Admin
     Vue.component('devise-user-create', () =>
