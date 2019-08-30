@@ -177,7 +177,7 @@ export default {
   },
   components: {
     Administration: () =>
-      import(/* webpackChunkName: "devise-admin" */ './components/admin/Administration.vue'),
+      import(/* webpackChunkName: "devise-administration" */ './components/admin/Administration.vue'),
   },
 };
 </script>

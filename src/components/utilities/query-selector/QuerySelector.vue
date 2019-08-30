@@ -88,7 +88,6 @@ export default {
         // If it's the first time 
         if (!oldValue) {
           finalModelQuery.params = this.loadPreviousParams()
-          console.log(finalModelQuery)
         }
 
         this.$emit('input', finalModelQuery)

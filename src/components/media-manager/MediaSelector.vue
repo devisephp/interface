@@ -72,10 +72,7 @@
       class="dvs-flex dvs-items-stretch"
       style="max-height:80vh"
     >
-      <div
-        v-bar
-        class="dvs-min-w-1/3 dvs-max-h-full"
-      >
+      <div class="dvs-min-w-1/3 dvs-max-h-full">
         <div>
           <div class="dvs-h-full dvs-p-8 dvs-bg-grey-lightest dvs-flex dvs-flex-col dvs-justify-between dvs-border-r dvs-border-lighter">
             <form @submit.prevent="search">

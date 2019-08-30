@@ -4,7 +4,7 @@
     :class="[deviseOptions.adminClass]"
   >
     <panel
-      class="dvs-m-8 dvs-fixed dvs-pin dvs-z-9980 dvs-flex dvs-pointer-events-none "
+      class="dvs-m-8 dvs-fixed dvs-pin dvs-z-9980 dvs-flex dvs-pointer-events-none"
       v-tuck
     >
       <div class="dvs-flex dvs-shadow dvs-flex-col dvs-relative dvs-rounded dvs-bg-admin-bg dvs-pointer-events-auto">
@@ -83,16 +83,6 @@
 import Vue from 'vue';
 import { mapState, mapActions } from 'vuex';
 import { setInterval } from 'timers';
-
-const Help = import(/* webpackChunkName: "devise-administration" */ "../utilities/Help.vue")
-const alertConfirm = import(/* webpackChunkName: "devise-administration" */ '../../directives/alert-confirm')
-const Tuck = import(/* webpackChunkName: "devise-administration" */ '../../directives/tuck')
-const Vue2Scrollbar = require(/* webpackChunkName: "devise-administration" */ 'vue2-scrollbar');
-
-Vue.directive('tuck', Tuck);
-Vue.directive('devise-alert-confirm', alertConfirm);
-Vue.component('help', Help);
-Vue.component('vue-scrollbar', Vue2Scrollbar);
 
 export default {
   name: 'Administration',

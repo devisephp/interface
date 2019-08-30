@@ -5,6 +5,8 @@ import iziToast from 'izitoast';
 import Devise from './Devise.vue';
 import DeviseStore from './vuex/store';
 import DeviseBus from './event-bus';
+import Tuck from './directives/tuck'
+import alertConfirm from './directives/alert-confirm'
 import Image from './directives/image';
 import Link from './directives/link';
 import Messages from './components/utilities/Messages.vue'
@@ -12,14 +14,11 @@ import routes from './router/route.config';
 import Slices from './components/slices/Slices.vue';
 
 const EditPage = import(/* webpackChunkName: "devise-administration" */ './components/pages/Editor.vue')
-// const Installer = import(/* webpackChunkName: "devise-installer" */ './components/installer/Installer.vue');
-
+const Help = import(/* webpackChunkName: "devise-administration" */ "./components/utilities/Help.vue")
+const Installer = import(/* webpackChunkName: "devise-installer" */ './components/installer/Installer.vue');
 
 const DevisePlugin = {
   install (Vue, { store, router, bus, options }) {
-    const startDevise = 'start-devise'
-    performance.mark(startDevise);
-
     if (typeof store === 'undefined') {
       throw new Error('Please provide a vuex store.');
     }
@@ -80,7 +79,11 @@ const DevisePlugin = {
     Vue.component('devise', Devise);
     Vue.component('slices', Slices);
     Vue.component('messages', Messages);
-    // Vue.component('devise-installer', Installer);
+    Vue.component('help', Help);
+    Vue.component('devise-installer', Installer);
+
+    Vue.directive('tuck', Tuck);
+    Vue.directive('devise-alert-confirm', alertConfirm);
 
     // Users Admin
     Vue.component('devise-user-create', () =>
@@ -271,9 +274,6 @@ const DevisePlugin = {
     ) {
       store.commit('devise/setLayouts', window.deviseSettings.$config.layouts);
     }
-
-    performance.measure("beginning of install to here", startDevise);
-    console.log(performance.getEntriesByType("measure"));
   },
 };
 

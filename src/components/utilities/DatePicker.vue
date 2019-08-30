@@ -60,7 +60,7 @@ export default {
   },
   components: {
     flatPickr: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-flatpickr-component'),
+      import(/* webpackChunkName: "devise-flatpickr" */ 'vue-flatpickr-component'),
   },
   props: ['value', 'settings', 'placeholder'],
 };

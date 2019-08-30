@@ -8,7 +8,7 @@
       <ul class="dvs-list-reset dvs-flex dvs-flex-wrap dvs-justify-between">
         <li
           class="dvs-py-6 dvs-mr-8"
-          v-for="(menuItem, key) in currentMenuItems"
+          v-for="menuItem in currentMenuItems"
           :key="menuItem.id"
         >
           <div

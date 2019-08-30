@@ -285,6 +285,7 @@ export default {
     MediaControls: () => import(/* webpackChunkName: "devise-media" */ './MediaControls'),
     MediaThumbnails: () => import(/* webpackChunkName: "devise-media" */ './MediaThumbnails'),
     MediaEditorPreview: () => import(/* webpackChunkName: "devise-media" */ './MediaEditorPreview'),
+    VueScrollbar: () => import(/* webpackChunkName: "devise-administration" */ 'vue2-scrollbar'),
   },
 };
 </script>

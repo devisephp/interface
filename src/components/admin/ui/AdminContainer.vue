@@ -19,6 +19,9 @@
 
 export default {
   name: 'DeviseAdminContainer',
+  components: {
+    VueScrollbar: () => import(/* webpackChunkName: "devise-administration" */ 'vue2-scrollbar'),
+  },
   data () {
     return {
       maxHeight: 300

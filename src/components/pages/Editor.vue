@@ -369,6 +369,7 @@ export default {
     SliceEditor: () => import(/* webpackChunkName: "devise-editors" */ './slices/SliceEditor'),
     SliceEditorFields: () => import(/* webpackChunkName: "devise-editors" */ "./slices/SliceEditorFields"),
     Toggle: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/Toggle'),
+    VueScrollbar: () => import(/* webpackChunkName: "devise-administration" */ 'vue2-scrollbar'),
   },
 };
 </script>

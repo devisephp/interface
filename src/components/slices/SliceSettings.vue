@@ -40,10 +40,7 @@
         </div>
       </div>
       <div class="dvs-p-8">
-        <div
-          v-bar
-          style="height: calc(100vh - 150px);"
-        >
+        <div style="height: calc(100vh - 150px);">
           <div>
             <div>
               <slice-settings-section
