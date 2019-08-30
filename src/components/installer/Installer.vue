@@ -89,9 +89,13 @@
 </template>
 
 <script>
+import Vue from 'vue';
 import { mapActions, mapState } from 'vuex';
 
 const Prism = import(/* webpackChunkName: "devise-installer" */ 'prismjs')
+const VueScrollactive = import(/* webpackChunkName: "devise-installer" */ 'vue-scrollactive')
+
+Vue.use(VueScrollactive);
 
 import(/* webpackChunkName: "devise-installer" */ 'prismjs/components/prism-clike.min');
 import(/* webpackChunkName: "devise-installer" */ 'prismjs/components/prism-markup-templating.min');

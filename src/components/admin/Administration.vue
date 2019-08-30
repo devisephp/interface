@@ -84,6 +84,14 @@ import Vue from 'vue';
 import { mapState, mapActions } from 'vuex';
 import { setInterval } from 'timers';
 
+const Help = import(/* webpackChunkName: "devise-administration" */ "../utilities/Help.vue")
+const alertConfirm = import(/* webpackChunkName: "devise-administration" */ '../../directives/alert-confirm')
+const Tuck = import(/* webpackChunkName: "devise-administration" */ '../../directives/tuck')
+
+Vue.directive('tuck', Tuck);
+Vue.directive('devise-alert-confirm', alertConfirm);
+Vue.component('help', Help);
+
 export default {
   name: 'Administration',
   data () {

@@ -12,20 +12,13 @@ import routes from './router/route.config';
 import Slices from './components/slices/Slices.vue';
 
 const EditPage = import(/* webpackChunkName: "devise-administration" */ './components/pages/Editor.vue')
-const Help = import(/* webpackChunkName: "devise-administration" */ './components/utilities/Help.vue')
-const alertConfirm = import(/* webpackChunkName: "devise-administration" */ './directives/alert-confirm')
-const Tuck = import(/* webpackChunkName: "devise-administration" */ './directives/tuck')
-const Installer = import(/* webpackChunkName: "devise-installer" */ './components/installer/Installer.vue')
-const VueScrollactive = import(/* webpackChunkName: "devise-installer" */ 'vue-scrollactive')
+// const Installer = import(/* webpackChunkName: "devise-installer" */ './components/installer/Installer.vue');
 const Vue2Scrollbar = require(/* webpackChunkName: "vue-scrollbar" */ 'vue2-scrollbar');
 
 const DevisePlugin = {
   install (Vue, { store, router, bus, options }) {
     const startDevise = 'start-devise'
     performance.mark(startDevise);
-
-    // Register tuck directive
-    Vue.directive('tuck', Tuck);
 
     if (typeof store === 'undefined') {
       throw new Error('Please provide a vuex store.');
@@ -91,7 +84,7 @@ const DevisePlugin = {
     Vue.component('devise', Devise);
     Vue.component('slices', Slices);
     Vue.component('messages', Messages);
-    Vue.component('devise-installer', Installer);
+    // Vue.component('devise-installer', Installer);
     Vue.component('vue-scrollbar', Vue2Scrollbar);
 
     // Users Admin
@@ -177,12 +170,6 @@ const DevisePlugin = {
     // Register link directive
     Vue.directive('devise-link', Link);
 
-    // Register link directive
-    Vue.directive('devise-alert-confirm', alertConfirm);
-
-    // Register Help component
-    Vue.component('help', Help);
-
     const deviseOptions = Object.assign(
       {
         breakpoints: {
@@ -209,9 +196,6 @@ const DevisePlugin = {
     };
 
     Vue.use(VueNotifications, vueNotificationsOptions);
-
-    // For administration sidebars
-    Vue.use(VueScrollactive);
 
     // enables passive event listeners by default for some events
     // require('default-passive-events');
