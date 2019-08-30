@@ -37,7 +37,7 @@
 import Field from '../../../mixins/Field';
 
 const { Sketch } = import(/* webpackChunkName: "vue-color" */ 'vue-color')
-const tinycolor = require(/* webpackChunkName: "tinycolor2" */ 'tinycolor2');
+const tinycolor = require(/* webpackChunkName: "tinycolor" */ 'tinycolor2');
 
 export default {
   name: 'ColorEditor',

@@ -28,7 +28,7 @@ import { mapGetters, mapActions } from 'vuex';
 import Strings from '../../mixins/Strings';
 import Slice from './Slice.vue'; // eslint-disable-line
 
-const tinycolor = require(/* webpackChunkName: "tinycolor2" */ 'tinycolor2');
+const tinycolor = require(/* webpackChunkName: "tinycolor" */ 'tinycolor2');
 
 export default {
   /* eslint-disable camelcase */

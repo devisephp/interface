@@ -95,7 +95,7 @@ import Vue from 'vue';
 import Strings from '../../mixins/Strings';
 import SliceSettingsSection from './SliceSettingsSection.vue';
 
-const tinycolor = require(/* webpackChunkName: "tinycolor2" */ 'tinycolor2');
+const tinycolor = require(/* webpackChunkName: "tinycolor" */ 'tinycolor2');
 
 export default {
   name: 'SliceSettings',

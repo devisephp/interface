@@ -1,22 +1,23 @@
 import PortalVue from 'portal-vue';
 import { mapGetters } from 'vuex';
 import VueNotifications from 'vue-notifications';
-import iziToast from 'izitoast'; // https://github.com/dolce/iziToast
-import VueScrollactive from 'vue-scrollactive';
-import Vue2Scrollbar from 'vue2-scrollbar';
+import iziToast from 'izitoast';
 import Devise from './Devise.vue';
 import DeviseStore from './vuex/store';
 import DeviseBus from './event-bus';
-import EditPage from './components/pages/Editor.vue';
-import Help from './components/utilities/Help.vue';
 import Image from './directives/image';
-import Installer from './components/installer/Installer.vue';
 import Link from './directives/link';
 import Messages from './components/utilities/Messages.vue'
 import routes from './router/route.config';
 import Slices from './components/slices/Slices.vue';
-import Tuck from './directives/tuck';
-import alertConfirm from './directives/alert-confirm';
+
+const EditPage = import(/* webpackChunkName: "devise-administration" */ './components/pages/Editor.vue')
+const Help = import(/* webpackChunkName: "devise-administration" */ './components/utilities/Help.vue')
+const alertConfirm = import(/* webpackChunkName: "devise-administration" */ './directives/alert-confirm')
+const Tuck = import(/* webpackChunkName: "devise-administration" */ './directives/tuck')
+const Installer = import(/* webpackChunkName: "devise-installer" */ './components/installer/Installer.vue')
+const VueScrollactive = import(/* webpackChunkName: "devise-installer" */ 'vue-scrollactive')
+const Vue2Scrollbar = require(/* webpackChunkName: "vue-scrollbar" */ 'vue2-scrollbar');
 
 const DevisePlugin = {
   install (Vue, { store, router, bus, options }) {

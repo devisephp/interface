@@ -91,15 +91,16 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 
-import Prism from 'prismjs';
-import 'prismjs/components/prism-clike.min';
-import 'prismjs/components/prism-markup-templating.min';
-import 'prismjs/components/prism-php.min';
-import 'prismjs/components/prism-ini.min';
-import 'prismjs/components/prism-javascript.min';
-import 'prismjs/components/prism-bash.min';
-import 'prismjs/plugins/normalize-whitespace/prism-normalize-whitespace';
-import 'prismjs/plugins/line-numbers/prism-line-numbers';
+const Prism = import(/* webpackChunkName: "devise-installer" */ 'prismjs')
+
+import(/* webpackChunkName: "devise-installer" */ 'prismjs/components/prism-clike.min');
+import(/* webpackChunkName: "devise-installer" */ 'prismjs/components/prism-markup-templating.min');
+import(/* webpackChunkName: "devise-installer" */ 'prismjs/components/prism-php.min');
+import(/* webpackChunkName: "devise-installer" */ 'prismjs/components/prism-ini.min');
+import(/* webpackChunkName: "devise-installer" */ 'prismjs/components/prism-javascript.min');
+import(/* webpackChunkName: "devise-installer" */ 'prismjs/components/prism-bash.min');
+import(/* webpackChunkName: "devise-installer" */ 'prismjs/plugins/normalize-whitespace/prism-normalize-whitespace');
+import(/* webpackChunkName: "devise-installer" */ 'prismjs/plugins/line-numbers/prism-line-numbers');
 
 export default {
   mounted () {
