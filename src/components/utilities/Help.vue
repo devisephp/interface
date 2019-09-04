@@ -11,6 +11,7 @@
       <div class="dvs-text-admin-highlight-bg dvs-bg-admin-highlight-fg dvs-flex dvs-items-center dvs-justify-center dvs-px-4 dvs-text-xl ">
         <help-circle-icon></help-circle-icon>
       </div>
+
       <div class=" dvs-p-4 ">
         <p>
           <slot></slot>

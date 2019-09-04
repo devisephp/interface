@@ -576,7 +576,11 @@ export default {
     }
   },
   mounted () {
-    this.editor.setContent(this.value)
+    if (typeof this.value !== 'undefined') {
+      this.editor.setContent(this.value)
+    } else {
+      console.warn('Devise: The initial value for the WYSIWYG field was undefined. Consider wrapping it in a v-if until the model is resolved.')
+    }
   },
   beforeDestroy () {
     this.editor.destroy()

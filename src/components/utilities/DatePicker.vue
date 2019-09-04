@@ -62,6 +62,23 @@ export default {
     flatPickr: () =>
       import(/* webpackChunkName: "devise-flatpickr" */ 'vue-flatpickr-component'),
   },
-  props: ['value', 'settings', 'placeholder'],
+  props: {
+    value: {
+      required: true
+    },
+    settings: {
+      type: Object,
+      default: () => {
+        return {
+          date: true,
+          time: true
+        }
+      }
+    },
+    placeholder: {
+      type: String,
+      default: 'Please select from the calendar'
+    }
+  }
 };
 </script>
