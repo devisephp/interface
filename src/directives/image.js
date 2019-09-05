@@ -67,7 +67,7 @@ export default function (el, binding) {
         if (background) {
           el.style.backgroundImage = `url('${theImage}')`;
         } else {
-          el[srcAttr] = theImage;
+          el.setAttribute(srcAttr, theImage)
 
           if (image.alt) {
             el.alt = image.alt;
