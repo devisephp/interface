@@ -15,25 +15,27 @@ export default function (el, binding) {
     const theImageSize = () => {
       const { sizes } = image;
 
-      // Search the sizes for the right size based on the current breakpoint
+      if (typeof sizes === 'undefined' && !sizes[Object.keys(sizes)[0]]) {
+        return false
+      }
+
       for (const size in sizes) {
         if (sizes.hasOwnProperty(size)) {
           const sizeSettings = sizes[size];
 
           if (sizeSettings.breakpoints) {
-            sizeSettings.breakpoints.map(bp => bp.toLowerCase())
-            if (sizeSettings.breakpoints.includes(breakpoint.toLowerCase())) {
+            const breakpoints = sizeSettings.breakpoints.map(bp => bp.toLowerCase())
+            if (breakpoints.includes(breakpoint.toLowerCase())) {
               return { size, settings: sizeSettings };
             }
           }
-          // If breakpoints isn't set assume only one size and return it
-          const defaultSize = sizes[Object.keys(sizes)[0]]
-          return { defaultSize, settings: sizes[defaultSize] };
         }
       }
+      // console.log('here!!!', sizes, breakpoint)
       // We couldn't find the size so return the first one
-
-      return false
+      // If breakpoints isn't set assume only one size and return it
+      const defaultSize = sizes[Object.keys(sizes)[0]]
+      return { defaultSize, settings: sizes[defaultSize] };
     };
 
     const setImage = () => {
@@ -42,6 +44,7 @@ export default function (el, binding) {
         // set that instead
         let theImage = image.url;
         let theSize = null;
+
 
         // Get the image size if sizes are present
         if (image.media) {
@@ -60,6 +63,7 @@ export default function (el, binding) {
         } else {
           noSize = true;
         }
+
         if (background) {
           el.style.backgroundImage = `url('${theImage}')`;
         } else {
@@ -81,6 +85,7 @@ export default function (el, binding) {
       const lazyImageObserver = new IntersectionObserver(entries => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
+
             setImage();
 
             lazyImageObserver.unobserve(el);

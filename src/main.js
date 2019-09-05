@@ -14,7 +14,6 @@ import routes from './router/route.config';
 import Slices from './components/slices/Slices.vue';
 
 const EditPage = import(/* webpackChunkName: "devise-administration" */ './components/pages/Editor.vue')
-const Help = import(/* webpackChunkName: "devise-administration" */ "./components/utilities/Help.vue")
 const Installer = import(/* webpackChunkName: "devise-installer" */ './components/installer/Installer.vue');
 
 const DevisePlugin = {
@@ -79,7 +78,6 @@ const DevisePlugin = {
     Vue.component('devise', Devise);
     Vue.component('slices', Slices);
     Vue.component('messages', Messages);
-    Vue.component('help', Help);
     Vue.component('devise-installer', Installer);
 
     Vue.directive('tuck', Tuck);

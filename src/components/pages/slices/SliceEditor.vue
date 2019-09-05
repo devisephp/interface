@@ -450,6 +450,7 @@ export default {
     SliceEditor: () => import(/* webpackChunkName: "devise-editors" */ './SliceEditor'),
     SliceEditorFields: () => import(/* webpackChunkName: "devise-editors" */ './SliceEditorFields'),
     CopySliceToPage: () => import(/* webpackChunkName: "devise-editors" */ './CopySliceToPage'),
+    Help: () => import(/* webpackChunkName: "devise-utilities" */ '../../utilities/Help'),
   },
 };
 </script>
