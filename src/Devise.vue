@@ -78,16 +78,21 @@ export default {
   mounted () {
     window.devise = this;
     window.deviseSettings.$bus = window.deviseSettings.$bus;
-
     if (this.can('access admin')) {
       this.initDevise();
     } else {
-      window.deviseSettings.$bus.$emit('devise-loaded');
+      console.log('asdfasdfhere')
+      this.$nextTick(() => {
+        setTimeout(() => {
+          window.deviseSettings.$bus.$emit('devise-loaded');
+        }, 10);
+      });
     }
 
     this.$nextTick(() => {
       this.timeToShow = true
     })
+
   },
   methods: {
     ...mapActions('devise', ['setBreakpoint']),
