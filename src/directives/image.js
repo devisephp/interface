@@ -38,13 +38,27 @@ export default function (el, binding) {
       return { defaultSize, settings: sizes[defaultSize] };
     };
 
+    const setImageSize = () => {
+      if (typeof image !== 'undefined') {
+        if (image.media) {
+          const theSize = theImageSize();
+
+          if (theSize && image.media[theSize.size]) {
+            el.width = theSize.settings.w;
+            el.height = theSize.settings.h;
+            return true
+          }
+        }
+      }
+      return false;
+    }
+
     const setImage = () => {
       if (typeof image !== 'undefined') {
         // Default the image the url but if it does have a size match
         // set that instead
         let theImage = image.url;
         let theSize = null;
-
 
         // Get the image size if sizes are present
         if (image.media) {
@@ -82,12 +96,12 @@ export default function (el, binding) {
     };
 
     if (lazy && 'IntersectionObserver' in window) {
+      setImageSize();
+
       const lazyImageObserver = new IntersectionObserver(entries => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-
             setImage();
-
             lazyImageObserver.unobserve(el);
           }
         });

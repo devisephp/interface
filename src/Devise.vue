@@ -81,7 +81,6 @@ export default {
     if (this.can('access admin')) {
       this.initDevise();
     } else {
-      console.log('asdfasdfhere')
       this.$nextTick(() => {
         setTimeout(() => {
           window.deviseSettings.$bus.$emit('devise-loaded');
