@@ -15,7 +15,7 @@ export default function (el, binding) {
     const theImageSize = () => {
       const { sizes } = image;
 
-      if (typeof sizes === 'undefined' && !sizes[Object.keys(sizes)[0]]) {
+      if (typeof sizes === 'undefined' || !sizes[Object.keys(sizes)[0]]) {
         return false
       }
 
@@ -31,7 +31,7 @@ export default function (el, binding) {
           }
         }
       }
-      // console.log('here!!!', sizes, breakpoint)
+
       // We couldn't find the size so return the first one
       // If breakpoints isn't set assume only one size and return it
       const defaultSize = sizes[Object.keys(sizes)[0]]
