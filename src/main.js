@@ -13,9 +13,6 @@ import Messages from './components/utilities/Messages.vue'
 import routes from './router/route.config';
 import Slices from './components/slices/Slices.vue';
 
-
-// const Installer = import(/* webpackChunkName: "devise-installer" */ './components/installer/Installer.vue');
-
 const DevisePlugin = {
   install (Vue, { store, router, bus, options }) {
     if (typeof store === 'undefined') {
@@ -41,6 +38,7 @@ const DevisePlugin = {
       return route;
     });
 
+    // Merge custom routes (admin) from application
     for (const route in routes) {
       if (routes.hasOwnProperty(route)) {
         const routeToCheck = routes[route];
@@ -61,6 +59,7 @@ const DevisePlugin = {
       }
     }
 
+    // Setup deviseSettings if not present
     if (typeof window.deviseSettings === 'undefined') {
       window.deviseSettings = () => { };
     }
@@ -79,10 +78,15 @@ const DevisePlugin = {
     Vue.component('devise', Devise);
     Vue.component('slices', Slices);
     Vue.component('messages', Messages);
-    // Vue.component('devise-installer', Installer);
 
+    // Directives
     Vue.directive('tuck', Tuck);
     Vue.directive('devise-alert-confirm', alertConfirm);
+
+    // Register installer
+    Vue.component('devise-installer', () =>
+      import(/* webpackChunkName: "devise-installer" */ './components/installer/Installer.vue')
+    );
 
     // Users Admin
     Vue.component('devise-user-create', () =>
