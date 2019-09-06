@@ -17,37 +17,24 @@
 </template>
 
 <script>
-import ResizeObserver from 'resize-observer-polyfill'; // eslint-disable-line
-const { Sketch } = import(/* webpackChunkName: "vue-color" */ 'vue-color')
-import queryString from 'query-string';
-
-import mezr from 'mezr';
-
 import { mapGetters, mapActions } from 'vuex';
-
 import Strings from '../../mixins/Strings';
 import Slice from './Slice.vue'; // eslint-disable-line
-
-const tinycolor = require(/* webpackChunkName: "tinycolor" */ 'tinycolor2');
 
 export default {
   /* eslint-disable camelcase */
   name: 'DeviseSlice',
   data () {
     return {
-      backgroundColor: null,
-      color: null,
       mounted: false,
       showEditor: false,
       sliceEl: null,
       sliceComponent: null,
-      resizeObserver: null,
     };
   },
   created () {
     this.hydrateMissingProperties();
     this.checkDefaults();
-    this.backgroundColor = tinycolor('#fff').toRgb();
     this.sliceComponent = this.component(this.devise.metadata.name);
   },
   mounted () {
@@ -56,13 +43,6 @@ export default {
 
     if (typeof this.devise.settings === 'undefined') {
       this.$set(this.devise, 'settings', {});
-    }
-
-    if (typeof this.devise.settings.backgroundColor !== 'undefined') {
-      this.backgroundColor = tinycolor(this.devise.settings.backgroundColor).toRgb();
-    }
-    if (typeof this.devise.settings.color !== 'undefined') {
-      this.color = tinycolor(this.devise.settings.backgroundColor).toRgb();
     }
 
     this.addListeners();
@@ -221,14 +201,16 @@ export default {
           const storedSize = this.devise[fieldName].media[sizeName];
 
           if (storedSize) {
-            const paramsIndex = storedSize.indexOf("?");
-            const paramsString = storedSize.substring(paramsIndex)
-            const params = queryString.parse(paramsString);
+            import(/* webpackChunkName: "devise-slice-admin" */ 'query-string').then(({ default: queryString }) => {
+              const paramsIndex = storedSize.indexOf("?");
+              const paramsString = storedSize.substring(paramsIndex)
+              const params = queryString.parse(paramsString);
 
-            if (!params || parseInt(params.w, 0) !== parseInt(fieldSize.w, 0) || parseInt(params.h, 0) !== parseInt(fieldSize.h, 0)) {
-              this.makeMediaRegenerationRequest(field, fieldName)
-              return true
-            }
+              if (!params || parseInt(params.w, 0) !== parseInt(fieldSize.w, 0) || parseInt(params.h, 0) !== parseInt(fieldSize.h, 0)) {
+                this.makeMediaRegenerationRequest(field, fieldName)
+                return true
+              }
+            }).catch(() => 'An error occurred while loading the component');
           }
         }
       }
@@ -256,18 +238,20 @@ export default {
     attemptJumpToSlice (slice) {
       if (this.devise.metadata && slice.metadata) {
         if (this.devise.metadata.instance_id === slice.metadata.instance_id) {
-          try {
-            const offset = mezr.offset(this.sliceEl, 'margin');
-            window.scrollTo({
-              top: offset.top,
-              behavior: 'smooth',
-            });
-          } catch (error) {
-            /* eslint-disable no-console */
-            console.warn(
-              'Devise Warning: There may be a problem with this slice. Try wrapping the template in a single <div> to resolve and prevent children components to be at the root level.'
-            );
-          }
+          import(/* webpackChunkName: "devise-slice-admin" */ 'mezr').then(({ default: mezr }) => {
+            try {
+              const offset = mezr.offset(this.sliceEl, 'margin');
+              window.scrollTo({
+                top: offset.top,
+                behavior: 'smooth',
+              });
+            } catch (error) {
+              /* eslint-disable no-console */
+              console.warn(
+                'Devise Warning: There may be a problem with this slice. Try wrapping the template in a single <div> to resolve and prevent children components to be at the root level.'
+              );
+            }
+          }).catch(() => 'An error occurred while loading the component');
         }
       }
     },
@@ -285,31 +269,34 @@ export default {
           markers[0].parentNode.removeChild(markers[0]);
         }
 
-        if (on) {
-          try {
-            const offset = mezr.offset(this.sliceEl, 'margin');
-            const width = mezr.width(this.sliceEl, 'margin');
-            const height = mezr.height(this.sliceEl, 'margin');
+        import(/* webpackChunkName: "devise-slice-admin" */ 'mezr').then(({ default: mezr }) => {
 
-            const marker = document.createElement('div');
-            marker.innerHTML = `
+          if (on) {
+            try {
+              const offset = mezr.offset(this.sliceEl, 'margin');
+              const width = mezr.width(this.sliceEl, 'margin');
+              const height = mezr.height(this.sliceEl, 'margin');
+
+              const marker = document.createElement('div');
+              marker.innerHTML = `
             <div class="dvs-absolute-center dvs-absolute">
               <h1 class="dvs-text-grey-light dvs-font-hairline dvs-font-sans dvs-p-4 dvs-bg-abs-black dvs-rounded dvs-shadow-lg">
                 ${this.devise.metadata.label}
               </h1>
             </div>`;
-            marker.classList =
-              'devise-component-marker dvs-absolute dvs-bg-black dvs-z-60 dvs-opacity-75';
-            marker.style.cssText = `top:${offset.top}px;left:${
-              offset.left
-              }px;width:${width}px;height:${height}px`;
-            document.body.appendChild(marker);
-          } catch (error) {
-            console.warn(
-              'Devise Warning: There may be a problem with this slice. Try wrapping the template in a single <div> to resolve and prevent children components to be at the root level.'
-            );
+              marker.classList =
+                'devise-component-marker dvs-absolute dvs-bg-black dvs-z-60 dvs-opacity-75';
+              marker.style.cssText = `top:${offset.top}px;left:${
+                offset.left
+                }px;width:${width}px;height:${height}px`;
+              document.body.appendChild(marker);
+            } catch (error) {
+              console.warn(
+                'Devise Warning: There may be a problem with this slice. Try wrapping the template in a single <div> to resolve and prevent children components to be at the root level.'
+              );
+            }
           }
-        }
+        })
       }
     },
     addVisibilityScrollListeners () {
@@ -436,7 +423,6 @@ export default {
     Slice,
     SettingsIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SettingsIcon'),
-    'sketch-picker': Sketch,
   },
 };
 </script>
