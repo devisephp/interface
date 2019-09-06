@@ -13,8 +13,8 @@ import Messages from './components/utilities/Messages.vue'
 import routes from './router/route.config';
 import Slices from './components/slices/Slices.vue';
 
-const EditPage = import(/* webpackChunkName: "devise-administration" */ './components/pages/Editor.vue')
-const Installer = import(/* webpackChunkName: "devise-installer" */ './components/installer/Installer.vue');
+
+// const Installer = import(/* webpackChunkName: "devise-installer" */ './components/installer/Installer.vue');
 
 const DevisePlugin = {
   install (Vue, { store, router, bus, options }) {
@@ -34,6 +34,7 @@ const DevisePlugin = {
         route.components = {};
       }
       if (!route.components.hasOwnProperty('devise')) {
+        const EditPage = import(/* webpackChunkName: "devise-administration" */ './components/pages/Editor.vue')
         route.components.devise = EditPage;
       }
 
@@ -78,7 +79,7 @@ const DevisePlugin = {
     Vue.component('devise', Devise);
     Vue.component('slices', Slices);
     Vue.component('messages', Messages);
-    Vue.component('devise-installer', Installer);
+    // Vue.component('devise-installer', Installer);
 
     Vue.directive('tuck', Tuck);
     Vue.directive('devise-alert-confirm', alertConfirm);
