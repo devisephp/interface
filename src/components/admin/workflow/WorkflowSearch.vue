@@ -1,20 +1,35 @@
 <template>
   <div>
-    <div class="dvs-flex dvs-justify-center dvs-py-8 dvs-relative">
-      <input
-        type="text"
-        v-model="searchTerm"
-        class="dvs-bg-transparent dvs-border-b-2 dvs-px-12 dvs-py-2 dvs-text-admin-fg dvs-outline-none dvs-placeholder-admin-fg dvs-text-center"
-        placeholder="Type to begin searching"
-      >
-      <div
-        class="dvs-cursor-pointer"
-        :class="{'dvs-opacity-50': searchTerm === ''}"
-        @click="searchTerm = ''"
-      >
-        <x-icon></x-icon>
+    <div class="dvs-flex dvs-justify-center">
+      <div class="dvs-relative dvs-flex dvs-justify-center dvs-items-center dvs-mt-8 dvs-relative">
+        <input
+          type="text"
+          v-model="searchTerm"
+          class="dvs-bg-transparent dvs-bg-admin-secondary-bg dvs-px-12 dvs-py-4 dvs-text-admin-fg dvs-outline-none dvs-placeholder-admin-fg dvs-text-center"
+          placeholder="Type to begin searching"
+        >
+        <div
+          class="dvs-cursor-pointer dvs-absolute dvs-pin-r dvs-pin-t dvs-mt-3 dvs-mr-2"
+          :class="{'dvs-opacity-50': searchTerm === ''}"
+          @click="searchTerm = ''"
+        >
+          <x-icon></x-icon>
+        </div>
       </div>
     </div>
+    <div class="dvs-mb-8 dvs-flex dvs-justify-center dvs-mt-2">
+      <button
+        v-if="this.step.allRecordsApiendpoint"
+        class="dvs-btn dvs-btn-secondary dvs-btn-sm dvs-m4-6"
+        @click="requestAll"
+      >Load All Records</button>
+    </div>
+
+    <pagination
+      :meta="autosuggest"
+      @changePage="changePage"
+    ></pagination>
+
     <ul class="dvs-list-reset">
       <li
         v-for="(suggestion, key) in autosuggest.data"
@@ -52,6 +67,7 @@ export default {
   name: 'DeviseWorkflowSearch',
   components: {
     XIcon: () => import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/XIcon'),
+    Pagination: () => import(/* webpackChunkName: "devise-utilities" */ '../../utilities/Pagination.vue'),
   },
   props: {
     step: {
@@ -104,6 +120,19 @@ export default {
       } else {
         this.autosuggest = Object.assign({}, {});
       }
+    },
+    requestAll (filters) {
+      const isApp = this.step.app === true || typeof this.step.app === 'undefined' ? true : this.step.app;
+
+      this.searchGeneric({
+        config: { apiendpoint: this.step.allRecordsApiendpoint, app: isApp },
+        filters
+      }).then(results => {
+        this.autosuggest = results.data;
+      });
+    },
+    changePage (page) {
+      this.requestAll({ page })
     },
     selectSuggestion (suggestion) {
       this.$emit('done', suggestion)

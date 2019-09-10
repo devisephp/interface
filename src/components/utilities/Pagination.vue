@@ -21,13 +21,11 @@
     >
       <button
         @click="changePage(1)"
-        class="dvs-btn dvs-btn-xs dvs-mr-1"
-        :style="this.theme.actionButtonGhost"
+        class="dvs-btn dvs-btn-xs dvs-mr-1 dvs-btn-secondary"
       >First</button>
       <button
         @click="changePage(meta.current_page - 1)"
-        class="dvs-btn dvs-btn-xs dvs-mr-1"
-        :style="this.theme.actionButtonGhost"
+        class="dvs-btn dvs-btn-xs dvs-mr-1 dvs-btn-secondary"
       >Prev</button>
       <select
         :value="meta.current_page"
@@ -44,13 +42,11 @@
       </select>
       <button
         @click="changePage(meta.current_page + 1)"
-        class="dvs-btn dvs-btn-xs dvs-mr-1"
-        :style="this.theme.actionButtonGhost"
+        class="dvs-btn dvs-btn-xs dvs-mr-1 dvs-btn-secondary"
       >Next</button>
       <button
         @click="changePage(meta.last_page)"
-        class="dvs-btn dvs-btn-xs dvs-mr-1"
-        :style="this.theme.actionButtonGhost"
+        class="dvs-btn dvs-btn-xs dvs-mr-1 dvs-btn-secondary"
       >Last</button>
     </div>
   </div>

@@ -42,6 +42,8 @@ export default {
       import(/* webpackChunkName: "devise-administration" */ '../ui/AdminContainer'),
     ArrowLeftCircleIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ArrowLeftCircleIcon'),
+    WorkflowIndex: () =>
+      import(/* webpackChunkName: "devise-administration" */ './WorkflowIndex'),
     WorkflowMenu: () =>
       import(/* webpackChunkName: "devise-administration" */ './WorkflowMenu'),
     WorkflowSearch: () =>
