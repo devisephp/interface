@@ -57,6 +57,7 @@ export default {
           component: 'workflow-search',
           message: 'Use the form below to search for the redirect you wish to manage',
           apiendpoint: 'redirects',
+          allRecordsApiendpoint: 'redirects',
           searchPropertyName: 'term',
           app: false,
           resultsDisplayFields: [
