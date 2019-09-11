@@ -65,7 +65,7 @@
           <div class="dvs-flex dvs-items-center dvs-mt-4 dvs-justify-between">
             <div>
               <button
-                class="dvs-btn dvs-mr-2 dvs-btn-secondar"
+                class="dvs-btn dvs-mr-2 dvs-btn-secondary"
                 @click="showPreview = false"
               >Close</button>
             </div>
@@ -92,20 +92,33 @@ export default {
         callback: this.mediaSelected,
       });
     },
-    mediaSelected (images) {
-      this.images.push(images.images.orig_optimized);
+    mediaSelected (imagesAndSettings) {
+      const value = {
+        url: imagesAndSettings.images.defaultImage
+      };
+
+      if (typeof imagesAndSettings === 'object') {
+        value.alt = imagesAndSettings.images.alt;
+        value.url = imagesAndSettings.images.defaultImage;
+        value.defaultImage = imagesAndSettings.images.defaultImage;
+        value.media = imagesAndSettings.images.media;
+        value.settings = imagesAndSettings.settings;
+      } else {
+        value.url = imagesAndSettings;
+      }
+      this.images.push(value);
     },
     removeImage (index) {
       this.images.splice(index, 1);
     },
-    getName (path) {
-      const parts = path.split('/');
+    getName (image) {
+      const parts = image.defaultImage.split('/');
       return parts[parts.length - 1];
     },
-    loadPreview (imagePath) {
+    loadPreview (image) {
       this.showPreview = true;
-      this.previewImageName = this.getName(imagePath);
-      this.previewImagePath = imagePath;
+      this.previewImageName = this.getName(image);
+      this.previewImagePath = image.defaultImage;
     },
   },
   computed: {
