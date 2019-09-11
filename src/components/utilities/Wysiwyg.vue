@@ -1,5 +1,6 @@
 <template>
   <div class="dvs-bg-white dvs-rounded dvs-relative">
+
     <editor-menu-bar
       :editor="editor"
       v-slot="{ commands, isActive }"
@@ -85,6 +86,53 @@
         >
           H3
         </div>
+
+        <editor-menu-bubble
+          class="menububble"
+          :editor="editor"
+          @hide="hideLinkMenu"
+          v-slot="{ commands, isActive, getMarkAttrs, menu }"
+        >
+          <div
+            class="menububble"
+            :class="{ 'is-active': menu.isActive }"
+            :style="`left: ${menu.left}px; bottom: ${menu.bottom}px;`"
+          >
+
+            <form
+              class="menububble__form dvs-bg-admin-bg dvs-text-admin-fg dvs-absolute dvs-p-4 dvs-rounded-sm dvs-shadow dvs-mt-2 dvs-z-10"
+              v-if="linkMenuIsActive"
+              @submit.prevent="setLinkUrl(commands.link, linkUrl)"
+            >
+              <fieldset class="dvs-fieldset">
+                <input
+                  class="menububble__input dvs-mr-2"
+                  type="text"
+                  v-model="linkUrl"
+                  placeholder="https://"
+                  ref="linkInput"
+                  @keydown.esc="$emit('hide')"
+                />
+                <button
+                  class="menububble__button dvs-btn dvs-btn-primary"
+                  @click="setLinkUrl(commands.link, null)"
+                  type="button"
+                >
+                  Remove
+                </button>
+              </fieldset>
+            </form>
+
+            <div
+              class="wysiwyg-editor-button"
+              :class="{ 'dvs-bg-grey': isActive.underline() }"
+              @click="showLinkMenu(getMarkAttrs('link'))"
+            >
+              <link-icon />
+            </div>
+
+          </div>
+        </editor-menu-bubble>
 
         <div
           class="wysiwyg-editor-button"
@@ -433,7 +481,7 @@
 </template>
 
 <script>
-import { Editor, EditorFloatingMenu, EditorContent, EditorMenuBar } from 'tiptap'
+import { Editor, EditorFloatingMenu, EditorContent, EditorMenuBar, EditorMenuBubble } from 'tiptap'
 import {
   Blockquote,
   CodeBlock,
@@ -473,6 +521,7 @@ export default {
     EditorContent,
     EditorFloatingMenu,
     EditorMenuBar,
+    EditorMenuBubble,
     'color-picker': Chrome,
     BoldIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/BoldIcon'),
@@ -522,6 +571,8 @@ export default {
       import(/* webpackChunkName: "devise-icons" */ './icons/DeleteRowIcon'),
     CombineCellsIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ './icons/CombineCellsIcon'),
+    LinkIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/LinkIcon'),
   },
   computed: {
     localValue: {
@@ -572,7 +623,9 @@ export default {
       showSource: false,
       currentCommand: null,
       showTextColorPicker: false,
-      textColor: '#000000'
+      textColor: '#000000',
+      linkUrl: null,
+      linkMenuIsActive: false,
     }
   },
   mounted () {
@@ -610,7 +663,22 @@ export default {
       const { r, g, b, a } = this.textColor.rgba;
       commands.textcolor({ color: `rgba(${r},${g},${b},${a})` })
       this.showTextColorPicker = false
-    }
+    },
+    showLinkMenu (attrs) {
+      this.linkUrl = attrs.href
+      this.linkMenuIsActive = true
+      this.$nextTick(() => {
+        this.$refs.linkInput.focus()
+      })
+    },
+    hideLinkMenu () {
+      this.linkUrl = null
+      this.linkMenuIsActive = false
+    },
+    setLinkUrl (command, url) {
+      command({ href: url })
+      this.hideLinkMenu()
+    },
   }
 }
 </script>
