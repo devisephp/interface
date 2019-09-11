@@ -111,7 +111,7 @@
         <p class="dvs-mb-4 dvs-text-xs">Note: Background color effects all responsive sizes</p>
       </fieldset>
       <div v-show="showBackgroundColor">
-        <sketch-picker v-model="bg" />
+        <color-picker v-model="bg" />
       </div>
       <button
         v-show="!showBackgroundColor"
@@ -126,7 +126,7 @@
         <p class="dvs-mb-4 dvs-text-xs">Note: Text color effects all responsive sizes</p>
       </fieldset>
       <div v-show="showTextColor">
-        <sketch-picker v-model="textColor" />
+        <color-picker v-model="textColor" />
       </div>
       <button
         v-show="!showTextColor"
@@ -143,7 +143,7 @@
 </template>
 
 <script>
-const { Sketch } = import(/* webpackChunkName: "vue-color" */ 'vue-color')
+const Chrome = require(/* webpackChunkName: "vue-color" */ 'vue-color/src/components/Chrome.vue').default;
 
 export default {
   data () {
@@ -227,7 +227,7 @@ export default {
     },
   },
   components: {
-    'sketch-picker': Sketch,
+    'color-picker': Chrome,
   },
 };
 </script>

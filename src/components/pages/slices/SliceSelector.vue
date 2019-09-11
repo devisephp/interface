@@ -119,12 +119,10 @@ export default {
         let { files } = directory;
         files = files.filter(file => {
           return filters.every(filter => {
-            // console.log(file.value.toLowerCase().includes(filter));
             return file.value.toLowerCase().includes(filter);
           });
         });
         if (files.length) {
-          // console.log(files);
           directory.files = files;
           return true;
         }

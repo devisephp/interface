@@ -123,7 +123,7 @@
             v-if="showTextColorPicker"
             class="dvs-absolute dvs-pin-t dvs--mt-8 dvs-bg-grey-lighter dvs-p-4 dvs-rounded dvs-shadow-lg"
           >
-            <sketch-picker
+            <color-picker
               class="dvs-mb-2"
               v-model="textColor"
               @cancel="showTextColorPicker = false"
@@ -461,7 +461,7 @@ import {
 import TextAlign from './wysiwyg/tiptap/extensions/TextAlign'
 import TextColor from './wysiwyg/tiptap/extensions/TextColor'
 
-const { Sketch } = import(/* webpackChunkName: "vue-color" */ 'vue-color')
+const Chrome = require(/* webpackChunkName: "vue-color" */ 'vue-color/src/components/Chrome.vue').default;
 
 export default {
   props: {
@@ -473,7 +473,7 @@ export default {
     EditorContent,
     EditorFloatingMenu,
     EditorMenuBar,
-    'sketch-picker': Sketch,
+    'color-picker': Chrome,
     BoldIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/BoldIcon'),
     ItalicIcon: () =>
@@ -593,7 +593,6 @@ export default {
       });
     },
     mediaSelected (imagesAndSettings) {
-      // console.log(imagesAndSettings);
       if (typeof imagesAndSettings === 'object') {
         this.currentCommand({ src: imagesAndSettings.images.media.custom })
       }

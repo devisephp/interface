@@ -94,7 +94,7 @@
           v-if="edits.fit === 'fill'"
         >
           <label>Background Color</label>
-          <sketch-picker
+          <color-picker
             v-model="editorColor"
             @cancel="edits.bg = null"
           />
@@ -266,8 +266,7 @@
 <script>
 import { mapMutations, mapState } from 'vuex';
 
-const { Sketch } = import(/* webpackChunkName: "vue-color" */ 'vue-color')
-
+const Chrome = require(/* webpackChunkName: "vue-color" */ 'vue-color/src/components/Chrome.vue').default;
 const tinycolor = require(/* webpackChunkName: "tinycolor" */ 'tinycolor2');
 
 export default {
@@ -306,7 +305,7 @@ export default {
     },
   },
   components: {
-    'sketch-picker': Sketch,
+    'color-picker': Chrome,
     EditorControl: () => import(/* webpackChunkName: "devise-media" */ './EditorControl'),
     CropIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/CropIcon'),

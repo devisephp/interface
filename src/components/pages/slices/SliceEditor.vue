@@ -148,7 +148,7 @@
       </div>
 
       <slice-editor-fields
-        v-if="slice.metadata.type !== 'model'"
+        v-if="slice.metadata.type !== 'model' && sliceConfig(slice).fields"
         :the-fields="sliceConfig(slice).fields"
         v-model="theFields"
         @editfield="editField"
