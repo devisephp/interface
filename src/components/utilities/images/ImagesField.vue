@@ -11,13 +11,13 @@
       </div>
     </div>
 
-    <div class="dvs-flex dvs-flex-wrap dvs-w-full">
+    <div class="dvs-flex dvs-flex-wrap dvs-items-stretch dvs-w-full">
       <div
-        class="dvs-w-1/5 dvs-max-w-1/4 dvs-pr-4 dvs-pb-4"
+        class="dvs-w-1/5 dvs-max-w-1/4 dvs-pr-4 dvs-pb-4 dvs-flex"
         v-for="(image, key) in images"
         :key="key"
       >
-        <div class="dvs-p-4 dvs-bg-grey-lighter dvs-text-xs dvs-overflow-hidden dvs-bg-admin-bg dvs-text-admin-fg">
+        <div class="dvs-p-4 dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-text-xs dvs-overflow-hidden dvs-bg-admin-bg dvs-text-admin-fg">
           <div @click="loadPreview(image)">
             <search-icon
               class="dvs-cursor-pointer"
@@ -30,6 +30,7 @@
             <br>
             <a
               href="#"
+              class="dvs-btn dvs-btn-primary dvs-btn-ghost dvs-btn-sm dvs-mt-1 dvs-block"
               @click.prevent="removeImage(key)"
             >Remove</a>
           </p>
