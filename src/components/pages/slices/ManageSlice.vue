@@ -222,7 +222,7 @@ export default {
       }
     },
     modelQueryFormatted () {
-      if (this.modelQuery) {
+      if (this.modelQuery && this.modelQuery.key) {
         const finalParams = []
         this.modelQuery.params.forEach(param => {
           const currentIndex = this.modelQuery.params.indexOf(param)
