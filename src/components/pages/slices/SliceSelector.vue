@@ -95,7 +95,7 @@ export default {
       return [];
     },
     allowedViews () {
-      if (this.modelQuery) {
+      if (this.modelQuery.key !== null) {
         const mqc = this.modelQueries.find(mq => {
           return mq.key === this.modelQuery.key
         })

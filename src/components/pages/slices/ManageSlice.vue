@@ -243,12 +243,10 @@ export default {
     },
     modelQueryInvalid () {
       if (!this.modelQueryConfig) {
-        console.log('modelQueryConfig null')
         return true
       }
       this.modelQueryConfig.params.forEach(param => {
         if (!param.allowedNull && !param.value) {
-          console.log('modelQueryConfig null', param)
           return true
         }
       })

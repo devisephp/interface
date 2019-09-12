@@ -204,9 +204,7 @@ export default {
       return field.value
     },
     requestLegacySelected () {
-      console.log(this.modelQuery)
       if (this.modelQuery.params[0].editApi) {
-        console.log('here', this.value.join(','))
         this.getGeneric({
           config: {
             apiendpoint: this.modelQuery.params[0].editApi,
