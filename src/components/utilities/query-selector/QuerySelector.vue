@@ -71,12 +71,16 @@ export default {
       import(/* webpackChunkName: "devise-query-selector" */ './Text.vue'),
   },
   props: {
-    value: {}
+    value: {
+      type: Object,
+      required: true
+    }
   },
   watch: {
     selectedModelQuery: {
       handler (newValue, oldValue) {
         const finalParams = []
+        console.log('selectedModelQuery', newValue, oldValue)
         newValue.params.forEach(param => {
           finalParams.push(param.value)
         })
@@ -87,10 +91,11 @@ export default {
 
         // If it's the first time 
         if (!oldValue) {
-          finalModelQuery.params = this.loadPreviousParams()
+          finalModelQuery.params = Object.assign({}, this.value.params)
+          this.loadPreviousParams()
         }
 
-        this.$emit('input', finalModelQuery)
+        // this.$emit('input', finalModelQuery)
       },
       deep: true
     }
@@ -114,8 +119,8 @@ export default {
   },
   methods: {
     loadPreviousState () {
-      this.query = this.value.key
-      this.initialParams = this.value.params
+      this.$set(this, 'query', this.value.key)
+      this.initialParams = Object.assign({}, this.value.params)
     },
     loadPreviousParams () {
       const params = []

@@ -118,12 +118,13 @@ export default {
   name: 'ManageSlice',
   data () {
     return {
-      newSlice: Object.assign({}, defaultInsertSlice),
+      newSlice: {},
       step: 1,
       modelQuery: null
     };
   },
   mounted () {
+    this.newSlice = Object.assign({}, defaultInsertSlice)
     this.getModelQueries();
     this.getSlicesDirectories();
 
@@ -194,15 +195,23 @@ export default {
       this.$emit('addSlice', this.buildSlice());
     },
     editSlice () {
-      this.$emit('editSlice', this.buildSlice());
+      this.slice = Object.assign({}, this.buildSlice());
     },
     removeSlice () {
       this.$emit('removeSlice');
     },
   },
   computed: {
-    ...mapGetters('devise', ['componentFromView', 'slicesDirectories']),
+    ...mapGetters('devise', ['componentFromView']),
     ...mapState('devise', ['modelQueries']),
+    slice: {
+      get () {
+        return this.value;
+      },
+      set (newValue) {
+        this.$emit('input', Object.assign({}, newValue))
+      }
+    },
     modelQueryInvalid () {
       if (!this.modelQueryConfig) {
         return true
@@ -226,7 +235,7 @@ export default {
     },
   },
   props: {
-    slice: {
+    value: {
       type: Object | String /* eslint-disable-line */,
     },
     mode: {

@@ -32,7 +32,7 @@
             class="dvs-mr-4 dvs-text-xs dvs-leading-tight"
           >
             <div class="dvs-uppercase dvs-text-xs dvs-text-admin-secondary-fg">{{ subField.label }}</div>
-            <div>{{ subField.value }}</div>
+            <div>{{ format(subField) }}</div>
           </li>
         </ul>
       </li>
@@ -73,7 +73,7 @@
               class="dvs-mr-4 dvs-text-xs dvs-leading-tight dvs-w-1/4 dvs-bg-admin-bg dvs-text-admin-fg dvs-rounded dvs-p-3 opacity-75"
             >
               <div class="dvs-uppercase dvs-text-xs">{{ subField.label }}</div>
-              <div>{{ subField.value }}</div>
+              <div>{{ format(subField) }}</div>
             </li>
           </ul>
         </div>
@@ -89,6 +89,7 @@
 </template>
 
 <script>
+import dayjs from 'dayjs'
 import { mapActions } from 'vuex'
 
 export default {
@@ -188,6 +189,12 @@ export default {
       const secondaryFields = JSON.parse(JSON.stringify(displayFields));
       secondaryFields.shift()
       return secondaryFields;
+    },
+    format (field) {
+      if (field.dateFormat) {
+        return dayjs(field.value).format(field.dateFormat)
+      }
+      return field.value
     },
     requestLegacySelected () {
       if (this.value.editApi) {

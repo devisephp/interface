@@ -38,7 +38,7 @@
       @addSlice="addSlice"
       @editSlice="editSlice"
       @removeSlice="removeSlice"
-      :slice="slice"
+      v-model="sliceToManage"
       :mode="manageSliceMode"
     />
 
@@ -206,12 +206,12 @@
           class="dvs-p-4 dvs-text-xs dvs-leading-normal dvs-instructions"
           v-if="sliceSlices.length < 1"
         >
-          You can add child slices by dragging them here or by using the dot menu on the right and selecting "Insert Slice"
+          You can add child slices by dragging them here or by using the menu above and selecting "+ Slice"
         </div>
-        <template v-for="s in sliceSlices">
+        <template v-for="(s, k) in sliceSlices">
           <slice-editor
             :key="randomString(8)"
-            :devise="s"
+            v-model="sliceSlices[k]"
             :child="true"
             @addSlice="addSlice"
             @editSlice="editSlice"
@@ -292,11 +292,8 @@ export default {
         }
       });
     },
-    editSlice (slice, referringSlice) {
-      if (typeof referringSlice === 'undefined') {
-        referringSlice = this.slice;
-      }
-      this.$emit('editSlice', slice, referringSlice);
+    editSlice (slice) {
+      this.slice = Object.assign({}, slice)
       this.manageSlice = false;
     },
     copySlice (slice, referringSlice) {
@@ -377,8 +374,26 @@ export default {
   computed: {
     ...mapGetters('devise', ['component', 'fieldConfig', 'sliceConfig']),
     ...mapState('devise', ['devMode']),
-    slice () {
-      return this.devise;
+    slice: {
+      get () {
+        return this.value;
+      },
+      set (newValue) {
+        this.$emit('input', Object.assign({}, newValue))
+      }
+    },
+    sliceToManage: {
+      get () {
+        if (this.manageSliceMode === 'editing') {
+          // Edit
+          return this.value;
+        }
+        // Insert
+        return {};
+      },
+      set (newValue) {
+        this.$emit('input', Object.assign({}, newValue))
+      }
     },
     sliceSlices () {
       return (this.slice.slices) ? this.slice.slices : []
@@ -423,6 +438,10 @@ export default {
     }
   },
   props: {
+    value: {
+      type: Object,
+      required: true
+    },
     child: {
       default: false,
     },

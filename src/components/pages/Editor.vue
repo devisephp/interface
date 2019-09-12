@@ -91,11 +91,11 @@
                 class="dvs-list-reset dvs-w-full dvs-px-4"
               >
 
-                <template v-for="slice in currentPageSlices">
+                <template v-for="(slice, key) in currentPageSlices">
                   <slice-editor
                     @opened="openSlice(slice)"
                     :key="randomString(8)"
-                    :devise="slice"
+                    v-model="currentPageSlices[key]"
                     @addSlice="addSlice"
                     @editSlice="editSlice"
                     @removeSlice="removeSlice"
@@ -274,6 +274,7 @@ export default {
       if (editedSlice.metadata.has_child_slot) {
         editedSlice.slices = referenceSlice.slices
       }
+
       this.currentPage.slices.splice(
         this.currentPage.slices.indexOf(referenceSlice),
         1,
