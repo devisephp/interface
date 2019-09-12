@@ -12,7 +12,7 @@
       <div
         class="dvs-cursor-pointer"
         :class="{'dvs-opacity-50': filter === ''}"
-        @click="filter = ''"
+        @click="resetSearch"
       >
         <x-icon></x-icon>
       </div>
@@ -47,7 +47,6 @@
           emptyInsertThreshold: 10,
           removeCloneOnHide: false
         }"
-      @change="update"
       :list="selected"
       tag="ul"
       class="dvs-list-reset"
@@ -55,15 +54,18 @@
       <li
         v-for="(suggestion, key) in selected"
         :key="key"
-        class="dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-shadow hover:dvs-shadow-lg dvs-rounded dvs-my-4 dvs-p-4 dvs-cursor-pointer"
+        class="dvs-flex dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-shadow hover:dvs-shadow-lg dvs-rounded dvs-my-4 dvs-p-4 dvs-cursor-pointer"
       >
         <div
           class="dvs-mr-4 handle"
-          v-if="value.allowSort"
+          v-if="modelQuerySettings.allowSort"
         >
           <menu-icon></menu-icon>
         </div>
-        <div class="dvs-w-full">
+        <div
+          class="dvs-w-full"
+          v-if="suggestion.displayFields"
+        >
           <div class="dvs-text-lg dvs-mb-2">{{ suggestion.displayFields[0].value }}</div>
 
           <ul class="dvs-list-reset dvs-flex">
@@ -101,11 +103,27 @@ export default {
   },
   props: {
     value: {
+      type: Array,
+      required: true
+    },
+    modelQuery: {
+      type: Object,
+      required: true
+    },
+    modelQuerySettings: {
       type: Object,
       required: true
     }
   },
   computed: {
+    selected: {
+      get () {
+        return this.value
+      },
+      set (newValue) {
+        this.$emit('input', newValue)
+      }
+    },
     filteredSuggestions () {
       if (this.autosuggest.data) {
         return this.autosuggest.data.filter(suggestion => {
@@ -122,29 +140,18 @@ export default {
       filter: null,
       autosuggest: {
         data: [],
-      },
-      selected: []
+      }
     }
   },
   mounted () {
-    if (this.value.value && Object.keys(this.value.value).length > this.selected.length) {
+    if (this.value && this.value.length > 0) {
       this.requestLegacySelected()
     }
   },
   methods: {
     ...mapActions('devise', ['appGenericSearch', 'getGeneric']),
-    update () {
-      const newValue = this.value
-      newValue.value = []
-
-      this.selected.forEach(selection => {
-        newValue.value.push(selection.value)
-      })
-      this.$emit('input', newValue)
-    },
     selectSuggestion (suggestion) {
       this.selected.push(suggestion)
-      this.update()
     },
     removeSuggestion (suggestion) {
       this.resetSearch()
@@ -152,7 +159,7 @@ export default {
     },
     resetSearch () {
       this.filter = null
-      this.autosuggest.data = []
+      this.$set(this.autosuggest, 'data', [])
     },
     requestSearch (e) {
       const term = e.target.value;
@@ -170,7 +177,7 @@ export default {
         };
 
         this.appGenericSearch({
-          config: { apiendpoint: this.value.api },
+          config: { apiendpoint: this.modelQuery.params[0].api },
           filters: searchData
         }).then(results => {
           this.autosuggest = results.data;
@@ -197,14 +204,16 @@ export default {
       return field.value
     },
     requestLegacySelected () {
-      if (this.value.editApi) {
+      console.log(this.modelQuery)
+      if (this.modelQuery.params[0].editApi) {
+        console.log('here', this.value.join(','))
         this.getGeneric({
           config: {
-            apiendpoint: this.value.editApi,
+            apiendpoint: this.modelQuery.params[0].editApi,
             app: true
           },
           filters: {
-            ids: this.value.value.join(',')
+            ids: this.value.join(',')
           }
         }).then(response => {
           this.selected = [...response.data.data]

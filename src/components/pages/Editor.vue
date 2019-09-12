@@ -1,7 +1,4 @@
-
 <template>
-  <!-- eslint-disable vue/valid-v-for -->
-
   <div
     class="dvs-ml-16 dvs-max-w-1/2 dvs-self-center dvs-shadow-lg dvs-bg-admin-bg dvs-text-admin-fg dvs-rounded dvs-pointer-events-auto"
     id="dvs-admin-content-container"
@@ -78,14 +75,14 @@
             <div class="dvs-flex dvs-flex-col dvs-items-center">
               <draggable
                 v-bind="{
-          group: {name: 'g1'},
-          animation:200,
-          ghostClass: 'dvs-ghost',
-          handle: '.handle',
-          dragClass: 'dvs-chosen-drag-slice',
-          emptyInsertThreshold: 10,
-          removeCloneOnHide: false
-        }"
+                  group: {name: 'g1'},
+                  animation:200,
+                  ghostClass: 'dvs-ghost',
+                  handle: '.handle',
+                  dragClass: 'dvs-chosen-drag-slice',
+                  emptyInsertThreshold: 10,
+                  removeCloneOnHide: false
+                }"
                 :list="currentPageSlices"
                 tag="ul"
                 class="dvs-list-reset dvs-w-full dvs-px-4"
@@ -93,8 +90,8 @@
 
                 <template v-for="(slice, key) in currentPageSlices">
                   <slice-editor
+                    :key="randomString(8, key)"
                     @opened="openSlice(slice)"
-                    :key="randomString(8)"
                     v-model="currentPageSlices[key]"
                     @addSlice="addSlice"
                     @editSlice="editSlice"

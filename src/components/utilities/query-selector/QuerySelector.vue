@@ -32,23 +32,33 @@
       >
         <param-search
           v-if="param.type === 'search'"
-          v-model="selectedModelQuery.params[key]"
+          :model-query="selectedModelQuery"
+          :model-query-settings="param"
+          v-model="finalModelQuery.params[key]"
         ></param-search>
+
         <param-text
           class="dvs-mb-4"
           v-if="param.type === 'text'"
-          v-model="selectedModelQuery.params[key]"
+          :model-query="selectedModelQuery"
+          :model-query-settings="param"
+          v-model="finalModelQuery.params[key]"
         ></param-text>
+
         <param-select
           class="dvs-mb-4"
           v-if="param.type === 'select'"
-          v-model="selectedModelQuery.params[key]"
+          :model-query="selectedModelQuery"
+          :model-query-settings="param"
+          v-model="finalModelQuery.params[key]"
         ></param-select>
 
         <param-datetime
           class="dvs-mb-4"
           v-if="param.type === 'datetime'"
-          v-model="selectedModelQuery.params[key]"
+          :model-query="selectedModelQuery"
+          :model-query-settings="param"
+          v-model="finalModelQuery.params[key]"
         ></param-datetime>
       </div>
     </div>
@@ -78,30 +88,27 @@ export default {
   },
   watch: {
     selectedModelQuery: {
-      handler (newValue, oldValue) {
-        const finalParams = []
-        console.log('selectedModelQuery', newValue, oldValue)
-        newValue.params.forEach(param => {
-          finalParams.push(param.value)
+      handler (newValue) {
+        newValue.params.forEach((param) => {
+          // may have to change the push data type based on param.type
+          this.finalModelQuery.params.push([])
         })
-        const finalModelQuery = {
-          key: newValue.key,
-          params: finalParams
-        }
-
-        // If it's the first time 
-        if (!oldValue) {
-          finalModelQuery.params = Object.assign({}, this.value.params)
-          this.loadPreviousParams()
-        }
-
-        // this.$emit('input', finalModelQuery)
+        this.finalModelQuery.key = newValue.key
       },
       deep: true
     }
   },
   computed: {
     ...mapState('devise', ['modelQueries']),
+    finalModelQuery: {
+      get () {
+        return this.value
+      },
+      set (newValue) {
+        this.$emit('input', newValue)
+      },
+      deep: true
+    },
     selectedModelQuery () {
       return this.modelQueries.find(mq => mq.key === this.query)
     },
@@ -109,24 +116,25 @@ export default {
   data () {
     return {
       query: '',
-      initialParams: []
+      params: []
     }
   },
   mounted () {
     if (this.value && this.value.key) {
       this.loadPreviousState()
+      this.loadPreviousParams()
     }
   },
   methods: {
     loadPreviousState () {
       this.$set(this, 'query', this.value.key)
-      this.initialParams = Object.assign({}, this.value.params)
+      this.params = Object.assign({}, this.value.params)
     },
     loadPreviousParams () {
       const params = []
       this.selectedModelQuery.params.forEach((p, key) => {
         const param = Object.assign({}, p);
-        this.$set(param, 'value', this.initialParams[key])
+        this.$set(param, 'value', this.params[key])
         this.selectedModelQuery.params[key] = Object.assign({}, param)
       })
       return params

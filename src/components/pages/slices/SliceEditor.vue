@@ -210,7 +210,7 @@
         </div>
         <template v-for="(s, k) in sliceSlices">
           <slice-editor
-            :key="randomString(8)"
+            :key="randomString(8, k)"
             v-model="sliceSlices[k]"
             :child="true"
             @addSlice="addSlice"

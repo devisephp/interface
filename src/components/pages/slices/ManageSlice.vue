@@ -12,7 +12,7 @@
         <admin-container>
 
           <template v-slot:message>
-            Adding new slices builds up your page. Below you will need to decide what type of slice you are adding.
+            Adding new slices builds up your page. Below you will find the settings that will effect what template to use and if it is static or dynamic.
           </template>
           <template v-slot:content>
             <div class="dvs-w-full dvs-relative dvs-z-40 ">
@@ -21,11 +21,11 @@
                   <!-- Choose the type of the slice -->
                   <div
                     class="dvs-flex dvs-justify-between dvs-items-stretch dvs-w-full"
-                    v-if="newSlice.type === null"
+                    v-if="managedSlice.type === null"
                   >
                     <div
                       class="dvs-btn dvs-btn-secondary dvs-text-base dvs-mr-4 dvs-p-8 dvs-w-1/2 dvs-shadow-lg"
-                      @click="newSlice.type = 'single'"
+                      @click="managedSlice.type = 'single'"
                     >
                       <div class="dvs-pb-2">Static Slice</div>
                       <div class="dvs-text-4xl dvs-mb-4">
@@ -37,7 +37,7 @@
                     <div
                       v-if="modelQueries.length > 0"
                       class="dvs-btn dvs-btn-secondary dvs-text-base dvs-ml-4 dvs-p-8 dvs-w-1/2 dvs-shadow-lg"
-                      @click="newSlice.type = 'model'"
+                      @click="managedSlice.type = 'model'"
                     >
                       <div class="dvs-pb-2">Dynamic Slice</div>
                       <div class="dvs-text-4xl dvs-mb-4">
@@ -49,16 +49,19 @@
 
                   <!-- Slice Selector -->
                   <div v-else>
-                    <div v-if="step === 1 && newSlice.type === 'model'">
+                    <div v-if="step === 1 && managedSlice.type === 'model'">
                       <div class="dvs-mb-16">
-                        <query-selector v-model="modelQuery" />
+                        <query-selector
+                          v-if="modelQueries.length > 0"
+                          v-model="modelQuery"
+                        />
                       </div>
                     </div>
                     <div v-else>
                       <div class="dvs-mb-16">
                         <slice-selector
                           :model-query="modelQuery"
-                          v-model="newSlice.slice"
+                          v-model="managedSlice.slice"
                         />
                       </div>
                     </div>
@@ -68,23 +71,23 @@
             </div>
             <div
               class="dvs-absolute dvs-z-40 dvs-pin-b dvs-pin-r dvs-mr-1 dvs-mb-1 dvs-mr-10 dvs-text-xs dvs-z-10 dvs-p-6 dvs-bg-admin-bg dvs-text-admin-fg dvs-rounded dvs-shadow dvs-px-6"
-              v-if="newSlice.type !== null"
+              v-if="managedSlice.type !== null"
             >
               <button
                 class="dvs-btn dvs-btn-primary dvs-mr-2"
                 @click="addSlice"
-                v-if="mode === 'inserting' && newSlice.type !== 'model'"
+                v-if="mode === 'inserting' && managedSlice.type !== 'model'"
               >Insert</button>
               <button
                 class="dvs-btn dvs-btn-primary dvs-mr-2"
                 @click="nextStep"
-                v-else-if="newSlice.type === 'model' && step === 1"
+                v-else-if="managedSlice.type === 'model' && step === 1"
                 :disabled="modelQueryInvalid"
               >Next</button>
               <button
                 class="dvs-btn dvs-btn-primary dvs-mr-2"
                 @click="addSlice"
-                v-else-if="mode === 'inserting' && newSlice.type === 'model' && step === 2"
+                v-else-if="mode === 'inserting' && managedSlice.type === 'model' && step === 2"
               >Insert Model Slice</button>
               <button
                 class="dvs-btn dvs-btn-primary dvs-mr-2"
@@ -111,27 +114,33 @@ import SlicesMixin from '../../../mixins/Slices';
 const defaultInsertSlice = {
   type: null,
   slice: null,
-  modelQuery: null
+  modelQuery: {
+    key: null,
+    params: []
+  }
 };
 
 export default {
   name: 'ManageSlice',
   data () {
     return {
-      newSlice: {},
+      managedSlice: {},
       step: 1,
-      modelQuery: null
+      modelQuery: {
+        key: null,
+        params: []
+      }
     };
   },
   mounted () {
-    this.newSlice = Object.assign({}, defaultInsertSlice)
+    this.managedSlice = Object.assign({}, defaultInsertSlice)
     this.getModelQueries();
     this.getSlicesDirectories();
 
     this.$nextTick(() => {
       // If slice is set it's an edit
       if (this.slice) {
-        this.newSlice.type = this.slice.metadata.type;
+        this.managedSlice.type = this.slice.metadata.type;
         this.modelQuery = this.slice.metadata.model_query
       }
     });
@@ -139,21 +148,21 @@ export default {
   methods: {
     ...mapActions('devise', ['getModelQueries', 'getSlicesDirectories', 'getModelSettings']),
     cancelManageSlice () {
-      this.$set(this, 'newSlice', defaultInsertSlice);
+      this.$set(this, 'managedSlice', defaultInsertSlice);
       this.$emit('cancel');
     },
     buildSlice () {
-      const component = this.componentFromView(this.newSlice.slice.value);
+      const component = this.componentFromView(this.managedSlice.slice.value);
       const finalSlice = {
         settings: {
           enabled: true,
         },
         metadata: {
           instance_id: 0,
-          label: this.newSlice.slice.name,
-          model_query: this.modelQuery,
+          label: this.managedSlice.slice.name,
+          model_query: this.modelQueryFormatted,
           name: component.name,
-          type: this.newSlice.type,
+          type: this.managedSlice.type,
           view: component.view,
           has_child_slot: component.has_child_slot,
         },
@@ -212,17 +221,38 @@ export default {
         this.$emit('input', Object.assign({}, newValue))
       }
     },
+    modelQueryFormatted () {
+      if (this.modelQuery) {
+        const finalParams = []
+        this.modelQuery.params.forEach(param => {
+          const currentIndex = this.modelQuery.params.indexOf(param)
+          finalParams.push([])
+          param.forEach(value => {
+            finalParams[currentIndex].push(value.value)
+          })
+        })
+
+        const finalModelQuery = {
+          key: this.modelQuery.key,
+          params: finalParams
+        }
+
+        return finalModelQuery
+      }
+      return null
+    },
     modelQueryInvalid () {
       if (!this.modelQueryConfig) {
+        console.log('modelQueryConfig null')
         return true
       }
-      let invalid = false
       this.modelQueryConfig.params.forEach(param => {
         if (!param.allowedNull && !param.value) {
-          invalid = true
+          console.log('modelQueryConfig null', param)
+          return true
         }
       })
-      return invalid
+      return false
     },
     modelQueryConfig () {
       if (this.modelQuery) {
