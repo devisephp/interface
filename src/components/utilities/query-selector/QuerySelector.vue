@@ -89,7 +89,7 @@ export default {
   watch: {
     selectedModelQuery: {
       handler (newValue) {
-        newValue.params.forEach((param) => {
+        newValue.params.forEach(() => {
           // may have to change the push data type based on param.type
           this.finalModelQuery.params.push([])
         })

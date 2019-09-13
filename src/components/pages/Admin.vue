@@ -99,7 +99,7 @@ export default {
           key: 'search-for-page',
           component: 'workflow-search',
           message: 'Use the form below to search for the page you wish to manage',
-          apiendpoint: 'pages/search',
+          apiendpoint: 'pages/admin-search',
           app: false,
           searchPropertyName: 'term',
           resultsDisplayFields: [
