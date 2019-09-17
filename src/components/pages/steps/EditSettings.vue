@@ -33,9 +33,11 @@
     <fieldset class="dvs-fieldset dvs-mb-8">
       <label>
         Canonical
-        <help :compact="true">The canonical link element helps webmasters make clear to the search engines which page should be credited as the original.<br><br><a
+        <help :compact="true">The canonical link element helps webmasters make clear to the search engines which page should be credited as the original.<br><br>
+          <a
             href="https://en.wikipedia.org/wiki/Canonical_link_element"
             target="_blank"
+            class="dvs-underline dvs-text-admin-highlight-fg dvs-font-bold"
           >Wikipedia Entry</a></help>
       </label>
       <input
@@ -46,7 +48,7 @@
       >
     </fieldset>
 
-    <fieldset class="dvs-fieldset">
+    <fieldset class="dvs-fieldset dvs-mb-8">
       <label>Additional Meta Tags</label>
       <meta-form
         v-model="localValue.meta"
@@ -66,13 +68,13 @@
       >
     </fieldset>
 
-    <fieldset class="dvs-fieldset dvs-mb-8">
+    <!-- <fieldset class="dvs-fieldset dvs-mb-8">
       <label>A/B Testing Enabled</label>
       <input
         type="checkbox"
         v-model="localValue.ab_testing_enabled"
       >
-    </fieldset>
+    </fieldset> -->
 
     <button
       class="dvs-btn dvs-btn-primary dvs-text-xs mr-4"
@@ -93,6 +95,9 @@ export default {
   name: 'DevisePagesEditSettings',
   components: {
     MetaForm: () => import(/* webpackChunkName: "devise-meta" */ '../../meta/MetaForm'),
+    Help: () => import(
+      // eslint-disable-next-line max-len
+      /* webpackChunkName: "devise-utilities" */ '../../utilities/Help.vue'),
   },
   props: {
     values: {
@@ -108,7 +113,6 @@ export default {
   },
   mounted () {
     this.localValue = { ...this.values }
-    this.$set(this.localValue, 'meta', []);
   },
   methods: {
     ...mapActions('devise', ['updateGeneric']),

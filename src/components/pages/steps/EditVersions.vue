@@ -129,6 +129,9 @@ export default {
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/CopyIcon'),
     CheckmarkIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/CheckIcon'),
+    Help: () => import(
+      // eslint-disable-next-line max-len
+      /* webpackChunkName: "devise-utilities" */ '../../utilities/Help.vue'),
   },
   computed: {
     layouts () {

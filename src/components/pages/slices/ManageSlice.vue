@@ -249,6 +249,7 @@ export default {
         if (!param.allowedNull && !param.value) {
           return true
         }
+        return false
       })
       return false
     },

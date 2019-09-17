@@ -217,6 +217,7 @@ export default {
           this.selected = [...response.data.data]
         })
       } else {
+        // eslint-disable-next-line no-console
         console.warn('Devise: You must have an editApi endpoint configured AppServiceProvider ModelQuery::set to edit model slices')
       }
     }

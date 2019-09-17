@@ -23,16 +23,23 @@
       class="relative"
       @mouseenter="showHelp = true"
       @mouseleave="showHelp = false"
+      @click="toggleKeepHelp"
     >
-      <help-circle-icon></help-circle-icon>
+      <span
+        class="dvs-cursor-pointer"
+        :class="{'dvs-text-admin-highlight-bg': keepHelp}"
+      >
+        <help-circle-icon></help-circle-icon>
+      </span>
       <div
         class="dvs-roman dvs-normal-case dvs-font-normal dvs-text-xl dvs-fixed dvs-pin-b dvs-pin-l dvs-ml-4 dvs-mb-4 dvs-z-30 dvs-text-admin-highlight-fg dvs-bg-admin-highlight-bg dvs-p-8 dvs-rounded dvs-shadow-lg"
         style="width:400px;"
-        v-show="showHelp"
+        v-show="showHelp || keepHelp"
       >
         <p>
           <slot></slot>
         </p>
+        <div class="dvs-text-xs"><strong>Note</strong> You can keep this window up by clicking on the hint you are mousing over</div>
       </div>
     </span>
   </span>
@@ -53,12 +60,18 @@ export default {
   },
   data () {
     return {
-      showHelp: false
+      showHelp: false,
+      keepHelp: false,
     }
   },
   components: {
     HelpCircleIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/HelpCircleIcon'),
+  },
+  methods: {
+    toggleKeepHelp () {
+      this.keepHelp = !this.keepHelp
+    }
   }
 }
 </script>

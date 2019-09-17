@@ -137,6 +137,9 @@ export default {
   components: {
     TrashIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/TrashIcon'),
+    Help: () => import(
+      // eslint-disable-next-line max-len
+      /* webpackChunkName: "devise-utilities" */ '../utilities/Help.vue'),
   },
 };
 </script>
