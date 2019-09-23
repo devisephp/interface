@@ -28,24 +28,34 @@
         <fieldset class="dvs-fieldset dvs-mb-4">
           <label>Width</label>
           <input
-            type="text"
             v-model.number="edits.w"
+            type="text"
             class="dvs-w-full"
           >
         </fieldset>
         <fieldset class="dvs-fieldset dvs-mb-4">
           <label>Height</label>
           <input
-            type="text"
             v-model.number="edits.h"
+            type="text"
             class="dvs-w-full"
           >
         </fieldset>
         <fieldset>
-          <button
-            class="dvs-btn dvs-w-full dvs-btn-primary dvs-btn-sm"
-            @click="setCustomSizeToOriginal"
-          >Original Dimensions</button>
+          <div class="flex">
+            <button
+              class="dvs-btn dvs-w-full dvs-btn-sm dvs-mr-2"
+              :class="{'dvs-bg-green dvs-text-white': lockAspectRatio, 'dvs-bg-grey': !lockAspectRatio}"
+              @click="lockAspectRatio = !lockAspectRatio"
+            >
+              <lock-icon v-show="lockAspectRatio"></lock-icon>
+              <unlock-icon v-show="!lockAspectRatio"></unlock-icon>
+            </button>
+            <button
+              class="dvs-btn dvs-w-full dvs-btn-secondary dvs-btn-sm"
+              @click="setCustomSizeToOriginal"
+            >Reset Dimensions</button>
+          </div>
         </fieldset>
       </template>
     </editor-control>
@@ -56,8 +66,8 @@
       </template>
       <template v-slot:control="slotProps">
         <fieldset
-          class="dvs-fieldset dvs-mb-4"
           v-if="edits.fit === 'custom'"
+          class="dvs-fieldset dvs-mb-4"
         >
           <label>Toggle Cropping</label>
           <button
@@ -90,8 +100,8 @@
         </fieldset>
 
         <fieldset
-          class="dvs-fieldset"
           v-if="edits.fit === 'fill'"
+          class="dvs-fieldset"
         >
           <label>Background Color</label>
           <color-picker
@@ -111,12 +121,12 @@
           <label>Quality</label>
           <div class="dvs-flex">
             <input
-              type="range"
-              @dblclick="edits.q = null"
               v-model="edits.q"
+              type="range"
               min="0"
               max="100"
               step="5"
+              @dblclick="edits.q = null"
             >
             <div class="dvs-font-bold dvs-text-xs dvs-pl-2">{{ edits.q }}</div>
           </div>
@@ -133,12 +143,12 @@
           <label>Sharpen</label>
           <div class="dvs-flex">
             <input
-              type="range"
-              @dblclick="edits.sharp = null"
               v-model="edits.sharp"
+              type="range"
               min="0"
               max="100"
               step="1"
+              @dblclick="edits.sharp = null"
             >
             <div class="dvs-font-bold dvs-text-xs dvs-pl-2">{{ edits.sharp }}</div>
           </div>
@@ -206,12 +216,12 @@
           <label>Brightness</label>
           <div class="dvs-flex">
             <input
-              type="range"
-              @dblclick="edits.bri = null"
               v-model="edits.bri"
+              type="range"
               min="-100"
               max="100"
               step="1"
+              @dblclick="edits.bri = null"
             >
             <div class="dvs-font-bold dvs-text-xs dvs-pl-2">{{ edits.bri }}</div>
           </div>
@@ -220,12 +230,12 @@
           <label>Contrast</label>
           <div class="dvs-flex">
             <input
-              type="range"
-              @dblclick="edits.con = null"
               v-model="edits.con"
+              type="range"
               min="-100"
               max="100"
               step="1"
+              @dblclick="edits.con = null"
             >
             <div class="dvs-font-bold dvs-text-xs dvs-pl-2">{{ edits.con }}</div>
           </div>
@@ -234,12 +244,12 @@
           <label>Gamma</label>
           <div class="dvs-flex">
             <input
-              type="range"
-              @dblclick="edits.gam = null"
               v-model="edits.gam"
+              type="range"
               min="0.1"
               max="9.99"
               step="0.01"
+              @dblclick="edits.gam = null"
             >
             <div class="dvs-font-bold dvs-text-xs dvs-pl-2">{{ edits.gam }}</div>
           </div>
@@ -248,12 +258,12 @@
           <label>Pixelate</label>
           <div class="dvs-flex">
             <input
-              type="range"
-              @dblclick="edits.pixel = null"
               v-model="edits.pixel"
+              type="range"
               min="0"
               max="20"
               step="1"
+              @dblclick="edits.pixel = null"
             >
             <div class="dvs-font-bold dvs-text-xs dvs-pl-2">{{ edits.pixel }}</div>
           </div>
@@ -266,11 +276,39 @@
 <script>
 import { mapMutations, mapState } from 'vuex';
 
+// eslint-disable-next-line no-undef
 const Chrome = require(/* webpackChunkName: "vue-color" */ 'vue-color/src/components/Chrome.vue').default;
+// eslint-disable-next-line no-undef
 const tinycolor = require(/* webpackChunkName: "tinycolor" */ 'tinycolor2');
 
 export default {
   name: 'MediaEditorControls',
+  components: {
+    'color-picker': Chrome,
+    EditorControl: () => import(/* webpackChunkName: "devise-media" */ './EditorControl'),
+    CropIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/CropIcon'),
+    LockIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/LockIcon'),
+    UnlockIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/UnlockIcon'),
+    StarIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/StarIcon'),
+    ApertureIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ApertureIcon'),
+    RotationIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/RotateCwIcon'),
+    FlipIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ColumnsIcon'),
+    ZapIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ZapIcon'),
+    SlidersIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SlidersIcon'),
+    ImageIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ImageIcon'),
+    MaximizeIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/MaximizeIcon'),
+  },
   props: {
     value: {
       required: true,
@@ -281,6 +319,12 @@ export default {
       type: Object
     }
   },
+  data () {
+    return {
+      lockAspectRatio: false
+    }
+  },
+
   computed: {
     ...mapState('devise', ['isCropping']),
     edits () {
@@ -303,35 +347,30 @@ export default {
       }
       return 'dvs-btn-ghost'
     },
+    width () {
+      return this.edits.w
+    },
+    height () {
+      return this.edits.h
+    }
   },
-  components: {
-    'color-picker': Chrome,
-    EditorControl: () => import(/* webpackChunkName: "devise-media" */ './EditorControl'),
-    CropIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/CropIcon'),
-    StarIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/StarIcon'),
-    ApertureIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ApertureIcon'),
-    RotationIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/RotateCwIcon'),
-    FlipIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ColumnsIcon'),
-    ZapIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ZapIcon'),
-    SlidersIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SlidersIcon'),
-    ImageIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ImageIcon'),
-    MaximizeIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/MaximizeIcon'),
+
+  watch: {
+    width (newValue, oldValue) {
+      if (this.lockAspectRatio) {
+        const aspectRatio = this.height / oldValue
+        this.edits.h = Math.round(aspectRatio * newValue)
+      }
+    }
   },
+
   methods: {
     ...mapMutations('devise', ['toggleCropping']),
     selectSizeImage () {
       this.$emit('selectsizeimage')
     },
     setCustomSizeToOriginal () {
+      this.lockAspectRatio = false;
       this.$emit('settooriginal')
     },
     startCropping (toggle) {

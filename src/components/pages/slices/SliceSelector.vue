@@ -2,9 +2,9 @@
   <div class="dvs-relative dvs-mb-8">
     <div class="dvs-flex dvs-justify-center dvs-p-4 dvs-pb-8  dvs-text-admin-fg  dvs-w-full">
       <input
-        type="text"
-        v-model="filter"
         ref="filter"
+        v-model="filter"
+        type="text"
         class="dvs-bg-transparent dvs-border-b-2 dvs-px-12 dvs-py-2 dvs-text-admin-fg dvs-outline-none dvs-placeholder-admin-fg dvs-text-center"
         placeholder="Type to begin searching"
       >
@@ -16,13 +16,13 @@
         <x-icon></x-icon>
       </div>
     </div>
-    <div v-if=" this.allDirectories.length > 0">
+    <div v-if="allDirectories.length > 0">
 
       <div>
         <slice-selector-directory
-          v-for="(directory, n) in this.allDirectories"
-          :allowed-views="allowedViews"
+          v-for="(directory, n) in allDirectories"
           :key="n"
+          :allowed-views="allowedViews"
           :directory="directory"
           :value="value"
           @input="update"
@@ -38,46 +38,25 @@ import { mapGetters, mapState } from 'vuex';
 import SliceSelectorDirectory from './SliceSelectorDirectory.vue';
 
 export default {
+  components: {
+    SliceSelectorDirectory,
+    XIcon: () => import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/XIcon'),
+  },
+  props: {
+    value: {
+      type: Object,
+      default: () => { }
+    },
+    modelQuery: {
+      type: Object,
+      default: () => { }
+    }
+  },
   data () {
     return {
       directoryStack: [],
       filter: null,
     };
-  },
-  mounted () {
-    this.$refs.filter.focus();
-  },
-  methods: {
-    getDirectoryFiles (directories, directory) {
-      directory = directories.find(dir => dir.dirName === directory);
-      return directory;
-    },
-    getDirectories (directories) {
-      let dirs = [];
-
-      directories.map(dir => {
-        dirs.push(dir);
-
-        if (dir.directories && dir.directories.length > 0) {
-          dirs = dirs.concat(this.getDirectories(dir.directories));
-        }
-        return dir;
-      });
-
-      return dirs;
-    },
-    filteredFiles (directory) {
-      const filter = this.filter.toLowerCase();
-      return directory.files.filter(file => {
-        if (file.name.toLowerCase().includes(filter)) {
-          return true;
-        }
-        return false;
-      });
-    },
-    update (newValue) {
-      this.$emit('input', newValue);
-    },
   },
   computed: {
     ...mapState('devise', ['modelQueries']),
@@ -95,7 +74,7 @@ export default {
       return [];
     },
     allowedViews () {
-      if (this.modelQuery.key !== null) {
+      if (this.modelQuery && this.modelQuery.key !== null) {
         const mqc = this.modelQueries.find(mq => {
           return mq.key === this.modelQuery.key
         })
@@ -131,17 +110,40 @@ export default {
       return directories;
     },
   },
-  props: {
-    value: {
-      type: Object,
-    },
-    modelQuery: {
-      type: Object
-    }
+  mounted () {
+    this.$refs.filter.focus();
   },
-  components: {
-    SliceSelectorDirectory,
-    XIcon: () => import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/XIcon'),
+  methods: {
+    getDirectoryFiles (directories, directory) {
+      directory = directories.find(dir => dir.dirName === directory);
+      return directory;
+    },
+    getDirectories (directories) {
+      let dirs = [];
+
+      directories.map(dir => {
+        dirs.push(dir);
+
+        if (dir.directories && dir.directories.length > 0) {
+          dirs = dirs.concat(this.getDirectories(dir.directories));
+        }
+        return dir;
+      });
+
+      return dirs;
+    },
+    filteredFiles (directory) {
+      const filter = this.filter.toLowerCase();
+      return directory.files.filter(file => {
+        if (file.name.toLowerCase().includes(filter)) {
+          return true;
+        }
+        return false;
+      });
+    },
+    update (newValue) {
+      this.$emit('input', newValue);
+    },
   },
 };
 </script>

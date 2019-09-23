@@ -1,41 +1,57 @@
 <template>
   <div
-    class="dvs-ml-16 dvs-max-w-1/2 dvs-self-center dvs-shadow-lg dvs-bg-admin-bg dvs-text-admin-fg dvs-rounded dvs-pointer-events-auto"
     id="dvs-admin-content-container"
     ref="admin-route-wrapper"
+    class="dvs-ml-16 dvs-max-w-1/2 dvs-self-center dvs-shadow-lg dvs-bg-admin-bg dvs-text-admin-fg dvs-rounded dvs-pointer-events-auto"
     style="min-width:400px"
   >
-    <vue-scrollbar class="dvs-max-h-screenpad ">
+    <vue-scrollbar
+      ref="Scrollbar"
+      class="dvs-max-h-screenpad"
+    >
 
       <div>
         <div>
           <div
-            class="dvs-pt-8 dvs-pb-16 dvs-relative"
             v-if="can('manage slices')"
+            class="dvs-pt-8 dvs-pb-16 dvs-relative"
           >
             <div class="dvs-absolute dvs-pin-t dvs-pin-r dvs-mt-4 dvs-mr-4">
               <toggle
+                :id="randomString(8)"
                 :mini="true"
                 @change="setDevMode"
-                :id="randomString(8)"
               ></toggle>
+            </div>
+
+            <div class="dvs-px-8 dvs-mb-8 dvs-text-xl dvs-font-sans">
+
+              <div
+                class="dvs-cursor-pointer dvs-flex dvs-items-center"
+                @click="goToEditPage()"
+              >
+                <span class="dvs-text-xs dvs-mr-2">
+                  <edit-icon></edit-icon>
+                </span>
+                {{ currentPage.title }}
+              </div>
             </div>
 
             <div class="dvs-p-8 dvs-pt-0">
               <fieldset
-                class="dvs-fieldset"
                 v-if="!showTimeTravel"
+                class="dvs-fieldset"
               >
                 <div class="flex flex-col items-stretch">
-                  <label>Page Version</label>
+                  <label class="dvs-opacity-75">Page Version</label>
                   <select
-                    @change="selectVersion"
                     class="dvs-small dvs-bg-admin-bg dvs-text-admin-fg"
+                    @change="selectVersion"
                   >
                     <option
-                      :value="version.id"
                       v-for="version in currentPage.versions"
                       :key="version.id"
+                      :value="version.id"
                       :selected="version.current"
                     >
                       {{ version.name }}
@@ -47,8 +63,8 @@
                 </div>
               </fieldset>
               <fieldset
-                class="dvs-fieldset"
                 v-else
+                class="dvs-fieldset"
               >
                 <label>Preview Date Time</label>
                 <div class="dvs-flex">
@@ -59,8 +75,8 @@
                     class="dvs-mr-2"
                   />
                   <button
-                    @click="timeTravel"
                     class="dvs-rounded dvs-btn dvs-btn-primary dvs-btn-sm dvs-flex dvs-justify-center dvs-items-center dvs-uppercase dvs-text-xs dvs-font-bold"
+                    @click="timeTravel"
                   >Go</button>
                 </div>
               </fieldset>
@@ -68,14 +84,14 @@
 
             <div class="dvs-px-8">
               <fieldset class="dvs-fieldset">
-                <label>Page Slices</label>
+                <label class="dvs-opacity-75">Page Slices</label>
               </fieldset>
             </div>
 
             <div class="dvs-flex dvs-flex-col dvs-items-center">
               <draggable
                 v-bind="{
-                  group: {name: 'g1'},
+                  group: {name: 'slices'},
                   animation:200,
                   ghostClass: 'dvs-ghost',
                   handle: '.handle',
@@ -91,13 +107,13 @@
                 <template v-for="(slice, key) in currentPageSlices">
                   <slice-editor
                     :key="randomString(8, key)"
-                    @opened="openSlice(slice)"
                     v-model="currentPageSlices[key]"
+                    :depth="1"
+                    @opened="openSlice(slice)"
                     @addSlice="addSlice"
                     @editSlice="editSlice"
                     @removeSlice="removeSlice"
                     @copySlice="copySlice"
-                    :depth="1"
                   />
                 </template>
               </draggable>
@@ -124,11 +140,11 @@
 
             <div class="dvs-flex dvs-flex-col dvs-items-center dvs-px-8">
               <manage-slice
-                ref="manageSlice"
                 v-if="createSlice === true"
+                ref="manageSlice"
+                mode="inserting"
                 @addSlice="addSlice"
                 @cancel="createSlice = false"
-                mode="inserting"
               />
 
               <div class="dvs-absolute dvs-pin-b dvs-pin-l dvs-pin-r dvs-mb-3 dvs-flex dvs-justify-around dvs-p-2 dvs-px-8">
@@ -138,9 +154,9 @@
                   @click.prevent="requestSavePage()"
                 >
                   <refresh-icon
+                    v-if="saving"
                     w="15"
                     h="15"
-                    v-if="saving"
                     class="dvs-mr-2 dvs-rotate-ccw"
                   />Save Page
                 </button>
@@ -178,10 +194,27 @@ import { mapGetters, mapActions } from 'vuex';
 import DatePicker from '../utilities/DatePicker.vue';
 import Strings from '../../mixins/Strings';
 
+// eslint-disable-next-line no-undef
 const queryString = require('query-string');
 
 export default {
   name: 'PageEditor',
+  components: {
+    DatePicker,
+    AddIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/PlusCircleIcon'),
+    RefreshIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/RefreshCcwIcon'),
+    draggable: () => import(/* webpackChunkName: "devise-editors" */ 'vuedraggable'),
+    ManageSlice: () => import(/* webpackChunkName: "devise-editors" */ './slices/ManageSlice'),
+    SliceEditor: () => import(/* webpackChunkName: "devise-editors" */ './slices/SliceEditor'),
+    SliceEditorFields: () => import(/* webpackChunkName: "devise-editors" */ "./slices/SliceEditorFields"),
+    Toggle: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/Toggle'),
+    VueScrollbar: () => import(/* webpackChunkName: "devise-administration" */ 'vue2-scrollbar'),
+    EditIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/EditIcon'),
+  },
+  mixins: [Strings],
   data () {
     return {
       saving: false,
@@ -191,6 +224,22 @@ export default {
       additionalSettingsOpen: false,
       queryString,
     };
+  },
+  computed: {
+    ...mapGetters('devise', ['currentPage', 'sliceConfig']),
+    currentPageSlices () {
+      return this.currentPage.slices
+    },
+    additionalPageSettings () {
+
+      if (window.deviseSettings.$config.additionalPageSettings) {
+        const site = window.deviseSettings.$config.additionalPageSettings.find(s => s.siteId === this.currentPage.site_id);
+        if (site) {
+          return site.fields
+        }
+      }
+      return false
+    }
   },
   mounted () {
     if (this.additionalPageSettings) {
@@ -220,8 +269,14 @@ export default {
         }
       }).finally(() => {
         this.saving = false;
+        this.recalculateScroll();
       });
     },
+
+    goToEditPage () {
+      this.$router.push({ name: 'devise-pages-admin', params: { workflowKey: 'jumpto-edit-page', pageId: this.currentPage.id } });
+    },
+
     toggleSlice (slice) {
       if (slice.metadata.open) {
         this.closeSlice(slice);
@@ -337,37 +392,16 @@ export default {
       const stringified = this.queryString.stringify(travelObj);
       document.location.search = stringified;
       return true;
-    }
-  },
-  computed: {
-    ...mapGetters('devise', ['currentPage', 'sliceConfig']),
-    currentPageSlices () {
-      return this.currentPage.slices
     },
-    additionalPageSettings () {
-
-      if (window.deviseSettings.$config.additionalPageSettings) {
-        const site = window.deviseSettings.$config.additionalPageSettings.find(s => s.siteId === this.currentPage.site_id);
-        if (site) {
-          return site.fields
+    recalculateScroll () {
+      this.$nextTick(() => {
+        if (typeof this.$refs.Scrollbar !== 'undefined') {
+          this.$refs.Scrollbar.calculateSize()
+          this.$refs.Scrollbar.scrollToY(0)
         }
-      }
-      return false
+      })
     }
   },
-  mixins: [Strings],
-  components: {
-    DatePicker,
-    AddIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/PlusCircleIcon'),
-    RefreshIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/RefreshCcwIcon'),
-    draggable: () => import(/* webpackChunkName: "devise-editors" */ 'vuedraggable'),
-    ManageSlice: () => import(/* webpackChunkName: "devise-editors" */ './slices/ManageSlice'),
-    SliceEditor: () => import(/* webpackChunkName: "devise-editors" */ './slices/SliceEditor'),
-    SliceEditorFields: () => import(/* webpackChunkName: "devise-editors" */ "./slices/SliceEditorFields"),
-    Toggle: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/Toggle'),
-    VueScrollbar: () => import(/* webpackChunkName: "devise-administration" */ 'vue2-scrollbar'),
-  },
+
 };
 </script>

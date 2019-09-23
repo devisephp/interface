@@ -7,6 +7,12 @@ body.dvs-admin-open {
   height: 100vh;
   overflow-y: hidden;
   padding-right: 15px; /* Avoid width reflow */
+
+  #dvs-admin-panels {
+    > div > div > div {
+      @apply pointer-events-auto;
+    }
+  }
 }
 
 @responsive {

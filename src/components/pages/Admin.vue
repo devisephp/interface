@@ -80,6 +80,12 @@ export default {
           ],
         },
         {
+          key: 'jumpto-edit-page',
+          component: 'devise-page-jump-to-edit',
+          message: 'Juuuuust a moment. Loading page data.',
+          nextStep: 'edit-page-index',
+        },
+        {
           key: 'edit-page-settings',
           component: 'devise-page-settings',
           message: 'These are the global settings that effect all versions of this page.',

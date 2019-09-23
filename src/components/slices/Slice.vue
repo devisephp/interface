@@ -1,18 +1,18 @@
 <template>
   <component
+    :is="currentView"
     v-if="sliceComponent !== null"
     :id="id"
+    ref="component"
     :style="styles"
-    :is="currentView"
     :devise="deviseForSlice"
     :breakpoint="breakpoint"
     :slices="devise.slices"
     :devise-models="currentPage"
     :component="sliceComponent"
     :slice-index="sliceIndex"
-    ref="component"
-    v-on="$listeners"
     v-bind="$attrs"
+    v-on="$listeners"
   ></component>
 </template>
 
@@ -33,12 +33,14 @@ export default {
     };
   },
   created () {
+    this.cleanupImageFields();
     this.hydrateMissingProperties();
     this.checkDefaults();
     this.sliceComponent = this.component(this.devise.metadata.name);
   },
   mounted () {
     this.mounted = true;
+
     this.sliceEl = this.$refs.component.$el;
 
     if (typeof this.devise.settings === 'undefined') {
@@ -46,8 +48,6 @@ export default {
     }
 
     this.addListeners();
-
-    this.cleanupImageFields();
 
     // TODO - Revisit this. With the new system we could probably open it up
     // to any user. However, we don't want every user to see the tippy message.
@@ -141,7 +141,7 @@ export default {
             const field = this.currentView.fields[fieldName];
 
             // If the field is an image
-            if (field.type === 'image' && this.devise[fieldName].url !== null) {
+            if (this.devise[fieldName] && field.type === 'image' && this.devise[fieldName].url !== null) {
               // do a little cleanup
               delete this.devise[fieldName].sizes;
               this.$set(this.devise[fieldName], 'sizes', field.sizes);
@@ -270,7 +270,6 @@ export default {
         }
 
         import(/* webpackChunkName: "devise-slice-admin" */ 'mezr').then(({ default: mezr }) => {
-
           if (on) {
             try {
               const offset = mezr.offset(this.sliceEl, 'margin');
@@ -417,12 +416,12 @@ export default {
       return window.deviseSettings.$deviseComponents[this.devise.metadata.name];
     }
   },
-  props: ['editorMode', 'sliceIndex'],
-  mixins: [Strings],
   components: {
     Slice,
     SettingsIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SettingsIcon'),
   },
+  mixins: [Strings],
+  props: ['editorMode', 'sliceIndex'],
 };
 </script>

@@ -3,4 +3,5 @@ export default function(el, binding) {
 
   el.href = link.href;
   el.target = link.target;
+  el.innerHTML = link.text;
 }

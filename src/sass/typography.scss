@@ -8,7 +8,7 @@
   h3 { @apply dvs-text-xl }
   h4 { @apply dvs-text-xl }
   h5 { @apply dvs-text-lg; }
-  h6 { @apply dvs-uppercase dvs-tracking-wide dvs-font-bold dvs-text-xs dvs-tracking-superwide; }
+  h6 { @apply dvs-text-xs; }
 
   p, ol, ul, blockquote, pre, code {
     line-height: 1.4em;

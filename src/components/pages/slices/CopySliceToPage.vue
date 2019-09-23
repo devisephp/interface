@@ -10,8 +10,8 @@
             <label>Site to copy to</label>
             <select
               v-model="siteToCopyTo"
-              @change="clearSearch"
               class="dvs-w-full"
+              @change="clearSearch"
             >
               <option
                 v-for="site in sites.data"
@@ -22,12 +22,12 @@
           </fieldset>
 
           <fieldset class="dvs-fieldset">
-            <label>Search for Page Version</label>
+            <label>Search for Page</label>
             <input
-              type="text"
               v-model="searchTerm"
-              @keyup="requestSearch"
+              type="text"
               class="dvs-w-full"
+              @keyup="requestSearch"
             >
           </fieldset>
 
@@ -52,8 +52,8 @@
         </div>
         <button
           class="dvs-btn dvs-btn-primary dvs-mr-2"
-          @click="confirmCopy"
           :disabled="!pageToCopyTo.site"
+          @click="confirmCopy"
         >Confirm</button>
         <button
           class="dvs-btn dvs-btn-secondary"
@@ -96,7 +96,7 @@ export default {
   methods: {
     ...mapActions('devise', ['searchPageVersions', 'copyPageSlice']),
     requestSearch () {
-      this.searchPageVersions({ term: this.searchTerm }).then((results) => {
+      this.searchPageVersions({ term: this.searchTerm, site_id: this.siteToCopyTo }).then((results) => {
         this.searchResults = []
         for (const id in results.data) {
           if (results.data.hasOwnProperty(id)) {

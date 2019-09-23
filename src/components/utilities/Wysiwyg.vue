@@ -2,8 +2,8 @@
   <div class="dvs-bg-white dvs-rounded dvs-relative">
 
     <editor-menu-bar
-      :editor="editor"
       v-slot="{ commands, isActive }"
+      :editor="editor"
     >
       <div class="dvs-bg-grey-light dvs-flex dvs-flex-wrap dvs-items-center dvs-rounded dvs-rounded-b-none">
 
@@ -88,10 +88,10 @@
         </div>
 
         <editor-menu-bubble
+          v-slot="{ commands, isActive, getMarkAttrs, menu }"
           class="menububble"
           :editor="editor"
           @hide="hideLinkMenu"
-          v-slot="{ commands, isActive, getMarkAttrs, menu }"
         >
           <div
             class="menububble"
@@ -100,23 +100,23 @@
           >
 
             <form
-              class="menububble__form dvs-bg-admin-bg dvs-text-admin-fg dvs-absolute dvs-p-4 dvs-rounded-sm dvs-shadow dvs-mt-2 dvs-z-10"
               v-if="linkMenuIsActive"
+              class="menububble__form dvs-bg-admin-bg dvs-text-admin-fg dvs-absolute dvs-p-4 dvs-rounded-sm dvs-shadow dvs-mt-2 dvs-z-10"
               @submit.prevent="setLinkUrl(commands.link, linkUrl)"
             >
               <fieldset class="dvs-fieldset">
                 <input
+                  ref="linkInput"
+                  v-model="linkUrl"
                   class="menububble__input dvs-mr-2"
                   type="text"
-                  v-model="linkUrl"
                   placeholder="https://"
-                  ref="linkInput"
                   @keydown.esc="$emit('hide')"
                 />
                 <button
                   class="menububble__button dvs-btn dvs-btn-primary"
-                  @click="setLinkUrl(commands.link, null)"
                   type="button"
+                  @click="setLinkUrl(commands.link, null)"
                 >
                   Remove
                 </button>
@@ -169,11 +169,11 @@
           </div>
           <div
             v-if="showTextColorPicker"
-            class="dvs-absolute dvs-pin-t dvs--mt-8 dvs-bg-grey-lighter dvs-p-4 dvs-rounded dvs-shadow-lg"
+            class="dvs-absolute dvs-z-10 dvs-pin-t dvs--mt-8 dvs-bg-grey-lighter dvs-p-4 dvs-rounded dvs-shadow-lg"
           >
             <color-picker
-              class="dvs-mb-2"
               v-model="textColor"
+              class="dvs-mb-2"
               @cancel="showTextColorPicker = false"
             />
 
@@ -321,8 +321,8 @@
     </editor-menu-bar>
 
     <editor-floating-menu
-      :editor="editor"
       v-slot="{ commands, isActive, menu  }"
+      :editor="editor"
     >
       <div
         class="editor__floating-menu dvs-bg-grey-light dvs-flex dvs-flex-wrap dvs-items-center dvs-rounded dvs-rounded-b-none"
@@ -413,8 +413,9 @@
     <textarea
       v-if="showSource"
       v-model="localValue"
+      class="dvs-h-full dvs-p-8 dvs-w-full dvs-font-mono dvs-text-sm"
+      style="height:300px"
       @keyup="updateSource"
-      class="dvs-p-8 dvs-w-full dvs-font-mono dvs-text-sm"
     >
     </textarea>
 
@@ -443,8 +444,8 @@
         <fieldset class="dvs-fieldset">
           <label>Margin</label>
           <input
-            type="number"
             ref="marginsetting"
+            type="number"
             min="0"
             max="200"
             @keyup="setImageMargin"
@@ -473,8 +474,8 @@
       </div>
     </div>
     <div
-      class="dvs-blocker dvs-z-20"
       v-if="imageToManage !== null"
+      class="dvs-blocker dvs-z-20"
       @click="imageToManage = null"
     ></div>
   </div>
@@ -512,11 +513,6 @@ import TextColor from './wysiwyg/tiptap/extensions/TextColor'
 const Chrome = require(/* webpackChunkName: "vue-color" */ 'vue-color/src/components/Chrome.vue').default;
 
 export default {
-  props: {
-    value: {
-      required: true
-    }
-  },
   components: {
     EditorContent,
     EditorFloatingMenu,
@@ -574,15 +570,9 @@ export default {
     LinkIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/LinkIcon'),
   },
-  computed: {
-    localValue: {
-      get () {
-        return this.value
-      },
-      set (newValue) {
-        this.$emit('input', newValue);
-        this.$emit('change', newValue);
-      },
+  props: {
+    value: {
+      required: true
     }
   },
   data () {
@@ -626,6 +616,17 @@ export default {
       textColor: '#000000',
       linkUrl: null,
       linkMenuIsActive: false,
+    }
+  },
+  computed: {
+    localValue: {
+      get () {
+        return this.value
+      },
+      set (newValue) {
+        this.$emit('input', newValue);
+        this.$emit('change', newValue);
+      },
     }
   },
   mounted () {

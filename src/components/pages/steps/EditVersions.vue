@@ -11,8 +11,8 @@
         class="dvs-rounded dvs-shadow-lg dvs-mb-4 dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-w-2/5"
       >
         <div
-          class="dvs-text-admin-highlight-fg dvs-bg-admin-highlight-bg dvs-text-sm dvs-uppercase dvs-p-2 dvs-font-bold dvs-text-center"
           v-if="version.is_live"
+          class="dvs-text-admin-highlight-fg dvs-bg-admin-highlight-bg dvs-text-sm dvs-uppercase dvs-p-2 dvs-font-bold dvs-text-center"
         >(Currently Live)</div>
         <div class=" dvs-p-6">
           <div class="dvs-text-base dvs-font-bold dvs-mb-4 dvs-flex dvs-justify-between">
@@ -23,8 +23,8 @@
               <fieldset class="dvs-fieldset dvs-mb-4">
                 <label>Version Name</label>
                 <input
-                  type="text"
                   v-model="localValue.versions[key].name"
+                  type="text"
                   class="dvs-w-full"
                 >
               </fieldset>
@@ -36,9 +36,9 @@
                   class="dvs-w-full"
                 >
                   <option
-                    :value="layout"
                     v-for="(layout, layoutName) in layouts"
                     :key="layout"
+                    :value="layout"
                   >{{ layoutName }}</option>
                 </select>
               </fieldset>
@@ -64,13 +64,13 @@
               </fieldset>
 
               <fieldset
-                class="dvs-fieldset dvs-mb-8"
                 v-if="localValue.ab_testing_enabled"
+                class="dvs-fieldset dvs-mb-8"
               >
                 <label>A/B Testing Amount</label>
                 <input
-                  type="number"
                   v-model.number="localValue.versions[key].ab_testing_amount"
+                  type="number"
                   title="This is the weight in which a page will show up. The number can be any number you want and is divided by the total weights of all other page versions."
                 >
               </fieldset>
@@ -79,8 +79,8 @@
             <div class="dvs-flex dvs-flex-wrap">
               <button
                 class="dvs-btn dvs-btn-primary dvs-text-sm dvs-px-4 dvs-mr-2"
-                @click="requestSaveVersion(version)"
                 title="Save Version Settings"
+                @click="requestSaveVersion(version)"
               >
                 <checkmark-icon
                   w="30"
@@ -89,8 +89,8 @@
               </button>
               <button
                 class="dvs-btn dvs-bg-admin-bg dvs-text-admin-fg dvs-text-sm dvs-px-4 dvs-mr-2"
-                @click="requestCopyVersion(version)"
                 title="Copy Version"
+                @click="requestCopyVersion(version)"
               >
                 <copy-icon
                   w="30"
@@ -98,8 +98,8 @@
                 />
               </button>
               <button
-                class="dvs-btn dvs-bg-admin-bg dvs-text-admin-fg dvs-text-sm dvs-px-4"
                 v-devise-alert-confirm="{callback: requestDeleteVersion, arguments:version, message: 'Are you sure you want to delete this version?'}"
+                class="dvs-btn dvs-bg-admin-bg dvs-text-admin-fg dvs-text-sm dvs-px-4"
                 title="Delete Version"
               >
                 <trash-icon
@@ -133,11 +133,6 @@ export default {
       // eslint-disable-next-line max-len
       /* webpackChunkName: "devise-utilities" */ '../../utilities/Help.vue'),
   },
-  computed: {
-    layouts () {
-      return window.deviseSettings.$config.layouts;
-    },
-  },
   props: {
     values: {
       type: Object,
@@ -149,6 +144,11 @@ export default {
       localValue: {},
       showPassword: false,
     };
+  },
+  computed: {
+    layouts () {
+      return window.deviseSettings.$config.layouts;
+    },
   },
   mounted () {
     this.localValue = { ...this.values }

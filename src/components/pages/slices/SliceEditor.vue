@@ -25,26 +25,26 @@
 
     <portal to="devise-root">
       <copy-slice-to-page
+        v-if="showCopyToAnotherPage"
         :slice="slice"
         @close="showCopyToAnotherPage = false"
-        v-if="showCopyToAnotherPage"
       ></copy-slice-to-page>
     </portal>
 
     <manage-slice
-      ref="manageslice"
       v-if="manageSlice === true"
+      ref="manageslice"
+      v-model="sliceToManage"
+      :mode="manageSliceMode"
       @cancel="manageSlice = false"
       @addSlice="addSlice"
       @editSlice="editSlice"
       @removeSlice="removeSlice"
-      v-model="sliceToManage"
-      :mode="manageSliceMode"
     />
 
     <div
-      class="dvs-collapsed dvs-px-4"
       v-if="sliceOpen"
+      class="dvs-collapsed dvs-px-4"
     >
       <div class="dvs-pt-2 dvs-flex dvs-items-end dvs-flex-wrap">
         <div>
@@ -132,7 +132,7 @@
           </div>
         </div>
 
-        <div v-if="!child">
+        <div>
           <div
             class="dvs-opacity-50 hover:dvs-opacity-100 dvs-text-xs dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-rounded dvs-cursor-pointer dvs-mr-1 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-rounded-sm dvs-p-2"
             style="width:50px;"
@@ -149,29 +149,29 @@
 
       <slice-editor-fields
         v-if="slice.metadata.type !== 'model' && sliceConfig(slice).fields"
-        :the-fields="sliceConfig(slice).fields"
         v-model="theFields"
+        :the-fields="sliceConfig(slice).fields"
         @editfield="editField"
       />
     </div>
 
     <div
-      class="dvs-collapsed dvs-px-6 dvs-text-sm"
       v-if="slice.metadata.type === 'model'"
+      class="dvs-collapsed dvs-px-6 dvs-text-sm"
     >
       <div class="dvs-mb-8">
         <help>Be aware that these entries are model entries. That means they are managed in your database by another tool or by an admin section in your adminitration.</help>
       </div>
 
       <div
-        class="dvs-px-4 dvs-flex dvs-items-center"
         v-for="(record, key) in pageSlices"
         :key="key"
+        class="dvs-px-4 dvs-flex dvs-items-center"
       >
         <div
+          v-if="record.settings && record.settings.admin && record.settings.admin.route"
           class="dvs-cursor-pointer"
           @click="goToModel(record)"
-          v-if="record.settings && record.settings.admin && record.settings.admin.route"
         >
           <link-icon></link-icon>
         </div>
@@ -183,31 +183,28 @@
 
     </div>
     <div
-      class="dvs-collapsed dvs-px-4 dvs-pl-10"
       v-if="hasChildSlot"
+      class="dvs-collapsed dvs-px-4 dvs-pl-6 dvs-mt-6"
       :style="{
           minHeight: '15px'
         }"
     >
       <draggable
-        v-model="slice.slices"
+        v-if="slice.metadata.type !== 'model'"
+        v-devise-opacity.background="0.5"
+        :list="sliceSlices"
         tag="ul"
         class="dvs-list-reset dvs-bg-admin-secondary-bg dvs-rounded-lg dvs-py-1 dvs-pt-3 dvs-mt-1 dvs-mb-6"
-        v-if="slice.metadata.type !== 'model'"
         v-bind="{
-          handle: '.handle', 
-          filter: '.dvs-instructions',
-          group: {name: 'g1'},
+          group: {name: 'slices'},
           animation:200,
           ghostClass: 'dvs-ghost',
+          handle: '.handle',
+          dragClass: 'dvs-chosen-drag-slice',
+          emptyInsertThreshold: 10,
+          removeCloneOnHide: false
         }"
       >
-        <div
-          class="dvs-p-4 dvs-text-xs dvs-leading-normal dvs-instructions"
-          v-if="sliceSlices.length < 1"
-        >
-          You can add child slices by dragging them here or by using the menu above and selecting "+ Slice"
-        </div>
         <template v-for="(s, k) in sliceSlices">
           <slice-editor
             :key="randomString(8, k)"
@@ -220,6 +217,12 @@
           />
         </template>
       </draggable>
+      <div
+        v-if="sliceSlices.length < 1"
+        class="dvs-p-4 dvs-text-xs dvs-leading-normal dvs-instructions"
+      >
+        You can add child slices by dragging them here or by using the menu above and selecting "+ Slice"
+      </div>
     </div>
   </li>
 </template>
@@ -230,6 +233,41 @@ import Strings from '../../../mixins/Strings';
 
 export default {
   name: 'SliceEditor',
+  components: {
+    AddIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/PlusCircleIcon'),
+    CogIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SettingsIcon'),
+    CopyIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/CopyIcon'),
+    CreateIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/Edit3Icon'),
+    draggable: () => import(/* webpackChunkName: "devise-editors" */ 'vuedraggable'),
+    LocateIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/TargetIcon'),
+    LinkIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/LinkIcon'),
+    ManageSlice: () => import(/* webpackChunkName: "devise-editors" */ './ManageSlice'),
+    MenuIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/MenuIcon'),
+    RemoveIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/TrashIcon'),
+    SliceEditor: () => import(/* webpackChunkName: "devise-editors" */ './SliceEditor'),
+    SliceEditorFields: () => import(/* webpackChunkName: "devise-editors" */ './SliceEditorFields'),
+    CopySliceToPage: () => import(/* webpackChunkName: "devise-editors" */ './CopySliceToPage'),
+    Help: () => import(/* webpackChunkName: "devise-utilities" */ '../../utilities/Help'),
+  },
+  mixins: [Strings],
+  props: {
+    value: {
+      type: Object,
+      required: true
+    },
+    child: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data () {
     return {
       showDropZone: false,
@@ -240,6 +278,78 @@ export default {
       showCopyToAnotherPage: false,
     };
   },
+  computed: {
+    ...mapGetters('devise', ['component', 'fieldConfig', 'sliceConfig']),
+    ...mapState('devise', ['devMode']),
+    slice: {
+      get () {
+        return this.value;
+      },
+      set (newValue) {
+        this.$emit('input', newValue)
+      },
+    },
+    sliceSlices: {
+      get () {
+        return (this.value.slices) ? this.value.slices : []
+      },
+      set (newValue) {
+        this.$emit('input', newValue)
+      },
+    },
+    sliceToManage: {
+      get () {
+        if (this.manageSliceMode === 'editing') {
+          // Edit
+          return this.value;
+        }
+        // Insert
+        return {};
+      },
+      set (newValue) {
+        this.$emit('input', newValue)
+      }
+    },
+    theFields () {
+      const fields = {};
+      for (const potentialField in this.slice) {
+        if (
+          this.slice.hasOwnProperty(potentialField) &&
+          potentialField !== 'slices' &&
+          potentialField !== 'metadata' &&
+          potentialField !== 'settings' &&
+          typeof this.slice[potentialField] === 'object'
+        ) {
+          fields[potentialField] = this.slice[potentialField];
+          if (typeof fields[potentialField].enabled === 'undefined') {
+            this.$set(fields[potentialField], 'enabled', true);
+          }
+        }
+      }
+      return fields;
+    },
+    sliceHasFieldsOrSlices () {
+      let count = Object.keys(this.theFields).length;
+      if (this.slice.slices) {
+        count += this.slice.slices.length;
+      }
+
+      return count > 0;
+    },
+    hasChildSlot () {
+      const component = this.component(this.slice.metadata.name);
+
+      if (component.has_child_slot) {
+        return true;
+      }
+
+      return false;
+    },
+    editorLabel () {
+      return this.buildEditorLabel(this.theFields, this.slice.metadata.instance_id)
+    }
+  },
+
   mounted () {
     if (this.slice.slices) {
       this.pageSlices = this.slice.slices;
@@ -255,7 +365,7 @@ export default {
 
     // Marking Slice
     markSlice (on) {
-      window.window.deviseSettings.$bus.$emit('markSlice', this.devise, on);
+      window.window.deviseSettings.$bus.$emit('markSlice', this.slice, on);
     },
     jumpToSlice () {
       window.window.deviseSettings.$bus.$emit('jumpToSlice', this.slice);
@@ -353,7 +463,7 @@ export default {
 
             if (f.type === 'image') {
               label = `<div class="dvs-rounded dvs-bg-cover" style="background-image: url('${label}'); height:100px; width:200px;"></div>`;
-            } else {
+            } else if (f.type !== 'number') {
               label = `${label.toLowerCase()}`;
             }
 
@@ -371,105 +481,6 @@ export default {
         }</div>`;
     }
   },
-  computed: {
-    ...mapGetters('devise', ['component', 'fieldConfig', 'sliceConfig']),
-    ...mapState('devise', ['devMode']),
-    slice: {
-      get () {
-        return this.value;
-      },
-      set (newValue) {
-        this.$emit('input', Object.assign({}, newValue))
-      }
-    },
-    sliceToManage: {
-      get () {
-        if (this.manageSliceMode === 'editing') {
-          // Edit
-          return this.value;
-        }
-        // Insert
-        return {};
-      },
-      set (newValue) {
-        this.$emit('input', Object.assign({}, newValue))
-      }
-    },
-    sliceSlices () {
-      return (this.slice.slices) ? this.slice.slices : []
-    },
-    theFields () {
-      const fields = {};
-      for (const potentialField in this.slice) {
-        if (
-          this.slice.hasOwnProperty(potentialField) &&
-          potentialField !== 'slices' &&
-          potentialField !== 'metadata' &&
-          potentialField !== 'settings' &&
-          typeof this.slice[potentialField] === 'object'
-        ) {
-          fields[potentialField] = this.slice[potentialField];
-          if (typeof fields[potentialField].enabled === 'undefined') {
-            this.$set(fields[potentialField], 'enabled', true);
-          }
-        }
-      }
-      return fields;
-    },
-    sliceHasFieldsOrSlices () {
-      let count = Object.keys(this.theFields).length;
-      if (this.slice.slices) {
-        count += this.slice.slices.length;
-      }
 
-      return count > 0;
-    },
-    hasChildSlot () {
-      const component = this.component(this.slice.metadata.name);
-
-      if (component.has_child_slot) {
-        return true;
-      }
-
-      return false;
-    },
-    editorLabel () {
-      return this.buildEditorLabel(this.theFields, this.slice.metadata.instance_id)
-    }
-  },
-  props: {
-    value: {
-      type: Object,
-      required: true
-    },
-    child: {
-      default: false,
-    },
-  },
-  mixins: [Strings],
-  components: {
-    AddIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/PlusCircleIcon'),
-    CogIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SettingsIcon'),
-    CopyIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/CopyIcon'),
-    CreateIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/Edit3Icon'),
-    draggable: () => import(/* webpackChunkName: "devise-editors" */ 'vuedraggable'),
-    LocateIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/TargetIcon'),
-    LinkIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/LinkIcon'),
-    ManageSlice: () => import(/* webpackChunkName: "devise-editors" */ './ManageSlice'),
-    MenuIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/MenuIcon'),
-    RemoveIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/TrashIcon'),
-    SliceEditor: () => import(/* webpackChunkName: "devise-editors" */ './SliceEditor'),
-    SliceEditorFields: () => import(/* webpackChunkName: "devise-editors" */ './SliceEditorFields'),
-    CopySliceToPage: () => import(/* webpackChunkName: "devise-editors" */ './CopySliceToPage'),
-    Help: () => import(/* webpackChunkName: "devise-utilities" */ '../../utilities/Help'),
-  },
 };
 </script>

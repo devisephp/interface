@@ -9,10 +9,10 @@
           <arrow-left-circle-icon class="mb-1"></arrow-left-circle-icon>
           <span class="dvs-text-2xs dvs-uppercase">Back</span>
         </div>
+        <!-- eslint-disable vue/no-v-html -->
         <div
-          v-html="
-            currentStep.message"
           class="dvs-px-8"
+          v-html="currentStep.message"
         >
         </div>
       </div>
@@ -55,6 +55,11 @@ export default {
       required: true
     }
   },
+  data () {
+    return {
+      workflowStack: []
+    }
+  },
   computed: {
     index () {
       return this.workflow.find((step) => {
@@ -70,11 +75,6 @@ export default {
         values = Object.assign(values, step.value)
       })
       return values
-    }
-  },
-  data () {
-    return {
-      workflowStack: []
     }
   },
   mounted () {
@@ -112,7 +112,7 @@ export default {
     loadStep () {
       let stepToLoad = null
 
-      if (this.currentStep.end || this.currentStep.value.end) {
+      if (this.currentStep.end || (this.currentStep.value && this.currentStep.value.end)) {
         this.clearStack();
         return;
       }

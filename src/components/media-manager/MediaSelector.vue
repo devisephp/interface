@@ -11,11 +11,11 @@
       <div>
         <div class="dvs-font-bold">Media Manager</div>
         <div
-          class="dvs-flex dvs-mt-2 dvs-justify-between dvs-items-center dvs-font-mono dvs-text-sm dvs-tracking-tight"
           v-if="currentDirectory !== ''"
+          class="dvs-flex dvs-mt-2 dvs-justify-between dvs-items-center dvs-font-mono dvs-text-sm dvs-tracking-tight"
         >
           <breadcrumbs
-            :currentDirectory="currentDirectory"
+            :current-directory="currentDirectory"
             @chooseDirectory="changeDirectories"
           ></breadcrumbs>
         </div>
@@ -25,9 +25,9 @@
           <div class="dvs-flex dvs-items-center">
             <label class="dvs-mr-2 dvs-my-2">Remember Location?</label>
             <input
+              v-model="cookieSettings"
               class="dvs-my-2"
               type="checkbox"
-              v-model="cookieSettings"
               @click="refreshDirectory"
             >
           </div>
@@ -36,10 +36,10 @@
           <div class="dvs-flex dvs-items-center">
             <label class="dvs-mr-2 dvs-my-2">Contact Sheet</label>
             <input
+              v-model="mode"
               class="dvs-my-2"
               type="radio"
               value="contactSheet"
-              v-model="mode"
             >
           </div>
         </fieldset>
@@ -47,10 +47,10 @@
           <div class="dvs-flex dvs-items-center">
             <label class="dvs-mr-2 dvs-my-2">Thumbnails</label>
             <input
+              v-model="mode"
               class="dvs-my-2"
               type="radio"
               value="thumbnails"
-              v-model="mode"
             >
           </div>
         </fieldset>
@@ -58,10 +58,10 @@
           <div class="dvs-flex dvs-items-center">
             <label class="dvs-mr-2 dvs-my-2">List</label>
             <input
+              v-model="mode"
               class="dvs-my-2"
               type="radio"
               value="list"
-              v-model="mode"
             >
           </div>
         </fieldset>
@@ -72,17 +72,17 @@
       class="dvs-flex dvs-items-stretch"
       style="max-height:80vh"
     >
-      <div class="dvs-min-w-1/3 dvs-max-h-full">
+      <div class="dvs-relative dvs-min-w-1/3 dvs-max-h-full">
         <div>
-          <div class="dvs-h-full dvs-p-8 dvs-bg-grey-lightest dvs-flex dvs-flex-col dvs-justify-between dvs-border-r dvs-border-lighter">
+          <div class="dvs-h-full dvs-p-8 dvs-bg-grey-lightest dvs-flex dvs-flex-col dvs-justify-start dvs-border-r dvs-border-lighter">
             <form @submit.prevent="search">
               <div class="mb-8 flex">
                 <fieldset class="dvs-fieldset mr-2">
                   <input
+                    ref="search"
+                    v-model="searchTerms"
                     type="text"
                     placeholder="Search"
-                    v-model="searchTerms"
-                    ref="search"
                     class="mr-2"
                   >
                 </fieldset>
@@ -93,34 +93,40 @@
               </div>
             </form>
 
-            <ul class="dvs-list-reset dvs-mb-10 dvs-font-mono dvs-text-sm dvs-tracking-tight">
-              <li
-                v-for="directory in directories"
-                :key="directory.id"
-                class="dvs-cursor-pointer dvs-mt-2 dvs-text-bold"
-                @click="changeDirectories(directory.path)"
-              >
-                <folder-icon class="dvs-mr-2"></folder-icon>
-                {{ directory.name }}
-              </li>
-              <li v-if="directories.length < 1">No directories within this directory</li>
-            </ul>
-
-            <div class="dvs-flex dvs-flex-col">
-              <fieldset class="dvs-fieldset dvs-mb-4">
-                <input
-                  type="text"
-                  placeholder="New Directory"
-                  v-model="directoryToCreate"
-                  class="mr-2"
+            <vue-scrollbar
+              ref="Scrollbar"
+              class="dvs-w-full dvs-mb-10"
+              style="max-height:30vh; min-height:30vh"
+            >
+              <ul class="dvs-list-reset dvs-py-8 dvs-font-mono dvs-text-sm dvs-tracking-tight">
+                <li
+                  v-for="directory in directories"
+                  :key="directory.id"
+                  class="dvs-cursor-pointer dvs-mt-2 dvs-text-bold"
+                  @click="changeDirectories(directory.path)"
                 >
-              </fieldset>
-              <button
-                class="dvs-btn dvs-btn-primary dvs-btn-sm"
-                @click="requestCreateDirectory()"
-              >Create</button>
-            </div>
+                  <folder-icon class="dvs-mr-2"></folder-icon>
+                  {{ directory.name }}
+                </li>
+                <li v-if="directories.length < 1">No directories within this directory</li>
+              </ul>
+            </vue-scrollbar>
           </div>
+        </div>
+
+        <div class="dvs-absolute dvs-pin-b dvs-pin-l dvs-pin-r dvs-ml-8 dvs-mr-8 dvs-mb-8 dvs-flex dvs-flex-col">
+          <fieldset class="dvs-fieldset dvs-mb-4">
+            <input
+              v-model="directoryToCreate"
+              type="text"
+              placeholder="New Directory"
+              class="mr-2"
+            >
+          </fieldset>
+          <button
+            class="dvs-btn dvs-btn-primary dvs-btn-sm"
+            @click="requestCreateDirectory()"
+          >Create</button>
         </div>
       </div>
 
@@ -129,8 +135,8 @@
         :class="{'w-full': directories.length < 1}"
       >
         <div
-          class="dvs-p-8 dvs-flex"
           v-if="searchResults.length > 0"
+          class="dvs-p-8 dvs-flex"
         >
           <h4>
             Showing up to {{ searchResultsLimit }} results for:
@@ -146,8 +152,8 @@
         </div>
 
         <div
-          class="dvs-p-8 dvs-flex"
           v-else-if="searchableMedia.data.length > 0 && searchTerms !== null && searchTerms !== ''"
+          class="dvs-p-8 dvs-flex"
         >
           <h4>
             Hit "Search" for results of:
@@ -168,14 +174,14 @@
           name="dvs-fade"
         >
           <uploader
-            key="uploader"
             v-if="!loadingDirectory"
+            key="uploader"
             :current-directory="currentDirectory"
             @all-files-uploaded="refreshDirectory"
           ></uploader>
           <loading-screen
-            key="loadingscreen"
             v-else
+            key="loadingscreen"
             :inline="true"
             inline-message="Loading Directory"
           ></loading-screen>
@@ -228,8 +234,8 @@
 
             <!-- Files -->
             <ul
-              class="dvs-list-reset dvs-flex dvs-justify-center dvs-flex-wrap"
               v-else
+              class="dvs-list-reset dvs-flex dvs-justify-center dvs-flex-wrap"
             >
               <li
                 v-for="file in currentFiles"
@@ -247,8 +253,8 @@
                 <!-- Close File if On -->
                 <div
                   v-if="file === currentlyOpenFile"
-                  @click.stop.prevent="closeFile(file)"
                   class="dvs-absolute z-10 dvs-pin-t dvs-pin-r dvs-mt-4 dvs-mr-4 dvs-cursor-pointer"
+                  @click.stop.prevent="closeFile(file)"
                 >
                   <close-icon
                     w="30"
@@ -258,14 +264,14 @@
 
                 <!-- Closed File -->
                 <div
-                  class="dvs-overflow-hidden"
                   v-if="file !== currentlyOpenFile"
+                  class="dvs-overflow-hidden"
                 >
                   <!-- Contact Sheet -->
                   <div
+                    v-if="mode === 'contactSheet'"
                     class="dvs-overflow-hidden dvs-text-center"
                     style="width:100px;height:105px"
-                    v-if="mode === 'contactSheet'"
                   >
                     <img
                       :src="`/styled/preview/${file.url}?w=100&h=100&fit=crop`"
@@ -276,15 +282,15 @@
 
                   <!-- Thumbnails Mode -->
                   <div
+                    v-else-if="mode === 'thumbnails'"
                     class="dvs-grid-preview dvs-relative"
                     :style="`background-size:cover;background-image:url('${`/styled/preview/${file.url}?w=600&h=600&q=100&sharp=2`}')`"
-                    v-else-if="mode === 'thumbnails'"
                   ></div>
 
                   <!-- List Mode -->
                   <div
-                    class="dvs-w-full dvs-flex dvs-items-center"
                     v-else
+                    class="dvs-w-full dvs-flex dvs-items-center"
                   >
                     <img
                       :src="`/styled/preview/${file.url}?w=100&h=100`"
@@ -307,16 +313,16 @@
                         mode="out-in"
                       >
                         <img
-                          :src="`/styled/preview/${file.url}?w=500&h=500`"
                           v-show="currentlyOpenFile.loaded"
-                          @load="currentlyOpenFile.loaded = true"
+                          :src="`/styled/preview/${file.url}?w=500&h=500`"
                           class="dvs-cursor-pointer dvs-mb-4"
+                          @load="currentlyOpenFile.loaded = true"
                         >
                       </transition>
 
                       <loading-screen
-                        key="loadingscreen"
                         v-if="!currentlyOpenFile.loaded"
+                        key="loadingscreen"
                         :inline="true"
                         inline-message="Loading Large Preview"
                       ></loading-screen>
@@ -324,8 +330,8 @@
 
                     <div class="dvs-flex">
                       <div
-                        class="dvs-mr-4 dvs-cursor-pointer dvs-text-admin-bg"
                         v-devise-alert-confirm="{callback: confirmedDeleteFile, arguments: file, message: 'Are you sure you want to delete this media?'}"
+                        class="dvs-mr-4 dvs-cursor-pointer dvs-text-admin-bg"
                       >
                         <trash-icon
                           h="20"
@@ -372,8 +378,8 @@
                       <label class="dvs-text-xs dvs-uppercase dvs-mb-1">Global Caption</label>
                       <div class="dvs-flex">
                         <input
-                          type="text"
                           v-model="file.alt"
+                          type="text"
                           class="dvs-mr-4"
                         >
                         <button
@@ -387,8 +393,8 @@
 
                     <p>
                       <button
-                        @click="selectSourceFile(file)"
                         class="dvs-btn dvs-btn-sm dvs-btn-primary"
+                        @click="selectSourceFile(file)"
                       >Select</button>
                     </p>
 
@@ -426,6 +432,36 @@ import { mapGetters, mapActions } from 'vuex';
 const Cookies = require('js-cookie');
 
 export default {
+
+  components: {
+    Breadcrumbs: () => import(/* webpackChunkName: "devise-media" */ './Breadcrumbs.vue'),
+    Uploader: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/Uploader.vue'),
+    LoadingScreen: () =>
+      import(/* webpackChunkName: "devise-utilities" */ '../utilities/LoadingScreen.vue'),
+    FolderIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/FolderIcon'),
+    TrashIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/TrashIcon'),
+    CloseIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/XIcon'),
+    LinkIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/LinkIcon'),
+    DownloadIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/DownloadCloudIcon'),
+    VueScrollbar: () => import(/* webpackChunkName: "devise-administration" */ 'vue2-scrollbar'),
+  },
+  data () {
+    return {
+      mode: 'list',
+      directoryToCreate: '',
+      searchTerms: null,
+      searchResults: [],
+      searchResultsLimit: 100,
+      currentlyOpenFile: null,
+      cookieSettings: false,
+      loadingDirectory: false
+    };
+  },
   computed: {
     ...mapGetters('devise', ['files', 'directories', 'currentDirectory', 'searchableMedia']),
     currentFiles () {
@@ -440,18 +476,6 @@ export default {
         'X-CSRF-TOKEN': token.content,
       };
     },
-  },
-  data () {
-    return {
-      mode: 'list',
-      directoryToCreate: '',
-      searchTerms: null,
-      searchResults: [],
-      searchResultsLimit: 100,
-      currentlyOpenFile: null,
-      cookieSettings: false,
-      loadingDirectory: false
-    };
   },
   mounted () {
     this.loadInitialLocation();
@@ -605,22 +629,13 @@ export default {
         Cookies.set('devise-mediamanager-mode', newValue);
       }
     },
+    directories () {
+      if (typeof this.$refs.Scrollbar !== 'undefined') {
+        this.$refs.Scrollbar.calculateSize()
+        this.$refs.Scrollbar.scrollToY(0)
+      }
+    }
   },
-  components: {
-    Breadcrumbs: () => import(/* webpackChunkName: "devise-media" */ './Breadcrumbs.vue'),
-    Uploader: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/Uploader.vue'),
-    LoadingScreen: () =>
-      import(/* webpackChunkName: "devise-utilities" */ '../utilities/LoadingScreen.vue'),
-    FolderIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/FolderIcon'),
-    TrashIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/TrashIcon'),
-    CloseIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/XIcon'),
-    LinkIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/LinkIcon'),
-    DownloadIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/DownloadCloudIcon'),
-  },
+
 };
 </script>

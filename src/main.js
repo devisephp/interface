@@ -5,16 +5,16 @@ import iziToast from 'izitoast';
 import Devise from './Devise.vue';
 import DeviseStore from './vuex/store';
 import DeviseBus from './event-bus';
-import Tuck from './directives/tuck'
-import alertConfirm from './directives/alert-confirm'
+import Opacity from './directives/opacity';
+import alertConfirm from './directives/alert-confirm';
 import Image from './directives/image';
 import Link from './directives/link';
-import Messages from './components/utilities/Messages.vue'
+import Messages from './components/utilities/Messages.vue';
 import routes from './router/route.config';
 import Slices from './components/slices/Slices.vue';
 
 const DevisePlugin = {
-  install (Vue, { store, router, bus, options }) {
+  install(Vue, { store, router, bus, options }) {
     if (typeof store === 'undefined') {
       throw new Error('Please provide a vuex store.');
     }
@@ -31,7 +31,9 @@ const DevisePlugin = {
         route.components = {};
       }
       if (!route.components.hasOwnProperty('devise')) {
-        const EditPage = import(/* webpackChunkName: "devise-administration" */ './components/pages/Editor.vue')
+        const EditPage = import(
+          /* webpackChunkName: "devise-administration" */ './components/pages/Editor.vue'
+        );
         route.components.devise = EditPage;
       }
 
@@ -61,7 +63,7 @@ const DevisePlugin = {
 
     // Setup deviseSettings if not present
     if (typeof window.deviseSettings === 'undefined') {
-      window.deviseSettings = () => { };
+      window.deviseSettings = () => {};
     }
 
     // If the bus isn't set we'll use our own bus
@@ -80,7 +82,6 @@ const DevisePlugin = {
     Vue.component('messages', Messages);
 
     // Directives
-    Vue.directive('tuck', Tuck);
     Vue.directive('devise-alert-confirm', alertConfirm);
 
     // Register installer
@@ -90,55 +91,90 @@ const DevisePlugin = {
 
     // Users Admin
     Vue.component('devise-user-create', () =>
-      import(/* webpackChunkName: "devise-administration-users" */ './components/users/steps/Create.vue')
+      import(
+        /* webpackChunkName: "devise-administration-users" */ './components/users/steps/Create.vue'
+      )
     );
     Vue.component('devise-user-edit', () =>
-      import(/* webpackChunkName: "devise-administration-users" */ './components/users/steps/Edit.vue')
+      import(
+        /* webpackChunkName: "devise-administration-users" */ './components/users/steps/Edit.vue'
+      )
     );
     Vue.component('devise-user-delete', () =>
-      import(/* webpackChunkName: "devise-administration-users" */ './components/users/steps/Delete.vue')
+      import(
+        /* webpackChunkName: "devise-administration-users" */ './components/users/steps/Delete.vue'
+      )
     );
 
     // Pages Admin
     Vue.component('devise-page-create', () =>
-      import(/* webpackChunkName: "devise-administration-pages" */ './components/pages/steps/Create.vue')
+      import(
+        /* webpackChunkName: "devise-administration-pages" */ './components/pages/steps/Create.vue'
+      )
     );
     Vue.component('devise-page-copy', () =>
-      import(/* webpackChunkName: "devise-administration-pages" */ './components/pages/steps/Copy.vue')
+      import(
+        /* webpackChunkName: "devise-administration-pages" */ './components/pages/steps/Copy.vue'
+      )
     );
     Vue.component('devise-page-translate', () =>
-      import(/* webpackChunkName: "devise-administration-pages" */ './components/pages/steps/Translate.vue')
+      import(
+        /* webpackChunkName: "devise-administration-pages" */ './components/pages/steps/Translate.vue'
+      )
     );
     Vue.component('devise-page-settings', () =>
-      import(/* webpackChunkName: "devise-administration-pages" */ './components/pages/steps/EditSettings.vue')
+      import(
+        /* webpackChunkName: "devise-administration-pages" */ './components/pages/steps/EditSettings.vue'
+      )
     );
     Vue.component('devise-page-versions', () =>
-      import(/* webpackChunkName: "devise-administration-pages" */ './components/pages/steps/EditVersions.vue')
+      import(
+        /* webpackChunkName: "devise-administration-pages" */ './components/pages/steps/EditVersions.vue'
+      )
     );
     Vue.component('devise-page-delete', () =>
-      import(/* webpackChunkName: "devise-administration-pages" */ './components/pages/steps/Delete.vue')
+      import(
+        /* webpackChunkName: "devise-administration-pages" */ './components/pages/steps/Delete.vue'
+      )
+    );
+    Vue.component('devise-page-jump-to-edit', () =>
+      import(
+        /* webpackChunkName: "devise-administration-pages" */ './components/pages/steps/JumptoEditPage.vue'
+      )
     );
 
     // Sites Admin
     Vue.component('devise-site-create', () =>
-      import(/* webpackChunkName: "devise-administration-sites" */ './components/sites/steps/Create.vue')
+      import(
+        /* webpackChunkName: "devise-administration-sites" */ './components/sites/steps/Create.vue'
+      )
     );
     Vue.component('devise-site-edit', () =>
-      import(/* webpackChunkName: "devise-administration-sites" */ './components/sites/steps/Edit.vue')
+      import(
+        /* webpackChunkName: "devise-administration-sites" */ './components/sites/steps/Edit.vue'
+      )
     );
     Vue.component('devise-site-delete', () =>
-      import(/* webpackChunkName: "devise-administration-sites" */ './components/sites/steps/Delete.vue')
+      import(
+        /* webpackChunkName: "devise-administration-sites" */ './components/sites/steps/Delete.vue'
+      )
     );
 
     // Redirect Admin
     Vue.component('devise-redirect-create', () =>
-      import(/* webpackChunkName: "devise-administration-redirects" */ './components/redirects/steps/Create.vue')
+      import(
+        /* webpackChunkName: "devise-administration-redirects" */ './components/redirects/steps/Create.vue'
+      )
     );
     Vue.component('devise-redirect-edit', () =>
-      import(/* webpackChunkName: "devise-administration-redirects" */ './components/redirects/steps/Edit.vue')
+      import(
+        /* webpackChunkName: "devise-administration-redirects" */ './components/redirects/steps/Edit.vue'
+      )
     );
     Vue.component('devise-redirect-delete', () =>
-      import(/* webpackChunkName: "devise-administration-redirects" */ './components/redirects/steps/Delete.vue')
+      import(
+        /* webpackChunkName: "devise-administration-redirects" */ './components/redirects/steps/Delete.vue'
+      )
     );
 
     // Vue.component('Sidebar', Sidebar);
@@ -171,6 +207,9 @@ const DevisePlugin = {
     // Register link directive
     Vue.directive('devise-link', Link);
 
+    // Register opacity directive
+    Vue.directive('devise-opacity', Opacity);
+
     const deviseOptions = Object.assign(
       {
         breakpoints: {
@@ -184,7 +223,7 @@ const DevisePlugin = {
     );
 
     // Register Messages
-    function toast ({ title, message, type, timeout }) {
+    function toast({ title, message, type, timeout }) {
       if (type === VueNotifications.types.warn) type = 'warning';
       return iziToast[type]({ title, message, timeout });
     }
@@ -203,9 +242,26 @@ const DevisePlugin = {
 
     // We call Vue.mixin() here to inject functionality into all components.
     Vue.mixin({
-      data () {
+      // This sets a prop to be accepted by all components in a custom Vue
+      // app that resides within Devise. Makes it a little easier to pass
+      // down any data to custom child components
+      props: {
+        devise: {
+          type: Object,
+          default: () => {},
+        },
+        slices: {
+          type: Array,
+          default: () => [],
+        },
+        deviseModels: {
+          type: Object,
+          default: () => {},
+        },
+      },
+      data() {
         return {
-          deviseOptions
+          deviseOptions,
         };
       },
       notifications: {
@@ -220,22 +276,28 @@ const DevisePlugin = {
           message: "That's the error",
         },
       },
+      computed: {
+        ...mapGetters('devise', ['breakpoint', 'currentPage', 'currentUser', 'lang']),
+        isLoggedIn() {
+          return !!this.currentUser;
+        },
+      },
       methods: {
         // Convienience method to push things into the router from templates
-        goToPage (pageName, params) {
+        goToPage(pageName, params) {
           this.$router.push({ name: pageName, params });
         },
-        href (url) {
+        href(url) {
           window.open(url, '_self');
         },
-        launchMediaManager (callbackObject, callbackProperty) {
+        launchMediaManager(callbackObject, callbackProperty) {
           window.deviseSettings.$bus.$emit('devise-launch-media-manager', {
-            callback (media) {
+            callback(media) {
               callbackObject[callbackProperty] = media.url;
             },
           });
         },
-        can (permission) {
+        can(permission) {
           if (this.isLoggedIn) {
             const toCheck = !Array.isArray(permission) ? [permission] : permission;
             const allowed = window.deviseSettings.$user.permissions_list
@@ -247,19 +309,9 @@ const DevisePlugin = {
               if (found) return true;
             }
           }
-          return false
+          return false;
         },
       },
-      computed: {
-        ...mapGetters('devise', ['breakpoint', 'currentPage', 'currentUser', 'lang']),
-        isLoggedIn () {
-          return !!this.currentUser
-        }
-      },
-      // This sets a prop to be accepted by all components in a custom Vue
-      // app that resides within Devise. Makes it a little easier to pass
-      // down any data to custom child components
-      props: ['devise', 'slices', 'devise-models'],
       store,
     });
 

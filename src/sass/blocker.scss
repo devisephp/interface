@@ -10,10 +10,9 @@
 }
 
 .dvs-sidebar-hint {
-  @apply fixed pin-t pin-l rounded-r-full rounded-b-full ml-1 mt-1 cursor-pointer shadow-lg dvs-text-grey-darkest;
+  @apply fixed pin-t pin-l rounded-r-full rounded-b-full ml-1 mt-1 cursor-pointer shadow-lg dvs-text-grey-darkest dvs-p-3;
   
   font-size:16px;
-  opacity: 0;
   top: '-100px';
   left: '-100px';
   background: rgb(2,0,36);

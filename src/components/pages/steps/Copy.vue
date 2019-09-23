@@ -3,8 +3,8 @@
     <fieldset class="dvs-fieldset dvs-mb-4">
       <label>Page Title</label>
       <input
-        type="text"
         v-model="newPage.title"
+        type="text"
         placeholder="Title of the Page"
         class="dvs-w-full"
       >
@@ -32,8 +32,8 @@
       <label>Slug</label>
       <div>
         <input
-          type="text"
           v-model="newPage.slug"
+          type="text"
           placeholder="Url of the Page"
           class="dvs-w-full"
         >
@@ -44,16 +44,26 @@
       <label>Published?</label>
       <div class="dvs-flex">
         <input
-          type="checkbox"
           v-model="newPage.published"
+          type="checkbox"
+        >
+      </div>
+    </fieldset>
+
+    <fieldset class="dvs-fieldset dvs-mb-4">
+      <label>Go to page after creation?</label>
+      <div class="dvs-flex">
+        <input
+          v-model="redirect"
+          type="checkbox"
         >
       </div>
     </fieldset>
 
     <button
       class="dvs-btn dvs-btn-primary dvs-text-xs mr-4"
-      @click="requestCopyPage"
       :disabled="createInvalid"
+      @click="requestCopyPage"
     >Create</button>
     <button
       class="dvs-btn dvs-btn-secondary dvs-text-xs "
@@ -75,6 +85,7 @@ export default {
   },
   data () {
     return {
+      redirect: true,
       newPage: {
         layout: '',
         language_id: null,
@@ -104,7 +115,13 @@ export default {
         },
         record: this.newPage
       }).then(() => {
-        this.$emit('done')
+        if (this.redirect) {
+          setTimeout(() => {
+            window.location.href = this.newPage.slug
+          }, 1000);
+        } else {
+          this.$emit('done')
+        }
       });
     },
     loadLanguages () {

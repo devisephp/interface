@@ -3,71 +3,93 @@
     id="devise-admin"
     :class="[deviseOptions.adminClass]"
   >
-    <panel
-      class="dvs-m-8 dvs-fixed dvs-pin dvs-z-9980 dvs-flex dvs-pointer-events-none"
-      v-tuck
-    >
-      <div class="dvs-flex dvs-shadow dvs-flex-col dvs-relative dvs-rounded dvs-bg-admin-bg dvs-pointer-events-auto">
-        <preview-mode />
 
-        <template v-for="(menuItem, key) in allowedAdminMenu">
-          <div
-            class="dvs-border-b dvs-border-admin-secondary-bg"
-            :key="key"
-          >
-            <button
-              :class="checkActivePanelSidebar(menuItem)"
-              class="dvs-outline-none dvs-transitions-hover-slow dvs-cursor-pointer dvs-text-admin-fg"
-              @click.prevent="loadAdminPage(menuItem)"
+    <transition name="fade">
+      <div
+        v-show="!showAdmin"
+        class="dvs-sidebar-hint dvs-p-3"
+        :class="{'opacity-100': !showAdmin}"
+        @click="showAdmin = true"
+      >
+        <power-icon></power-icon>
+      </div>
+    </transition>
+
+    <transition name="fade">
+      <div
+        v-show="showAdmin"
+        class="dvs-blocker"
+        @click="showAdmin = false"
+      ></div>
+    </transition>
+
+    <transition name="fade">
+      <panel
+        v-show="showAdmin"
+        class="dvs-m-8 dvs-fixed dvs-pin dvs-z-9980 dvs-flex pointer-events-none"
+      >
+        <div class="dvs-flex dvs-shadow dvs-flex-col dvs-relative dvs-rounded dvs-bg-admin-bg pointer-events-auto">
+          <preview-mode />
+
+          <template v-for="(menuItem, key) in allowedAdminMenu">
+            <div
+              :key="key"
+              class="dvs-border-b dvs-border-admin-secondary-bg"
             >
-              <component
-                v-bind:is="menuItem.icon"
-                class="dvs-m-4"
-                w="25"
-                h="25"
-              ></component>
-            </button>
-          </div>
-        </template>
-        <a
-          href="/logout}"
-          class="dvs-outline-none dvs-transitions-hover-slow dvs-cursor-pointer dvs-text-admin-fg"
-          onclick="event.preventDefault(); document.getElementById('dvs-logout-form').submit();"
-        >
-          <power-icon
-            class="dvs-m-4"
-            w="25"
-            h="25"
-          />
-        </a>
-
-        <form
-          id="dvs-logout-form"
-          action="/logout"
-          method="POST"
-          style="display: none;"
-        >
-          <input
-            type="hidden"
-            name="_token"
-            :value="csrf_field"
+              <button
+                :class="checkActivePanelSidebar(menuItem)"
+                class="dvs-outline-none dvs-transitions-hover-slow dvs-cursor-pointer dvs-text-admin-fg"
+                @click.prevent="loadAdminPage(menuItem)"
+              >
+                <component
+                  :is="menuItem.icon"
+                  class="dvs-m-4"
+                  w="25"
+                  h="25"
+                ></component>
+              </button>
+            </div>
+          </template>
+          <a
+            href="/logout}"
+            class="dvs-outline-none dvs-transitions-hover-slow dvs-cursor-pointer dvs-text-admin-fg"
+            onclick="event.preventDefault(); document.getElementById('dvs-logout-form').submit();"
           >
-        </form>
-      </div>
-      <div class="dvs-flex dvs-w-full">
+            <power-icon
+              class="dvs-m-4"
+              w="25"
+              h="25"
+            />
+          </a>
 
-        <transition
-          name="dvs-fade"
-          mode="out-in"
-        >
-          <router-view name="devise"></router-view>
-        </transition>
-      </div>
-    </panel>
+          <form
+            id="dvs-logout-form"
+            action="/logout"
+            method="POST"
+            style="display: none;"
+          >
+            <input
+              type="hidden"
+              name="_token"
+              :value="csrf_field"
+            >
+          </form>
+        </div>
+        <div class="dvs-flex dvs-w-full">
+
+          <transition
+            name="dvs-fade"
+            mode="out-in"
+          >
+            <router-view name="devise"></router-view>
+          </transition>
+        </div>
+      </panel>
+    </transition>
 
     <portal-target
-      class="dvs-fixed dvs-pin dvs-z-9999"
       v-show="!hideDeviseRootPortal"
+      class="dvs-fixed dvs-pin dvs-z-9999"
       name="devise-root"
       @change="deviseRootPortalContentChanged"
     ></portal-target>
@@ -86,11 +108,66 @@ import { setInterval } from 'timers';
 
 export default {
   name: 'Administration',
+
+  components: {
+    Loadbar: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/Loadbar.vue'),
+    LoadingScreen: () =>
+      import(/* webpackChunkName: "devise-utilities" */ '../utilities/LoadingScreen.vue'),
+    MediaEditor: () =>
+      import(/* webpackChunkName: "devise-media" */ '../media-manager/MediaEditor.vue'),
+    MediaManager: () =>
+      import(/* webpackChunkName: "devise-media" */ '../media-manager/MediaManager.vue'),
+    ForceSave: () =>
+      import(/* webpackChunkName: "devise-utilities" */ '../utilities/ForceSave.vue'),
+    PreviewMode: () =>
+      import(/* webpackChunkName: "devise-previewmode" */ '../pages/PreviewMode.vue'),
+    BackIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ArrowLeftIcon'),
+    CogIcon: () => import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SettingsIcon'),
+    CreateIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/EditIcon'),
+    CubeIcon: () => import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/BoxIcon'),
+    DocumentIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ClipboardIcon'),
+    ImageIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ImageIcon'),
+    Panel: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/Panel.vue'),
+    PowerIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/PowerIcon'),
+    SaveIcon: () => import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SaveIcon'),
+    SliceSettings: () =>
+      import(/* webpackChunkName: "devise-slices" */ '../slices/SliceSettings.vue'),
+  },
+
   data () {
     return {
+      showAdmin: false,
       everythingIsLoaded: false,
       hideDeviseRootPortal: true
     };
+  },
+
+  computed: {
+    ...mapState('devise', ['adminMenu']),
+    allowedAdminMenu () {
+      return Object.keys(this.adminMenu)
+        .filter((menuItem) => {
+          if (!this.adminMenu[menuItem].permissions) {
+            return true
+          }
+          return this.can(this.adminMenu[menuItem].permissions)
+        })
+        .reduce((obj, key) => {
+          obj[key] = this.adminMenu[key];
+          return obj;
+        }, {});
+    },
+    user () {
+      return window.deviseSettings.$user;
+    },
+    csrf_field () {
+      return window.axios.defaults.headers.common['X-CSRF-TOKEN'];
+    },
   },
   mounted () {
     Vue.component('help', () =>
@@ -150,56 +227,7 @@ export default {
       }
     }
   },
-  computed: {
-    ...mapState('devise', ['adminMenu']),
-    allowedAdminMenu () {
-      return Object.keys(this.adminMenu)
-        .filter((menuItem) => {
-          if (!this.adminMenu[menuItem].permissions) {
-            return true
-          }
-          return this.can(this.adminMenu[menuItem].permissions)
-        })
-        .reduce((obj, key) => {
-          obj[key] = this.adminMenu[key];
-          return obj;
-        }, {});
-    },
-    user () {
-      return window.deviseSettings.$user;
-    },
-    csrf_field () {
-      return window.axios.defaults.headers.common['X-CSRF-TOKEN'];
-    },
-  },
-  components: {
-    Loadbar: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/Loadbar.vue'),
-    LoadingScreen: () =>
-      import(/* webpackChunkName: "devise-utilities" */ '../utilities/LoadingScreen.vue'),
-    MediaEditor: () =>
-      import(/* webpackChunkName: "devise-media" */ '../media-manager/MediaEditor.vue'),
-    MediaManager: () =>
-      import(/* webpackChunkName: "devise-media" */ '../media-manager/MediaManager.vue'),
-    ForceSave: () =>
-      import(/* webpackChunkName: "devise-utilities" */ '../utilities/ForceSave.vue'),
-    PreviewMode: () =>
-      import(/* webpackChunkName: "devise-previewmode" */ '../pages/PreviewMode.vue'),
-    BackIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ArrowLeftIcon'),
-    CogIcon: () => import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SettingsIcon'),
-    CreateIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/EditIcon'),
-    CubeIcon: () => import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/BoxIcon'),
-    DocumentIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ClipboardIcon'),
-    ImageIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ImageIcon'),
-    Panel: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/Panel.vue'),
-    PowerIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/PowerIcon'),
-    SaveIcon: () => import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SaveIcon'),
-    SliceSettings: () =>
-      import(/* webpackChunkName: "devise-slices" */ '../slices/SliceSettings.vue'),
-  },
+
+
 };
 </script>

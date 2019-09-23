@@ -1,91 +1,89 @@
 import commonUtils from './utils/common';
 
 const actions = {
-
   // Generic
-  getGeneric (context, payload) {
-    let root = false
+  getGeneric(context, payload) {
+    let root = false;
     let url = `${context.state.api.baseUrl}${
       payload.config.apiendpoint
-      }/?${commonUtils.buildFilterParams(payload.filters)}`
+    }/?${commonUtils.buildFilterParams(payload.filters)}`;
 
     if (payload.config.app) {
-      root = true
-      url = `${
-        payload.config.apiendpoint
-        }/?${commonUtils.buildFilterParams(payload.filters)}`
+      root = true;
+      url = `${payload.config.apiendpoint}/?${commonUtils.buildFilterParams(payload.filters)}`;
     }
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       window.axios
         .get(url)
-        .then((response) => {
+        .then(response => {
           context.commit('devise/setGeneric', { config: payload.config, response }, { root });
           resolve(response);
         })
-        .catch((error) => {
+        .catch(error => {
           window.deviseSettings.$bus.$emit('showError', error);
         });
-    }).catch((error) => {
+    }).catch(error => {
       window.deviseSettings.$bus.$emit('showError', error);
     });
   },
 
-  getGenericRecord (context, payload) {
-
-    let url = `${context.state.api.baseUrl}${payload.config.apiendpoint}/${payload.id}`
+  getGenericRecord(context, payload) {
+    let url = `${context.state.api.baseUrl}${payload.config.apiendpoint}/${payload.id}`;
 
     if (payload.config.app) {
-      url = `${payload.config.apiendpoint}/${payload.id}`
+      url = `${payload.config.apiendpoint}/${payload.id}`;
     }
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       window.axios
         .get(url)
-        .then((response) => {
+        .then(response => {
           resolve(response);
         })
-        .catch((error) => {
+        .catch(error => {
           window.deviseSettings.$bus.$emit('showError', error);
         });
-    }).catch((error) => {
+    }).catch(error => {
       window.deviseSettings.$bus.$emit('showError', error);
     });
   },
 
-  searchGeneric (context, payload) {
-    let url = `${context.state.api.baseUrl}${payload.config.apiendpoint}/?${commonUtils.buildFilterParams(payload.filters)}`
+  searchGeneric(context, payload) {
+    let url = `${context.state.api.baseUrl}${
+      payload.config.apiendpoint
+    }/?${commonUtils.buildFilterParams(payload.filters)}`;
 
     if (payload.config.app) {
-      url = `${payload.config.apiendpoint}/?${commonUtils.buildFilterParams(payload.filters)}`
+      url = `${payload.config.apiendpoint}/?${commonUtils.buildFilterParams(payload.filters)}`;
     }
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       window.axios
         .get(url)
-        .then((response) => {
+        .then(response => {
           resolve(response);
         })
-        .catch((error) => {
+        .catch(error => {
           window.deviseSettings.$bus.$emit('showError', error);
         });
-    }).catch((error) => {
+    }).catch(error => {
       window.deviseSettings.$bus.$emit('showError', error);
     });
   },
 
-  createGeneric (context, payload) {
-    let url = ''
+  createGeneric(context, payload) {
+    let url = '';
     if (payload.config.app) {
-      url = payload.config.apiendpoint
+      url = payload.config.apiendpoint;
     } else {
-      url = `${context.state.api.baseUrl}${payload.config.apiendpoint}`
+      url = `${context.state.api.baseUrl}${payload.config.apiendpoint}`;
     }
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       window.axios
         .post(url, payload.record)
-        .then((response) => {
+        .then(response => {
           window.deviseSettings.$bus.$emit('showMessage', {
             title: 'Success!',
             message: `${payload.record[payload.config.recordLabel]} has been created.`,
@@ -93,77 +91,75 @@ const actions = {
           resolve(response);
         })
 
-        .catch((error) => {
+        .catch(error => {
           window.deviseSettings.$bus.$emit('showError', error);
         });
-    }).catch((error) => {
+    }).catch(error => {
       window.deviseSettings.$bus.$emit('showError', error);
     });
   },
 
-  updateGeneric (context, payload) {
-    let url = `${context.state.api.baseUrl}${payload.config.apiendpoint}/${payload.record.id}`
+  updateGeneric(context, payload) {
+    let url = `${context.state.api.baseUrl}${payload.config.apiendpoint}/${payload.record.id}`;
 
     if (payload.config.app) {
-      url = `${payload.config.apiendpoint}/${payload.record.id}`
+      url = `${payload.config.apiendpoint}/${payload.record.id}`;
     }
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       window.axios
         .put(url, payload.record)
-        .then((response) => {
+        .then(response => {
           window.deviseSettings.$bus.$emit('showMessage', {
             title: 'Success!',
             message: `${payload.record[payload.config.recordLabel]} has been saved.`,
           });
           resolve(response);
         })
-        .catch((error) => {
+        .catch(error => {
           window.deviseSettings.$bus.$emit('showError', error);
         });
-    }).catch((error) => {
+    }).catch(error => {
       window.deviseSettings.$bus.$emit('showError', error);
     });
   },
 
-  deleteGeneric (context, payload) {
-    let url = `${context.state.api.baseUrl}${payload.config.apiendpoint}/${payload.record.id}`
+  deleteGeneric(context, payload) {
+    let url = `${context.state.api.baseUrl}${payload.config.apiendpoint}/${payload.record.id}`;
 
     if (payload.config.app) {
-      url = `${payload.config.apiendpoint}/${payload.record.id}`
+      url = `${payload.config.apiendpoint}/${payload.record.id}`;
     }
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       window.axios
         .delete(url)
-        .then((response) => {
+        .then(response => {
           window.deviseSettings.$bus.$emit('showMessage', {
             title: 'Success!',
             message: `${payload.record[payload.config.recordLabel]} has been deleted.`,
           });
           resolve(response);
         })
-        .catch((error) => {
+        .catch(error => {
           window.deviseSettings.$bus.$emit('showError', error);
         });
-    }).catch((error) => {
+    }).catch(error => {
       window.deviseSettings.$bus.$emit('showError', error);
     });
   },
 
-  appGenericSearch (context, payload) {
-    return new Promise((resolve) => {
+  appGenericSearch(context, payload) {
+    return new Promise(resolve => {
       window.axios
-        .get(
-          `${payload.config.apiendpoint}/?${commonUtils.buildFilterParams(payload.filters)}`
-        )
-        .then((response) => {
+        .get(`${payload.config.apiendpoint}/?${commonUtils.buildFilterParams(payload.filters)}`)
+        .then(response => {
           resolve(response);
         })
-        .catch((error) => {
+        .catch(error => {
           window.deviseSettings.$bus.$emit('showError', error);
         });
-    }).catch((error) => {
+    }).catch(error => {
       window.deviseSettings.$bus.$emit('showError', error);
     });
   },
@@ -171,7 +167,7 @@ const actions = {
   /*
    * Breakpoint
    */
-  setBreakpoint (context, data) {
+  setBreakpoint(context, data) {
     return new Promise(resolve => {
       context.commit('setBreakpoint', data);
       resolve(data);
@@ -181,10 +177,10 @@ const actions = {
   },
 
   /*
-  * Captions
-  */
+   * Captions
+   */
 
-  saveCaption (context, payload) {
+  saveCaption(context, payload) {
     return new Promise(resolve => {
       window.axios
         .post(`${context.state.api.baseUrl}media/alts`, payload)
@@ -203,11 +199,10 @@ const actions = {
     });
   },
 
-
   /*
    * Devmode
    */
-  setDevMode (context, data) {
+  setDevMode(context, data) {
     return new Promise(resolve => {
       context.commit('setDevMode', data);
       resolve(data);
@@ -219,21 +214,22 @@ const actions = {
   /*
    * Languages
    */
-  getLanguages (context) {
+  getLanguages(context) {
     return new Promise((resolve, reject) => {
-      window.axios.get(`${context.state.api.baseUrl}languages/`)
+      window.axios
+        .get(`${context.state.api.baseUrl}languages/`)
         .then(response => {
           context.commit('setLanguages', response.data);
-          resolve(response)
+          resolve(response);
         })
         .catch(error => {
           window.deviseSettings.$bus.$emit('showError', error);
-          reject(error)
+          reject(error);
         });
-    })
+    });
   },
 
-  createLanguage (context, language) {
+  createLanguage(context, language) {
     return new Promise(resolve => {
       window.axios
         .post(`${context.state.api.baseUrl}languages/`, language)
@@ -253,7 +249,7 @@ const actions = {
     });
   },
 
-  updateLanguage (context, language) {
+  updateLanguage(context, language) {
     return new Promise(resolve => {
       window.axios
         .put(`${context.state.api.baseUrl}languages/${language.id}`, language)
@@ -277,7 +273,7 @@ const actions = {
    * Media Manager
    */
 
-  setCurrentDirectory (context, directory) {
+  setCurrentDirectory(context, directory) {
     return new Promise(resolve => {
       context.commit('setCurrentDirectory', directory);
       resolve();
@@ -286,21 +282,22 @@ const actions = {
     });
   },
 
-  generateImages (context, payload) {
+  generateImages(context, payload) {
     return new Promise((resolve, reject) => {
-      window.axios
-        .put(`${context.state.api.baseUrl}media-styles`, payload)
-        .then(response => {
+      window.axios.put(`${context.state.api.baseUrl}media-styles`, payload).then(
+        response => {
           context.commit('setFiles', response.data);
           resolve(response);
-        }, error => {
+        },
+        error => {
           window.deviseSettings.$bus.$emit('showError', error);
-          reject(error)
-        });
-    })
+          reject(error);
+        }
+      );
+    });
   },
 
-  regenerateMedia (context, payload) {
+  regenerateMedia(context, payload) {
     context.commit('addToMediaRegenerationRequests', payload);
 
     return new Promise(resolve => {
@@ -321,7 +318,7 @@ const actions = {
     });
   },
 
-  mediaSearch (context, query) {
+  mediaSearch(context, query) {
     return new Promise(resolve => {
       window.axios
         .get(`${context.state.api.baseUrl}media-search?q=${query}`)
@@ -336,7 +333,7 @@ const actions = {
     });
   },
 
-  getCurrentFiles (context, options) {
+  getCurrentFiles(context, options) {
     let imagesOnly = '';
     if (options && options.type === 'image') {
       imagesOnly = '?type=image';
@@ -356,7 +353,7 @@ const actions = {
     });
   },
 
-  getCurrentDirectories (context) {
+  getCurrentDirectories(context) {
     return new Promise(resolve => {
       window.axios
         .get(`${context.state.api.baseUrl}media-directories/${context.state.currentDirectory}`)
@@ -372,14 +369,14 @@ const actions = {
     });
   },
 
-  toggleFile (context, theFile) {
+  toggleFile(context, theFile) {
     const match = context.state.files.find(file => file.name === theFile.name);
 
     const onOff = typeof match.on === 'undefined' || match.on === false;
     context.commit('toggleFileOnOff', { file: match, on: onOff });
   },
 
-  deleteFile (context, file) {
+  deleteFile(context, file) {
     return new Promise(resolve => {
       window.axios
         .delete(`${context.state.api.baseUrl}media${file.url}`)
@@ -398,7 +395,7 @@ const actions = {
     });
   },
 
-  createDirectory (context, payload) {
+  createDirectory(context, payload) {
     return new Promise(resolve => {
       window.axios
         .post(`${context.state.api.baseUrl}media-directories`, {
@@ -420,7 +417,7 @@ const actions = {
     });
   },
 
-  deleteDirectory (context, directory) {
+  deleteDirectory(context, directory) {
     return new Promise(resolve => {
       window.axios
         .delete(`${context.state.api.baseUrl}media-directories`, {
@@ -444,7 +441,7 @@ const actions = {
   /*
    * Meta
    */
-  getMeta (context) {
+  getMeta(context) {
     return new Promise(resolve => {
       window.axios
         .get(`${context.state.api.baseUrl}meta/`)
@@ -460,7 +457,7 @@ const actions = {
     });
   },
 
-  createMeta (context, meta) {
+  createMeta(context, meta) {
     return new Promise(resolve => {
       window.axios
         .post(`${context.state.api.baseUrl}meta/`, meta)
@@ -480,7 +477,7 @@ const actions = {
     });
   },
 
-  updateMeta (context, meta) {
+  updateMeta(context, meta) {
     return new Promise(resolve => {
       window.axios
         .put(`${context.state.api.baseUrl}meta/${meta.id}`, meta)
@@ -500,7 +497,7 @@ const actions = {
     });
   },
 
-  deleteMeta (context, meta) {
+  deleteMeta(context, meta) {
     return new Promise(resolve => {
       window.axios
         .delete(`${context.state.api.baseUrl}meta/${meta.id}`)
@@ -523,7 +520,7 @@ const actions = {
   /*
    * Models
    */
-  getModels (context) {
+  getModels(context) {
     return new Promise(resolve => {
       window.axios
         .get(`${context.state.api.baseUrl}models/`)
@@ -539,7 +536,7 @@ const actions = {
     });
   },
 
-  getModelQueries (context) {
+  getModelQueries(context) {
     return new Promise(resolve => {
       window.axios
         .get(`${context.state.api.baseUrl}model-queries/`)
@@ -555,7 +552,7 @@ const actions = {
     });
   },
 
-  getModelSettings (context, modelQuery) {
+  getModelSettings(context, modelQuery) {
     return new Promise(resolve => {
       window.axios
         .get(`${context.state.api.baseUrl}models/settings?${modelQuery}`)
@@ -571,7 +568,7 @@ const actions = {
     });
   },
 
-  getModelRecords (context, { model, filters }) {
+  getModelRecords(context, { model, filters }) {
     return new Promise(resolve => {
       window.axios
         .get(
@@ -591,7 +588,7 @@ const actions = {
   },
 
   // Pages
-  getPages (context, filters) {
+  getPages(context, filters) {
     return new Promise(resolve => {
       window.axios
         .get(`${context.state.api.baseUrl}pages/?${commonUtils.buildFilterParams(filters)}`)
@@ -607,11 +604,12 @@ const actions = {
     });
   },
 
-  getPagesList (context, filters) {
+  getPagesList(context, filters) {
     return new Promise(resolve => {
-      const params = filters && filters.hasOwnProperty('language_id')
-        ? `language_id=${filters.language_id}`
-        : {};
+      const params =
+        filters && filters.hasOwnProperty('language_id')
+          ? `language_id=${filters.language_id}`
+          : {};
       window.axios
         .get(`${context.state.api.baseUrl}routes?${params}`)
         .then(response => {
@@ -626,7 +624,7 @@ const actions = {
     });
   },
 
-  getPage (context, id) {
+  getPage(context, id) {
     return new Promise(resolve => {
       window.axios
         .get(`${context.state.api.baseUrl}pages/${id}`)
@@ -642,7 +640,7 @@ const actions = {
     });
   },
 
-  searchPages (context, payload) {
+  searchPages(context, payload) {
     return new Promise(resolve => {
       window.axios
         .get(`${context.state.api.baseUrl}pages-suggest/`, {
@@ -661,12 +659,13 @@ const actions = {
     });
   },
 
-  searchPageVersions (context, payload) {
+  searchPageVersions(context, payload) {
     return new Promise(resolve => {
       window.axios
         .get(`${context.state.api.baseUrl}page-versions/`, {
           params: {
             term: payload.term,
+            site_id: payload.site_id,
           },
         })
         .then(response => {
@@ -680,8 +679,7 @@ const actions = {
     });
   },
 
-
-  copyPage (context, payload) {
+  copyPage(context, payload) {
     return new Promise(resolve => {
       window.axios
         .put(`${context.state.api.baseUrl}pages/${payload.page.id}/copy`, payload.data)
@@ -701,16 +699,14 @@ const actions = {
     });
   },
 
-  translatePage (context, payload) {
+  translatePage(context, payload) {
     return new Promise(resolve => {
       window.axios
         .put(`${context.state.api.baseUrl}pages/${payload.page.id}/copy`, payload.data)
         .then(response => {
           window.deviseSettings.$bus.$emit('showMessage', {
             title: 'Success!',
-            message: `${payload.data.title} has been copied for translation from ${
-              payload.page.title
-              }.`,
+            message: `${payload.data.title} has been copied for translation from ${payload.page.title}.`,
           });
           context.commit('createPage', response.data);
           resolve(response);
@@ -724,7 +720,7 @@ const actions = {
   },
 
   // Page versions
-  copyPageVersion (context, payload) {
+  copyPageVersion(context, payload) {
     return new Promise(resolve => {
       window.axios
         .post(`${context.state.api.baseUrl}page-versions`, {
@@ -747,7 +743,7 @@ const actions = {
     });
   },
 
-  deletePageVersion (context, payload) {
+  deletePageVersion(context, payload) {
     return new Promise(resolve => {
       window.axios
         .delete(`${context.state.api.baseUrl}page-versions/${payload.version.id}`)
@@ -767,7 +763,7 @@ const actions = {
     });
   },
 
-  updatePageVersion (context, payload) {
+  updatePageVersion(context, payload) {
     return new Promise(resolve => {
       window.axios
         .put(`${context.state.api.baseUrl}page-versions/${payload.version.id}`, payload.version)
@@ -792,14 +788,14 @@ const actions = {
   },
 
   // This is the save used from the page editor
-  savePage (context, payload) {
-    const { page } = payload
-    const { forceSave } = payload
+  savePage(context, payload) {
+    const { page } = payload;
+    const { forceSave } = payload;
     const currentVersion = page.versions.find(version => version.current === true);
 
-    let url = `${context.state.api.baseUrl}pages/${page.id}?version_id=${currentVersion.id}`
+    let url = `${context.state.api.baseUrl}pages/${page.id}?version_id=${currentVersion.id}`;
     if (forceSave) {
-      url = `${context.state.api.baseUrl}pages/${page.id}?version_id=${currentVersion.id}&force=1`
+      url = `${context.state.api.baseUrl}pages/${page.id}?version_id=${currentVersion.id}&force=1`;
     }
 
     return new Promise((resolve, reject) => {
@@ -817,21 +813,21 @@ const actions = {
         .catch(error => {
           // If the page was saved after another person saved
           if (error.response.status === 480) {
-            resolve(480)
+            resolve(480);
           } else {
             window.deviseSettings.$bus.$emit('showError', error);
-            reject(error)
+            reject(error);
           }
         });
     });
   },
 
-  setPreviewModeInCurrentPage (context, payload) {
+  setPreviewModeInCurrentPage(context, payload) {
     context.commit('setPreviewModeInCurrentPage', payload);
   },
 
   // Slices
-  getSlicesDirectories (context) {
+  getSlicesDirectories(context) {
     return new Promise(resolve => {
       window.axios
         .get(`${context.state.api.baseUrl}slices-directories/`)
@@ -847,7 +843,7 @@ const actions = {
     });
   },
 
-  createSlice (context, slice) {
+  createSlice(context, slice) {
     return new Promise(resolve => {
       window.axios
         .post(`${context.state.api.baseUrl}slices/`, slice)
@@ -870,7 +866,7 @@ const actions = {
     });
   },
 
-  updateSlice (context, payload) {
+  updateSlice(context, payload) {
     return new Promise(resolve => {
       window.axios
         .put(`${context.state.api.baseUrl}slices/${payload.slice.id}`, payload.data)
@@ -890,7 +886,7 @@ const actions = {
     });
   },
 
-  deleteSlice (context, slice) {
+  deleteSlice(context, slice) {
     return new Promise(resolve => {
       window.axios
         .delete(`${context.state.api.baseUrl}slices/${slice.id}`)
@@ -910,10 +906,12 @@ const actions = {
     });
   },
 
-  copyPageSlice (context, payload) {
+  copyPageSlice(context, payload) {
     return new Promise(resolve => {
       window.axios
-        .post(`${context.state.api.baseUrl}page-versions/${payload.page_version_id}/slices`, { copy_slice_id: payload.copy_slice_id })
+        .post(`${context.state.api.baseUrl}page-versions/${payload.page_version_id}/slices`, {
+          copy_slice_id: payload.copy_slice_id,
+        })
         .then(response => {
           window.deviseSettings.$bus.$emit('showMessage', {
             title: 'Success!',
@@ -929,11 +927,9 @@ const actions = {
     });
   },
 
-
-
   // Checklist
-  refreshChecklist (context) {
-    return new Promise((resolve) => {
+  refreshChecklist(context) {
+    return new Promise(resolve => {
       window.axios
         .get(`${context.state.api.baseUrl}install-checklist/`)
         .then(response => {
@@ -949,27 +945,29 @@ const actions = {
   },
 
   // Install Complete
-  completeInstall (context) {
-    return new Promise((resolve) => {
+  completeInstall(context) {
+    return new Promise(resolve => {
       window.axios
         .post(`${context.state.api.baseUrl}install-complete/`)
         .then(response => {
           resolve(response);
         })
         .catch(() => {
-          window.deviseSettings.$bus.$emit('showError',
+          window.deviseSettings.$bus.$emit(
+            'showError',
             'Error in completing the install. You can add DVS_MODE=active to your .env to manually complete'
           );
         });
     }).catch(() => {
-      window.deviseSettings.$bus.$emit('showError',
+      window.deviseSettings.$bus.$emit(
+        'showError',
         'Error in completing the install.  You can add DVS_MODE=active to your .env to manually complete'
       );
     });
   },
 
-  login (context, payload) {
-    return new Promise((resolve) => {
+  login(context, payload) {
+    return new Promise(resolve => {
       window.axios
         // default laravel auth login endpoint
         .post(`/login`, payload)
@@ -977,12 +975,14 @@ const actions = {
           resolve(response);
         })
         .catch(() => {
-          window.deviseSettings.$bus.$emit('showError',
+          window.deviseSettings.$bus.$emit(
+            'showError',
             'Error logging the new user in. Check database to ensure user was inserted correctly.'
           );
         });
     }).catch(() => {
-      window.deviseSettings.$bus.$emit('showError',
+      window.deviseSettings.$bus.$emit(
+        'showError',
         'Error logging the new user in. Check database to ensure user was inserted correctly.'
       );
     });

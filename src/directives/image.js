@@ -1,5 +1,4 @@
-export default function (el, binding) {
-
+export default function(el, binding) {
   if (binding.value !== null) {
     let { image, srcAttr, breakpoint } = binding.value;
     const { lazy, background } = binding.modifiers;
@@ -16,7 +15,7 @@ export default function (el, binding) {
       const { sizes } = image;
 
       if (typeof sizes === 'undefined' || !sizes[Object.keys(sizes)[0]]) {
-        return false
+        return false;
       }
 
       for (const size in sizes) {
@@ -24,7 +23,7 @@ export default function (el, binding) {
           const sizeSettings = sizes[size];
 
           if (sizeSettings.breakpoints) {
-            const breakpoints = sizeSettings.breakpoints.map(bp => bp.toLowerCase())
+            const breakpoints = sizeSettings.breakpoints.map(bp => bp.toLowerCase());
             if (breakpoints.includes(breakpoint.toLowerCase())) {
               return { size, settings: sizeSettings };
             }
@@ -34,7 +33,7 @@ export default function (el, binding) {
 
       // We couldn't find the size so return the first one
       // If breakpoints isn't set assume only one size and return it
-      const defaultSize = sizes[Object.keys(sizes)[0]]
+      const defaultSize = Object.keys(sizes)[0];
       return { defaultSize, settings: sizes[defaultSize] };
     };
 
@@ -46,12 +45,12 @@ export default function (el, binding) {
           if (theSize && image.media[theSize.size]) {
             el.width = theSize.settings.w;
             el.height = theSize.settings.h;
-            return true
+            return true;
           }
         }
       }
       return false;
-    }
+    };
 
     const setImage = () => {
       if (typeof image !== 'undefined') {
@@ -72,7 +71,7 @@ export default function (el, binding) {
               theImage = image.media[theSize.size];
             }
           } else if (image.media.custom) {
-            theImage = image.media.custom
+            theImage = image.media.custom;
           }
         } else {
           noSize = true;
@@ -81,7 +80,7 @@ export default function (el, binding) {
         if (background) {
           el.style.backgroundImage = `url('${theImage}')`;
         } else {
-          el.setAttribute(srcAttr, theImage)
+          el.setAttribute(srcAttr, theImage);
 
           if (image.alt) {
             el.alt = image.alt;
@@ -109,6 +108,7 @@ export default function (el, binding) {
 
       lazyImageObserver.observe(el);
     } else {
+      setImageSize();
       setImage();
     }
   }
