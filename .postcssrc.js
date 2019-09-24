@@ -48,6 +48,7 @@ module.exports = {
         /\/*-admin-*/,
         /vue-scrollbar*/,
         /scrollbar/,
+        /dvs-pointer-events-*/,
       ]
     }) : ""
   ],

@@ -26,7 +26,7 @@
     <transition name="fade">
       <panel
         v-show="showAdmin"
-        class="dvs-m-8 dvs-fixed dvs-pin dvs-z-9980 dvs-flex pointer-events-none"
+        class="dvs-m-8 dvs-fixed dvs-pin dvs-z-9980 dvs-flex dvs-pointer-events-none"
       >
         <div class="dvs-flex dvs-shadow dvs-flex-col dvs-relative dvs-rounded dvs-bg-admin-bg pointer-events-auto">
           <preview-mode />
