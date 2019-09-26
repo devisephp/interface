@@ -1,7 +1,7 @@
+// Regular fade
 .dvs-fade-enter-active {
   transition: opacity .5s;
 }
-
 .dvs-fade-leave-active {
   transition: opacity .5s
 }
@@ -12,10 +12,10 @@
   opacity: 1
 }
 
+// Fast Fade
 .dvs-fade-fast-enter-active {
   transition: opacity .2s;
 }
-
 .dvs-fade-fast-leave-active {
   transition: opacity .2s
 }
@@ -26,16 +26,14 @@
   opacity: 1
 }
 
-
+// Delays the fade by 1s
 .dvs-fade-delayed-enter-active {
   transition: opacity .5s;
 }
-
 .dvs-fade-delayed-leave-active {
   transition: opacity .5s;
   transition-delay: 1s;
 }
-
 .dvs-fade-delayed-enter, .dvs-fade-delayed-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0
 }
@@ -43,10 +41,12 @@
   opacity: 1
 }
 
+// Slow hover
 .dvs-transitions-hover-slow {
   transition: all 0.8s;
 }
 
+// Rotates 360 degrees over 2 seconds
 @keyframes rotating {
   from {
     transform: rotate(0deg);

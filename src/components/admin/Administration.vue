@@ -4,7 +4,7 @@
     :class="[deviseOptions.adminClass]"
   >
 
-    <transition name="fade">
+    <transition name="fast-fade">
       <div
         v-show="!showAdmin"
         class="dvs-sidebar-hint dvs-p-3"
@@ -15,17 +15,18 @@
       </div>
     </transition>
 
-    <transition name="fade">
+    <transition name="fast-fade">
       <div
         v-show="showAdmin"
         class="dvs-blocker"
+        :class="{'opacity-0': fieldOpen}"
         @click="showAdmin = false"
       ></div>
     </transition>
 
-    <transition name="fade">
+    <transition name="fast-fade">
       <panel
-        v-show="showAdmin"
+        v-show="showAdmin && !fieldOpen"
         class="dvs-m-8 dvs-fixed dvs-pin dvs-z-9980 dvs-flex dvs-pointer-events-none"
       >
         <div class="dvs-flex dvs-shadow dvs-flex-col dvs-relative dvs-rounded dvs-bg-admin-bg dvs-pointer-events-auto">
@@ -143,7 +144,8 @@ export default {
     return {
       showAdmin: false,
       everythingIsLoaded: false,
-      hideDeviseRootPortal: true
+      hideDeviseRootPortal: true,
+      fieldOpen: false
     };
   },
 
@@ -181,6 +183,13 @@ export default {
     setInterval(() => {
       this.pollIfLoggedIn()
     }, 30000);
+
+    window.deviseSettings.$bus.$on('devise-showing-field-editor', () => {
+      this.fieldOpen = true
+    })
+    window.deviseSettings.$bus.$on('devise-hiding-field-editor', () => {
+      this.fieldOpen = false
+    })
   },
   methods: {
     ...mapActions('devise', ['getLanguages']),

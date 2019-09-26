@@ -2,99 +2,99 @@
   <div>
     <fieldset
       v-for="(field, key) in theFields"
-      class="dvs-fieldset dvs-mb-1 dvs-leading-loose"
       :key="key"
+      class="dvs-fieldset dvs-mb-1 dvs-leading-loose"
     >
       <div>
         <color-editor
-          dusk="color-editor-link"
-          @change="editField($event, field, key)"
+          v-if="field.type === 'color'"
           v-model="value[key]"
+          dusk="color-editor-link"
           :options="field"
           :namekey="key"
-          v-if="field.type === 'color'"
+          @change="editField($event, field, key)"
         ></color-editor>
 
         <checkbox-editor
-          dusk="checkbox-editor-link"
-          @change="editField($event, field, key)"
+          v-if="field.type === 'checkbox'"
           v-model="value[key]"
+          dusk="checkbox-editor-link"
           :options="field"
           :namekey="key"
-          v-if="field.type === 'checkbox'"
+          @change="editField($event, field, key)"
         ></checkbox-editor>
 
         <datetime-editor
-          @change="editField($event, field, key)"
+          v-if="field.type === 'datetime'"
           v-model="value[key]"
           :options="field"
           :namekey="key"
-          v-if="field.type === 'datetime'"
+          @change="editField($event, field, key)"
         ></datetime-editor>
 
         <image-editor
-          @change="editField($event, field, key)"
+          v-if="field.type === 'image'"
           v-model="value[key]"
           :options="field"
           :namekey="key"
-          v-if="field.type === 'image'"
+          @change="editField($event, field, key)"
         ></image-editor>
 
         <file-editor
-          @change="editField($event, field, key)"
+          v-if="field.type === 'file'"
           v-model="value[key]"
           :options="field"
           :namekey="key"
-          v-if="field.type === 'file'"
+          @change="editField($event, field, key)"
         ></file-editor>
 
         <link-editor
-          @change="editField($event, field, key)"
+          v-if="field.type === 'link'"
           v-model="value[key]"
           :options="field"
           :namekey="key"
-          v-if="field.type === 'link'"
+          @change="editField($event, field, key)"
         ></link-editor>
 
         <number-editor
-          @change="editField($event, field, key)"
+          v-if="field.type === 'number'"
           v-model="value[key]"
           :options="field"
           :namekey="key"
-          v-if="field.type === 'number'"
+          @change="editField($event, field, key)"
         ></number-editor>
 
         <select-editor
-          @change="editField($event, field, key)"
+          v-if="field.type === 'select'"
           v-model="value[key]"
           :options="field"
           :namekey="key"
-          v-if="field.type === 'select'"
+          @change="editField($event, field, key)"
         ></select-editor>
 
         <textarea-editor
-          @change="editField($event, field, key)"
+          v-if="field.type === 'textarea'"
           v-model="value[key]"
           :options="field"
           :namekey="key"
-          v-if="field.type === 'textarea'"
+          @change="editField($event, field, key)"
         ></textarea-editor>
 
         <text-editor
-          dusk="text-editor-link"
-          @change="editField($event, field, key)"
+          v-if="field.type === 'text'"
           v-model="value[key]"
+          dusk="text-editor-link"
           :options="field"
           :namekey="key"
-          v-if="field.type === 'text'"
+          @change="editField($event, field, key)"
         ></text-editor>
 
         <wysiwyg-editor
-          @change="editField($event, field, key)"
+          v-if="field.type === 'wysiwyg'"
           v-model="value[key]"
           :options="field"
           :namekey="key"
-          v-if="field.type === 'wysiwyg'"
+          @change="editField($event, field, key)"
         ></wysiwyg-editor>
       </div>
     </fieldset>
@@ -104,16 +104,6 @@
 <script>
 export default {
   name: 'SliceEditorFields',
-  props: {
-    theFields: {
-      required: true,
-      type: Object
-    },
-    value: {
-      required: true,
-      type: Object
-    }
-  },
   components: {
     CheckboxEditor: () => import(/* webpackChunkName: "devise-editors" */ '../editor/Checkbox'),
     ColorEditor: () => import(/* webpackChunkName: "devise-editors" */ '../editor/Color'),
@@ -126,6 +116,16 @@ export default {
     TextareaEditor: () => import(/* webpackChunkName: "devise-editors" */ '../editor/Textarea'),
     TextEditor: () => import(/* webpackChunkName: "devise-editors" */ '../editor/Text'),
     WysiwygEditor: () => import(/* webpackChunkName: "devise-wysiwyg" */ '../editor/Wysiwyg'),
+  },
+  props: {
+    theFields: {
+      required: true,
+      type: Object
+    },
+    value: {
+      required: true,
+      type: Object
+    }
   },
   methods: {
     editField (value, field, key) {

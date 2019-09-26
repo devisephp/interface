@@ -47,6 +47,7 @@
 <script>
 import { mapGetters } from 'vuex';
 
+// eslint-disable-next-line no-undef
 const Cookies = require('js-cookie');
 
 export default {

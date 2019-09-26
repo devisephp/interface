@@ -2,7 +2,7 @@
   <field-editor
     :options="options"
     :value="value"
-    :showEditor="showEditor"
+    :show-editor="showEditor"
     @toggleShowEditor="toggleEditor"
     @cancel="cancel"
     @resetvalue="resetValue"
@@ -27,12 +27,36 @@ import Field from '../../../mixins/Field';
 
 export default {
   name: 'DatetimeEditor',
+  components: {
+    FieldEditor: () => import(/* webpackChunkName: "devise-editors" */ './Field'),
+    DatePicker,
+  },
+  mixins: [Field],
+  props: ['value', 'options'],
   data() {
     return {
       showEditor: false,
       settings: { date: true, time: false },
       originalValue: {},
     };
+  },
+  computed: {
+    text: {
+      get() {
+        return this.value.text;
+      },
+      set(value) {
+        const valueObj = Object.assign(this.value, { text: value });
+        this.$emit('input', valueObj);
+        this.$emit('change', valueObj);
+      },
+    },
+    getMaxLength() {
+      if (typeof this.settings !== 'undefined' && typeof this.settings.maxlength !== 'undefined') {
+        return this.settings.maxlength;
+      }
+      return '';
+    },
   },
   mounted() {
     this.setSettings();
@@ -68,29 +92,6 @@ export default {
       this.text = null;
     },
   },
-  computed: {
-    text: {
-      get() {
-        return this.value.text;
-      },
-      set(value) {
-        const valueObj = Object.assign(this.value, { text: value });
-        this.$emit('input', valueObj);
-        this.$emit('change', valueObj);
-      },
-    },
-    getMaxLength() {
-      if (typeof this.settings !== 'undefined' && typeof this.settings.maxlength !== 'undefined') {
-        return this.settings.maxlength;
-      }
-      return '';
-    },
-  },
-  props: ['value', 'options'],
-  components: {
-    FieldEditor: () => import(/* webpackChunkName: "devise-editors" */ './Field'),
-    DatePicker,
-  },
-  mixins: [Field],
+
 };
 </script>

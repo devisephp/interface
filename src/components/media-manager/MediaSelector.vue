@@ -72,63 +72,60 @@
       class="dvs-flex dvs-items-stretch"
       style="max-height:80vh"
     >
-      <div class="dvs-relative dvs-min-w-1/3 dvs-max-h-full">
-        <div>
-          <div class="dvs-h-full dvs-p-8 dvs-bg-grey-lightest dvs-flex dvs-flex-col dvs-justify-start dvs-border-r dvs-border-lighter">
-            <form @submit.prevent="search">
-              <div class="mb-8 flex">
-                <fieldset class="dvs-fieldset mr-2">
-                  <input
-                    ref="search"
-                    v-model="searchTerms"
-                    type="text"
-                    placeholder="Search"
-                    class="mr-2"
-                  >
-                </fieldset>
-                <button
-                  type="submit"
-                  class="dvs-btn dvs-btn-primary dvs-btn-sm"
-                >Search</button>
-              </div>
-            </form>
-
-            <vue-scrollbar
-              ref="Scrollbar"
-              class="dvs-w-full dvs-mb-10"
-              style="max-height:30vh; min-height:30vh"
-            >
-              <ul class="dvs-list-reset dvs-py-8 dvs-font-mono dvs-text-sm dvs-tracking-tight">
-                <li
-                  v-for="directory in directories"
-                  :key="directory.id"
-                  class="dvs-cursor-pointer dvs-mt-2 dvs-text-bold"
-                  @click="changeDirectories(directory.path)"
+      <div class="dvs-relative dvs-max-h-full dvs-flex">
+        <div class="dvs-h-full dvs-p-8 dvs-bg-grey-lightest dvs-flex dvs-flex-col dvs-justify-start dvs-border-r dvs-border-lighter">
+          <form @submit.prevent="search">
+            <div class="dvs-mb-8 flex">
+              <fieldset class="dvs-fieldset dvs-mr-2">
+                <input
+                  ref="search"
+                  v-model="searchTerms"
+                  type="text"
+                  placeholder="Search"
+                  class="mr-2"
                 >
-                  <folder-icon class="dvs-mr-2"></folder-icon>
-                  {{ directory.name }}
-                </li>
-                <li v-if="directories.length < 1">No directories within this directory</li>
-              </ul>
-            </vue-scrollbar>
+              </fieldset>
+              <button
+                type="submit"
+                class="dvs-btn dvs-btn-primary dvs-btn-sm"
+              >Search</button>
+            </div>
+          </form>
+
+          <vue-scrollbar
+            ref="Scrollbar"
+            class="dvs-w-full dvs-flex-grow"
+          >
+            <ul class="dvs-list-reset dvs-pb-8 dvs-font-mono dvs-text-sm dvs-tracking-tight">
+              <li
+                v-for="directory in directories"
+                :key="directory.id"
+                class="dvs-cursor-pointer dvs-mt-2 dvs-text-bold"
+                @click="changeDirectories(directory.path)"
+              >
+                <folder-icon class="dvs-mr-2"></folder-icon>
+                {{ directory.name }}
+              </li>
+              <li v-if="directories.length < 1">No directories within this directory</li>
+            </ul>
+          </vue-scrollbar>
+
+          <div class="dvs-flex dvs-flex-col">
+              <fieldset class="dvs-fieldset dvs-mb-4">
+                <input
+                  v-model="directoryToCreate"
+                  type="text"
+                  placeholder="New Directory"
+                  class="mr-2"
+                >
+              </fieldset>
+              <button
+                class="dvs-btn dvs-btn-primary dvs-btn-sm"
+                @click="requestCreateDirectory()"
+              >Create</button>
+            </div>
           </div>
         </div>
-
-        <div class="dvs-absolute dvs-pin-b dvs-pin-l dvs-pin-r dvs-ml-8 dvs-mr-8 dvs-mb-8 dvs-flex dvs-flex-col">
-          <fieldset class="dvs-fieldset dvs-mb-4">
-            <input
-              v-model="directoryToCreate"
-              type="text"
-              placeholder="New Directory"
-              class="mr-2"
-            >
-          </fieldset>
-          <button
-            class="dvs-btn dvs-btn-primary dvs-btn-sm"
-            @click="requestCreateDirectory()"
-          >Create</button>
-        </div>
-      </div>
 
       <div
         class="dvs-flex-grow dvs-relative dvs-overflow-y-scroll dvs-p-4 dvs-max-h-full"
@@ -231,193 +228,15 @@
                 </h6>
               </div>
             </div>
+            
+            <media-selector-files :current-files="currentFiles" :mode="mode" @openFile="openFile"></media-selector-files>
 
-            <!-- Files -->
-            <ul
-              v-else
-              class="dvs-list-reset dvs-flex dvs-justify-center dvs-flex-wrap"
-            >
-              <li
-                v-for="file in currentFiles"
-                :key="file.id"
-                class="dvs-relative dvs-bg-white dvs-card"
-                :class="{
-                  'dvs-cursor-pointer': !file.on,
-                  'dvs-border-b dvs-border-lighter dvs-p-0 dvs-mx-0 w-1/2': mode === 'thumbnails',
-                  'dvs-p-0 dvs-mb-4 dvs-mt-2': mode !== 'thumbnails',
-                  'dvs-mx-2': mode === 'contactSheet',
-                  'dvs-w-full': mode === 'list'
-                }"
-                @click="openFile(file)"
-              >
-                <!-- Close File if On -->
-                <div
-                  v-if="file === currentlyOpenFile"
-                  class="dvs-absolute z-10 dvs-pin-t dvs-pin-r dvs-mt-4 dvs-mr-4 dvs-cursor-pointer"
-                  @click.stop.prevent="closeFile(file)"
-                >
-                  <close-icon
-                    w="30"
-                    h="30"
-                  />
-                </div>
+            <!-- Open File -->
+            <media-selector-open-file 
+              :file="currentlyOpenFile" @fileDeleted="changeDirectories(currentDirectory)" @close="currentlyOpenFile = null">
+            </media-selector-open-file>
 
-                <!-- Closed File -->
-                <div
-                  v-if="file !== currentlyOpenFile"
-                  class="dvs-overflow-hidden"
-                >
-                  <!-- Contact Sheet -->
-                  <div
-                    v-if="mode === 'contactSheet'"
-                    class="dvs-overflow-hidden dvs-text-center"
-                    style="width:100px;height:105px"
-                  >
-                    <img
-                      :src="`/styled/preview/${file.url}?w=100&h=100&fit=crop`"
-                      style="min-width:75px;height:75px"
-                    >
-                    <div class="dvs-text-xs dvs-font-bold dvs-px-2">{{ file.name }}</div>
-                  </div>
 
-                  <!-- Thumbnails Mode -->
-                  <div
-                    v-else-if="mode === 'thumbnails'"
-                    class="dvs-grid-preview dvs-relative"
-                    :style="`background-size:cover;background-image:url('${`/styled/preview/${file.url}?w=600&h=600&q=100&sharp=2`}')`"
-                  ></div>
-
-                  <!-- List Mode -->
-                  <div
-                    v-else
-                    class="dvs-w-full dvs-flex dvs-items-center"
-                  >
-                    <img
-                      :src="`/styled/preview/${file.url}?w=100&h=100`"
-                      style="min-width:75px;height:75px"
-                    >
-                    <div class="dvs-px-4 dvs-font-bold">{{ file.name }}</div>
-                  </div>
-                </div>
-
-                <!-- Open File -->
-                <div
-                  v-else
-                  class="dvs-flex dvs-p-4 dvs-overflow-hidden"
-                >
-                  <div class="dvs-w-1/2 dvs-mr-8 dvs-flex dvs-flex-col dvs-justify-between">
-
-                    <div>
-                      <transition
-                        name="dvs-fade"
-                        mode="out-in"
-                      >
-                        <img
-                          v-show="currentlyOpenFile.loaded"
-                          :src="`/styled/preview/${file.url}?w=500&h=500`"
-                          class="dvs-cursor-pointer dvs-mb-4"
-                          @load="currentlyOpenFile.loaded = true"
-                        >
-                      </transition>
-
-                      <loading-screen
-                        v-if="!currentlyOpenFile.loaded"
-                        key="loadingscreen"
-                        :inline="true"
-                        inline-message="Loading Large Preview"
-                      ></loading-screen>
-                    </div>
-
-                    <div class="dvs-flex">
-                      <div
-                        v-devise-alert-confirm="{callback: confirmedDeleteFile, arguments: file, message: 'Are you sure you want to delete this media?'}"
-                        class="dvs-mr-4 dvs-cursor-pointer dvs-text-admin-bg"
-                      >
-                        <trash-icon
-                          h="20"
-                          w="20"
-                        />
-                      </div>
-                      <a
-                        class="dvs-mr-4 dvs-text-admin-bg"
-                        :href="`/styled/preview/${file.url}`"
-                        target="_blank"
-                      >
-                        <link-icon
-                          h="20"
-                          w="20"
-                        />
-                      </a>
-                      <a
-                        :href="`/styled/preview/${file.url}`"
-                        target="_blank"
-                        class="dvs-text-admin-bg"
-                        download
-                      >
-                        <download-icon
-                          h="20"
-                          w="20"
-                        />
-                      </a>
-                    </div>
-                  </div>
-                  <div class="dvs-w-1/2">
-                    <h6 class="dvs-text-xs dvs-uppercase dvs-mb-1">Filename</h6>
-                    <p class="dvs-text-sm">{{ file.name }}</p>
-
-                    <fieldset class="dvs-fieldset dvs-mb-4">
-                      <label class="dvs-text-xs dvs-uppercase dvs-mb-1">URL</label>
-                      <input
-                        type="text"
-                        :value="file.url"
-                        readonly
-                      >
-                    </fieldset>
-
-                    <fieldset class="dvs-fieldset dvs-mb-4">
-                      <label class="dvs-text-xs dvs-uppercase dvs-mb-1">Global Caption</label>
-                      <div class="dvs-flex">
-                        <input
-                          v-model="file.alt"
-                          type="text"
-                          class="dvs-mr-4"
-                        >
-                        <button
-                          class="dvs-btn dvs-btn-sm dvs-btn-primary"
-                          @click="requestSaveCaption(file)"
-                        >
-                          Save Caption
-                        </button>
-                      </div>
-                    </fieldset>
-
-                    <p>
-                      <button
-                        class="dvs-btn dvs-btn-sm dvs-btn-primary"
-                        @click="selectSourceFile(file)"
-                      >Select</button>
-                    </p>
-
-                    <template v-if="isActive(file)">
-                      <h6 class="dvs-my-2 dvs-text-sm">Appears On</h6>
-                      <ul class="dvs-list-reset">
-                        <li
-                          v-for="field in file.fields"
-                          :key="field.id"
-                          class="dvs-py-2"
-                        >
-                          <a
-                            :href="field.page_slug"
-                            target="_blank"
-                            class="dvs-btn dvs-btn-sm"
-                          >{{ field.page_title }} - {{ field.field_name }}</a>
-                        </li>
-                      </ul>
-                    </template>
-                  </div>
-                </div>
-              </li>
-            </ul>
           </div>
         </transition>
       </div>
@@ -429,11 +248,14 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 
+// eslint-disable-next-line no-undef
 const Cookies = require('js-cookie');
 
 export default {
 
   components: {
+    MediaSelectorOpenFile: () => import(/* webpackChunkName: "devise-media-selector" */ './media-selector/OpenMediaFile.vue'),
+    MediaSelectorFiles: () => import(/* webpackChunkName: "devise-media-selector" */ './media-selector/Files.vue'),
     Breadcrumbs: () => import(/* webpackChunkName: "devise-media" */ './Breadcrumbs.vue'),
     Uploader: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/Uploader.vue'),
     LoadingScreen: () =>
@@ -444,15 +266,11 @@ export default {
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/TrashIcon'),
     CloseIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/XIcon'),
-    LinkIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/LinkIcon'),
-    DownloadIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/DownloadCloudIcon'),
     VueScrollbar: () => import(/* webpackChunkName: "devise-administration" */ 'vue2-scrollbar'),
   },
   data () {
     return {
-      mode: 'list',
+      mode: 'thumbnails',
       directoryToCreate: '',
       searchTerms: null,
       searchResults: [],
@@ -477,8 +295,25 @@ export default {
       };
     },
   },
+  watch: {
+    cookieSettings: newValue => {
+      if (!newValue) {
+        Cookies.remove('devise-mediamanager-location');
+      }
+    },
+    mode (newValue) {
+      Cookies.set('devise-mediamanager-mode', newValue);
+    },
+    directories () {
+      if (typeof this.$refs.Scrollbar !== 'undefined') {
+        this.$refs.Scrollbar.calculateSize()
+        this.$refs.Scrollbar.scrollToY(0)
+      }
+    }
+  },
   mounted () {
     this.loadInitialLocation();
+    this.loadInitialMode();
   },
   methods: {
     ...mapActions('devise', [
@@ -490,7 +325,6 @@ export default {
       'deleteFile',
       'createDirectory',
       'deleteDirectory',
-      'saveCaption'
     ]),
     loadInitialLocation () {
       const cookieLocation = Cookies.get('devise-mediamanager-location');
@@ -500,7 +334,8 @@ export default {
       } else {
         this.changeDirectories('');
       }
-
+    },
+    loadInitialMode () {
       const cookieMode = Cookies.get('devise-mediamanager-mode');
       if (cookieMode) {
         this.mode = cookieMode;
@@ -521,9 +356,6 @@ export default {
           });
         });
       });
-    },
-    isActive (file) {
-      return file.used_count > 0;
     },
     refreshDirectory () {
       this.changeDirectories(this.currentDirectory);
@@ -552,19 +384,6 @@ export default {
     },
     selectSourceFile (file) {
       this.$emit('selectedfile', file)
-    },
-    confirmedDeleteFile (file) {
-      const self = this;
-      this.deleteFile(file).then(() => {
-        self.changeDirectories(self.currentDirectory);
-      });
-    },
-    requestSaveCaption (file) {
-      const payload = {
-        image: file.url,
-        alt_text: file.alt
-      }
-      this.saveCaption(payload)
     },
     requestCreateDirectory () {
       const self = this;
@@ -617,25 +436,7 @@ export default {
       this.$set(this, 'selectedFile', null);
     },
   },
-  watch: {
-    cookieSettings: newValue => {
-      if (!newValue) {
-        Cookies.remove('devise-mediamanager-location');
-        Cookies.remove('devise-mediamanager-mode');
-      }
-    },
-    mode (newValue) {
-      if (this.cookieSettings) {
-        Cookies.set('devise-mediamanager-mode', newValue);
-      }
-    },
-    directories () {
-      if (typeof this.$refs.Scrollbar !== 'undefined') {
-        this.$refs.Scrollbar.calculateSize()
-        this.$refs.Scrollbar.scrollToY(0)
-      }
-    }
-  },
+
 
 };
 </script>

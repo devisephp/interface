@@ -1,11 +1,13 @@
 <template>
   <div class="dvs-w-full dvs-flex dvs-flex-wrap dvs-items-center">
     <template v-if="currentDirectory !== ''">
-      <div class="dvs-cursor-pointer dvs-mr-1 dvs-mb-1" @click="goToHome()">Home</div>
+      <div class="dvs-cursor-pointer dvs-mr-1" @click="goToHome()">Home</div>
       <template v-for="(dir, key) in directoriesObj">
         <div :key="key">
-          <span class="dvs-mr-1 dvs-mb-1">&gt;</span>
-          <span class="dvs-cursor-pointer dvs-mr-1 dvs-mb-1" @click="chooseDirectory(key)">{{ dir }}</span>
+          <span class="dvs-mr-1 dvs-text-grey">
+            <chevron-right-icon></chevron-right-icon>
+          </span>
+          <span class="dvs-cursor-pointer dvs-mr-1" @click="chooseDirectory(key)">{{ dir }}</span>
         </div>
       </template>
     </template>
@@ -14,14 +16,11 @@
 
 <script>
 export default {
-  methods: {
-    chooseDirectory(directory) {
-      this.$emit('chooseDirectory', directory);
-    },
-    goToHome() {
-      this.chooseDirectory('');
-    },
+  components: {
+    ChevronRightIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ChevronRightIcon'),
   },
+  props: ['currentDirectory'],
   computed: {
     directoriesObj() {
       const directoriesObj = {};
@@ -37,6 +36,13 @@ export default {
       return directoriesObj;
     },
   },
-  props: ['currentDirectory'],
+  methods: {
+    chooseDirectory(directory) {
+      this.$emit('chooseDirectory', directory);
+    },
+    goToHome() {
+      this.chooseDirectory('');
+    },
+  },
 };
 </script>

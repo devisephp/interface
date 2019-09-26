@@ -3,8 +3,8 @@
     <div class="dvs-flex dvs-justify-center">
       <div class="dvs-relative dvs-flex dvs-justify-center dvs-items-center dvs-mt-8 dvs-relative">
         <input
-          type="text"
           v-model="searchTerm"
+          type="text"
           class="dvs-bg-transparent dvs-bg-admin-secondary-bg dvs-px-12 dvs-py-4 dvs-text-admin-fg dvs-outline-none dvs-placeholder-admin-fg dvs-text-center"
           placeholder="Type to begin searching"
         >
@@ -19,7 +19,7 @@
     </div>
     <div class="dvs-mb-8 dvs-flex dvs-justify-center dvs-mt-2">
       <button
-        v-if="this.step.allRecordsApiendpoint"
+        v-if="step.allRecordsApiendpoint"
         class="dvs-btn dvs-btn-secondary dvs-btn-sm dvs-m4-6"
         @click="requestAll"
       >Load All Records</button>
@@ -42,7 +42,7 @@
           <li
             v-for="(subField, subkey) in subLabelFields"
             :key="subkey"
-            class="dvs-mr-4 dvs-text-xs dvs-leading-tight dvs-w-1/4 dvs-bg-admin-bg dvs-text-admin-fg dvs-rounded dvs-p-3 opacity-75"
+            class="dvs-mr-4 dvs-text-xs dvs-leading-tight dvs-w-1/4 dvs-bg-admin-bg dvs-text-admin-fg dvs-rounded dvs-p-3 dvs-opacity-75 dvs-break-words"
           >
             <div class="dvs-uppercase dvs-text-xs">{{ subField.label }}</div>
             <div>{{ format(subField, suggestion[subField.field]) }}</div>
@@ -51,8 +51,8 @@
       </li>
     </ul>
     <div
-      class="dvs-text-center"
       v-if="searchTerm !== '' && autosuggest.data && autosuggest.data.length < 1"
+      class="dvs-text-center"
     >
       No search results found
     </div>
@@ -96,6 +96,11 @@ export default {
       secondaryFields.shift()
       return secondaryFields;
     }
+  },
+  watch: {
+    searchTerm (newValue) {
+      this.requestSearch(newValue);
+    },
   },
   methods: {
     ...mapActions('devise', ['searchGeneric']),
@@ -143,11 +148,6 @@ export default {
       }
       return data
     }
-  },
-  watch: {
-    searchTerm (newValue) {
-      this.requestSearch(newValue);
-    },
   },
 }
 </script>
