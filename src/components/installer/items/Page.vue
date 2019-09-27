@@ -1,7 +1,8 @@
 <template>
+  <!-- eslint-disable vue/no-v-html -->
   <devise-installer-item
-    :item="item"
     id="nav-page"
+    :item="item"
     title="First Page (required)"
   >
     <template slot="instructions">
@@ -37,8 +38,8 @@
         <fieldset class="dvs-fieldset dvs-mb-4">
           <label>Page Title</label>
           <input
-            type="text"
             v-model="newPage.title"
+            type="text"
             :disabled="item"
           >
         </fieldset>
@@ -46,15 +47,15 @@
           <label>Layout</label>
           <select v-model="newPage.layout">
             <option
-              :value="layout"
               v-for="layout in layouts"
               :key="layout"
+              :value="layout"
             >{{ layout }}</option>
           </select>
         </fieldset>
         <fieldset
-          class="dvs-fieldset dvs-mb-6"
           v-if="languages.length"
+          class="dvs-fieldset dvs-mb-6"
         >
           <label>Language</label>
           <select
@@ -71,16 +72,16 @@
         <fieldset class="dvs-fieldset dvs-mb-6">
           <label>Slug</label>
           <input
-            type="text"
             v-model="newPage.slug"
+            type="text"
             :disabled="item"
           >
         </fieldset>
         <button
           type="submit"
           class="dvs-btn dvs-bg-green dvs-text-white"
-          @click.prevent="attemptCreatePage()"
           :disabled="item"
+          @click.prevent="attemptCreatePage()"
         >Create Page</button>
       </form>
 
@@ -102,6 +103,12 @@ import { mapActions, mapState } from 'vuex';
 export default {
   components: {
     DeviseInstallerItem: () => import(/* webpackChunkName: "devise-installer" */ "../Item.vue"),
+  },
+  props: {
+    item: {
+      type: Boolean,
+      required: true
+    }
   },
   data () {
     return {
@@ -158,12 +165,6 @@ export default {
         `
     };
   },
-  methods: {
-    ...mapActions('devise', ['createPage']),
-    attemptCreatePage () {
-      this.createPage(this.newPage);
-    }
-  },
   computed: {
     ...mapState('devise', {
       languages: state => state.languages.data
@@ -172,10 +173,13 @@ export default {
       return window.deviseSettings.$config.layouts;
     }
   },
-  props: {
-    item: {
-      required: true
+  methods: {
+    ...mapActions('devise', ['createPage']),
+    attemptCreatePage () {
+      this.createPage(this.newPage);
     }
-  }
+  },
+
+
 };
 </script>

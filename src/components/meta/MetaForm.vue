@@ -5,24 +5,24 @@
         <fieldset class="dvs-fieldset dvs-mb-4 dvs-mr-4">
           <label>Attribute Name</label>
           <input
-            type="text"
             v-model="newMeta.attribute_name"
+            type="text"
           >
         </fieldset>
 
         <fieldset class="dvs-fieldset dvs-mb-4 dvs-mr-4">
           <label>Attribute Value</label>
           <input
-            type="text"
             v-model="newMeta.attribute_value"
+            type="text"
           >
         </fieldset>
 
         <fieldset class="dvs-fieldset dvs-mb-4">
           <label>Content</label>
           <input
-            type="text"
             v-model="newMeta.content"
+            type="text"
           >
         </fieldset>
       </div>
@@ -64,8 +64,8 @@
         <div class="dvs-flex dvs-justify-between dvs-items-center">
           <div class="dvs-flex">
             <button
-              class="dvs-btn dvs-btn-xs dvs-ml-4 dvs-btn-ghost dvs-text-admin-fg"
               v-devise-alert-confirm="{callback: requestDeleteMeta, arguments:meta, message: 'Are you sure you want to delete this meta?'}"
+              class="dvs-btn dvs-btn-xs dvs-ml-4 dvs-btn-ghost dvs-text-admin-fg"
             >
               <trash-icon
                 w="20"
@@ -78,9 +78,9 @@
     </div>
 
     <button
+      v-if="!adding"
       class="dvs-btn dvs-btn-primary dvs-text-xs"
       @click="adding=true"
-      v-if="!adding"
     >Add New Meta Tag</button>
   </div>
 </template>
@@ -88,6 +88,23 @@
 <script>
 export default {
   name: 'MetaForm',
+  components: {
+    TrashIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/TrashIcon'),
+    Help: () => import(
+      // eslint-disable-next-line max-len
+      /* webpackChunkName: "devise-utilities" */ '../utilities/Help.vue'),
+  },
+  props: {
+    value: {
+      type: Object,
+      required: true
+    },
+    globalForm: {
+      type: Boolean,
+      default: true,
+    },
+  },
   data () {
     return {
       adding: false,
@@ -98,18 +115,6 @@ export default {
         content: null,
       },
     };
-  },
-  mounted () {
-    this.newMeta.site_id = window.deviseSettings.$page.site_id;
-  },
-  methods: {
-    requestCreateMeta () {
-      this.$emit('request-create-meta', this.newMeta);
-      this.newMeta = Object.assign({}, this.newMeta);
-    },
-    requestDeleteMeta (meta) {
-      this.$emit('request-delete-meta', meta);
-    },
   },
   computed: {
     isInvalid () {
@@ -127,19 +132,17 @@ export default {
       );
     },
   },
-  props: {
-    value: {},
-    globalForm: {
-      type: Boolean,
-      default: true,
-    },
+  mounted () {
+    this.newMeta.site_id = window.deviseSettings.$page.site_id;
   },
-  components: {
-    TrashIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/TrashIcon'),
-    Help: () => import(
-      // eslint-disable-next-line max-len
-      /* webpackChunkName: "devise-utilities" */ '../utilities/Help.vue'),
+  methods: {
+    requestCreateMeta () {
+      this.$emit('request-create-meta', this.newMeta);
+      this.newMeta = Object.assign({}, this.newMeta);
+    },
+    requestDeleteMeta (meta) {
+      this.$emit('request-delete-meta', meta);
+    },
   },
 };
 </script>

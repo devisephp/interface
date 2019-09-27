@@ -12,8 +12,8 @@
       <div id="dvs-app-content">
         <!-- Desktop mode in editor or just viewing page -->
         <div
-          class="devise-content"
           v-if="typeof currentPage === 'undefined' || currentPage.previewMode === 'desktop' || isPreviewFrame"
+          class="devise-content"
         >
           <slot name="on-top"></slot>
           <slot name="static-content"></slot>
@@ -45,14 +45,14 @@
         </div>
 
         <div
-          id="devise-iframe-editor"
           v-if="typeof currentPage !== 'undefined' && !isPreviewFrame && isLoggedIn"
+          id="devise-iframe-editor"
         >
           <!-- Preview mode in editor -->
           <iframe
             v-if="currentPage.previewMode !== 'desktop' && isLoggedIn"
-            :src="currentUrl"
             id="devise-responsive-preview"
+            :src="currentUrl"
             :class="[currentPage.previewMode]"
           />
         </div>
@@ -67,17 +67,41 @@ import { setTimeout } from 'timers';
 
 export default {
   name: 'Devise',
+
+  components: {
+    Administration: () =>
+      import(/* webpackChunkName: "devise-administration" */ './components/admin/Administration.vue'),
+  },
+
   data () {
     return {
       timeToShow: false
     }
   },
+
+  computed: {
+    ...mapGetters('devise', ['breakpoint', 'currentUser', 'currentPage']),
+    currentUrl () {
+      return window.location.href;
+    },
+    isPreviewFrame () {
+      try {
+        return window.self !== window.top;
+      } catch (e) {
+        return true;
+      }
+    },
+    isLoggedIn () {
+      return this.currentUser;
+    },
+  },
+
   created () {
     this.setSizeAndBreakpoint();
   },
   mounted () {
     window.devise = this;
-    window.deviseSettings.$bus = window.deviseSettings.$bus;
+
     if (this.can('access admin')) {
       this.initDevise();
     } else {
@@ -163,25 +187,7 @@ export default {
       return 'ultraWideDesktop';
     },
   },
-  computed: {
-    ...mapGetters('devise', ['breakpoint', 'currentUser', 'currentPage']),
-    currentUrl () {
-      return window.location.href;
-    },
-    isPreviewFrame () {
-      try {
-        return window.self !== window.top;
-      } catch (e) {
-        return true;
-      }
-    },
-    isLoggedIn () {
-      return this.currentUser;
-    },
-  },
-  components: {
-    Administration: () =>
-      import(/* webpackChunkName: "devise-administration" */ './components/admin/Administration.vue'),
-  },
+
+
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
   <devise-installer-item
-    :item="item"
     id="nav-image-library"
+    :item="item"
     title="Image Library (Required)"
   >
     <template slot="instructions">
@@ -48,6 +48,7 @@ export default {
   },
   props: {
     item: {
+      type: Boolean,
       required: true
     }
   }

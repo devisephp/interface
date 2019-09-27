@@ -1,5 +1,6 @@
 <template>
   <!-- eslint-disable vue/valid-v-for -->
+  <!-- eslint-disable vue/no-v-html -->
   <li
     class="dvs-collapsable dvs-mb-4"
     :class="{'dvs-open': sliceOpen}"

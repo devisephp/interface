@@ -1,7 +1,7 @@
 <template>
   <devise-installer-item
-    :item="item"
     id="nav-slices"
+    :item="item"
     title="Your First Slice (required)"
   >
     <template slot="instructions">
@@ -17,8 +17,8 @@
       <p class="dvs-mb-4">
         <div class="dvs-mb-8">
           <pre
-            class="lang-javascript line-numbers"
             v-pre
+            class="lang-javascript line-numbers"
           >
           <code>
             &#64;section('template')
@@ -60,6 +60,7 @@ export default {
   },
   props: {
     item: {
+      type: Boolean,
       required: true
     }
   }

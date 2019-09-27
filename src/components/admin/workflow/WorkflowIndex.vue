@@ -23,8 +23,8 @@
       </ul>
     </div>
     <div
-      class="dvs-text-center"
       v-if="searchTerm !== '' && results.data && results.data.length < 1"
+      class="dvs-text-center"
     >
       No search results found
     </div>

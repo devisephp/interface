@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this */
 import { Mark } from 'tiptap'
-import { toggleMark, markInputRule, markPasteRule } from 'tiptap-commands'
+import { toggleMark } from 'tiptap-commands'
 
 export default class TextColor extends Mark {
 

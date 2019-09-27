@@ -1,4 +1,5 @@
 <template>
+  <!-- eslint-disable vue/no-v-html -->
   <div class="dvs-relative dvs-text-xs dvs-cursor-pointer">
     <div class="dvs-flex dvs-justify-between dvs-items-center">
       <div class="dvs-large-label dvs-flex dvs-items-center dvs-mr-2 dvs-font-bold dvs-w-full">
@@ -107,7 +108,26 @@ export default {
     Toggle: () => import(/* webpackChunkName: "devise-utilities" */ '../../utilities/Toggle'),
   },
   mixins: [Strings, Field],
-  props: ['value', 'options', 'showEditor', 'noReset'],
+
+  props: {
+    value: {
+      type: Object,
+      required: true
+    },
+    options: {
+      type: Object,
+      required: true
+    },
+    showEditor: {
+      type: Boolean,
+      default: false
+    },
+    noReset: {
+      type: Boolean,
+      default: false
+    }
+  },
+
   data () {
     return {
       showErase: false,

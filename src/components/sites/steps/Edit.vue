@@ -3,8 +3,8 @@
     <fieldset class="dvs-fieldset dvs-mb-4">
       <label>Name</label>
       <input
-        type="text"
         v-model="localValue.name"
+        type="text"
         placeholder="Name of the Site"
         class="w-full"
       >
@@ -20,8 +20,8 @@
 
       </label>
       <input
-        type="text"
         v-model="localValue.domain"
+        type="text"
         placeholder="Domain of the Site"
         class="w-full"
       >
@@ -30,8 +30,8 @@
     <fieldset class="dvs-fieldset dvs-mb-4">
       <label>Language</label>
       <select
-        type="text"
         v-model="localValue.language_id"
+        type="text"
         class="w-full"
       >
         <option
@@ -48,8 +48,8 @@
 
     <button
       class="dvs-btn dvs-btn-primary dvs-text-xs mr-2"
-      @click="requestEditSite"
       :disabled="editInvalid"
+      @click="requestEditSite"
     >Edit Site</button>
     <button
       class="dvs-btn dvs-btn-secondary dvs-text-xs"
@@ -73,6 +73,16 @@ export default {
     return {
       localValue: {}
     };
+  },
+  computed: {
+    ...mapState('devise', ['languages']),
+    editInvalid () {
+      return (
+        !this.localValue.name ||
+        !this.localValue.domain ||
+        !this.localValue.language_id
+      );
+    },
   },
   mounted () {
     this.localValue = { ...this.values }
@@ -111,15 +121,6 @@ export default {
     },
 
   },
-  computed: {
-    ...mapState('devise', ['languages']),
-    editInvalid () {
-      return (
-        !this.localValue.name ||
-        !this.localValue.domain ||
-        !this.localValue.language_id
-      );
-    },
-  },
+
 };
 </script>

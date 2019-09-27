@@ -3,7 +3,7 @@
     :no-reset="true"
     :options="options"
     :value="value"
-    :showEditor="showEditor"
+    :show-editor="showEditor"
     @toggleShowEditor="toggleEditor"
     @cancel="cancel"
     @change="update"
@@ -19,8 +19,8 @@
     <template slot="editor">
       <div class="dvs-flex dvs-items-center">
         <toggle
-          v-model="checked"
           :id="randomString(8)"
+          v-model="checked"
         ></toggle>
       </div>
     </template>
@@ -33,24 +33,26 @@ import Field from '../../../mixins/Field';
 
 export default {
   name: 'CheckboxEditor',
+  components: {
+    FieldEditor: () => import(/* webpackChunkName: "devise-editors" */ './Field'),
+    Toggle: () => import(/* webpackChunkName: "devise-utilities" */ '../../utilities/Toggle'),
+  },
+  mixins: [Strings, Field],
+  props: {
+    value: {
+      type: Object,
+      required: true,
+    },
+    options: {
+      type: Object,
+      required: true,
+    },
+  },
   data () {
     return {
       originalValue: null,
       showEditor: false,
     };
-  },
-  mounted () {
-    this.originalValue = Object.assign({}, this.value);
-  },
-  methods: {
-    toggleEditor () {
-      this.showEditor = !this.showEditor;
-    },
-    cancel () {
-      this.checked = this.originalValue.checked;
-      this.enabled = this.originalValue.enabled;
-      this.toggleEditor();
-    },
   },
   computed: {
     checked: {
@@ -70,11 +72,18 @@ export default {
       },
     },
   },
-  props: ['value', 'options'],
-  mixins: [Strings, Field],
-  components: {
-    FieldEditor: () => import(/* webpackChunkName: "devise-editors" */ './Field'),
-    Toggle: () => import(/* webpackChunkName: "devise-utilities" */ '../../utilities/Toggle'),
+  mounted () {
+    this.originalValue = Object.assign({}, this.value);
+  },
+  methods: {
+    toggleEditor () {
+      this.showEditor = !this.showEditor;
+    },
+    cancel () {
+      this.checked = this.originalValue.checked;
+      this.enabled = this.originalValue.enabled;
+      this.toggleEditor();
+    },
   },
 };
 </script>

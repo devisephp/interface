@@ -3,9 +3,9 @@
     <fieldset class="dvs-fieldset dvs-mb-4">
       <label>Name of User</label>
       <input
+        v-model="localValue.name"
         type="text"
         autocomplete="off"
-        v-model="localValue.name"
         placeholder="Name of the User"
       >
     </fieldset>
@@ -13,16 +13,16 @@
     <fieldset class="dvs-fieldset dvs-mb-4">
       <label>Email</label>
       <input
+        v-model="localValue.email"
         type="text"
         autocomplete="off"
-        v-model="localValue.email"
         placeholder="Email of the User"
       >
     </fieldset>
 
     <fieldset
-      class="dvs-fieldset dvs-mb-4"
       v-if="!showPassword"
+      class="dvs-fieldset dvs-mb-4"
     >
       <button
         class="dvs-btn dvs-btn-secondary "
@@ -34,26 +34,26 @@
       <fieldset class="dvs-fieldset dvs-mb-4">
         <label>Password</label>
         <input
+          v-model="localValue.password"
           type="password"
           autocomplete="off"
-          v-model="localValue.password"
         >
       </fieldset>
 
       <fieldset class="dvs-fieldset dvs-mb-4">
         <label>Password Confirm</label>
         <input
+          v-model="localValue.password_confirmation"
           type="password"
           autocomplete="off"
-          v-model="localValue.password_confirmation"
         >
       </fieldset>
     </template>
 
     <button
       class="dvs-btn dvs-btn-primary dvs-text-xs mr-2"
-      @click="requestEditUser"
       :disabled="editInvalid"
+      @click="requestEditUser"
     >Edit User</button>
     <button
       class="dvs-btn dvs-btn-secondary dvs-text-xs"
@@ -79,6 +79,19 @@ export default {
       showPassword: false,
     };
   },
+  
+  computed: {
+    editInvalid () {
+      return (
+        this.localValue.name === null ||
+        this.localValue.email === null ||
+        this.localValue.password === null ||
+        this.localValue.password_confirmation === null ||
+        this.localValue.password !== this.localValue.password_confirmation
+      );
+    },
+  },
+
   mounted () {
     this.localValue = { ...this.values }
   },
@@ -99,16 +112,6 @@ export default {
       this.$emit('cancel')
     }
   },
-  computed: {
-    editInvalid () {
-      return (
-        this.localValue.name === null ||
-        this.localValue.email === null ||
-        this.localValue.password === null ||
-        this.localValue.password_confirmation === null ||
-        this.localValue.password !== this.localValue.password_confirmation
-      );
-    },
-  },
+
 };
 </script>

@@ -1,8 +1,8 @@
 <template>
   <field-editor
-    :options="options"
     v-model="value"
-    :showEditor="showEditor"
+    :options="options"
+    :show-editor="showEditor"
     @toggleShowEditor="toggleEditor"
     @cancel="cancel"
     @resetvalue="resetValue"
@@ -26,9 +26,9 @@
       <div class="dvs-flex dvs-mb-2">
         <label>
           <input
+            v-model="mode"
             type="radio"
             class="dvs-w-auto dvs-mr-2"
-            v-model="mode"
             value="media"
           >
           Media Manager
@@ -37,41 +37,41 @@
       <div class="dvs-flex dvs-mb-8">
         <label>
           <input
+            v-model="mode"
             type="radio"
             class="dvs-w-auto dvs-mr-2"
-            v-model="mode"
             value="manual"
           >
           Manual URL
         </label>
       </div>
       <fieldset
-        class="dvs-fieldset"
         v-if="mode === 'manual'"
+        class="dvs-fieldset"
       >
         <label>URL</label>
         <div class="dvs-flex dvs-items-center">
           <input
-            type="text"
             v-model="url"
+            type="text"
           >
         </div>
       </fieldset>
       <fieldset
-        class="dvs-fieldset"
         v-else
+        class="dvs-fieldset"
       >
         <div class="flex">
           <div
             v-if="value.url"
-            @click="launchMediaEditor($event)"
             class="dvs-mb-8 dvs-mr-4"
+            @click="launchMediaEditor($event)"
           >
             <button class="dvs-btn dvs-btn-sm dvs-btn-primary">Edit Current Media</button>
           </div>
           <div
-            @click="launchMediaManager($event)"
             class="dvs-mb-8 dvs-mr-4"
+            @click="launchMediaManager($event)"
           >
             <button class="dvs-btn dvs-btn-sm dvs-btn-primary">Select New Media</button>
           </div>
@@ -82,12 +82,12 @@
 
             <div class="dvs-flex dvs-flex-wrap">
               <div
-                v-for="(media, size) in media"
+                v-for="(m, size) in media"
                 :key="size"
                 class="dvs-uppercase dvs-text-center dvs-mr-4 dvs-mb-4 dvs-p-4 dvs-bg-admin-secondary-bg"
               >
                 <image-preview
-                  :src="`${media}`"
+                  :src="`${m}`"
                   :name="size"
                 ></image-preview>
               </div>
@@ -96,11 +96,11 @@
         </div>
       </fieldset>
       <fieldset
-        class="dvs-fieldset"
         v-if="alt && alt !== ''"
+        class="dvs-fieldset"
       >
         <label class="dvs-mt-4">Alt Tag</label>
-        {{ this.alt }}
+        {{ alt }}
       </fieldset>
     </template>
   </field-editor>
@@ -112,71 +112,26 @@ import ImagePreview from './ImagePreview.vue';
 
 export default {
   name: 'ImageEditor',
+  components: {
+    FieldEditor: () => import(/* webpackChunkName: "devise-editors" */ './Field'),
+    ImagePreview
+  },
+  mixins: [Field],
+  props: {
+    value: {
+      type: Object,
+      required: true,
+    },
+    options: {
+      type: Object,
+      required: true,
+    },
+  },
   data () {
     return {
       originalValue: null,
       showEditor: false,
     };
-  },
-  mounted () {
-    this.originalValue = Object.assign({}, this.value);
-  },
-  methods: {
-    toggleEditor () {
-      if (this.mode !== 'manual') {
-        this.$set(this, 'mode', 'media');
-      }
-      this.showEditor = !this.showEditor;
-    },
-    cancel () {
-      this.url = this.originalValue.url;
-      this.defaultImage = this.originalValue.defaultImage;
-      this.alt = this.originalValue.alt;
-      this.media = this.originalValue.media;
-      this.settings = this.originalValue.settings;
-      this.enabled = this.originalValue.enabled;
-      this.mode = this.originalValue.mode;
-
-      this.toggleEditor();
-    },
-    resetValue () {
-      this.url = null;
-      this.defaultImage = null;
-      this.enabled = false;
-      this.alt = null;
-      this.media = [];
-      this.settings = {};
-      this.mode = 'media';
-    },
-    launchMediaManager () {
-      this.options.type = 'image';
-      window.deviseSettings.$bus.$emit('devise-launch-media-manager', {
-        callback: this.mediaSelected,
-        options: this.options,
-      });
-    },
-    mediaSelected (imagesAndSettings) {
-      if (typeof imagesAndSettings === 'object') {
-        this.alt = imagesAndSettings.images.alt;
-        this.url = imagesAndSettings.images.defaultImage;
-        this.defaultImage = imagesAndSettings.images.defaultImage;
-        this.media = imagesAndSettings.images.media;
-        this.settings = imagesAndSettings.settings;
-      } else {
-        this.url = imagesAndSettings;
-      }
-    },
-    launchMediaEditor () {
-      this.options.type = 'image';
-      const image = this.value.defaultImage ? this.value.defaultImage : this.value.url;
-
-      window.deviseSettings.$bus.$emit('devise-launch-media-editor', {
-        callback: this.mediaSelected,
-        options: this.options,
-        image,
-        settings: this.settings,
-      });
-    },
   },
   computed: {
     defaultImage: {
@@ -251,11 +206,65 @@ export default {
       return false
     },
   },
-  props: ['value', 'options'],
-  components: {
-    FieldEditor: () => import(/* webpackChunkName: "devise-editors" */ './Field'),
-    ImagePreview
+  mounted () {
+    this.originalValue = Object.assign({}, this.value);
   },
-  mixins: [Field],
+  methods: {
+    toggleEditor () {
+      if (this.mode !== 'manual') {
+        this.$set(this, 'mode', 'media');
+      }
+      this.showEditor = !this.showEditor;
+    },
+    cancel () {
+      this.url = this.originalValue.url;
+      this.defaultImage = this.originalValue.defaultImage;
+      this.alt = this.originalValue.alt;
+      this.media = this.originalValue.media;
+      this.settings = this.originalValue.settings;
+      this.enabled = this.originalValue.enabled;
+      this.mode = this.originalValue.mode;
+
+      this.toggleEditor();
+    },
+    resetValue () {
+      this.url = null;
+      this.defaultImage = null;
+      this.enabled = false;
+      this.alt = null;
+      this.media = [];
+      this.settings = {};
+      this.mode = 'media';
+    },
+    launchMediaManager () {
+      this.options.type = 'image';
+      window.deviseSettings.$bus.$emit('devise-launch-media-manager', {
+        callback: this.mediaSelected,
+        options: this.options,
+      });
+    },
+    mediaSelected (imagesAndSettings) {
+      if (typeof imagesAndSettings === 'object') {
+        this.alt = imagesAndSettings.images.alt;
+        this.url = imagesAndSettings.images.defaultImage;
+        this.defaultImage = imagesAndSettings.images.defaultImage;
+        this.media = imagesAndSettings.images.media;
+        this.settings = imagesAndSettings.settings;
+      } else {
+        this.url = imagesAndSettings;
+      }
+    },
+    launchMediaEditor () {
+      this.options.type = 'image';
+      const image = this.value.defaultImage ? this.value.defaultImage : this.value.url;
+
+      window.deviseSettings.$bus.$emit('devise-launch-media-editor', {
+        callback: this.mediaSelected,
+        options: this.options,
+        image,
+        settings: this.settings,
+      });
+    },
+  },
 };
 </script>

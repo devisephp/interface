@@ -3,8 +3,8 @@
     <fieldset class="dvs-fieldset dvs-mb-4">
       <label>Name</label>
       <input
-        type="text"
         v-model="newUser.name"
+        type="text"
         placeholder="Name of the User"
         class="dvs-w-full"
       >
@@ -13,8 +13,8 @@
     <fieldset class="dvs-fieldset dvs-mb-4">
       <label>Email</label>
       <input
-        type="text"
         v-model="newUser.email"
+        type="text"
         placeholder="Email of the User"
         class="dvs-w-full"
       >
@@ -23,8 +23,8 @@
     <fieldset class="dvs-fieldset dvs-mb-4">
       <label>Password</label>
       <input
-        type="password"
         v-model="newUser.password"
+        type="password"
         class="dvs-w-full"
       >
     </fieldset>
@@ -32,16 +32,16 @@
     <fieldset class="dvs-fieldset dvs-mb-4">
       <label>Confirm Password</label>
       <input
-        type="password"
         v-model="newUser.password_confirmation"
+        type="password"
         class="dvs-w-full"
       >
     </fieldset>
 
     <button
       class="dvs-btn dvs-btn-primary dvs-text-xs mr-2"
-      @click="requestCreateUser"
       :disabled="createInvalid"
+      @click="requestCreateUser"
     >Create</button>
     <button
       class="dvs-btn dvs-btn-secondary dvs-text-xs"
@@ -67,6 +67,17 @@ export default {
       },
     };
   },
+  computed: {
+    createInvalid () {
+      return (
+        this.newUser.name === null ||
+        this.newUser.email === null ||
+        this.newUser.password === null ||
+        this.newUser.password_confirmation === null ||
+        this.newUser.password !== this.newUser.password_confirmation
+      );
+    },
+  },
   methods: {
     ...mapActions('devise', ['createGeneric']),
     requestCreateUser () {
@@ -84,16 +95,6 @@ export default {
       this.$emit('cancel')
     }
   },
-  computed: {
-    createInvalid () {
-      return (
-        this.newUser.name === null ||
-        this.newUser.email === null ||
-        this.newUser.password === null ||
-        this.newUser.password_confirmation === null ||
-        this.newUser.password !== this.newUser.password_confirmation
-      );
-    },
-  }
+
 };
 </script>

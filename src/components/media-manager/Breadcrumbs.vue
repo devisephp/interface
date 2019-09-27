@@ -20,7 +20,12 @@ export default {
     ChevronRightIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ChevronRightIcon'),
   },
-  props: ['currentDirectory'],
+  props: {
+    currentDirectory: {
+      type: String,
+      required: true
+    }
+  },
   computed: {
     directoriesObj() {
       const directoriesObj = {};

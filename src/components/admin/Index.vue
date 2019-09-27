@@ -7,32 +7,32 @@
     <template v-slot:content>
       <ul class="dvs-list-reset dvs-flex dvs-flex-wrap dvs-justify-between">
         <li
-          class="dvs-py-6 dvs-mr-8"
           v-for="menuItem in currentMenuItems"
           :key="menuItem.id"
+          class="dvs-py-6 dvs-mr-8"
         >
           <div
             v-if="menuItem.routeName"
-            @click="goToPage(menuItem.routeName, menuItem.parameters)"
             class="dvs-block dvs-switch-sm dvs-flex dvs-justify-between dvs-items-center dvs-cursor-pointer"
+            @click="goToPage(menuItem.routeName, menuItem.parameters)"
           >{{ menuItem.label }}</div>
           <div
             v-else
             class="dvs-uppercase dvs-text-xs dvs-text-admin-secondary-fg"
           >{{ menuItem.label }}</div>
           <ul
-            class="dvs-list-reset dvs-text-sm"
             v-if="menuItem.children"
+            class="dvs-list-reset dvs-text-sm"
           >
             <li
-              class="dvs-pt-3"
               v-for="(childMenuItem) in menuItem.children"
               :key="childMenuItem.id"
+              class="dvs-pt-3"
             >
               <div
                 v-if="childMenuItem.routeName"
-                @click="goToPage(childMenuItem.routeName, childMenuItem.parameters)"
                 class="dvs-block dvs-switch-sm dvs-flex dvs-justify-between dvs-items-center dvs-cursor-pointer"
+                @click="goToPage(childMenuItem.routeName, childMenuItem.parameters)"
               >{{ childMenuItem.label }}</div>
             </li>
           </ul>
@@ -51,6 +51,22 @@ export default {
     AdminContainer: () =>
       import(/* webpackChunkName: "devise-administration" */ './ui/AdminContainer'),
   },
+
+  computed: {
+    ...mapState('devise', ['adminMenu']),
+    currentMenu () {
+      return this.findMenu(this.adminMenu)
+    },
+    currentMenuItems () {
+      return this.currentMenu.menu.filter((menuItem) => {
+        if (!menuItem.permissions) {
+          return true
+        }
+        return this.can(menuItem.permissions)
+      });
+    }
+  },
+
   methods: {
     findMenu (menu) {
       let safeMenu = menu;
@@ -73,19 +89,6 @@ export default {
       return false;
     },
   },
-  computed: {
-    ...mapState('devise', ['adminMenu']),
-    currentMenu () {
-      return this.findMenu(this.adminMenu)
-    },
-    currentMenuItems () {
-      return this.currentMenu.menu.filter((menuItem) => {
-        if (!menuItem.permissions) {
-          return true
-        }
-        return this.can(menuItem.permissions)
-      });
-    }
-  },
+
 };
 </script>

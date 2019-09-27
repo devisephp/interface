@@ -1,7 +1,7 @@
 <template>
   <devise-installer-item
-    :item="item"
     id="nav-user"
+    :item="item"
     title="First Administration User (required)"
   >
     <template slot="instructions">
@@ -58,32 +58,32 @@
         <fieldset class="dvs-fieldset dvs-mb-4">
           <label>Name</label>
           <input
-            type="text"
             v-model="newUser.name"
+            type="text"
             :disabled="item"
           >
         </fieldset>
         <fieldset class="dvs-fieldset dvs-mb-4">
           <label>Email</label>
           <input
-            type="email"
             v-model="newUser.email"
+            type="email"
             :disabled="item"
           >
         </fieldset>
         <fieldset class="dvs-fieldset dvs-mb-6">
           <label>Password</label>
           <input
-            type="text"
             v-model="newUser.password"
+            type="text"
             :disabled="item"
           >
         </fieldset>
         <fieldset class="dvs-fieldset dvs-mb-6">
           <label>Confirm Password</label>
           <input
-            type="text"
             v-model="newUser.password_confirmation"
+            type="text"
             :disabled="item"
           >
         </fieldset>
@@ -104,6 +104,14 @@ export default {
   components: {
     DeviseInstallerItem: () => import(/* webpackChunkName: "devise-installer" */ "../Item.vue"),
   },
+
+  props: {
+    item: {
+      type: Boolean,
+      required: true
+    }
+  },
+
   data () {
     return {
       newUser: {
@@ -122,10 +130,6 @@ export default {
       });
     }
   },
-  props: {
-    item: {
-      required: true
-    }
-  }
+
 };
 </script>

@@ -510,6 +510,7 @@ import {
 import TextAlign from './wysiwyg/tiptap/extensions/TextAlign'
 import TextColor from './wysiwyg/tiptap/extensions/TextColor'
 
+// eslint-disable-next-line no-undef
 const Chrome = require(/* webpackChunkName: "vue-color" */ 'vue-color/src/components/Chrome.vue').default;
 
 export default {
@@ -572,6 +573,7 @@ export default {
   },
   props: {
     value: {
+      type: Object,
       required: true
     }
   },
@@ -633,6 +635,7 @@ export default {
     if (typeof this.value !== 'undefined') {
       this.editor.setContent(this.value)
     } else {
+      // eslint-disable-next-line no-console
       console.warn('Devise: The initial value for the WYSIWYG field was undefined. Consider wrapping it in a v-if until the model is resolved.')
     }
   },

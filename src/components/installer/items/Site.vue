@@ -1,7 +1,7 @@
 <template>
   <devise-installer-item
-    :item="item"
     id="nav-site"
+    :item="item"
     title="First Site and Language (required)"
   >
     <template slot="instructions">
@@ -31,22 +31,22 @@
         <fieldset class="dvs-fieldset dvs-mb-4">
           <label>Site Name</label>
           <input
-            type="text"
             v-model="newSite.name"
+            type="text"
             :disabled="item"
           >
         </fieldset>
         <fieldset class="dvs-fieldset dvs-mb-4">
           <label>Site's Actual Domain (See below)</label>
           <input
-            type="text"
             v-model="newSite.domain"
+            type="text"
             :disabled="item"
           >
         </fieldset>
         <fieldset
-          class="dvs-fieldset dvs-mb-6"
           v-if="languages.count"
+          class="dvs-fieldset dvs-mb-6"
         >
           <label>Default Language</label>
           <select
@@ -62,21 +62,21 @@
           </select>
         </fieldset>
         <fieldset
-          class="dvs-fieldset dvs-mb-6"
           v-else
+          class="dvs-fieldset dvs-mb-6"
         >
           <label>Default Language</label>
           <input
-            type="text"
             v-model="newSite.code"
+            type="text"
             :disabled="item"
           >
         </fieldset>
         <button
           type="submit"
           class="dvs-btn dvs-bg-green dvs-text-white"
-          @click.prevent="attemptCreateSite()"
           :disabled="item"
+          @click.prevent="attemptCreateSite()"
         >Create Site</button>
       </form>
 
@@ -99,8 +99,19 @@
 import { mapActions, mapState } from 'vuex';
 
 export default {
+
   components: {
     DeviseInstallerItem: () => import(/* webpackChunkName: "devise-installer" */ "../Item.vue"),
+    Help: () => import(
+        // eslint-disable-next-line max-len
+        /* webpackChunkName: "devise-utilities" */ '../../utilities/Help.vue'),
+  },
+
+  props: {
+    item: {
+      type: Boolean,
+      required: true
+    }
   },
   data () {
     return {
@@ -113,6 +124,11 @@ export default {
         settings: {}
       }
     };
+  },
+        computed: {
+    ...mapState('devise', {
+      languages: state => state.languages.data
+    })
   },
   methods: {
     ...mapActions('devise', ['createSite', 'createLanguage']),
@@ -132,15 +148,6 @@ export default {
       }
     }
   },
-  computed: {
-    ...mapState('devise', {
-      languages: state => state.languages.data
-    })
-  },
-  props: {
-    item: {
-      required: true
-    }
-  }
+
 };
 </script>

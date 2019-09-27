@@ -1,11 +1,11 @@
 <template>
   <div
-    class="dvs-min-h-screen dvs-fixed dvs-pin dvs-flex dvs-justify-center dvs-items-center dvs-z-60 dvs-text-grey-darker"
     v-if="show"
+    class="dvs-h-screen dvs-fixed dvs-pin dvs-flex dvs-justify-center dvs-items-center dvs-z-60 dvs-text-grey-darker"
   >
     <div
       class="dvs-blocker dvs-z-30"
-      @click="this.show = false"
+      @click="show = false"
     ></div>
 
     <admin-container class="dvs-z-40 dvs-text-admin-fg">
@@ -19,11 +19,11 @@
         </div>
         <div>
           <button
-            class="dvs-btn dvs-btn-danger dvs-mr-2 dvs-btn-sm"
+            class="dvs-btn dvs-btn-danger dvs-mr-2"
             @click="forceSavePage"
           >Yes, force save my changes</button>
           <button
-            class="dvs-btn dvs-btn-primary dvs-btn-sm"
+            class="dvs-btn dvs-btn-secondary"
             @click="refreshPage"
           >Refresh the page and lose my changes</button>
         </div>
@@ -39,18 +39,22 @@ import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'DeviseForceSave',
+  
   components: {
     AdminContainer: () =>
       import(/* webpackChunkName: "devise-utilities" */ '../admin/ui/AdminContainer.vue'),
   },
-  computed: {
-    ...mapGetters('devise', ['currentPage']),
-  },
+
   data () {
     return {
       show: false
     }
   },
+
+  computed: {
+    ...mapGetters('devise', ['currentPage']),
+  },
+
   mounted () {
     window.deviseSettings.$bus.$on('showForceSave', () => {
       this.show = true;

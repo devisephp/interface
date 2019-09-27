@@ -24,6 +24,22 @@ import Slice from './Slice.vue'; // eslint-disable-line
 export default {
   /* eslint-disable camelcase */
   name: 'DeviseSlice',
+    components: {
+    Slice,
+    SettingsIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SettingsIcon'),
+  },
+  mixins: [Strings],
+  props: {
+    editorMode: {
+      type: Boolean,
+      default: false
+    },
+    sliceIndex: {
+      type: Number,
+      required: true
+    }
+  },
   data () {
     return {
       mounted: false,
@@ -32,6 +48,66 @@ export default {
       sliceComponent: null,
     };
   },
+  computed: {
+    ...mapGetters('devise', ['component', 'sliceConfig', 'breakpoint', 'mediaAlreadyRequested']),
+    deviseForSlice () {
+      if (this.devise.config) {
+        return this.devise.config;
+      }
+      return this.devise;
+    },
+    id () {
+      if (typeof this.deviseForSlice.settings === 'undefined') {
+        this.$set(this.deviseForSlice, 'settings', {
+          id: null
+        });
+      }
+      return this.deviseForSlice.settings.id
+    },
+    styles () {
+      const styles = {};
+
+      if (typeof this.deviseForSlice.settings === 'undefined') {
+        this.$set(this.deviseForSlice, 'settings', {});
+      }
+
+      const {
+        backgroundColor,
+        color,
+        margin,
+        mobile_margin,
+        tablet_margin,
+        padding,
+        mobile_padding,
+        tablet_padding,
+      } = this.deviseForSlice.settings;
+
+      if (typeof backgroundColor !== 'undefined') {
+        styles.backgroundColor = backgroundColor;
+      }
+
+      if (typeof color !== 'undefined') {
+        styles.color = color;
+      }
+
+      if (this.breakpoint === 'tablet') {
+        return this.buildStyles(styles, tablet_margin, tablet_padding);
+      }
+
+      if (this.breakpoint === 'mobile') {
+        return this.buildStyles(styles, mobile_margin, mobile_padding);
+      }
+
+      return this.buildStyles(styles, margin, padding);
+    },
+    currentView () {
+      if (this.devise.config) {
+        return window.deviseSettings.$deviseComponents[this.devise.name];
+      }
+      return window.deviseSettings.$deviseComponents[this.devise.metadata.name];
+    }
+  },
+
   created () {
     this.cleanupImageFields();
     this.hydrateMissingProperties();
@@ -357,71 +433,6 @@ export default {
       return styles;
     },
   },
-  computed: {
-    ...mapGetters('devise', ['component', 'sliceConfig', 'breakpoint', 'mediaAlreadyRequested']),
-    deviseForSlice () {
-      if (this.devise.config) {
-        return this.devise.config;
-      }
-      return this.devise;
-    },
-    id () {
-      if (typeof this.deviseForSlice.settings === 'undefined') {
-        this.$set(this.deviseForSlice, 'settings', {
-          id: null
-        });
-      }
-      return this.deviseForSlice.settings.id
-    },
-    styles () {
-      const styles = {};
-
-      if (typeof this.deviseForSlice.settings === 'undefined') {
-        this.$set(this.deviseForSlice, 'settings', {});
-      }
-
-      const {
-        backgroundColor,
-        color,
-        margin,
-        mobile_margin,
-        tablet_margin,
-        padding,
-        mobile_padding,
-        tablet_padding,
-      } = this.deviseForSlice.settings;
-
-      if (typeof backgroundColor !== 'undefined') {
-        styles.backgroundColor = backgroundColor;
-      }
-
-      if (typeof color !== 'undefined') {
-        styles.color = color;
-      }
-
-      if (this.breakpoint === 'tablet') {
-        return this.buildStyles(styles, tablet_margin, tablet_padding);
-      }
-
-      if (this.breakpoint === 'mobile') {
-        return this.buildStyles(styles, mobile_margin, mobile_padding);
-      }
-
-      return this.buildStyles(styles, margin, padding);
-    },
-    currentView () {
-      if (this.devise.config) {
-        return window.deviseSettings.$deviseComponents[this.devise.name];
-      }
-      return window.deviseSettings.$deviseComponents[this.devise.metadata.name];
-    }
-  },
-  components: {
-    Slice,
-    SettingsIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SettingsIcon'),
-  },
-  mixins: [Strings],
-  props: ['editorMode', 'sliceIndex'],
+  
 };
 </script>

@@ -8,6 +8,7 @@
         ref="Scrollbar"
         class=" dvs-px-10"
         :style="{maxHeight: `${maxHeight}px`}"
+        :speed="5"
       >
         <slot name="content"></slot>
       </vue-scrollbar>

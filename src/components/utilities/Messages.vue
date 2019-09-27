@@ -7,10 +7,25 @@ import Strings from '../../mixins/Strings';
 
 export default {
   name: 'DeviseMessages',
+  mixins: [Strings],
   data () {
     return {
       title: null
     };
+  },
+  computed: {
+    mainTitle () {
+      if (this.title === null) {
+        return 'There was a Problem';
+      }
+      return this.title;
+    },
+    activeErrors () {
+      return this.errors.filter(error => error.active === true);
+    },
+    activeMessages () {
+      return this.messages.filter(message => message.active === true);
+    },
   },
   mounted () {
     const self = this;
@@ -96,20 +111,5 @@ export default {
       this.showSuccessMsg({ title: payload.title, message: payload.message })
     }
   },
-  computed: {
-    mainTitle () {
-      if (this.title === null) {
-        return 'There was a Problem';
-      }
-      return this.title;
-    },
-    activeErrors () {
-      return this.errors.filter(error => error.active === true);
-    },
-    activeMessages () {
-      return this.messages.filter(message => message.active === true);
-    },
-  },
-  mixins: [Strings],
 };
 </script>

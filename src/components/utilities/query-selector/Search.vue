@@ -2,9 +2,9 @@
   <div>
     <div class="dvs-flex dvs-justify-center dvs-p-4 dvs-pb-8  dvs-text-admin-fg  dvs-w-full">
       <input
-        type="text"
-        v-model="filter"
         ref="filter"
+        v-model="filter"
+        type="text"
         class="dvs-bg-transparent dvs-border-b-2 dvs-px-12 dvs-py-2 dvs-text-admin-fg dvs-outline-none dvs-placeholder-admin-fg dvs-text-center"
         :placeholder="value.label"
         @keyup="requestSearch"
@@ -57,14 +57,14 @@
         class="dvs-flex dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-shadow hover:dvs-shadow-lg dvs-rounded dvs-my-4 dvs-p-4 dvs-cursor-pointer"
       >
         <div
-          class="dvs-mr-4 handle"
           v-if="modelQuerySettings.allowSort"
+          class="dvs-mr-4 handle"
         >
           <menu-icon></menu-icon>
         </div>
         <div
-          class="dvs-w-full"
           v-if="suggestion.displayFields"
+          class="dvs-w-full"
         >
           <div class="dvs-text-lg dvs-mb-2">{{ suggestion.displayFields[0].value }}</div>
 
@@ -115,6 +115,14 @@ export default {
       required: true
     }
   },
+  data () {
+    return {
+      filter: null,
+      autosuggest: {
+        data: [],
+      }
+    }
+  },
   computed: {
     selected: {
       get () {
@@ -133,14 +141,6 @@ export default {
         })
       }
       return [];
-    }
-  },
-  data () {
-    return {
-      filter: null,
-      autosuggest: {
-        data: [],
-      }
     }
   },
   mounted () {

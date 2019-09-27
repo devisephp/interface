@@ -3,9 +3,9 @@
     <fieldset class="dvs-fieldset">
       <label for="querykey">Data Set Query</label>
       <select
-        name="querykey"
         id="querykey"
         v-model="query"
+        name="querykey"
         class="w-full"
       >
         <option
@@ -15,16 +15,16 @@
           Please Select a Data Set Query
         </option>
         <option
-          :value="mq.key"
           v-for="mq in modelQueries"
           :key="mq.key"
+          :value="mq.key"
         >{{ mq.description }}</option>
       </select>
     </fieldset>
 
     <div
-      class="dvs-mt-6"
       v-if="selectedModelQuery && selectedModelQuery.params.length > 0"
+      class="dvs-mt-6"
     >
       <div
         v-for="(param, key) in selectedModelQuery.params"
@@ -32,33 +32,33 @@
       >
         <param-search
           v-if="param.type === 'search'"
+          v-model="finalModelQuery.params[key]"
           :model-query="selectedModelQuery"
           :model-query-settings="param"
-          v-model="finalModelQuery.params[key]"
         ></param-search>
 
         <param-text
-          class="dvs-mb-4"
           v-if="param.type === 'text'"
+          v-model="finalModelQuery.params[key]"
+          class="dvs-mb-4"
           :model-query="selectedModelQuery"
           :model-query-settings="param"
-          v-model="finalModelQuery.params[key]"
         ></param-text>
 
         <param-select
-          class="dvs-mb-4"
           v-if="param.type === 'select'"
+          v-model="finalModelQuery.params[key]"
+          class="dvs-mb-4"
           :model-query="selectedModelQuery"
           :model-query-settings="param"
-          v-model="finalModelQuery.params[key]"
         ></param-select>
 
         <param-datetime
-          class="dvs-mb-4"
           v-if="param.type === 'datetime'"
+          v-model="finalModelQuery.params[key]"
+          class="dvs-mb-4"
           :model-query="selectedModelQuery"
           :model-query-settings="param"
-          v-model="finalModelQuery.params[key]"
         ></param-datetime>
       </div>
     </div>
@@ -86,18 +86,14 @@ export default {
       required: true
     }
   },
-  watch: {
-    selectedModelQuery: {
-      handler (newValue) {
-        newValue.params.forEach(() => {
-          // may have to change the push data type based on param.type
-          this.finalModelQuery.params.push([])
-        })
-        this.finalModelQuery.key = newValue.key
-      },
-      deep: true
+  
+  data () {
+    return {
+      query: '',
+      params: []
     }
   },
+
   computed: {
     ...mapState('devise', ['modelQueries']),
     finalModelQuery: {
@@ -113,12 +109,20 @@ export default {
       return this.modelQueries.find(mq => mq.key === this.query)
     },
   },
-  data () {
-    return {
-      query: '',
-      params: []
+
+  watch: {
+    selectedModelQuery: {
+      handler (newValue) {
+        newValue.params.forEach(() => {
+          // may have to change the push data type based on param.type
+          this.finalModelQuery.params.push([])
+        })
+        this.finalModelQuery.key = newValue.key
+      },
+      deep: true
     }
   },
+
   mounted () {
     if (this.value && this.value.key) {
       this.loadPreviousState()

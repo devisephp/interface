@@ -1,11 +1,12 @@
 <template>
+  <!-- eslint-disable vue/no-v-html -->
   <div>
     <div
       v-for="(option, key) in options"
       :key="key"
       class="dvs-bg-white dvs-cursor-pointer dvs-text-admin-bg dvs-text-center dvs-py-3 dvs-px-8 dvs-my-4 dvs-shadow dvs-rounded"
-      v-html="option.label"
       @click="chooseOption(option)"
+      v-html="option.label"
     >
     </div>
   </div>

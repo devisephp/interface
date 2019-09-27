@@ -4,8 +4,8 @@
     style="top:30px; right:30px;"
   >
     <div
-      class="dvs-z-50 dvs-min-w-96 dvs-z-50 dvs-rounded dvs-bg-admin-bg dvs-text-admin-fg dvs-shadow-lg dvs-flex dvs-items-stretch"
       v-if="showEditor"
+      class="dvs-z-50 dvs-min-w-96 dvs-z-50 dvs-rounded dvs-bg-admin-bg dvs-text-admin-fg dvs-shadow-lg dvs-flex dvs-items-stretch"
     >
       <div
         id="dvs-admin-sidebar"
@@ -46,7 +46,7 @@
               <slice-settings-section
                 v-if="showType === 'desktop'"
                 :value="slice.settings"
-                :backgroundColor="backgroundColor"
+                :background-color="backgroundColor"
                 :color="color"
                 responsive-mode="desktop"
                 @resetstyles="resetStyles"
@@ -58,7 +58,7 @@
               <slice-settings-section
                 v-if="showType === 'tablet'"
                 :value="slice.settings"
-                :backgroundColor="backgroundColor"
+                :background-color="backgroundColor"
                 :color="color"
                 responsive-mode="tablet"
                 @resetstyles="resetStyles"
@@ -70,7 +70,7 @@
               <slice-settings-section
                 v-if="showType === 'mobile'"
                 :value="slice.settings"
-                :backgroundColor="backgroundColor"
+                :background-color="backgroundColor"
                 responsive-mode="mobile"
                 @resetstyles="resetStyles"
                 @setmarginpadding="setMarginPadding"
@@ -92,10 +92,15 @@ import Vue from 'vue';
 import Strings from '../../mixins/Strings';
 import SliceSettingsSection from './SliceSettingsSection.vue';
 
+// eslint-disable-next-line no-undef
 const tinycolor = require(/* webpackChunkName: "tinycolor" */ 'tinycolor2');
 
 export default {
   name: 'SliceSettings',
+  components: {
+    SliceSettingsSection,
+  },
+  mixins: [Strings],
   data () {
     return {
       showEditor: false,
@@ -109,6 +114,10 @@ export default {
       showType: 'desktop',
     };
   },
+    computed: {
+    ...mapGetters('devise', ['component', 'sliceConfig']),
+  },
+
   created () {
     this.backgroundColor = tinycolor('#fff').toRgb();
     this.color = tinycolor('#000').toRgb();
@@ -201,12 +210,6 @@ export default {
       );
     },
   },
-  computed: {
-    ...mapGetters('devise', ['component', 'sliceConfig']),
-  },
-  mixins: [Strings],
-  components: {
-    SliceSettingsSection,
-  },
+
 };
 </script>

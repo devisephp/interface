@@ -1,9 +1,9 @@
 <template>
   <field-editor
-    :options="options"
-    v-model="value"
     ref="field"
-    :showEditor="showEditor"
+    v-model="value"
+    :options="options"
+    :show-editor="showEditor"
     @toggleShowEditor="toggleEditor"
     @cancel="cancel"
     @resetvalue="resetValue"
@@ -15,8 +15,8 @@
         class="dvs-italic"
       >Currently No Value</span>
       <div
-        class="dvs-flex dvs-items-center"
         v-else
+        class="dvs-flex dvs-items-center"
       >
         <div
           class="dvs-w-4 dvs-h-4 dvs-rounded-full dvs-mr-4"
@@ -36,37 +36,34 @@
 <script>
 import Field from '../../../mixins/Field';
 
+
+// eslint-disable-next-line no-undef
 const Chrome = require(/* webpackChunkName: "vue-color" */ 'vue-color/src/components/Chrome.vue').default;
+// eslint-disable-next-line no-undef
 const tinycolor = require(/* webpackChunkName: "tinycolor" */ 'tinycolor2');
 
 export default {
   name: 'ColorEditor',
+  components: {
+    FieldEditor: () => import(/* webpackChunkName: "devise-editors" */ './Field'),
+    'color-picker': Chrome,
+  },
+  mixins: [Field],
+  props: {
+    value: {
+      type: Object,
+      required: true,
+    },
+    options: {
+      type: Object,
+      required: true,
+    },
+  },
   data () {
     return {
       showEditor: false,
       originalValue: null,
     };
-  },
-  mounted () {
-    this.originalValue = this.value.color;
-  },
-  methods: {
-    toggleEditor () {
-      this.showEditor = !this.showEditor;
-    },
-    cancel () {
-      const rgba = this.convertColor(this.originalValue);
-      this.color = { rgba };
-      this.enabled = this.originalValue.enabled;
-      this.toggleEditor();
-    },
-    convertColor (color) {
-      return tinycolor(color).toRgb();
-    },
-    resetValue () {
-      this.enabled = false;
-      this.color = null;
-    },
   },
   computed: {
     getMaxLength () {
@@ -91,11 +88,26 @@ export default {
       },
     },
   },
-  props: ['value', 'options'],
-  components: {
-    FieldEditor: () => import(/* webpackChunkName: "devise-editors" */ './Field'),
-    'color-picker': Chrome,
+  mounted () {
+    this.originalValue = this.value.color;
   },
-  mixins: [Field],
+  methods: {
+    toggleEditor () {
+      this.showEditor = !this.showEditor;
+    },
+    cancel () {
+      const rgba = this.convertColor(this.originalValue);
+      this.color = { rgba };
+      this.enabled = this.originalValue.enabled;
+      this.toggleEditor();
+    },
+    convertColor (color) {
+      return tinycolor(color).toRgb();
+    },
+    resetValue () {
+      this.enabled = false;
+      this.color = null;
+    },
+  },
 };
 </script>

@@ -1,8 +1,8 @@
 <template>
   <!-- Database -->
   <devise-installer-item
-    :item="item"
     id="nav-database-connection"
+    :item="item"
     title="Database Connection (required)"
   >
     <template slot="instructions">
@@ -38,6 +38,7 @@ export default {
   },
   props: {
     item: {
+      type: Boolean,
       required: true
     }
   }

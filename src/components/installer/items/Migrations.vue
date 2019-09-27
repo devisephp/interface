@@ -1,7 +1,7 @@
 <template>
   <devise-installer-item
-    :item="item"
     id="nav-database-migration"
+    :item="item"
     title="Database Migrations (required)"
   >
     <template slot="instructions">
@@ -33,6 +33,7 @@ export default {
   },
   props: {
     item: {
+      type:Boolean,
       required: true
     }
   }

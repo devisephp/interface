@@ -34,7 +34,7 @@ export default {
     },
     cancel () {
       this.$emit('cancel')
-    }
+    },
   }
 };
 </script>

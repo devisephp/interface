@@ -32,7 +32,16 @@ export default {
     DatePicker,
   },
   mixins: [Field],
-  props: ['value', 'options'],
+  props: {
+    value: {
+      type: Object,
+      required: true,
+    },
+    options: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
       showEditor: false,

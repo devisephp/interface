@@ -11,9 +11,9 @@
       >
         <option :value="null">Please Select from the Following</option>
         <option
-          v-for="(option, value) in options"
-          :key="value"
-          :value="value"
+          v-for="(option, key) in options"
+          :key="key"
+          :value="key"
         >
           {{ option }}
         </option>

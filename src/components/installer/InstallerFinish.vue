@@ -13,6 +13,12 @@
 import { mapActions } from 'vuex';
 
 export default {
+  props: {
+    finished: {
+      type: Boolean,
+      required: true
+    }
+  },
   methods: {
     ...mapActions('devise', ['completeInstall']),
     attemptCompleteInstall () {
@@ -21,11 +27,5 @@ export default {
       });
     }
   },
-  props: {
-    finished: {
-      type: Boolean,
-      required: true
-    }
-  }
 };
 </script>

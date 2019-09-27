@@ -3,23 +3,23 @@
     <fieldset class="dvs-fieldset dvs-mb-4">
       <label>From URL</label>
       <input
-        type="text"
         v-model="newRedirect.from_url"
+        type="text"
       >
     </fieldset>
 
     <fieldset class="dvs-fieldset dvs-mb-4">
       <label>To URL</label>
       <input
-        type="text"
         v-model="newRedirect.to_url"
+        type="text"
       >
     </fieldset>
 
     <button
       class="dvs-btn dvs-btn-primary dvs-text-xs mr-2"
-      @click="requestCreateSite"
       :disabled="createInvalid"
+      @click="requestCreateSite"
     >Create</button>
     <button
       class="dvs-btn dvs-btn-secondary dvs-text-xs"
@@ -41,6 +41,14 @@ export default {
       },
     };
   },
+  computed: {
+    createInvalid () {
+      return (
+        this.newRedirect.from_url === null ||
+        this.newRedirect.to_url === null
+      );
+    },
+  },
   methods: {
     ...mapActions('devise', ['createGeneric']),
     requestCreateSite () {
@@ -58,13 +66,5 @@ export default {
       this.$emit('cancel')
     }
   },
-  computed: {
-    createInvalid () {
-      return (
-        this.newRedirect.from_url === null ||
-        this.newRedirect.to_url === null
-      );
-    },
-  }
 };
 </script>

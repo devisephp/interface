@@ -2,8 +2,8 @@
   <div>
     <div class="dvs-flex dvs-items-center">
       <input
-        type="text"
         v-model="value"
+        type="text"
         :maxlength="getMaxLength"
         disabled
       >
@@ -15,8 +15,8 @@
         />
       </div>
       <div
+        :class="{ ' dvs-opacity-25': !previewEnabled }"
         @click="loadPreview"
-        v-bind:class="{ ' dvs-opacity-25': !previewEnabled }"
       >
         <search-icon
           class="dvs-ml-4 dvs-cursor-pointer"
@@ -60,26 +60,22 @@
 <script>
 export default {
   name: 'ImageField',
+  components: {
+    DocumentIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ClipboardIcon'),
+    SearchIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SearchIcon'),
+  },
+  props: {
+    value: {
+      type: Object,
+      required: true
+    }
+  },
   data () {
     return {
       showPreview: false,
     };
-  },
-  methods: {
-    showMediaManager () {
-      window.deviseSettings.$bus.$emit('devise-launch-media-manager', {
-        callback: this.mediaSelected,
-        options: {
-          type: 'file',
-        },
-      });
-    },
-    mediaSelected (url) {
-      this.file = url;
-    },
-    loadPreview () {
-      if (this.previewEnabled) this.showPreview = true;
-    },
   },
   computed: {
     file: {
@@ -105,12 +101,21 @@ export default {
       return '';
     },
   },
-  props: ['value'],
-  components: {
-    DocumentIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ClipboardIcon'),
-    SearchIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SearchIcon'),
+  methods: {
+    showMediaManager () {
+      window.deviseSettings.$bus.$emit('devise-launch-media-manager', {
+        callback: this.mediaSelected,
+        options: {
+          type: 'file',
+        },
+      });
+    },
+    mediaSelected (url) {
+      this.file = url;
+    },
+    loadPreview () {
+      if (this.previewEnabled) this.showPreview = true;
+    },
   },
 };
 </script>

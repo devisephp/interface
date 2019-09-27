@@ -37,7 +37,16 @@ export default {
     FieldEditor: () => import(/* webpackChunkName: "devise-editors" */ './Field'),
   },
   mixins: [Field],
-  props: ['value', 'options'],
+  props: {
+    value: {
+      type: Object,
+      required: true,
+    },
+    options: {
+      type: Object,
+      required: true,
+    },
+  },
   data () {
     return {
       originalValue: {},

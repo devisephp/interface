@@ -9,18 +9,18 @@
     <div>
       <div class="dvs-cursor-pointer">{{ file.name }}</div>
       <div
-        class="dvs-text-2xs dvs-mb-2 dvs-opacity-75"
         v-if="description"
+        class="dvs-text-2xs dvs-mb-2 dvs-opacity-75"
       >{{description}}</div>
       <div
-        class="dvs-text-xs dvs-flex dvs-items-align dvs-opacity-75"
         v-if="childSlot"
+        class="dvs-text-xs dvs-flex dvs-items-align dvs-opacity-75"
       >
         <information-circle-icon class="dvs-mr-1" />Can contain sub-slices
       </div>
       <div
-        class="dvs-text-xs dvs-flex dvs-items-align dvs-opacity-75"
         v-if="database"
+        class="dvs-text-xs dvs-flex dvs-items-align dvs-opacity-75"
       >
         <cube-icon class="dvs-mr-1" />Database driven
       </div>
@@ -33,6 +33,23 @@ import { mapGetters } from 'vuex';
 import SliceDiagram from './SliceDiagram.vue';
 
 export default {
+  name: 'DeviseSliceSelectorSlice',
+
+  components: {
+    CubeIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/BoxIcon'),
+    InformationCircleIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/InfoIcon'),
+    SliceDiagram,
+  },
+
+  props: {
+    file: {
+      required: true,
+      type: Object,
+    },
+  },
+  
   computed: {
     ...mapGetters('devise', ['componentFromView']),
     sliceComponent () {
@@ -64,18 +81,6 @@ export default {
       return false;
     },
   },
-  props: {
-    file: {
-      required: true,
-      type: Object,
-    },
-  },
-  components: {
-    CubeIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/BoxIcon'),
-    InformationCircleIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/InfoIcon'),
-    SliceDiagram,
-  },
+
 };
 </script>

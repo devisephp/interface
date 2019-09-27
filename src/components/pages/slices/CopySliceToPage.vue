@@ -69,18 +69,15 @@ import { mapActions, mapState } from 'vuex'
 
 export default {
   name: "CopySliceToPage",
+  components: {
+    AdminContainer: () =>
+      import(/* webpackChunkName: "devise-administration" */ '../../admin/ui/AdminContainer'),
+  },
   props: {
     slice: {
       type: Object,
       required: true
     }
-  },
-  computed: {
-    ...mapState('devise', ['sites'])
-  },
-  components: {
-    AdminContainer: () =>
-      import(/* webpackChunkName: "devise-administration" */ '../../admin/ui/AdminContainer'),
   },
   data () {
     return {
@@ -89,6 +86,9 @@ export default {
       siteToCopyTo: null,
       pageToCopyTo: {}
     }
+  },
+  computed: {
+    ...mapState('devise', ['sites'])
   },
   mounted () {
     this.siteToCopyTo = this.currentPage.site.id

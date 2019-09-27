@@ -4,8 +4,8 @@
     <fieldset class="dvs-fieldset dvs-mb-8">
       <label>ID of Slice</label>
       <input
-        type="text"
         v-model="settings.id"
+        type="text"
       >
     </fieldset>
     <fieldset class="dvs-fieldset">
@@ -13,8 +13,8 @@
     </fieldset>
 
     <div
-      class="dvs-flex dvs-justify-center dvs-my-4"
       id="dvs-slice-manager-margins-padding"
+      class="dvs-flex dvs-justify-center dvs-my-4"
     >
       <div class="dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg">
         <div class="dvs-flex dvs-p-2 dvs-pb-0">
@@ -143,16 +143,38 @@
 </template>
 
 <script>
+// eslint-disable-next-line no-undef
 const Chrome = require(/* webpackChunkName: "vue-color" */ 'vue-color/src/components/Chrome.vue').default;
 
 export default {
+  name:'DeviseSliceSettingsSection',
+  components: {
+    'color-picker': Chrome,
+  },
+  props: {
+    value: {
+      type: Object,
+      required: true
+    },
+    responsiveMode: {
+      type: String,
+      required: true
+    },
+    backgroundColor: {
+      type: Object,
+      default: null
+    },
+    color: {
+      type: Object,
+      default: null
+    },
+  },
   data () {
     return {
       showBackgroundColor: false,
       showTextColor: false,
     };
   },
-  props: ['value', 'responsiveMode', 'backgroundColor', 'color'],
   computed: {
     settings: {
       get () {
@@ -226,8 +248,6 @@ export default {
       this.$emit('resetstyles', this.responsiveMode);
     },
   },
-  components: {
-    'color-picker': Chrome,
-  },
+
 };
 </script>

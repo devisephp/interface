@@ -263,6 +263,7 @@ export default {
       this.savePage({ page: this.currentPage }).then((response) => {
         // If someone else saved before we saved
         if (response === 480) {
+          console.log('here')
           window.deviseSettings.$bus.$emit('showForceSave');
         } else {
           window.onbeforeunload = null;

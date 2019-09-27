@@ -18,20 +18,20 @@
         class="lang-bash"
         data-start="1"
       >
-                <code>
-                  Route::get('/', function () {
-                      return view('welcome');
-                  });
-                </code>
-              </pre>
+        <code>
+          Route::get('/', function () {
+              return view('welcome');
+          });
+        </code>
+      </pre>
       <pre
         class="lang-bash"
         data-start="1"
       >
-                <code>
-                  Route::get('/home', 'HomeController@index')->name('home');
-                </code>
-              </pre>
+        <code>
+          Route::get('/home', 'HomeController@index')->name('home');
+        </code>
+      </pre>
     </template>
   </devise-installer-item>
 </template>
@@ -40,6 +40,9 @@
 export default {
   components: {
     DeviseInstallerItem: () => import(/* webpackChunkName: "devise-installer" */ "../Item.vue"),
+    Help: () => import(
+        // eslint-disable-next-line max-len
+        /* webpackChunkName: "devise-utilities" */ '../../utilities/Help.vue'),
   },
 };
 </script>

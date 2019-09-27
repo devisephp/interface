@@ -1,10 +1,10 @@
 <template>
   <fieldset class="dvs-fieldset">
     <input
-      type="text"
       v-model.lazy="searchTerm"
-      :placeholder="placeholder"
       v-debounce="searchDelay"
+      type="text"
+      :placeholder="placeholder"
     >
     <div class="dvs-relative">
       <ul class="dvs-list-reset dvs-bg-white dvs-text-black dvs-absolute dvs-shadow-lg">
@@ -26,6 +26,23 @@ import { mapActions } from 'vuex';
 
 export default {
   name: 'PageSearch',
+  directives: {
+    debounce,
+  },
+  props: {
+    placeholder: {
+      type: String,
+      default: '',
+    },
+    index: {
+      type: Number,
+      default: 0,
+    },
+    multisite: {
+      type: Number,
+      default: 0,
+    },
+  },
   data() {
     return {
       searchDelay: 1000,
@@ -34,6 +51,11 @@ export default {
         data: [],
       },
     };
+  },
+  watch: {
+    searchTerm(newValue) {
+      this.requestSearch(newValue);
+    },
   },
   methods: {
     ...mapActions('devise', ['searchPages']),
@@ -63,27 +85,6 @@ export default {
       }
     },
   },
-  watch: {
-    searchTerm(newValue) {
-      this.requestSearch(newValue);
-    },
-  },
-  props: {
-    placeholder: {
-      type: String,
-      default: '',
-    },
-    index: {
-      type: Number,
-      default: 0,
-    },
-    multisite: {
-      type: Number,
-      default: 0,
-    },
-  },
-  directives: {
-    debounce,
-  },
+
 };
 </script>

@@ -29,15 +29,15 @@
 import Panel from './Panel.vue';
 
 export default {
-  methods: {
-    close () {
-      this.$emit('close');
-    },
-  },
   components: {
     CloseIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/XIcon'),
     Panel,
+  },
+  methods: {
+    close () {
+      this.$emit('close');
+    },
   },
 };
 </script>

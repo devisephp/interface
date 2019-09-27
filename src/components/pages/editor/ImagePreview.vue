@@ -1,7 +1,7 @@
 <template>
   <div
-    class="dvs-text-2xs"
     v-if="image"
+    class="dvs-text-2xs"
   >
     <div
       class="dvs-bg-cover dvs-bg-center dvs-mb-2"
@@ -27,6 +27,14 @@ export default {
       required: true
     }
   },
+  data () {
+    return {
+      image: null,
+      width: null,
+      height: null,
+      filesize: null
+    }
+  },
   computed: {
     dimensions () {
       return `${this.width} x ${this.height}`;
@@ -44,14 +52,6 @@ export default {
   watch: {
     src () {
       this.initialize()
-    }
-  },
-  data () {
-    return {
-      image: null,
-      width: null,
-      height: null,
-      filesize: null
     }
   },
   mounted () {

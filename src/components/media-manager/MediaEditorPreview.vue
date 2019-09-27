@@ -10,10 +10,10 @@
             <div class="dvs-flex dvs-justify-center dvs-items-center">
               <transition name="dvs-fade">
                 <img
-                  :src="activeImage.url"
-                  @load="loaded = true"
                   v-show="loaded"
+                  :src="activeImage.url"
                   class=" dvs-shadow-lg dvs-border dvs-border-white"
+                  @load="loaded = true"
                 >
               </transition>
 
@@ -27,8 +27,8 @@
           </template>
         </template>
         <div
-          class="dvs-blocker dvs-z-30"
           v-if="isCropping"
+          class="dvs-blocker dvs-z-30"
         ></div>
         <div
           v-if="isCropping"
@@ -50,8 +50,8 @@
           </div>
           <div class="dvs-flex dvs-justify-center dvs-w-full">
             <img
-              :src="activeImage.baseImageUrl"
               ref="croppingimage"
+              :src="activeImage.baseImageUrl"
               style="max-height:500px"
             >
           </div>
@@ -75,10 +75,11 @@ export default {
   props: {
     sizes: {
       type: Object,
-      required: false,
+      default: null
     },
     customSize: {
-      type: Object
+      type: Object,
+      default: null
     },
     activeImage: {
       type: Object,

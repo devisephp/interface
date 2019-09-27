@@ -1,9 +1,10 @@
 <template>
+  <!-- eslint-disable vue/no-v-html -->
   <div>
     <field-editor
-      :options="options"
       v-model="value"
-      :showEditor="showEditor"
+      :options="options"
+      :show-editor="showEditor"
       @toggleShowEditor="toggleEditor"
       @cancel="cancel"
       @resetvalue="resetValue"
@@ -33,12 +34,43 @@ import Field from '../../../mixins/Field';
 
 export default {
   name: 'WysiwygEditor',
+  components: {
+    FieldEditor: () => import(/* webpackChunkName: "devise-editors" */ './Field'),
+    Wysiwyg: () => import(/* webpackChunkName: "devise-wysiwyg" */ '../../utilities/Wysiwyg'),
+  },
+  mixins: [Strings, Field],
+  props: {
+    value: {
+      type: Object,
+      required: true,
+    },
+    options: {
+      type: Object,
+      required: true,
+    },
+    nameKey: {
+      type: String,
+      required: true
+    }
+  },
   data () {
     return {
       localValue: {},
       originalValue: null,
       showEditor: false,
     };
+  },
+  computed: {
+    text: {
+      get () {
+        return this.value.text;
+      },
+      set (value) {
+        const valueObj = Object.assign(this.value, { text: value });
+        this.$emit('input', valueObj);
+        this.$emit('change', valueObj);
+      },
+    },
   },
   mounted () {
     this.originalValue = Object.assign({}, this.value);
@@ -58,24 +90,6 @@ export default {
       this.enabled = false;
       this.$refs.editor.empty();
     }
-  },
-  computed: {
-    text: {
-      get () {
-        return this.value.text;
-      },
-      set (value) {
-        const valueObj = Object.assign(this.value, { text: value });
-        this.$emit('input', valueObj);
-        this.$emit('change', valueObj);
-      },
-    },
-  },
-  props: ['value', 'options', 'namekey'],
-  mixins: [Strings, Field],
-  components: {
-    FieldEditor: () => import(/* webpackChunkName: "devise-editors" */ './Field'),
-    Wysiwyg: () => import(/* webpackChunkName: "devise-wysiwyg" */ '../../utilities/Wysiwyg'),
   },
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
   <devise-installer-item
-    :item="checklist.image_optimization.jpegoptim || checklist.image_optimization.optipng || checklist.image_optimization.pngquant || checklist.image_optimization.svgo || checklist.image_optimization.gifsicle"
     id="nav-image-optimization"
+    :item="checklist.image_optimization.jpegoptim || checklist.image_optimization.optipng || checklist.image_optimization.pngquant || checklist.image_optimization.svgo || checklist.image_optimization.gifsicle"
     title="Image Optimization (Optional)"
   >
     <template slot="instructions">
@@ -55,6 +55,7 @@ export default {
   },
   props: {
     checklist: {
+      type: Boolean,
       required: true
     }
   }

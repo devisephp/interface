@@ -98,7 +98,7 @@
     <slice-settings />
     <loadbar class="dvs-relative dvs-z-9999" />
     <loading-screen class="dvs-relative dvs-z-9999" />
-    <force-save class="dvs-relative dvs-z-9999" />
+    <force-save class="dvs-z-9999" />
   </div>
 </template>
 

@@ -6,31 +6,31 @@
     >
       <li
         v-for="n in meta.last_page"
-        @click="update(n)"
         :key="n"
         :class="{ 'dvs-current-page': isCurrentPage(n) }"
         class="dvs-btn dvs-btn-xs dvs-mr-1 dvs-cursor-pointer"
         :style="decideStyle(n)"
+        @click="update(n)"
       >
         {{ n }}
       </li>
     </ul>
     <div
-      class="dvs-flex"
       v-else
+      class="dvs-flex"
     >
       <button
-        @click="changePage(1)"
         class="dvs-btn dvs-btn-xs dvs-mr-1 dvs-btn-secondary"
+        @click="changePage(1)"
       >First</button>
       <button
-        @click="changePage(meta.current_page - 1)"
         class="dvs-btn dvs-btn-xs dvs-mr-1 dvs-btn-secondary"
+        @click="changePage(meta.current_page - 1)"
       >Prev</button>
       <select
         :value="meta.current_page"
-        @change="changePage($event.target.value)"
         class="dvs-p-2 dvs-mr-1 dvs-text-xs dvs-appearance-none"
+        @change="changePage($event.target.value)"
       >
         <option
           v-for="n in meta.last_page"
@@ -41,12 +41,12 @@
         </option>
       </select>
       <button
-        @click="changePage(meta.current_page + 1)"
         class="dvs-btn dvs-btn-xs dvs-mr-1 dvs-btn-secondary"
+        @click="changePage(meta.current_page + 1)"
       >Next</button>
       <button
-        @click="changePage(meta.last_page)"
         class="dvs-btn dvs-btn-xs dvs-mr-1 dvs-btn-secondary"
+        @click="changePage(meta.last_page)"
       >Last</button>
     </div>
   </div>
@@ -57,6 +57,21 @@ import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'SuperTablePagination',
+    props: {
+      meta: {
+        type: Object,
+        required: true
+      },
+      listMode: {
+        type: Boolean,
+        default: false
+      }
+    },
+    computed: {
+    ...mapGetters([
+      'filters',
+    ]),
+  },
   methods: {
     ...mapActions([
       'updateFilters',
@@ -76,11 +91,7 @@ export default {
       return this.theme.actionButtonGhost;
     },
   },
-  computed: {
-    ...mapGetters([
-      'filters',
-    ]),
-  },
-  props: ['meta', 'listMode'],
+
+
 };
 </script>

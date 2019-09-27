@@ -4,11 +4,11 @@
       <label>{{value.label}}</label>
       <date-picker
         ref="datepicker"
-        @change="updateValue"
         :settings="{
           date: true,
           time: true  
         }"
+        @change="updateValue"
       />
     </fieldset>
   </div>

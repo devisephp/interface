@@ -1,4 +1,5 @@
 /* eslint-disable no-shadow,no-unused-vars */
+// eslint-disable-next-line no-undef
 const tinycolor = require(/* webpackChunkName: "tinycolor" */ 'tinycolor2');
 
 const getters = {

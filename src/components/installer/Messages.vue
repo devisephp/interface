@@ -1,4 +1,5 @@
 <template>
+  <!-- eslint-disable vue/no-v-html -->
   <div>
     <ul
       id="messages"
@@ -16,6 +17,7 @@
 </template>
 
 <script>
+// eslint-disable-next-line no-undef
 const hash = require('object-hash');
 
 export default {

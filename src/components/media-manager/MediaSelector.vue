@@ -72,7 +72,7 @@
       class="dvs-flex dvs-items-stretch"
       style="max-height:80vh"
     >
-      <div class="dvs-relative dvs-max-h-full dvs-flex">
+      <div class="dvs-relative dvs-max-h-full dvs-flex" style="min-width:300px;">
         <div class="dvs-h-full dvs-p-8 dvs-bg-grey-lightest dvs-flex dvs-flex-col dvs-justify-start dvs-border-r dvs-border-lighter">
           <form @submit.prevent="search">
             <div class="dvs-mb-8 flex">
@@ -100,7 +100,7 @@
               <li
                 v-for="directory in directories"
                 :key="directory.id"
-                class="dvs-cursor-pointer dvs-mt-2 dvs-text-bold"
+                class="dvs-flex items center dvs-cursor-pointer dvs-mt-2 dvs-text-bold"
                 @click="changeDirectories(directory.path)"
               >
                 <folder-icon class="dvs-mr-2"></folder-icon>
@@ -229,11 +229,18 @@
               </div>
             </div>
             
-            <media-selector-files :current-files="currentFiles" :mode="mode" @openFile="openFile"></media-selector-files>
+            <media-selector-files 
+              :current-files="currentFiles" 
+              :mode="mode" 
+              @openFile="openFile" >
+            </media-selector-files>
 
             <!-- Open File -->
             <media-selector-open-file 
-              :file="currentlyOpenFile" @fileDeleted="changeDirectories(currentDirectory)" @close="currentlyOpenFile = null">
+              :file="currentlyOpenFile" 
+              @fileDeleted="changeDirectories(currentDirectory)" 
+              @close="currentlyOpenFile = null" 
+              @selectSourceFile="selectSourceFile">
             </media-selector-open-file>
 
 
@@ -383,7 +390,7 @@ export default {
       this.$set(this, 'currentlyOpenFile', {});
     },
     selectSourceFile (file) {
-      this.$emit('selectedfile', file)
+      this.$emit('selectSourceFile', file)
     },
     requestCreateDirectory () {
       const self = this;

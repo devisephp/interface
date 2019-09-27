@@ -63,7 +63,8 @@
     name:'DeviseMediaSelectorFiles',
     props: {
       currentFiles: {
-        type: Array,
+        // eslint-disable-next-line vue/require-prop-type-constructor
+        type: Object | Array,
         required: true
       },
       mode: {
@@ -82,7 +83,10 @@
     methods: {
       openFile (file) {
         this.$emit('openFile', file)
-      }
+      },
+      selectSourceFile (file) {
+        this.$emit('selectedfile', file)
+      },
     }
   }
 </script>

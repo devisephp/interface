@@ -3,8 +3,8 @@
     <fieldset class="dvs-fieldset dvs-mb-4">
       <label>Title</label>
       <input
-        type="text"
         v-model="localValue.title"
+        type="text"
         placeholder="Title of the Page"
         class="w-full"
       >
@@ -13,8 +13,8 @@
     <fieldset class="dvs-fieldset dvs-mb-4">
       <label>Slug</label>
       <input
-        type="text"
         v-model="localValue.slug"
+        type="text"
         placeholder="Url of the Page"
         class="w-full"
       >
@@ -23,8 +23,8 @@
     <fieldset class="dvs-fieldset dvs-mb-4">
       <label>Meta Title</label>
       <input
-        type="text"
         v-model="localValue.meta_title"
+        type="text"
         placeholder="Meta title of the Page"
         class="w-full"
       >
@@ -41,8 +41,8 @@
           >Wikipedia Entry</a></help>
       </label>
       <input
-        type="text"
         v-model="localValue.canonical"
+        type="text"
         placeholder="Canonical"
         class="w-full"
       >
@@ -62,9 +62,9 @@
     <fieldset class="dvs-fieldset dvs-mb-4">
       <label>Middleware</label>
       <input
+        v-model="localValue.middleware"
         type="text"
         class="dvs-w-full"
-        v-model="localValue.middleware"
       >
     </fieldset>
 
@@ -78,8 +78,8 @@
 
     <button
       class="dvs-btn dvs-btn-primary dvs-text-xs mr-4"
-      @click="requestEditPage"
       :disabled="editInvalid"
+      @click="requestEditPage"
     >Edit Page</button>
     <button
       class="dvs-btn dvs-btn-secondary dvs-text-xs"
@@ -111,6 +111,21 @@ export default {
       showPassword: false,
     };
   },
+  computed: {
+    ...mapState('devise', ['languages']),
+    editInvalid () {
+      return (
+        this.localValue.name === null ||
+        this.localValue.email === null ||
+        this.localValue.password === null ||
+        this.localValue.password_confirmation === null ||
+        this.localValue.password !== this.localValue.password_confirmation
+      );
+    },
+    layouts () {
+      return window.deviseSettings.$config.layouts;
+    },
+  },
   mounted () {
     this.localValue = { ...this.values }
   },
@@ -140,20 +155,6 @@ export default {
       this.$emit('cancel')
     }
   },
-  computed: {
-    ...mapState('devise', ['languages']),
-    editInvalid () {
-      return (
-        this.localValue.name === null ||
-        this.localValue.email === null ||
-        this.localValue.password === null ||
-        this.localValue.password_confirmation === null ||
-        this.localValue.password !== this.localValue.password_confirmation
-      );
-    },
-    layouts () {
-      return window.deviseSettings.$config.layouts;
-    },
-  },
+
 };
 </script>

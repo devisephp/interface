@@ -1,8 +1,8 @@
 <template>
   <field-editor
-    :options="options"
     v-model="value"
-    :showEditor="showEditor"
+    :options="options"
+    :show-editor="showEditor"
     @toggleShowEditor="toggleEditor"
     @cancel="cancel"
     @resetvalue="resetValue"
@@ -22,8 +22,8 @@
           class="dvs-w-full"
         >
           <option
-            :value="null"
             v-if="options.allowNull"
+            :value="null"
           >No Selection</option>
           <option
             v-for="(option, key) in options.options"
@@ -42,6 +42,20 @@ import Field from '../../../mixins/Field';
 
 export default {
   name: 'SelectEditor',
+  components: {
+    FieldEditor: () => import(/* webpackChunkName: "devise-editors" */ './Field'),
+  },
+  mixins: [Strings, Field],
+  props: {
+    value: {
+      type: Object,
+      required: true,
+    },
+    options: {
+      type: Object,
+      required: true,
+    },
+  },
   data () {
     return {
       localValue: {
@@ -51,6 +65,34 @@ export default {
       originalValue: null,
       showEditor: false,
     };
+  },
+  computed: {
+    label: {
+      get () {
+        if (this.selectValue !== null) {
+          return this.options.options[this.selectValue];
+        }
+        return 'Select';
+      },
+      set (value) {
+        const valueObj = Object.assign(this.value, { text: value });
+        this.$emit('input', valueObj);
+        this.$emit('change', valueObj);
+      },
+    },
+    selectValue: {
+      get () {
+        if (this.value.value === '' || !this.value.value) {
+          return null;
+        }
+        return this.value.value;
+      },
+      set (newSelectValue) {
+        const valueObj = Object.assign(this.value, { value: newSelectValue });
+        this.$emit('input', valueObj);
+        this.$emit('change', valueObj);
+      },
+    },
   },
   mounted () {
     this.originalValue = Object.assign({}, this.value);
@@ -81,39 +123,6 @@ export default {
       this.label = null;
       this.selectValue = null;
     },
-  },
-  computed: {
-    label: {
-      get () {
-        if (this.selectValue !== null) {
-          return this.options.options[this.selectValue];
-        }
-        return 'Select';
-      },
-      set (value) {
-        const valueObj = Object.assign(this.value, { text: value });
-        this.$emit('input', valueObj);
-        this.$emit('change', valueObj);
-      },
-    },
-    selectValue: {
-      get () {
-        if (this.value.value === '' || !this.value.value) {
-          return null;
-        }
-        return this.value.value;
-      },
-      set (newSelectValue) {
-        const valueObj = Object.assign(this.value, { value: newSelectValue });
-        this.$emit('input', valueObj);
-        this.$emit('change', valueObj);
-      },
-    },
-  },
-  props: ['value', 'options'],
-  mixins: [Strings, Field],
-  components: {
-    FieldEditor: () => import(/* webpackChunkName: "devise-editors" */ './Field'),
   },
 };
 </script>

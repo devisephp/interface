@@ -1,4 +1,5 @@
 <template>
+  <!-- eslint-disable vue/no-v-html -->
   <div
     class="dvs-border-r dvs-border-lighter dvs-bg-grey dvs-p-2 dvs-py-4 "
     style="width:118px;min-width:118px;"
@@ -16,8 +17,8 @@
           }"
         >
           <div
-            class=" dvs-relative"
             v-if="getWarning(key)"
+            class=" dvs-relative"
             @click="showWarning = key"
           >
             <div class="dvs-absolute dvs-pin-t dvs-pin-r dvs-rounded-full dvs-p-2 dvs-flex dvs-justify-center dvs-items-center dvs-text-xs dvs-mr-1 dvs-mt-1 dvs-btn-sm dvs-btn-primary">
@@ -26,13 +27,13 @@
           </div>
 
           <transition
-            name="dvs-fade"
             v-if="getWarning(key)"
+            name="dvs-fade"
           >
             <devise-modal
-              @close="showWarning = false"
-              class="dvs-z-50 dvs-mx-16"
               v-if="showWarning === key"
+              class="dvs-z-50 dvs-mx-16"
+              @close="showWarning = false"
             >
               <h4 class="dvs-mb-4">Warning</h4>
 
@@ -55,9 +56,9 @@
           >
             <transition name="dvs-fade">
               <img
+                v-show="loaded"
                 :src="`/styled/preview/${size.url}?${encodeEdits(key)}`"
                 @load="loaded = true"
-                v-show="loaded"
               >
             </transition>
 
@@ -85,6 +86,13 @@
 <script>
 export default {
   name: 'MediaEditorThumbnails',
+  components: {
+    DeviseModal: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/Modal'),
+    LoadingScreen: () =>
+      import(/* webpackChunkName: "devise-utilities" */ '../utilities/LoadingScreen.vue'),
+    AlertTriangleIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/AlertTriangleIcon'),
+  },
   props: {
     defaultImage: {
       type: String,
@@ -95,7 +103,8 @@ export default {
       required: true
     },
     sizes: {
-      type: Object
+      type: Object,
+      default: null
     },
     encodeEdits: {
       type: Function,
@@ -105,13 +114,6 @@ export default {
       type: String,
       required: true
     },
-  },
-  components: {
-    DeviseModal: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/Modal'),
-    LoadingScreen: () =>
-      import(/* webpackChunkName: "devise-utilities" */ '../utilities/LoadingScreen.vue'),
-    AlertTriangleIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/AlertTriangleIcon'),
   },
   data () {
     return {

@@ -3,8 +3,8 @@
     <fieldset class="dvs-fieldset dvs-mb-4">
       <label>Name</label>
       <input
-        type="text"
         v-model="newSite.name"
+        type="text"
         placeholder="Name of the Site"
         class="w-full"
       >
@@ -20,8 +20,8 @@
 
       </label>
       <input
-        type="text"
         v-model="newSite.domain"
+        type="text"
         placeholder="Domain of the Site"
         class="w-full"
       >
@@ -30,8 +30,8 @@
     <fieldset class="dvs-fieldset dvs-mb-4">
       <label>Language</label>
       <select
-        type="text"
         v-model="newSite.language_id"
+        type="text"
         class="w-full"
       >
         <option
@@ -48,8 +48,8 @@
 
     <button
       class="dvs-btn dvs-btn-primary dvs-text-xs mr-2"
-      @click="requestCreateSite"
       :disabled="createInvalid"
+      @click="requestCreateSite"
     >Create</button>
     <button
       class="dvs-btn dvs-btn-secondary dvs-text-xs"
@@ -72,6 +72,16 @@ export default {
         settings: {},
       },
     };
+  },
+  computed: {
+    ...mapState('devise', ['languages']),
+    createInvalid () {
+      return (
+        this.newSite.name === null ||
+        this.newSite.domain === null ||
+        this.newSite.language_id === null
+      );
+    },
   },
   mounted () {
     this.loadLanguages()
@@ -105,15 +115,6 @@ export default {
       this.$emit('cancel')
     }
   },
-  computed: {
-    ...mapState('devise', ['languages']),
-    createInvalid () {
-      return (
-        this.newSite.name === null ||
-        this.newSite.domain === null ||
-        this.newSite.language_id === null
-      );
-    },
-  }
+
 };
 </script>

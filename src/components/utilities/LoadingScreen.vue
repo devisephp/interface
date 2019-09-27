@@ -1,8 +1,8 @@
 <template>
   <div>
     <transition
-      name="dvs-fade"
       v-if="!inline"
+      name="dvs-fade"
     >
       <div
         v-if="show"
@@ -20,8 +20,8 @@
     </transition>
 
     <transition
-      name="dvs-fade"
       v-if="inline"
+      name="dvs-fade"
     >
       <div class="dvs-flex dvs-flex-col dvs-justify-center dvs-items-center dvs-bg-abs-white dvs-text-grey-darker dvs-rounded dvs-shadow dvs-p-4">
         <img

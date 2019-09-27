@@ -2,8 +2,8 @@
   <div>
     <transition name="dvs-fade">
       <div
-        class="dvs-fixed dvs-pin dvs-z-50"
         v-show="loadbarPercentage > 0 && loadbarPercentage < 1"
+        class="dvs-fixed dvs-pin dvs-z-50"
       >
         <div class="dvs-blocker"></div>
         <div
@@ -21,11 +21,22 @@
 
 <script>
 export default {
+  props: {
+    percentage: {
+      type: Number,
+      default: -1,
+    },
+  },
   data() {
     return {
       loadbarPercentage: 0,
       modulesLoaded: 0,
     };
+  },
+  watch: {
+    percentage(newValue) {
+      this.loadbarPercentage = newValue;
+    },
   },
   mounted() {
     // The loadbar works in two ways - listening for incrementations or by
@@ -55,17 +66,6 @@ export default {
           self.modulesLoaded = 0;
         }, 1000);
       }
-    },
-  },
-  watch: {
-    percentage(newValue) {
-      this.loadbarPercentage = newValue;
-    },
-  },
-  props: {
-    percentage: {
-      type: Number,
-      default: -1,
     },
   },
 };

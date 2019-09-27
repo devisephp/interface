@@ -1,17 +1,41 @@
 <template>
   <flat-pickr
+    ref="picker"
     v-model="localDateTime"
     :config="config"
     class="w-full"
-    ref="picker"
     :placeholder="placeholder"
   />
 </template>
 
 <script>
+// eslint-disable-next-line no-undef
 const dayjs = require(/* webpackChunkName: "dayjs" */ 'dayjs');
 
 export default {
+  components: {
+    flatPickr: () =>
+      import(/* webpackChunkName: "devise-flatpickr" */ 'vue-flatpickr-component'),
+  },
+  props: {
+    value: {
+      type: Object,
+      required: true
+    },
+    settings: {
+      type: Object,
+      default: () => {
+        return {
+          date: true,
+          time: true
+        }
+      }
+    },
+    placeholder: {
+      type: String,
+      default: 'Please select from the calendar'
+    }
+  },
   data () {
     return {
       config: {
@@ -20,6 +44,17 @@ export default {
         onChange: this.updateValue,
       },
     };
+  },
+  computed: {
+    localDateTime: {
+      get () {
+        return this.value;
+      },
+      set (value) {
+        this.$emit('input', value);
+        this.$emit('change', value);
+      },
+    },
   },
   methods: {
     updateValue (value) {
@@ -46,39 +81,6 @@ export default {
 
       return null;
     },
-  },
-  computed: {
-    localDateTime: {
-      get () {
-        return this.value;
-      },
-      set (value) {
-        this.$emit('input', value);
-        this.$emit('change', value);
-      },
-    },
-  },
-  components: {
-    flatPickr: () =>
-      import(/* webpackChunkName: "devise-flatpickr" */ 'vue-flatpickr-component'),
-  },
-  props: {
-    value: {
-      required: true
-    },
-    settings: {
-      type: Object,
-      default: () => {
-        return {
-          date: true,
-          time: true
-        }
-      }
-    },
-    placeholder: {
-      type: String,
-      default: 'Please select from the calendar'
-    }
   }
 };
 </script>

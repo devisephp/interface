@@ -3,8 +3,8 @@
     <fieldset class="dvs-fieldset dvs-mb-4">
       <label>Page Title</label>
       <input
-        type="text"
         v-model="newPage.title"
+        type="text"
         placeholder="Title of the Page"
         class="dvs-w-full"
       >
@@ -32,8 +32,8 @@
       <label>Slug</label>
       <div>
         <input
-          type="text"
           v-model="newPage.slug"
+          type="text"
           placeholder="Url of the Page"
           class="dvs-w-full"
         >
@@ -42,8 +42,8 @@
 
     <button
       class="dvs-btn dvs-btn-primary mr-4"
-      @click="requestTranslatePage"
       :disabled="createInvalid"
+      @click="requestTranslatePage"
     >Create</button>
     <button
       class="dvs-btn dvs-btn-secondary"
@@ -71,6 +71,19 @@ export default {
         slug: null,
       },
     };
+  },
+  computed: {
+    ...mapState('devise', ['languages']),
+    createInvalid () {
+      return (
+        this.newPage.title === null ||
+        this.newPage.language_id === null ||
+        this.newPage.slug === null
+      );
+    },
+    layouts () {
+      return window.deviseSettings.$config.layouts;
+    },
   },
   mounted () {
     this.loadLanguages()
@@ -101,18 +114,6 @@ export default {
       this.$emit('cancel')
     }
   },
-  computed: {
-    ...mapState('devise', ['languages']),
-    createInvalid () {
-      return (
-        this.newPage.title === null ||
-        this.newPage.language_id === null ||
-        this.newPage.slug === null
-      );
-    },
-    layouts () {
-      return window.deviseSettings.$config.layouts;
-    },
-  }
+
 };
 </script>

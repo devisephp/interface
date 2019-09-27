@@ -1,9 +1,9 @@
 <template>
   <div>
     <div
+      v-if="showControl"
       class="dvs-blocker dvs-z-10"
       :style="{backgroundColor: 'transparent'}"
-      v-if="showControl"
       @click="toggleShowControl"
     ></div>
     <div class="dvs-relative">
@@ -15,9 +15,9 @@
         <slot name="button">Button</slot>
       </div>
       <div
+        v-if="showControl"
         class="dvs-absolute dvs-text-sm dvs-bg-white dvs-rounded dvs-p-4 dvs-shadow dvs-z-20"
         style="min-width:200px;"
-        v-if="showControl"
       >
         <slot
           name="control"
@@ -37,6 +37,11 @@ export default {
       type: Object
     }
   },
+  data () {
+    return {
+      showControl: false
+    }
+  },
   computed: {
     edits: {
       get () {
@@ -45,11 +50,6 @@ export default {
       set (value) {
         this.$emit('input', value)
       }
-    }
-  },
-  data () {
-    return {
-      showControl: false
     }
   },
   methods: {

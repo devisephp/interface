@@ -8,8 +8,8 @@
     <template v-slot:content>
 
       <meta-form
-        class="dvs-mt-8"
         v-model="localValue.data"
+        class="dvs-mt-8"
         @request-create-meta="requestCreateMeta"
         @request-update-meta="requestUpdateMeta"
         @request-delete-meta="requestDeleteMeta"
@@ -24,6 +24,13 @@ import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'MetaManage',
+  
+  components: {
+    MetaForm: () => import(/* webpackChunkName: "devise-meta" */ './MetaForm'),
+    AdminContainer: () =>
+      import(/* webpackChunkName: "devise-administration" */ '../admin/ui/AdminContainer'),
+  },
+
   data () {
     return {
       localValue: {
@@ -32,6 +39,11 @@ export default {
       modulesToLoad: 1,
     };
   },
+
+  computed: {
+    ...mapGetters('devise', ['meta']),
+  },
+  
   mounted () {
     this.retrieveAllMeta();
   },
@@ -61,13 +73,6 @@ export default {
       });
     },
   },
-  computed: {
-    ...mapGetters('devise', ['meta']),
-  },
-  components: {
-    MetaForm: () => import(/* webpackChunkName: "devise-meta" */ './MetaForm'),
-    AdminContainer: () =>
-      import(/* webpackChunkName: "devise-administration" */ '../admin/ui/AdminContainer'),
-  },
+
 };
 </script>

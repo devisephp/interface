@@ -13,12 +13,12 @@
       </div>
     </div>
     <div
+      v-if="activeImage"
       class="dvs-flex dvs-items-stretch dvs-absolute dvs-pin"
       style="margin-top:58px"
-      v-if="activeImage"
     >
       <media-thumbnails
-        :defaultImage="defaultImage"
+        :default-image="defaultImage"
         :size-edits="sizeEdits"
         :sizes="sizes"
         :encode-edits="encodeEdits"
@@ -30,16 +30,16 @@
         <div class="dvs-relative">
           <media-controls
             v-if="sizeEdits[activeImage.name]"
-            :active-image="activeImage"
             v-model="sizeEdits[activeImage.name]"
+            :active-image="activeImage"
             @settooriginal="setCustomSizeToOriginal"
             @selectsizeimage="selectSizeImage"
           ></media-controls>
 
           <media-editor-preview
-            v-if="sizeEdits[this.active]"
+            v-if="sizeEdits[active]"
             :sizes="sizes"
-            :custom-size="{w: sizeEdits[this.active].w, h: this.sizeEdits[this.active].h}"
+            :custom-size="{w: sizeEdits[active].w, h: sizeEdits[active].h}"
             :active-image="activeImage"
             :encode-edits="encodeEdits"
             @applycrop="applyCrop"
@@ -55,6 +55,27 @@
 import { mapActions } from 'vuex';
 
 export default {
+  name: 'DeviseMediaEditor',
+  components: {
+    MediaControls: () => import(/* webpackChunkName: "devise-media" */ './MediaControls'),
+    MediaThumbnails: () => import(/* webpackChunkName: "devise-media" */ './MediaThumbnails'),
+    MediaEditorPreview: () => import(/* webpackChunkName: "devise-media" */ './MediaEditorPreview'),
+    VueScrollbar: () => import(/* webpackChunkName: "devise-administration" */ 'vue2-scrollbar'),
+  },
+  props: {
+    defaultImage: {
+      type: String,
+      required: true,
+    },
+    sizes: {
+      type: Object,
+      default: null
+    },
+    imageSettings: {
+      type: Object,
+      default: null
+    },
+  },
   data () {
     return {
       active: 'original',
@@ -80,6 +101,24 @@ export default {
       sizeEdits: {},
     };
   },
+  
+  computed: {
+    activeImage () {
+      if (this.active && typeof this.sizeEdits !== 'undefined' && this.sizeEdits[this.active]) {
+        return {
+          url: `/styled/preview/${this.sizeEdits[this.active].url}?${this.encodeEdits(this.active)}`,
+          baseImageUrl: `/styled/preview/${this.sizeEdits[this.active].url}`,
+          name: `${this.active}`,
+          sizeLabel: `(${this.sizeEdits[this.active].w}x${this.sizeEdits[this.active].h})`
+        }
+      }
+      return {
+        url: `/styled/preview/${this.defaultImage}`,
+        name: 'Original'
+      }
+    }
+  },
+  
   mounted () {
     this.setInitialActive()
     this.loadImageSettings();
@@ -251,41 +290,6 @@ export default {
       return encodedString;
     },
   },
-  computed: {
-    activeImage () {
-      if (this.active && typeof this.sizeEdits !== 'undefined' && this.sizeEdits[this.active]) {
-        return {
-          url: `/styled/preview/${this.sizeEdits[this.active].url}?${this.encodeEdits(this.active)}`,
-          baseImageUrl: `/styled/preview/${this.sizeEdits[this.active].url}`,
-          name: `${this.active}`,
-          sizeLabel: `(${this.sizeEdits[this.active].w}x${this.sizeEdits[this.active].h})`
-        }
-      }
-      return {
-        url: `/styled/preview/${this.defaultImage}`,
-        name: 'Original'
-      }
-    }
-  },
-  props: {
-    defaultImage: {
-      type: String,
-      required: true,
-    },
-    sizes: {
-      type: Object,
-      required: false,
-    },
-    imageSettings: {
-      type: Object,
-      required: false,
-    },
-  },
-  components: {
-    MediaControls: () => import(/* webpackChunkName: "devise-media" */ './MediaControls'),
-    MediaThumbnails: () => import(/* webpackChunkName: "devise-media" */ './MediaThumbnails'),
-    MediaEditorPreview: () => import(/* webpackChunkName: "devise-media" */ './MediaEditorPreview'),
-    VueScrollbar: () => import(/* webpackChunkName: "devise-administration" */ 'vue2-scrollbar'),
-  },
+
 };
 </script>

@@ -1,40 +1,38 @@
-#devise-admin {
-  fieldset.dvs-fieldset {
-    box-sizing:border-box;
+fieldset.dvs-fieldset {
+  box-sizing:border-box;
 
-    label {
-      @apply dvs-block dvs-mb-2 dvs-text-xs dvs-uppercase dvs-font-bold dvs-tracking-superwide;
+  label {
+    @apply dvs-block dvs-mb-2 dvs-text-xs dvs-uppercase dvs-font-bold dvs-tracking-superwide;
 
-      &.dvs-large-label {
-        @apply dvs-text-base dvs-font-normal dvs-normal-case dvs-tracking-normal;
-      }
-
-      &.dvs-small-label {
-        @apply dvs-text-sm dvs-font-normal dvs-normal-case dvs-tracking-normal;
-      }
+    &.dvs-large-label {
+      @apply dvs-text-base dvs-font-normal dvs-normal-case dvs-tracking-normal;
     }
 
-    textarea,
-    select,
-    input[type="text"],
-    input[type="search"],
-    input[type="password"],
-    input[type="date"],
-    input[type="datetime-local"],
-    input[type="number"],
-    input[type="email"],
-    input[type="phone"] {
-      @apply border-0 dvs-px-4 dvs-py-3 dvs-leading-tight dvs-text-sm dvs-rounded dvs-appearance-none dvs-outline-none;
+    &.dvs-small-label {
+      @apply dvs-text-sm dvs-font-normal dvs-normal-case dvs-tracking-normal;
     }
+  }
 
-    input[type="checkbox"] {
-      width:20px;
-      height:20px;
-    }
+  textarea,
+  select,
+  input[type="text"],
+  input[type="search"],
+  input[type="password"],
+  input[type="date"],
+  input[type="datetime-local"],
+  input[type="number"],
+  input[type="email"],
+  input[type="phone"] {
+    @apply border-0 dvs-px-4 dvs-py-3 dvs-leading-tight dvs-text-sm dvs-rounded dvs-appearance-none dvs-outline-none;
+  }
 
-    textarea {
-      height:8em;
-    }
+  input[type="checkbox"] {
+    width:20px;
+    height:20px;
+  }
+
+  textarea {
+    height:8em;
   }
 }
 

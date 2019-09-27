@@ -8,19 +8,6 @@ export default {
       const insertedElement = deviseAdmin.parentNode.insertBefore(newEl, deviseAdmin.nextSibling);
 
       const Confirm = Vue.extend({
-        template: `
-        <div v-if="show" class="dvs-fixed dvs-pin dvs-z-9999">
-          <div class="dvs-blocker"></div>
-          <div class="dvs-fixed dvs-absolute-center dvs-z-50 dvs-p-8 dvs-rounded dvs-shadow-lg dvs-bg-admin-bg dvs-text-admin-fg">
-            <h3 class="dvs-mb-8 dvs-text-white">Please Confirm</h3>
-            <div class="dvs-mb-8 dvs-text-white">${binding.value.message}</div>
-
-            <button class="dvs-btn dvs-btn-primary" @click="ok">Confirm</button>
-            <button class="dvs-btn dvs-btn-secondary" @click="cancel">Cancel</button>
-            </div>
-          </div>
-        </div>
-        `,
         data () {
           return {
             clicks: 0,
@@ -41,6 +28,19 @@ export default {
             insertedElement.remove();
           },
         },
+        template: `
+        <div v-if="show" class="dvs-fixed dvs-pin dvs-z-9999">
+          <div class="dvs-blocker"></div>
+          <div class="dvs-fixed dvs-absolute-center dvs-z-50 dvs-p-8 dvs-rounded dvs-shadow-lg dvs-bg-admin-bg dvs-text-admin-fg">
+            <h3 class="dvs-mb-8 dvs-text-white">Please Confirm</h3>
+            <div class="dvs-mb-8 dvs-text-white">${binding.value.message}</div>
+
+            <button class="dvs-btn dvs-btn-primary" @click="ok">Confirm</button>
+            <button class="dvs-btn dvs-btn-secondary" @click="cancel">Cancel</button>
+            </div>
+          </div>
+        </div>
+        `,
       });
 
       new Confirm().$mount(insertedElement);

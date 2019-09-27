@@ -19,9 +19,9 @@
     <div class="dvs-m-4 dvs-flex">
       <vue-upload
         ref="upload"
-        class="dvs-w-full dvs-bg-abs-white dvs-p-4 dvs-py-6 dvs-shadow dvs-rounded-sm dvs-font-bold dvs-uppercase dvs-text-xs"
         v-model="uploadingFiles"
-        :post-action="`/api/devise/media?directory=${this.currentDirectory}`"
+        class="dvs-w-full dvs-bg-abs-white dvs-p-4 dvs-py-6 dvs-shadow dvs-rounded-sm dvs-font-bold dvs-uppercase dvs-text-xs"
+        :post-action="`/api/devise/media?directory=${currentDirectory}`"
         :headers="uploadHeaders"
         :drop="true"
         :multiple="true"
@@ -36,15 +36,15 @@
     >
       <button
         v-show="!$refs.upload || !$refs.upload.active"
-        @click.prevent="$refs.upload.active = true"
         type="button"
         class="dvs-btn dvs-btn-primary dvs-mb-4"
+        @click.prevent="$refs.upload.active = true"
       >Start upload</button>
       <button
         v-show="$refs.upload && $refs.upload.active"
-        @click.prevent="$refs.upload.active = false"
         type="button"
         class="dvs-btn dvs-btn-danger dvs-mb-4"
+        @click.prevent="$refs.upload.active = false"
       >Stop upload</button>
       <table class="dvs-w-full dvs-border-collapse">
         <tr class="dvs-border-b-2">
@@ -92,13 +92,33 @@
 </template>
 
 <script>
+// eslint-disable-next-line no-undef
 const VueUpload = require('vue-upload-component');
 
 export default {
+  components: {
+    CloseIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/XIcon'),
+    VueUpload,
+  },
+  props: {
+    currentDirectory: {
+      type: String,
+      required: true,
+    },
+  },
   data () {
     return {
       uploadingFiles: [],
     };
+  },
+  computed: {
+    uploadHeaders () {
+      const token = document.head.querySelector('meta[name="csrf-token"]');
+      return {
+        'X-CSRF-TOKEN': token.content,
+      };
+    },
   },
   methods: {
     /**
@@ -149,25 +169,6 @@ export default {
     },
     removeFileFromQueue (file) {
       this.uploadingFiles.splice(this.uploadingFiles.indexOf(file), 1);
-    },
-  },
-  computed: {
-    uploadHeaders () {
-      const token = document.head.querySelector('meta[name="csrf-token"]');
-      return {
-        'X-CSRF-TOKEN': token.content,
-      };
-    },
-  },
-  components: {
-    CloseIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/XIcon'),
-    VueUpload,
-  },
-  props: {
-    currentDirectory: {
-      type: String,
-      required: true,
     },
   },
 };

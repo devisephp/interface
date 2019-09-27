@@ -108,6 +108,22 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapState('devise', ['languages']),
+    createInvalid () {
+      return (
+        this.newPage.title === null ||
+        (this.newPage.layout === null &&
+          !this.newPage.copy_page &&
+          this.newPage.copy_page_id === 0) ||
+        this.newPage.language_id === null ||
+        this.newPage.slug === null
+      );
+    },
+    layouts () {
+      return window.deviseSettings.$config.layouts;
+    },
+  },
   mounted () {
     this.loadLanguages()
     this.selectLayout()
@@ -151,21 +167,6 @@ export default {
       this.$emit('cancel')
     }
   },
-  computed: {
-    ...mapState('devise', ['languages']),
-    createInvalid () {
-      return (
-        this.newPage.title === null ||
-        (this.newPage.layout === null &&
-          !this.newPage.copy_page &&
-          this.newPage.copy_page_id === 0) ||
-        this.newPage.language_id === null ||
-        this.newPage.slug === null
-      );
-    },
-    layouts () {
-      return window.deviseSettings.$config.layouts;
-    },
-  }
+
 };
 </script>

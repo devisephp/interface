@@ -101,6 +101,19 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapState('devise', ['languages']),
+    createInvalid () {
+      return (
+        this.newPage.title === null ||
+        this.newPage.language_id === null ||
+        this.newPage.slug === null
+      );
+    },
+    layouts () {
+      return window.deviseSettings.$config.layouts;
+    },
+  },
   mounted () {
     this.loadLanguages()
   },
@@ -140,18 +153,6 @@ export default {
       this.$emit('cancel')
     }
   },
-  computed: {
-    ...mapState('devise', ['languages']),
-    createInvalid () {
-      return (
-        this.newPage.title === null ||
-        this.newPage.language_id === null ||
-        this.newPage.slug === null
-      );
-    },
-    layouts () {
-      return window.deviseSettings.$config.layouts;
-    },
-  }
+
 };
 </script>

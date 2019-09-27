@@ -1,101 +1,100 @@
 <template>
-  <div class="dvs-flex">
-    <installer-finish
-      ref="finshline"
-      :finished="finished"
-      class="dvs-fixed dvs-pin-t dvs-pin-l dvs-pin-r dvs-z-50"
-      :style="finishedStyles"
-    ></installer-finish>
+  <div>
+    <div class="dvs-flex">
+      <installer-finish
+        ref="finshline"
+        :finished="finished"
+        class="dvs-fixed dvs-pin-t dvs-pin-l dvs-pin-r dvs-z-50"
+        :style="finishedStyles"
+      ></installer-finish>
 
-    <main-menu
-      :checklist="checklist"
-      :style="bodyFinishedStyles"
-    ></main-menu>
+      <main-menu
+        :checklist="checklist"
+        :style="bodyFinishedStyles"
+      ></main-menu>
 
-    <div
-      id="content"
-      class="dvs-absolute dvs-pin dvs-overflow-scroll"
-      :style="bodyFinishedStyles"
-    >
-      <section
-        id="nav-welcome"
-        name="nav-welcome"
+      <div
+        id="content"
+        class="dvs-absolute dvs-pin dvs-overflow-scroll"
+        :style="bodyFinishedStyles"
       >
-        <div>
-          <div class="dvs-w-1/2 dvs-mb-4">
-            <devise-logo color="#222" />
+        <section
+          id="nav-welcome"
+          name="nav-welcome"
+        >
+          <div>
+            <div class="dvs-w-1/2 dvs-mb-4">
+              <devise-logo color="#222" />
+            </div>
+
+            <p class="dvs-text-xl dvs-mb-16">We are very excited that you are giving Devise 2 a spin. We are still in the early beta stages of this product but we do believe we have settled on the final structure of things. We encourage you to send us any feedback via Github issues, submit any PR's or just let us know what you think of the project on Twitter @devisephp.</p>
+
+            <div class="dvs-mb-16 dvs-flex dvs-flex-wrap">
+              <a
+                href="https://devise.gitbook.io/cms/"
+                target="_blank"
+                class="dvs-btn dvs-bg-blue dvs-text-white dvs-m-2"
+              >Documentation</a>
+              <a
+                href="https://devisephp.com"
+                target="_blank"
+                class="dvs-btn dvs-bg-blue dvs-text-white dvs-m-2"
+              >Website</a>
+              <a
+                href="https://github.com/devisephp/cms"
+                target="_blank"
+                class="dvs-btn dvs-bg-blue dvs-text-white dvs-m-2"
+              >Github</a>
+            </div>
+
+            <div class="dvs-text-left dvs-w-full">
+              <h2 class="dvs-mb-4">Installation</h2>
+
+              <p class="dvs-mb-4">Below we have setup an interactive installer that will continually poll to see if you have correctly configured your server and application for Devise. Once you have turned all the items in "Required Setup" green you are good to go. However, we have also provided some helpful items in "Non-required Setup" that you may want to take a look at.</p>
+            </div>
           </div>
+          <div></div>
+        </section>
 
-          <p class="dvs-text-xl dvs-mb-16">We are very excited that you are giving Devise 2 a spin. We are still in the early beta stages of this product but we do believe we have settled on the final structure of things. We encourage you to send us any feedback via Github issues, submit any PR's or just let us know what you think of the project on Twitter @devisephp.</p>
+        <div id="nav-required"></div>
 
-          <div class="dvs-mb-16 dvs-flex dvs-flex-wrap">
-            <a
-              href="https://devise.gitbook.io/cms/"
-              target="_blank"
-              class="dvs-btn dvs-bg-blue dvs-text-white dvs-m-2"
-            >Documentation</a>
-            <a
-              href="https://devisephp.com"
-              target="_blank"
-              class="dvs-btn dvs-bg-blue dvs-text-white dvs-m-2"
-            >Website</a>
-            <a
-              href="https://github.com/devisephp/cms"
-              target="_blank"
-              class="dvs-btn dvs-bg-blue dvs-text-white dvs-m-2"
-            >Github</a>
-          </div>
+        <template>
+          <database :item="checklist.database"></database>
 
-          <div class="dvs-text-left dvs-w-full">
-            <h2 class="dvs-mb-4">Installation</h2>
+          <migrations :item="checklist.migrations"></migrations>
 
-            <p class="dvs-mb-4">Below we have setup an interactive installer that will continually poll to see if you have correctly configured your server and application for Devise. Once you have turned all the items in "Required Setup" green you are good to go. However, we have also provided some helpful items in "Non-required Setup" that you may want to take a look at.</p>
-          </div>
-        </div>
-        <div></div>
-      </section>
+          <auth :item="checklist.auth"></auth>
 
-      <div id="nav-required"></div>
+          <user :item="checklist.user"></user>
 
-      <template>
-        <database :item="checklist.database"></database>
+          <site :item="checklist.site"></site>
 
-        <migrations :item="checklist.migrations"></migrations>
+          <page :item="checklist.page"></page>
 
-        <auth :item="checklist.auth"></auth>
+          <slices :item="checklist.slices"></slices>
 
-        <user :item="checklist.user"></user>
+          <image-library :item="checklist.image_library"></image-library>
 
-        <site :item="checklist.site"></site>
+          <div id="nav-suggested"></div>
 
-        <page :item="checklist.page"></page>
+          <config :checklist="checklist.optional.config"></config>
 
-        <slices :item="checklist.slices"></slices>
+          <optional-extras></optional-extras>
 
-        <image-library :item="checklist.image_library"></image-library>
+          <image-optimization :checklist="checklist"></image-optimization>
+        </template>
+      </div>
 
-        <div id="nav-suggested"></div>
-
-        <config :checklist="checklist.optional.config"></config>
-
-        <optional-extras></optional-extras>
-
-        <image-optimization :checklist="checklist"></image-optimization>
-      </template>
+      <messages />
     </div>
-
-    <messages />
   </div>
 </template>
 
 <script>
-import Vue from 'vue';
+
 import { mapActions, mapState } from 'vuex';
 
 const Prism = import(/* webpackChunkName: "devise-installer" */ 'prismjs')
-const VueScrollactive = import(/* webpackChunkName: "devise-installer" */ 'vue-scrollactive')
-
-Vue.use(VueScrollactive);
 
 import(/* webpackChunkName: "devise-installer" */ 'prismjs/components/prism-clike.min');
 import(/* webpackChunkName: "devise-installer" */ 'prismjs/components/prism-markup-templating.min');
@@ -107,6 +106,54 @@ import(/* webpackChunkName: "devise-installer" */ 'prismjs/plugins/normalize-whi
 import(/* webpackChunkName: "devise-installer" */ 'prismjs/plugins/line-numbers/prism-line-numbers');
 
 export default {
+  components: {
+    Messages: () => import(/* webpackChunkName: "devise-installer" */ './Messages.vue'),
+    MainMenu: () => import(/* webpackChunkName: "devise-installer" */ './MainMenu.vue'),
+    DeviseLogo: () => import(/* webpackChunkName: "devise-installer" */ "../utilities/DeviseLogo.vue"),
+    Database: () => import(/* webpackChunkName: "devise-installer" */ './items/Database.vue'),
+    Migrations: () => import(/* webpackChunkName: "devise-installer" */ './items/Migrations.vue'),
+    Auth: () => import(/* webpackChunkName: "devise-installer" */ './items/Auth.vue'),
+    User: () => import(/* webpackChunkName: "devise-installer" */ './items/User.vue'),
+    Site: () => import(/* webpackChunkName: "devise-installer" */ './items/Site.vue'),
+    Slices: () => import(/* webpackChunkName: "devise-installer" */ './items/Slices.vue'),
+    Page: () => import(/* webpackChunkName: "devise-installer" */ './items/Page.vue'),
+    ImageLibrary: () => import(/* webpackChunkName: "devise-installer" */ './items/ImageLibrary.vue'),
+    ImageOptimization: () => import(/* webpackChunkName: "devise-installer" */ './items/ImageOptimization.vue'),
+    Config: () => import(/* webpackChunkName: "devise-installer" */ './items/Config.vue'),
+    OptionalExtras: () => import(/* webpackChunkName: "devise-installer" */ './items/OptionalExtras.vue'),
+    InstallerFinish: () => import(/* webpackChunkName: "devise-utilities" */ './InstallerFinish.vue'),
+  },
+  computed: {
+    ...mapState('devise', {
+      checklist: state => state.checklist,
+      languages: state => state.languages.data
+    }),
+    finished () {
+      for (const task in this.checklist) {
+        if (this.checklist.hasOwnProperty(task)) {
+          if (!this.checklist[task]) {
+            return false;
+          }
+        }
+      }
+
+      return true;
+    },
+    finishedStyles () {
+      if (this.finished) {
+        return { top: 0 };
+      }
+
+      return { top: '-200px' };
+    },
+    bodyFinishedStyles () {
+      if (this.finished) {
+        return { marginTop: '200px' };
+      }
+
+      return { marginTop: '0' };
+    }
+  },
   mounted () {
     this.getLanguages();
     this.startChecker();
@@ -141,54 +188,7 @@ export default {
     }
   },
 
-  computed: {
-    ...mapState('devise', {
-      checklist: state => state.checklist,
-      languages: state => state.languages.data
-    }),
-    finished () {
-      for (const task in this.checklist) {
-        if (this.checklist.hasOwnProperty(task)) {
-          if (!this.checklist[task]) {
-            return false;
-          }
-        }
-      }
-
-      return true;
-    },
-    finishedStyles () {
-      if (this.finished) {
-        return { top: 0 };
-      }
-
-      return { top: '-200px' };
-    },
-    bodyFinishedStyles () {
-      if (this.finished) {
-        return { marginTop: '200px' };
-      }
-
-      return { marginTop: '0' };
-    }
-  },
-  components: {
-    Messages: () => import(/* webpackChunkName: "devise-installer" */ './Messages.vue'),
-    MainMenu: () => import(/* webpackChunkName: "devise-installer" */ './MainMenu.vue'),
-    DeviseLogo: () => import(/* webpackChunkName: "devise-installer" */ "../utilities/DeviseLogo.vue"),
-    Database: () => import(/* webpackChunkName: "devise-installer" */ './items/Database.vue'),
-    Migrations: () => import(/* webpackChunkName: "devise-installer" */ './items/Migrations.vue'),
-    Auth: () => import(/* webpackChunkName: "devise-installer" */ './items/Auth.vue'),
-    User: () => import(/* webpackChunkName: "devise-installer" */ './items/User.vue'),
-    Site: () => import(/* webpackChunkName: "devise-installer" */ './items/Site.vue'),
-    Slices: () => import(/* webpackChunkName: "devise-installer" */ './items/Slices.vue'),
-    Page: () => import(/* webpackChunkName: "devise-installer" */ './items/Page.vue'),
-    ImageLibrary: () => import(/* webpackChunkName: "devise-installer" */ './items/ImageLibrary.vue'),
-    ImageOptimization: () => import(/* webpackChunkName: "devise-installer" */ './items/ImageOptimization.vue'),
-    Config: () => import(/* webpackChunkName: "devise-installer" */ './items/Config.vue'),
-    OptionalExtras: () => import(/* webpackChunkName: "devise-installer" */ './items/OptionalExtras.vue'),
-    InstallerFinish: () => import(/* webpackChunkName: "devise-utilities" */ './InstallerFinish.vue'),
-  }
+  
 };
 </script>
 
@@ -234,7 +234,6 @@ section {
 a {
   text-decoration: none;
   font-weight: normal;
-  color: #3490dc;
 
   &.is-active {
     font-weight: bold;

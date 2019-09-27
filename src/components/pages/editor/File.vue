@@ -2,7 +2,7 @@
   <field-editor
     :options="options"
     :value="value"
-    :showEditor="showEditor"
+    :show-editor="showEditor"
     @toggleShowEditor="toggleEditor"
     @cancel="cancel"
     @resetvalue="resetValue"
@@ -25,8 +25,8 @@
       <fieldset class="dvs-fieldset">
         <div class="dvs-flex dvs-items-center">
           <input
-            type="text"
             v-model="url"
+            type="text"
           >
           <div @click="launchMediaManager($event)">
             <document-icon
@@ -46,11 +46,39 @@ import Field from '../../../mixins/Field';
 
 export default {
   name: 'FileEditor',
+  components: {
+    FieldEditor: () => import(/* webpackChunkName: "devise-editors" */ './Field'),
+    DocumentIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ClipboardIcon'),
+  },
+  mixins: [Field],
+  props: {
+    value: {
+      type: Object,
+      required: true,
+    },
+    options: {
+      type: Object,
+      required: true,
+    },
+  },
   data () {
     return {
       originalValue: null,
       showEditor: false,
     };
+  },
+  computed: {
+    url: {
+      get () {
+        return this.value.url;
+      },
+      set (value) {
+        const valueObj = Object.assign(this.value, { url: value });
+        this.$emit('input', valueObj);
+        this.$emit('change', valueObj);
+      },
+    },
   },
   mounted () {
     this.originalValue = Object.assign({}, this.value);
@@ -78,24 +106,5 @@ export default {
       this.url = null;
     },
   },
-  computed: {
-    url: {
-      get () {
-        return this.value.url;
-      },
-      set (value) {
-        const valueObj = Object.assign(this.value, { url: value });
-        this.$emit('input', valueObj);
-        this.$emit('change', valueObj);
-      },
-    },
-  },
-  props: ['value', 'options'],
-  components: {
-    FieldEditor: () => import(/* webpackChunkName: "devise-editors" */ './Field'),
-    DocumentIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ClipboardIcon'),
-  },
-  mixins: [Field],
 };
 </script>

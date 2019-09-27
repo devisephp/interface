@@ -1,7 +1,7 @@
 <template>
   <devise-installer-item
-    :item="item"
     id="nav-auth"
+    :item="item"
     title="Authentication (required)"
   >
     <template slot="instructions">
@@ -34,6 +34,7 @@ export default {
   },
   props: {
     item: {
+      type: Boolean,
       required: true
     }
   }

@@ -1,8 +1,8 @@
 <template>
   <field-editor
-    :options="options"
     v-model="value"
-    :showEditor="showEditor"
+    :options="options"
+    :show-editor="showEditor"
     @toggleShowEditor="toggleEditor"
     @cancel="cancel"
     @resetvalue="resetValue"
@@ -26,9 +26,9 @@
         <label>Label</label>
         <input
           ref="focusInput"
+          v-model="text"
           type="text"
           class="dvs-mb-4 dvs-w-full"
-          v-model="text"
         >
       </fieldset>
 
@@ -37,9 +37,9 @@
         <div class="dvs-flex dvs-mr-4">
           <label>
             <input
+              v-model="mode"
               type="radio"
               class="dvs-w-auto dvs-mr-2"
-              v-model="mode"
               value="url"
             >
             URL
@@ -48,9 +48,9 @@
         <div class="dvs-flex">
           <label>
             <input
+              v-model="mode"
               type="radio"
               class="dvs-w-auto dvs-mr-2"
-              v-model="mode"
               value="page"
             >
             Page
@@ -62,9 +62,9 @@
         <fieldset class="dvs-fieldset dvs-mb-4">
           <label>URL</label>
           <input
+            v-model="url"
             type="text"
             class="dvs-w-full"
-            v-model="url"
           >
         </fieldset>
       </template>
@@ -73,17 +73,17 @@
           <label>Page</label>
           <select
             v-model="routeName"
-            @change="selectPage()"
             class="dvs-w-full"
+            @change="selectPage()"
           >
             <option
               :value="null"
               disabled
             >Select a Page</option>
             <option
-              :value="page.route_name"
               v-for="page in pagesList.data"
               :key="page.id"
+              :value="page.route_name"
             >{{page.title}}</option>
           </select>
         </fieldset>
@@ -127,66 +127,24 @@ import Field from '../../../mixins/Field';
 
 export default {
   name: 'LinkEditor',
+    components: {
+    FieldEditor: () => import(/* webpackChunkName: "devise-editors" */ './Field'),
+  },
+  mixins: [Field],
+  props: {
+    value: {
+      type: Object,
+      required: true,
+    },
+    options: {
+      type: Object,
+      required: true,
+    },
+  },
   data () {
     return {
       showEditor: false,
     };
-  },
-  mounted () {
-    this.originalValue = Object.assign({}, this.value);
-    this.mode = this.mode;
-    this.retrieveAllPagesList();
-  },
-  methods: {
-    ...mapActions('devise', ['getPagesList']),
-    toggleEditor () {
-      this.showEditor = !this.showEditor;
-      this.focusForm();
-    },
-    focusForm () {
-      if (this.showEditor) {
-        this.$nextTick(() => {
-          setTimeout(() => {
-            this.$refs.focusInput.focus();
-          }, 200);
-        });
-      }
-    },
-    retrieveAllPagesList (loadbar = true) {
-      const filters = { language_id: window.deviseSettings.$page.language.id };
-      this.getPagesList(filters).then(() => {
-        if (loadbar) {
-          window.deviseSettings.$bus.$emit('incrementLoadbar', this.modulesToLoad);
-        }
-      });
-    },
-    selectPage () {
-      const page = this.pagesList.data.find(p => p.route_name === this.routeName);
-      if (page) {
-        this.url = page.url;
-      }
-    },
-    cancel () {
-      this.mode = this.originalValue.mode;
-      this.text = this.originalValue.text;
-      this.url = this.originalValue.url;
-      this.href = this.originalValue.href;
-      this.target = this.originalValue.target;
-      this.rel = this.originalValue.rel;
-      this.routeName = this.originalValue.routeName;
-      this.enabled = this.originalValue.enabled;
-      this.toggleEditor();
-    },
-    resetValue () {
-      this.enabled = false;
-      this.target = null;
-      this.rel = null;
-      this.url = null;
-      this.href = null;
-      this.mode = null;
-      this.text = null;
-      this.routeName = null;
-    },
   },
   computed: {
     ...mapGetters('devise', ['pagesList']),
@@ -268,10 +226,62 @@ export default {
       },
     },
   },
-  props: ['value', 'options'],
-  components: {
-    FieldEditor: () => import(/* webpackChunkName: "devise-editors" */ './Field'),
+  mounted () {
+    this.originalValue = Object.assign({}, this.value);
+    this.mode = this.mode;
+    this.retrieveAllPagesList();
   },
-  mixins: [Field],
+  methods: {
+    ...mapActions('devise', ['getPagesList']),
+    toggleEditor () {
+      this.showEditor = !this.showEditor;
+      this.focusForm();
+    },
+    focusForm () {
+      if (this.showEditor) {
+        this.$nextTick(() => {
+          setTimeout(() => {
+            this.$refs.focusInput.focus();
+          }, 200);
+        });
+      }
+    },
+    retrieveAllPagesList (loadbar = true) {
+      const filters = { language_id: window.deviseSettings.$page.language.id };
+      this.getPagesList(filters).then(() => {
+        if (loadbar) {
+          window.deviseSettings.$bus.$emit('incrementLoadbar', this.modulesToLoad);
+        }
+      });
+    },
+    selectPage () {
+      const page = this.pagesList.data.find(p => p.route_name === this.routeName);
+      if (page) {
+        this.url = page.url;
+      }
+    },
+    cancel () {
+      this.mode = this.originalValue.mode;
+      this.text = this.originalValue.text;
+      this.url = this.originalValue.url;
+      this.href = this.originalValue.href;
+      this.target = this.originalValue.target;
+      this.rel = this.originalValue.rel;
+      this.routeName = this.originalValue.routeName;
+      this.enabled = this.originalValue.enabled;
+      this.toggleEditor();
+    },
+    resetValue () {
+      this.enabled = false;
+      this.target = null;
+      this.rel = null;
+      this.url = null;
+      this.href = null;
+      this.mode = null;
+      this.text = null;
+      this.routeName = null;
+    },
+  },
+  
 };
 </script>

@@ -1,8 +1,8 @@
 <template>
   <field-editor
-    :options="options"
     v-model="value"
-    :showEditor="showEditor"
+    :options="options"
+    :show-editor="showEditor"
     @toggleShowEditor="toggleEditor"
     @cancel="cancel"
     @resetvalue="resetValue"
@@ -14,7 +14,7 @@
     </template>
     <template slot="editor">
       <fieldset class="dvs-fieldset">
-        <input ref="focusInput" type="text" v-model="text" :maxlength="getMaxLength">
+        <input ref="focusInput" v-model="text" type="text" :maxlength="getMaxLength">
       </fieldset>
     </template>
   </field-editor>
@@ -26,11 +26,43 @@ import Field from '../../../mixins/Field';
 
 export default {
   name: 'TextEditor',
+  components: {
+    FieldEditor: () => import(/* webpackChunkName: "devise-editors" */ './Field'),
+  },
+  mixins: [Strings, Field],
+  props: {
+    value: {
+      type: Object,
+      required: true,
+    },
+    options: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
       originalValue: null,
       showEditor: false,
     };
+  },
+  computed: {
+    getMaxLength() {
+      if (typeof this.settings !== 'undefined' && typeof this.settings.maxlength !== 'undefined') {
+        return this.settings.maxlength;
+      }
+      return '';
+    },
+    text: {
+      get() {
+        return this.value.text;
+      },
+      set(value) {
+        const valueObj = Object.assign(this.value, { text: value });
+        this.$emit('input', valueObj);
+        this.$emit('change', valueObj);
+      },
+    },
   },
   mounted() {
     this.originalValue = Object.assign({}, this.value);
@@ -58,29 +90,6 @@ export default {
       this.text = null;
       this.enabled = false;
     },
-  },
-  computed: {
-    getMaxLength() {
-      if (typeof this.settings !== 'undefined' && typeof this.settings.maxlength !== 'undefined') {
-        return this.settings.maxlength;
-      }
-      return '';
-    },
-    text: {
-      get() {
-        return this.value.text;
-      },
-      set(value) {
-        const valueObj = Object.assign(this.value, { text: value });
-        this.$emit('input', valueObj);
-        this.$emit('change', valueObj);
-      },
-    },
-  },
-  props: ['value', 'options'],
-  mixins: [Strings, Field],
-  components: {
-    FieldEditor: () => import(/* webpackChunkName: "devise-editors" */ './Field'),
   },
 };
 </script>

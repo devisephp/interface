@@ -1,4 +1,5 @@
 <template>
+  <!-- eslint-disable vue/no-v-html -->
   <div
     class="dvs-flex dvs-justify-center"
     style="font-size:12px;"
@@ -20,9 +21,22 @@
 <script>
 import { mapGetters } from 'vuex';
 
+// eslint-disable-next-line no-undef
 const loremIpsum = require('lorem-ipsum');
 
 export default {
+  props: {
+    file: {
+      type: Object,
+      required: true,
+    },
+    heightOfPreview: {
+      type: Number,
+      required: true,
+      default: 200,
+    },
+  },
+
   data () {
     return {
       hasPreview: false,
@@ -30,6 +44,26 @@ export default {
       width: '100%',
     };
   },
+
+  computed: {
+    ...mapGetters('devise', ['componentFromView']),
+    component () {
+      return this.componentFromView(this.file.value);
+    },
+    preview () {
+      const component = this.componentFromView(this.file.value);
+
+      if (component.preview) {
+        const preview = this.buildPreview(component.preview);
+        if (preview) {
+          return preview;
+        }
+      }
+
+      return false;
+    },
+  },
+
   mounted () {
     this.checkHasPreview();
     this.setWidth();
@@ -257,34 +291,7 @@ export default {
       return null;
     },
   },
-  computed: {
-    ...mapGetters('devise', ['componentFromView']),
-    component () {
-      return this.componentFromView(this.file.value);
-    },
-    preview () {
-      const component = this.componentFromView(this.file.value);
 
-      if (component.preview) {
-        const preview = this.buildPreview(component.preview);
-        if (preview) {
-          return preview;
-        }
-      }
 
-      return false;
-    },
-  },
-  props: {
-    file: {
-      type: Object,
-      required: true,
-    },
-    heightOfPreview: {
-      type: Number,
-      required: true,
-      default: 200,
-    },
-  },
 };
 </script>

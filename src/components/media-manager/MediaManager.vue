@@ -12,7 +12,7 @@
 
       <media-selector
         v-if="defaultImage === null || selectingFile"
-        @selectedfile="selectedFile"
+        @selectSourceFile="selectedFile"
       >
       </media-selector>
 
@@ -130,9 +130,11 @@ export default {
       this.selectingFile = false
 
       this.$nextTick(() => {
-        if (this.$refs.sizesmediaeditor) {
-          this.$refs.sizesmediaeditor.setImage(file)
-        } else {
+        if (
+          !this.defaultImage 
+          || this.defaultImage.type !== 'image' 
+          || typeof this.options === 'undefined' 
+          || !this.options.sizes) {
           this.setValue(file.url)
         }
       })

@@ -13,9 +13,9 @@
 
     <div class="dvs-flex dvs-flex-wrap dvs-items-stretch dvs-w-full">
       <div
-        class="dvs-w-1/5 dvs-max-w-1/4 dvs-pr-4 dvs-pb-4 dvs-flex"
         v-for="(image, key) in images"
         :key="key"
+        class="dvs-w-1/5 dvs-max-w-1/4 dvs-pr-4 dvs-pb-4 dvs-flex"
       >
         <div class="dvs-p-4 dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-text-xs dvs-overflow-hidden dvs-bg-admin-bg dvs-text-admin-fg">
           <div @click="loadPreview(image)">
@@ -80,12 +80,46 @@
 <script>
 export default {
   name: 'ImagesField',
+  components: {
+    ImagesIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/CameraIcon'),
+    SearchIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SearchIcon'),
+    Help: () =>
+      import(/* webpackChunkName: "devise-utilities" */ '../Help'),
+  },
+  props: {
+    value: {
+      type: Array,
+      default: () => {
+        return [];
+      },
+    },
+    label: {
+      type: String,
+      default: 'Images',
+    },
+  },
   data () {
     return {
       showPreview: false,
       previewImageName: '',
       previewImagePath: '',
     };
+  },
+  computed: {
+    images: {
+      get () {
+        return this.value;
+      },
+      set (newValue) {
+        this.$emit('input', newValue);
+        this.$emit('change', newValue);
+      },
+    },
+    labelText () {
+      return this.label ? this.label : 'Images';
+    },
   },
   methods: {
     showMediaManager () {
@@ -121,40 +155,6 @@ export default {
       this.previewImageName = this.getName(image);
       this.previewImagePath = image.defaultImage;
     },
-  },
-  computed: {
-    images: {
-      get () {
-        return this.value;
-      },
-      set (newValue) {
-        this.$emit('input', newValue);
-        this.$emit('change', newValue);
-      },
-    },
-    labelText () {
-      return this.label ? this.label : 'Images';
-    },
-  },
-  props: {
-    value: {
-      type: Array,
-      default: () => {
-        return [];
-      },
-    },
-    label: {
-      type: String,
-      default: 'Images',
-    },
-  },
-  components: {
-    ImagesIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/CameraIcon'),
-    SearchIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SearchIcon'),
-    Help: () =>
-      import(/* webpackChunkName: "devise-utilities" */ '../Help'),
   },
 };
 </script>

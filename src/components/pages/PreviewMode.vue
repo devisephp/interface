@@ -5,8 +5,8 @@
     @mouseleave="closePreviewSelector"
   >
     <div
-      class="dvs-m-4 dvs-cursor-pointer"
       v-if="previewMode === 'desktop'"
+      class="dvs-m-4 dvs-cursor-pointer"
     >
       <desktop-icon
         w="25"
@@ -14,8 +14,8 @@
       />
     </div>
     <div
-      class="dvs-m-4 dvs-cursor-pointer"
       v-if="previewMode === 'tablet'"
+      class="dvs-m-4 dvs-cursor-pointer"
     >
       <tablet-icon
         w="25"
@@ -23,8 +23,8 @@
       />
     </div>
     <div
-      class="dvs-m-4 dvs-cursor-pointer"
       v-if="previewMode === 'mobile-portrait'"
+      class="dvs-m-4 dvs-cursor-pointer"
     >
       <phone-icon
         w="25"
@@ -32,9 +32,9 @@
       />
     </div>
     <div
+      v-if="previewMode === 'mobile-landscape'"
       class="dvs-m-4 dvs-cursor-pointer"
       style="transform:rotate(90deg)"
-      v-if="previewMode === 'mobile-landscape'"
     >
       <phone-icon
         w="25"
@@ -90,6 +90,17 @@
 import { mapActions } from 'vuex';
 
 export default {
+  name: 'DevisePreviewMode',
+
+  components: {
+    DesktopIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/MonitorIcon'),
+    TabletIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/TabletIcon'),
+    PhoneIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SmartphoneIcon'),
+  },
+
   data () {
     return {
       previewMode: 'desktop',
@@ -113,13 +124,6 @@ export default {
       this.setPreviewModeInCurrentPage(mode);
     }
   },
-  components: {
-    DesktopIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/MonitorIcon'),
-    TabletIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/TabletIcon'),
-    PhoneIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SmartphoneIcon'),
-  },
+
 };
 </script>

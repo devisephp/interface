@@ -13,9 +13,9 @@
         <fieldset class="dvs-fieldset dvs-mr-8 dvs-flex-grow">
           <label>New Language Code</label>
           <input
+            v-model="newLanguage.code"
             type="text"
             maxlength="2"
-            v-model="newLanguage.code"
             class="dvs-w-full"
           >
         </fieldset>
@@ -38,8 +38,8 @@
             <fieldset class="dvs-fieldset">
               <input
                 v-show="language.editCode"
-                type="text"
                 v-model="localValue.data[key].code"
+                type="text"
               >
             </fieldset>
           </div>
@@ -53,13 +53,13 @@
               <CreateIcon />
             </button>
             <button
-              class="dvs-btn dvs-btn-primary dvs-text-xs dvs-mr-2"
               v-if="language.editCode"
+              class="dvs-btn dvs-btn-primary dvs-text-xs dvs-mr-2"
               @click="localValue.data[key].editCode = requestUpdateLanguage(localValue.data[key])"
             >Save Language Code</button>
             <button
-              class="dvs-btn dvs-btn-secondary dvs-text-xs"
               v-if="language.editCode"
+              class="dvs-btn dvs-btn-secondary dvs-text-xs"
               @click="language.editCode = false"
             >Cancel</button>
           </div>
@@ -74,6 +74,13 @@ import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'LanguagesManage',
+  components: {
+    CreateIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/EditIcon'),
+    AdminContainer: () =>
+      import(/* webpackChunkName: "devise-administration" */ '../admin/ui/AdminContainer'),
+  },
+  
   data () {
     return {
       localValue: {
@@ -85,6 +92,11 @@ export default {
       },
     };
   },
+
+  computed: {
+    ...mapGetters('devise', ['languages']),
+  },
+
   mounted () {
     this.retrieveAllLanguages();
   },
@@ -109,14 +121,6 @@ export default {
       });
     },
   },
-  computed: {
-    ...mapGetters('devise', ['languages']),
-  },
-  components: {
-    CreateIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/EditIcon'),
-    AdminContainer: () =>
-      import(/* webpackChunkName: "devise-administration" */ '../admin/ui/AdminContainer'),
-  },
+
 };
 </script>

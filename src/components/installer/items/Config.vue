@@ -1,7 +1,7 @@
 <template>
   <devise-installer-item
-    :item="item"
     id="nav-config"
+    :item="item"
     title="Devise Configuration (Optional)"
   >
     <template slot="instructions">
@@ -30,6 +30,7 @@ export default {
   },
   props: {
     item: {
+      type: Boolean,
       required: false
     }
   }

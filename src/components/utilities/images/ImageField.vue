@@ -25,8 +25,8 @@
         />
       </div>
       <div
+        :class="{ ' dvs-opacity-25': !previewEnabled }"
         @click="loadPreview"
-        v-bind:class="{ ' dvs-opacity-25': !previewEnabled }"
       >
         <search-icon
           class="dvs-ml-4 dvs-cursor-pointer"
@@ -92,62 +92,26 @@
 <script>
 export default {
   name: 'ImageField',
+  components: {
+    ImagesIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/CameraIcon'),
+    SearchIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SearchIcon'),
+  },
+  props: {
+    value: {
+      type: Object,
+      required:true,
+    },
+    sizes: {
+      type: Object,
+      default: null,
+    },
+  },
   data () {
     return {
       showPreview: false,
     };
-  },
-  methods: {
-    showMediaManager () {
-      window.deviseSettings.$bus.$emit('devise-launch-media-manager', {
-        callback: this.mediaSelected,
-        options: {
-          sizes: this.sizes,
-        },
-      });
-    },
-    mediaSelected (imagesAndSettings) {
-      if (typeof this.image !== 'object') {
-        this.image = imagesAndSettings.images.defaultImage;
-        return imagesAndSettings.images.defaultImage;
-      }
-
-      const value = {
-        url: imagesAndSettings.images.defaultImage
-      };
-
-      if (typeof imagesAndSettings === 'object') {
-        value.alt = imagesAndSettings.images.alt;
-        value.url = imagesAndSettings.images.defaultImage;
-        value.defaultImage = imagesAndSettings.images.defaultImage;
-        value.media = imagesAndSettings.images.media;
-        value.settings = imagesAndSettings.settings;
-      } else {
-        value.url = imagesAndSettings;
-      }
-
-      this.image = Object.assign({}, value);
-      return this.image
-    },
-    getSizeName (size) {
-      if (size === 'orig_optimized') return `Optimized`;
-
-      return size;
-    },
-    getDimensions (size) {
-      if (this.image.sizes && this.image.sizes[size])
-        return `(${this.image.sizes[size].w} x ${this.image.sizes[size].h})`;
-
-      if (this.sizes && this.sizes[size]) return `(${this.sizes[size].w} x ${this.sizes[size].h})`;
-
-      if (size !== 'original' && this.image.settings.w)
-        return `(${this.image.settings.w} x ${this.image.settings.h})`;
-
-      return null;
-    },
-    loadPreview () {
-      if (this.previewEnabled) this.showPreview = true;
-    },
   },
   computed: {
     image: {
@@ -212,18 +176,57 @@ export default {
       return this.imageUrl !== '' && this.imageUrl !== null;
     },
   },
-  props: {
-    value: {},
-    sizes: {
-      type: Object,
-      default: null,
+  methods: {
+    showMediaManager () {
+      window.deviseSettings.$bus.$emit('devise-launch-media-manager', {
+        callback: this.mediaSelected,
+        options: {
+          sizes: this.sizes,
+        },
+      });
     },
-  },
-  components: {
-    ImagesIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/CameraIcon'),
-    SearchIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SearchIcon'),
+    mediaSelected (imagesAndSettings) {
+      if (typeof this.image !== 'object') {
+        this.image = imagesAndSettings.images.defaultImage;
+        return imagesAndSettings.images.defaultImage;
+      }
+
+      const value = {
+        url: imagesAndSettings.images.defaultImage
+      };
+
+      if (typeof imagesAndSettings === 'object') {
+        value.alt = imagesAndSettings.images.alt;
+        value.url = imagesAndSettings.images.defaultImage;
+        value.defaultImage = imagesAndSettings.images.defaultImage;
+        value.media = imagesAndSettings.images.media;
+        value.settings = imagesAndSettings.settings;
+      } else {
+        value.url = imagesAndSettings;
+      }
+
+      this.image = Object.assign({}, value);
+      return this.image
+    },
+    getSizeName (size) {
+      if (size === 'orig_optimized') return `Optimized`;
+
+      return size;
+    },
+    getDimensions (size) {
+      if (this.image.sizes && this.image.sizes[size])
+        return `(${this.image.sizes[size].w} x ${this.image.sizes[size].h})`;
+
+      if (this.sizes && this.sizes[size]) return `(${this.sizes[size].w} x ${this.sizes[size].h})`;
+
+      if (size !== 'original' && this.image.settings.w)
+        return `(${this.image.settings.w} x ${this.image.settings.h})`;
+
+      return null;
+    },
+    loadPreview () {
+      if (this.previewEnabled) this.showPreview = true;
+    },
   },
 };
 </script>

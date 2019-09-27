@@ -159,6 +159,9 @@
         'saveCaption',
         'deleteFile'
       ]),
+      selectSourceFile (file) {
+        this.$emit('selectSourceFile', file)
+      },
       requestSaveCaption (file) {
         const payload = {
           image: file.url,
