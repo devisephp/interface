@@ -573,8 +573,8 @@ export default {
   },
   props: {
     value: {
-      type: Object,
-      required: true
+      type: String,
+      default: ''
     }
   },
   data () {
