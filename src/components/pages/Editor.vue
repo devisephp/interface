@@ -2,7 +2,7 @@
   <div
     id="dvs-admin-content-container"
     ref="admin-route-wrapper"
-    class="dvs-ml-16 dvs-max-w-1/2 dvs-self-center dvs-shadow-lg dvs-bg-admin-bg dvs-text-admin-fg dvs-rounded dvs-pointer-events-auto"
+    class="dvs-relative dvs-ml-16 dvs-max-w-1/2 dvs-self-center dvs-shadow-lg dvs-bg-admin-bg dvs-text-admin-fg dvs-rounded dvs-pointer-events-auto"
     style="min-width:400px"
   >
     <vue-scrollbar
@@ -138,7 +138,7 @@
 
             </div>
 
-            <div class="dvs-flex dvs-flex-col dvs-items-center dvs-px-8">
+            <div class="dvs-relative dvs-flex dvs-flex-col dvs-items-center dvs-px-8">
               <manage-slice
                 v-if="createSlice === true"
                 ref="manageSlice"
@@ -147,27 +147,7 @@
                 @cancel="createSlice = false"
               />
 
-              <div class="dvs-absolute dvs-pin-b dvs-pin-l dvs-pin-r dvs-mb-3 dvs-flex dvs-justify-around dvs-p-2 dvs-px-8">
 
-                <button
-                  class="dvs-btn dvs-btn-sm dvs-btn-primary dvs-w-3/5 dvs-mr-2"
-                  @click.prevent="requestSavePage()"
-                >
-                  <refresh-icon
-                    v-if="saving"
-                    w="15"
-                    h="15"
-                    class="dvs-mr-2 dvs-rotate-ccw"
-                  />Save Page
-                </button>
-
-                <button
-                  class="dvs-btn dvs-btn-sm dvs-flex dvs-justify-center dvs-items-center dvs-uppercase dvs-font-bold dvs-w-2/5 dvs-btn-secondary"
-                  @click.prevent="requestAddSlice"
-                >
-                  <add-icon class="dvs-text-xl dvs-mr-1" />Add Slice
-                </button>
-              </div>
             </div>
           </div>
 
@@ -182,6 +162,27 @@
               </fieldset>
             </div>
 
+          </div>
+
+          <div v-if="can('manage slices')" class="dvs-absolute dvs-pin-b dvs-pin-l dvs-pin-r dvs-mb-3 dvs-flex dvs-justify-around dvs-p-2 dvs-px-8">
+            <button
+              class="dvs-btn dvs-btn-sm dvs-btn-primary dvs-w-3/5 dvs-mr-2"
+              @click.prevent="requestSavePage()"
+            >
+              <refresh-icon
+                v-if="saving"
+                w="15"
+                h="15"
+                class="dvs-mr-2 dvs-rotate-ccw"
+              />Save Page
+            </button>
+
+            <button
+              class="dvs-btn dvs-btn-sm dvs-flex dvs-justify-center dvs-items-center dvs-uppercase dvs-font-bold dvs-w-2/5 dvs-btn-secondary"
+              @click.prevent="requestAddSlice"
+            >
+              <add-icon class="dvs-text-xl dvs-mr-1" />Add Slice
+            </button>
           </div>
         </div>
       </div>
