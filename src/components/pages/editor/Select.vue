@@ -116,7 +116,6 @@ export default {
       this.selectValue = this.originalValue.value;
       this.label = this.originalValue.label;
       this.enabled = this.originalValue.enabled;
-      this.toggleEditor();
     },
     resetValue () {
       this.enabled = false;

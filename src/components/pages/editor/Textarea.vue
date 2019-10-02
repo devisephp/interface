@@ -85,7 +85,6 @@ export default {
     cancel() {
       this.text = this.originalValue.text;
       this.enabled = this.originalValue.enabled;
-      this.toggleEditor();
     },
     updateValue() {
       // Emit the number value through the input event

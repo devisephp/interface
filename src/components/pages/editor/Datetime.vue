@@ -94,7 +94,6 @@ export default {
     cancel() {
       this.text = this.originalValue.text;
       this.enabled = this.originalValue.enabled;
-      this.toggleEditor();
     },
     resetValue() {
       this.enabled = false;

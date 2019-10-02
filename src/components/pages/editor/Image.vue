@@ -224,8 +224,6 @@ export default {
       this.settings = this.originalValue.settings;
       this.enabled = this.originalValue.enabled;
       this.mode = this.originalValue.mode;
-
-      this.toggleEditor();
     },
     resetValue () {
       this.url = null;

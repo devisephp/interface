@@ -48,7 +48,7 @@ export default {
       type: Object,
       required: true,
     },
-    nameKey: {
+    namekey: {
       type: String,
       required: true
     }
@@ -83,8 +83,6 @@ export default {
     cancel () {
       this.text = this.originalValue.text;
       this.enabled = this.originalValue.enabled;
-
-      this.toggleEditor();
     },
     resetValue () {
       this.enabled = false;

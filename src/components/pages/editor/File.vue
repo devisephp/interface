@@ -90,7 +90,6 @@ export default {
     cancel () {
       this.url = this.originalValue.url;
       this.enabled = this.originalValue.enabled;
-      this.toggleEditor();
     },
     launchMediaManager () {
       window.deviseSettings.$bus.$emit('devise-launch-media-manager', {

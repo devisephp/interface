@@ -158,6 +158,7 @@ export default {
     },
     cancel () {
       this.$emit('cancel');
+      this.toggleShowEditor();
     },
     enabledTip (enabled) {
       if (enabled) {

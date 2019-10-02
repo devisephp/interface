@@ -269,7 +269,6 @@ export default {
       this.rel = this.originalValue.rel;
       this.routeName = this.originalValue.routeName;
       this.enabled = this.originalValue.enabled;
-      this.toggleEditor();
     },
     resetValue () {
       this.enabled = false;

@@ -82,7 +82,6 @@ export default {
     cancel () {
       this.checked = this.originalValue.checked;
       this.enabled = this.originalValue.enabled;
-      this.toggleEditor();
     },
   },
 };

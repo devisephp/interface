@@ -99,7 +99,6 @@ export default {
       const rgba = this.convertColor(this.originalValue);
       this.color = { rgba };
       this.enabled = this.originalValue.enabled;
-      this.toggleEditor();
     },
     convertColor (color) {
       return tinycolor(color).toRgb();
