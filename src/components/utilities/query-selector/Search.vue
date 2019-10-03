@@ -152,6 +152,7 @@ export default {
     ...mapActions('devise', ['appGenericSearch', 'getGeneric']),
     selectSuggestion (suggestion) {
       this.selected.push(suggestion)
+      this.resetSearch()
     },
     removeSuggestion (suggestion) {
       this.resetSearch()

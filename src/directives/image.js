@@ -14,7 +14,7 @@ export default function(el, binding) {
     const theImageSize = () => {
       const { sizes } = image;
 
-      if (typeof sizes === 'undefined' || !sizes[Object.keys(sizes)[0]]) {
+      if (!sizes || !sizes[Object.keys(sizes)[0]]) {
         return false;
       }
 
