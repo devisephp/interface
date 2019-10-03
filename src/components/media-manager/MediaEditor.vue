@@ -23,6 +23,7 @@
         :sizes="sizes"
         :encode-edits="encodeEdits"
         :active="active"
+        :warning="showWarning"
         @select="setActive"
       ></media-thumbnails>
 
@@ -40,8 +41,10 @@
             v-if="sizeEdits[active]"
             :sizes="sizes"
             :custom-size="{w: sizeEdits[active].w, h: sizeEdits[active].h}"
+            :active="active"
             :active-image="activeImage"
             :encode-edits="encodeEdits"
+            :warning="showWarning"
             @applycrop="applyCrop"
             @removecrop="removeCrop"
           ></media-editor-preview>
@@ -116,6 +119,17 @@ export default {
         url: `/styled/preview/${this.defaultImage}`,
         name: 'Original'
       }
+    },
+
+    showWarning () {
+      if (
+        this.sizeEdits[this.active].fit === null ||
+        this.sizeEdits[this.active].originalw !== this.sizeEdits[this.active].w ||
+        this.sizeEdits[this.active].originalh !== this.sizeEdits[this.active].h
+      ) {
+        return true
+      }
+      return false
     }
   },
   

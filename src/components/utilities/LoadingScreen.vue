@@ -14,7 +14,9 @@
             src="./../../imgs/loader.gif"
             class="dvs-mb-2"
           >
-          <div class="dvs-text-black">{{ message }}</div>
+          <div class="dvs-text-black">
+            <p>{{ message }}</p>
+          </div>
         </div>
       </div>
     </transition>

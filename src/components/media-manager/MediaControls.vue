@@ -81,13 +81,11 @@
         <fieldset class="dvs-fieldset">
           <label>Fitting</label>
           <select v-model="edits.fit">
-            <option :label="null">None</option>
+            <option :value="null">No Crop</option>
             <option value="custom">Custom</option>
-            <option value="crop">Contain</option>
-            <option value="max">Best Fit</option>
             <option value="fill">Fill</option>
             <option value="stretch">Stretch</option>
-            <option value="crop">Crop Center</option>
+            <option value="crop">Crop Center (Recommended)</option>
             <option value="crop-left">Crop Center Left</option>
             <option value="crop-right">Crop Center Right</option>
             <option value="crop-top">Crop Bottom</option>
