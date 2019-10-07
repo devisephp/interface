@@ -652,6 +652,8 @@ export default {
     mediaSelected (imagesAndSettings) {
       if (typeof imagesAndSettings === 'object') {
         this.currentCommand({ src: imagesAndSettings.images.media.custom })
+      } else {
+        this.currentCommand({ src: imagesAndSettings })
       }
     },
     update (e) {

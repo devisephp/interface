@@ -131,9 +131,9 @@ export default {
 
       this.$nextTick(() => {
         if (
-          !this.defaultImage 
-          || this.defaultImage.type !== 'image' 
-          || typeof this.options === 'undefined' 
+          !this.defaultImage
+          || this.defaultImage.type !== 'image'
+          || typeof this.options === 'undefined'
           || !this.options.sizes) {
           this.setValue(file.url)
         }

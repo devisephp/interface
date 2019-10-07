@@ -25,7 +25,7 @@
             class="dvs-list-reset dvs-text-sm"
           >
             <li
-              v-for="(childMenuItem) in menuItem.children"
+              v-for="(childMenuItem) in filteredMenu(menuItem.children)"
               :key="childMenuItem.id"
               class="dvs-pt-3"
             >
@@ -68,6 +68,14 @@ export default {
   },
 
   methods: {
+    filteredMenu (subMenu) {
+      return subMenu.filter((menuItem) => {
+        if (!menuItem.permissions) {
+          return true
+        }
+        return this.can(menuItem.permissions)
+      });
+    },
     findMenu (menu) {
       let safeMenu = menu;
       if (typeof menu === 'object') {

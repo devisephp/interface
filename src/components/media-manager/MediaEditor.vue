@@ -104,7 +104,7 @@ export default {
       sizeEdits: {},
     };
   },
-  
+
   computed: {
     activeImage () {
       if (this.active && typeof this.sizeEdits !== 'undefined' && this.sizeEdits[this.active]) {
@@ -123,16 +123,19 @@ export default {
 
     showWarning () {
       if (
-        this.sizeEdits[this.active].fit === null ||
-        this.sizeEdits[this.active].originalw !== this.sizeEdits[this.active].w ||
-        this.sizeEdits[this.active].originalh !== this.sizeEdits[this.active].h
+        this.sizeEdits[this.active] &&
+        (
+          this.sizeEdits[this.active].fit === null ||
+          this.sizeEdits[this.active].originalw !== this.sizeEdits[this.active].w ||
+          this.sizeEdits[this.active].originalh !== this.sizeEdits[this.active].h
+        )
       ) {
         return true
       }
       return false
     }
   },
-  
+
   mounted () {
     this.setInitialActive()
     this.loadImageSettings();
