@@ -93,6 +93,12 @@
               </div>
             </div>
           </div>
+          <div v-if="hasSingleImage">
+            <img
+              :src="value.url"
+              style="max-width:200px;"
+            >
+          </div>
         </div>
       </fieldset>
       <fieldset
@@ -205,6 +211,12 @@ export default {
       }
       return false
     },
+    hasSingleImage () {
+      if (this.media || (this.url && this.url.length > 0)) {
+        return Object.keys(this.media).length < 1;
+      }
+      return false
+    }
   },
   mounted () {
     this.originalValue = Object.assign({}, this.value);
@@ -242,6 +254,7 @@ export default {
       });
     },
     mediaSelected (imagesAndSettings) {
+      console.log(imagesAndSettings)
       if (typeof imagesAndSettings === 'object') {
         this.alt = imagesAndSettings.images.alt;
         this.url = imagesAndSettings.images.defaultImage;
