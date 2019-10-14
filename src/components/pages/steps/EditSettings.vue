@@ -59,6 +59,28 @@
       />
     </fieldset>
 
+    <fieldset class="dvs-fieldset dvs-mb-8">
+      <label>
+        Additional code in &lt;head&gt;
+        <help :compact="true">Code will be output exactly as you place it in here so you need to wrap JavaScript with &lg;script&gt; tags.</help>
+      </label>
+      <textarea
+        v-model="localValue.head"
+        class="dvs-w-full"
+      ></textarea>
+    </fieldset>
+
+    <fieldset class="dvs-fieldset dvs-mb-8">
+      <label>
+        Additional code at the bottom of the page code?
+        <help :compact="true">Code will be output exactly as you place it in here so you need to wrap JavaScript with &lg;script&gt; tags.</help>
+      </label>
+      <textarea
+        v-model="localValue.footer"
+        class="dvs-w-full"
+      ></textarea>
+    </fieldset>
+
     <fieldset class="dvs-fieldset dvs-mb-4">
       <label>Middleware</label>
       <input
