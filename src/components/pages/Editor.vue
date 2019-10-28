@@ -147,7 +147,6 @@
                 @cancel="createSlice = false"
               />
 
-
             </div>
           </div>
 
@@ -164,7 +163,10 @@
 
           </div>
 
-          <div v-if="can('manage slices')" class="dvs-absolute dvs-pin-b dvs-pin-l dvs-pin-r dvs-mb-3 dvs-flex dvs-justify-around dvs-p-2 dvs-px-8">
+          <div
+            v-if="can('manage slices')"
+            class="dvs-absolute dvs-pin-b dvs-pin-l dvs-pin-r dvs-mb-3 dvs-flex dvs-justify-around dvs-p-2 dvs-px-8"
+          >
             <button
               class="dvs-btn dvs-btn-sm dvs-btn-primary dvs-w-3/5 dvs-mr-2"
               @click.prevent="requestSavePage()"

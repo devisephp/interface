@@ -459,7 +459,7 @@ export default {
         if (fields.hasOwnProperty(field)) {
           const f = fields[field];
 
-          if (f.editorLabel && f[acceptedFieldTypes[f.type]]) {
+          if (f && f.editorLabel && f[acceptedFieldTypes[f.type]]) {
             let label = f[acceptedFieldTypes[f.type]];
 
             if (f.type === 'image') {

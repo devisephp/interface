@@ -160,7 +160,8 @@ export default {
           recordLabel: 'title'
         },
         record: this.localValue
-      }).then(() => {
+      }).then((results) => {
+        this.localValue = Object.assign({}, results.data.data)
         this.$emit('done')
       });
     },

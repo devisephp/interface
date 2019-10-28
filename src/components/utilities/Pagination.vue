@@ -53,29 +53,20 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'SuperTablePagination',
-    props: {
-      meta: {
-        type: Object,
-        required: true
-      },
-      listMode: {
-        type: Boolean,
-        default: false
-      }
+  props: {
+    meta: {
+      type: Object,
+      required: true
     },
-    computed: {
-    ...mapGetters([
-      'filters',
-    ]),
+    listMode: {
+      type: Boolean,
+      default: false
+    }
   },
   methods: {
-    ...mapActions([
-      'updateFilters',
-    ]),
     changePage (page) {
       if (page > 0 && page <= this.meta.last_page) {
         this.$emit('changePage', page);

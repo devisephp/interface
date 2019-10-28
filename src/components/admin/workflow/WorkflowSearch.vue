@@ -26,7 +26,8 @@
     </div>
 
     <pagination
-      :meta="autosuggest"
+      v-if="autosuggest.meta"
+      :meta="autosuggest.meta"
       @changePage="changePage"
     ></pagination>
 

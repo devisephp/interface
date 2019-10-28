@@ -118,7 +118,12 @@ export default {
       }
 
       const lastStep = this.workflowStack[this.workflowStack.length - 2]
-      const { nextStep } = typeof this.currentStep.nextStep !== 'undefined' ? this.currentStep : this.currentStep.value;
+      let nextStep = null;
+      if (typeof this.currentStep.nextStep !== 'undefined') {
+        nextStep = this.currentStep.nextStep
+      } else if (typeof this.currentStep.value !== 'undefined') {
+        nextStep = this.currentStep.value.nextStep
+      }
 
       // If a next step
       if (nextStep) {

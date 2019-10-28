@@ -13,6 +13,9 @@ import Messages from './components/utilities/Messages.vue';
 import routes from './router/route.config';
 import Slices from './components/slices/Slices.vue';
 
+// eslint-disable-next-line no-undef
+window.axios = require('axios');
+
 const DevisePlugin = {
   install(Vue, { store, router, bus, options }) {
     if (typeof store === 'undefined') {
@@ -38,6 +41,11 @@ const DevisePlugin = {
       }
 
       return route;
+    });
+
+    router.beforeEach((to, from, next) => {
+      window.axios.defaults.headers.common['Devise-UI-Referrer'] = JSON.stringify(to);
+      next();
     });
 
     // Merge custom routes (admin) from application
