@@ -2,17 +2,14 @@
   <div>
     <portal to="devise-root">
       <div class="dvs-fixed dvs-pin dvs-flex dvs-justify-center dvs-items-center dvs-z-40">
-        <div
-          class="dvs-blocker"
-          @click="cancelManageSlice"
-        ></div>
+        <div class="dvs-blocker" @click="cancelManageSlice"></div>
       </div>
 
       <div class="relative dvs-z-50 dvs-pt-6">
         <admin-container>
-
           <template v-slot:message>
-            Adding new slices builds up your page. Below you will find the settings that will effect what template to use and if it is static or dynamic.
+            Adding new slices builds up your page. Below you will find the settings that will
+            effect what template to use and if it is static or dynamic.
           </template>
           <template v-slot:content>
             <div class="dvs-w-full dvs-relative dvs-z-40 ">
@@ -31,7 +28,13 @@
                       <div class="dvs-text-4xl dvs-mb-4">
                         <file-text-icon></file-text-icon>
                       </div>
-                      <p class="dvs-normal-case dvs-text-sm dvs-text-admin-secondary-fg dvs-font-normal">A static slice contains information that content managers enter and is presented on the site. The content does not change until a content manager chooses to edit.</p>
+                      <p
+                        class="dvs-normal-case dvs-text-sm dvs-text-admin-secondary-fg dvs-font-normal"
+                      >
+                        A static slice contains information that content managers enter and is
+                        presented on the site. The content does not change until a content manager
+                        chooses to edit.
+                      </p>
                     </div>
 
                     <div
@@ -43,7 +46,14 @@
                       <div class="dvs-text-4xl dvs-mb-4">
                         <database-icon></database-icon>
                       </div>
-                      <p class="dvs-normal-case dvs-text-sm dvs-text-admin-secondary-fg dvs-font-normal">Dynamic slices will be populated by data from the database. Depending on your options on the next screen multiple instances of the slice you select will appear. As models are edited the information on these instances will change.</p>
+                      <p
+                        class="dvs-normal-case dvs-text-sm dvs-text-admin-secondary-fg dvs-font-normal"
+                      >
+                        Dynamic slices will be populated by data from the database. Depending on
+                        your options on the next screen multiple instances of the slice you select
+                        will appear. As models are edited the information on these instances will
+                        change.
+                      </p>
                     </div>
                   </div>
 
@@ -51,18 +61,12 @@
                   <div v-else>
                     <div v-if="step === 1 && managedSlice.type === 'model'">
                       <div class="dvs-mb-16">
-                        <query-selector
-                          v-if="modelQueries.length > 0"
-                          v-model="modelQuery"
-                        />
+                        <query-selector v-if="modelQueries.length > 0" v-model="modelQuery" />
                       </div>
                     </div>
                     <div v-else>
                       <div class="dvs-mb-16">
-                        <slice-selector
-                          v-model="managedSlice.slice"
-                          :model-query="modelQuery"
-                        />
+                        <slice-selector v-model="managedSlice.slice" :model-query="modelQuery" />
                       </div>
                     </div>
                   </div>
@@ -77,33 +81,33 @@
                 v-if="mode === 'inserting' && managedSlice.type !== 'model'"
                 class="dvs-btn dvs-btn-primary dvs-mr-2"
                 @click="addSlice"
-              >Insert</button>
+              >
+                Insert
+              </button>
               <button
                 v-else-if="managedSlice.type === 'model' && step === 1"
                 class="dvs-btn dvs-btn-primary dvs-mr-2"
                 :disabled="modelQueryInvalid"
                 @click="nextStep"
-              >Next</button>
+              >
+                Next
+              </button>
               <button
                 v-else-if="mode === 'inserting' && managedSlice.type === 'model' && step === 2"
                 class="dvs-btn dvs-btn-primary dvs-mr-2"
                 @click="addSlice"
-              >Insert Model Slice</button>
-              <button
-                v-else
-                class="dvs-btn dvs-btn-primary dvs-mr-2"
-                @click="editSlice"
-              >Replace</button>
-              <button
-                class="dvs-btn dvs-btn-secondary"
-                @click="cancelManageSlice"
-              >Cancel</button>
+              >
+                Insert Model Slice
+              </button>
+              <button v-else class="dvs-btn dvs-btn-primary dvs-mr-2" @click="editSlice">
+                Replace
+              </button>
+              <button class="dvs-btn dvs-btn-secondary" @click="cancelManageSlice">Cancel</button>
             </div>
           </template>
         </admin-container>
       </div>
     </portal>
-
   </div>
 </template>
 
@@ -116,8 +120,8 @@ const defaultInsertSlice = {
   slice: null,
   modelQuery: {
     key: null,
-    params: []
-  }
+    params: [],
+  },
 };
 
 export default {
@@ -127,7 +131,9 @@ export default {
     AdminContainer: () =>
       import(/* webpackChunkName: "devise-administration" */ '../../admin/ui/AdminContainer'),
     QuerySelector: () =>
-      import(/* webpackChunkName: "devise-query-selector" */ '../../utilities/query-selector/QuerySelector.vue'),
+      import(
+        /* webpackChunkName: "devise-query-selector" */ '../../utilities/query-selector/QuerySelector.vue'
+      ),
     SliceSelector: () => import(/* webpackChunkName: "devise-slices" */ './SliceSelector.vue'),
     FileTextIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/FileTextIcon'),
@@ -138,78 +144,78 @@ export default {
   props: {
     value: {
       type: Object | String /* eslint-disable-line */,
-      default: () => { },
+      default: () => {},
     },
     mode: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
-  data () {
+  data() {
     return {
       managedSlice: {},
       step: 1,
       modelQuery: {
         key: null,
-        params: []
-      }
+        params: [],
+      },
     };
   },
   computed: {
     ...mapGetters('devise', ['componentFromView']),
     ...mapState('devise', ['modelQueries']),
     slice: {
-      get () {
+      get() {
         return this.value;
       },
-      set (newValue) {
-        this.$emit('input', Object.assign({}, newValue))
-      }
+      set(newValue) {
+        this.$emit('input', Object.assign({}, newValue));
+      },
     },
-    modelQueryFormatted () {
+    modelQueryFormatted() {
       if (this.modelQuery && this.modelQuery.key) {
-        const finalParams = []
+        const finalParams = [];
         this.modelQuery.params.forEach(param => {
-          const currentIndex = this.modelQuery.params.indexOf(param)
-          finalParams.push([])
+          const currentIndex = this.modelQuery.params.indexOf(param);
+          finalParams.push([]);
           param.forEach(value => {
-            finalParams[currentIndex].push(value.value)
-          })
-        })
+            finalParams[currentIndex].push(value.value);
+          });
+        });
 
         const finalModelQuery = {
           key: this.modelQuery.key,
-          params: finalParams
-        }
+          params: finalParams,
+        };
 
-        return finalModelQuery
+        return finalModelQuery;
       }
-      return null
+      return null;
     },
-    modelQueryInvalid () {
+    modelQueryInvalid() {
       if (!this.modelQueryConfig) {
-        return true
+        return true;
       }
       this.modelQueryConfig.params.forEach(param => {
         if (!param.allowedNull && !param.value) {
-          return true
+          return true;
         }
-        return false
-      })
-      return false
+        return false;
+      });
+      return false;
     },
-    modelQueryConfig () {
+    modelQueryConfig() {
       if (this.modelQuery) {
         const mqc = this.modelQueries.find(mq => {
-          return mq.key === this.modelQuery.key
-        })
-        return mqc
+          return mq.key === this.modelQuery.key;
+        });
+        return mqc;
       }
-      return null
+      return null;
     },
   },
-  mounted () {
-    this.managedSlice = Object.assign({}, defaultInsertSlice)
+  mounted() {
+    this.managedSlice = Object.assign({}, defaultInsertSlice);
     this.getModelQueries();
     this.getSlicesDirectories();
 
@@ -217,17 +223,17 @@ export default {
       // If slice is set it's an edit
       if (this.slice && this.slice.metadata) {
         this.managedSlice.type = this.slice.metadata.type;
-        this.modelQuery = this.slice.metadata.model_query
+        this.modelQuery = this.slice.metadata.model_query;
       }
     });
   },
   methods: {
     ...mapActions('devise', ['getModelQueries', 'getSlicesDirectories', 'getModelSettings']),
-    cancelManageSlice () {
+    cancelManageSlice() {
       this.$set(this, 'managedSlice', defaultInsertSlice);
       this.$emit('cancel');
     },
-    buildSlice () {
+    buildSlice() {
       const component = this.componentFromView(this.managedSlice.slice.value);
       const finalSlice = {
         settings: {
@@ -254,7 +260,7 @@ export default {
       }
       return Object.assign({}, finalSlice);
     },
-    addMissingProperty (slice, field) {
+    addMissingProperty(slice, field) {
       // We just add all the properties because.... why not?
       this.$set(slice, field, {
         text: null,
@@ -265,7 +271,7 @@ export default {
         enabled: null,
       });
     },
-    setDefaults (slice, field, defaults) {
+    setDefaults(slice, field, defaults) {
       // loop through the defaults and apply them to the field
       for (const d in defaults) {
         if (defaults.hasOwnProperty(d)) {
@@ -273,19 +279,18 @@ export default {
         }
       }
     },
-    nextStep () {
+    nextStep() {
       this.step += 1;
     },
-    addSlice () {
+    addSlice() {
       this.$emit('addSlice', this.buildSlice());
     },
-    editSlice () {
+    editSlice() {
       this.slice = Object.assign({}, this.buildSlice());
     },
-    removeSlice () {
+    removeSlice() {
       this.$emit('removeSlice');
     },
   },
-
 };
 </script>

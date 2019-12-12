@@ -24,7 +24,7 @@ import Slice from './Slice.vue'; // eslint-disable-line
 export default {
   /* eslint-disable camelcase */
   name: 'DeviseSlice',
-    components: {
+  components: {
     Slice,
     SettingsIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SettingsIcon'),
@@ -33,14 +33,14 @@ export default {
   props: {
     editorMode: {
       type: Boolean,
-      default: false
+      default: false,
     },
     sliceIndex: {
       type: Number,
-      required: true
-    }
+      required: true,
+    },
   },
-  data () {
+  data() {
     return {
       mounted: false,
       showEditor: false,
@@ -50,21 +50,21 @@ export default {
   },
   computed: {
     ...mapGetters('devise', ['component', 'sliceConfig', 'breakpoint', 'mediaAlreadyRequested']),
-    deviseForSlice () {
+    deviseForSlice() {
       if (this.devise.config) {
         return this.devise.config;
       }
       return this.devise;
     },
-    id () {
+    id() {
       if (typeof this.deviseForSlice.settings === 'undefined') {
         this.$set(this.deviseForSlice, 'settings', {
-          id: null
+          id: null,
         });
       }
-      return this.deviseForSlice.settings.id
+      return this.deviseForSlice.settings.id;
     },
-    styles () {
+    styles() {
       const styles = {};
 
       if (typeof this.deviseForSlice.settings === 'undefined') {
@@ -100,21 +100,21 @@ export default {
 
       return this.buildStyles(styles, margin, padding);
     },
-    currentView () {
+    currentView() {
       if (this.devise.config) {
         return window.deviseSettings.$deviseComponents[this.devise.name];
       }
       return window.deviseSettings.$deviseComponents[this.devise.metadata.name];
-    }
+    },
   },
 
-  created () {
+  created() {
     this.cleanupImageFields();
     this.hydrateMissingProperties();
     this.checkDefaults();
     this.sliceComponent = this.component(this.devise.metadata.name);
   },
-  mounted () {
+  mounted() {
     this.mounted = true;
 
     this.sliceEl = this.$refs.component.$el;
@@ -133,14 +133,14 @@ export default {
   },
   methods: {
     ...mapActions('devise', ['regenerateMedia']),
-    addListeners () {
+    addListeners() {
       window.deviseSettings.$bus.$on('jumpToSlice', this.attemptJumpToSlice);
       window.deviseSettings.$bus.$on('openSliceSettings', this.attemptOpenSliceSettings);
       window.deviseSettings.$bus.$on('markSlice', this.markSlice);
 
       this.addVisibilityScrollListeners();
     },
-    hydrateMissingProperties () {
+    hydrateMissingProperties() {
       const { fields } = this.sliceConfig(this.devise);
 
       if (fields) {
@@ -159,7 +159,7 @@ export default {
         }
       }
     },
-    addMissingProperty (field) {
+    addMissingProperty(field) {
       // We just add all the properties to ensure there are not undefined props down the line
       const defaultProperties = {
         text: null,
@@ -174,7 +174,7 @@ export default {
       const mergedData = Object.assign({}, defaultProperties, this.deviseForSlice[field]);
       this.$set(this.deviseForSlice, field, mergedData);
     },
-    checkDefaults () {
+    checkDefaults() {
       const { fields } = this.sliceConfig(this.devise);
 
       if (fields) {
@@ -191,14 +191,14 @@ export default {
         }
       }
     },
-    addFieldConfigurations (fields, field) {
+    addFieldConfigurations(fields, field) {
       for (const pp in fields[field]) {
         if (!this.deviseForSlice[field].hasOwnProperty(pp)) {
           this.$set(this.deviseForSlice[field], pp, fields[field][pp]);
         }
       }
     },
-    setDefaults (property, defaults) {
+    setDefaults(property, defaults) {
       // loop through the defaults and apply them to the field
       for (const d in defaults) {
         if (
@@ -209,7 +209,7 @@ export default {
         }
       }
     },
-    cleanupImageFields () {
+    cleanupImageFields() {
       // If the current slice even has fields
       if (typeof this.currentView.fields !== 'undefined') {
         for (const fieldName in this.currentView.fields) {
@@ -217,7 +217,11 @@ export default {
             const field = this.currentView.fields[fieldName];
 
             // If the field is an image
-            if (this.devise[fieldName] && field.type === 'image' && this.devise[fieldName].url !== null) {
+            if (
+              this.devise[fieldName] &&
+              field.type === 'image' &&
+              this.devise[fieldName].url !== null
+            ) {
               // do a little cleanup
               delete this.devise[fieldName].sizes;
               this.$set(this.devise[fieldName], 'sizes', field.sizes);
@@ -226,7 +230,7 @@ export default {
         }
       }
     },
-    checkMediaSizesForRegeneration () {
+    checkMediaSizesForRegeneration() {
       // If the current slice even has fields
       if (typeof this.currentView.fields !== 'undefined') {
         for (const fieldName in this.currentView.fields) {
@@ -255,18 +259,16 @@ export default {
         }
       }
     },
-    determineMediaRegenerationNeeds (field, fieldName) {
+    determineMediaRegenerationNeeds(field, fieldName) {
       // Check if all the sizes in the configuration are present in the media property
       for (const sizeName in field.sizes) {
         if (
           field.sizes.hasOwnProperty(sizeName) &&
-          (
-            typeof this.devise[fieldName].media[sizeName] === 'undefined' ||
-            !this.devise[fieldName].media[sizeName]
-          )
+          (typeof this.devise[fieldName].media[sizeName] === 'undefined' ||
+            !this.devise[fieldName].media[sizeName])
         ) {
-          this.makeMediaRegenerationRequest(field, fieldName)
-          return true
+          this.makeMediaRegenerationRequest(field, fieldName);
+          return true;
         }
       }
 
@@ -277,23 +279,29 @@ export default {
           const storedSize = this.devise[fieldName].media[sizeName];
 
           if (storedSize) {
-            import(/* webpackChunkName: "devise-slice-admin" */ 'query-string').then(({ default: queryString }) => {
-              const paramsIndex = storedSize.indexOf("?");
-              const paramsString = storedSize.substring(paramsIndex)
-              const params = queryString.parse(paramsString);
+            import(/* webpackChunkName: "devise-slice-admin" */ 'query-string')
+              .then(({ default: queryString }) => {
+                const paramsIndex = storedSize.indexOf('?');
+                const paramsString = storedSize.substring(paramsIndex);
+                const params = queryString.parse(paramsString);
 
-              if (!params || parseInt(params.w, 0) !== parseInt(fieldSize.w, 0) || parseInt(params.h, 0) !== parseInt(fieldSize.h, 0)) {
-                this.makeMediaRegenerationRequest(field, fieldName)
-                return true
-              }
-            }).catch(() => 'An error occurred while loading the component');
+                if (
+                  !params ||
+                  parseInt(params.w, 0) !== parseInt(fieldSize.w, 0) ||
+                  parseInt(params.h, 0) !== parseInt(fieldSize.h, 0)
+                ) {
+                  this.makeMediaRegenerationRequest(field, fieldName);
+                  return true;
+                }
+              })
+              .catch(() => 'An error occurred while loading the component');
           }
         }
       }
 
-      return false
+      return false;
     },
-    makeMediaRegenerationRequest (field, fieldName) {
+    makeMediaRegenerationRequest(field, fieldName) {
       // Build the request payload
       const payload = {
         allSizes: field.sizes,
@@ -305,40 +313,40 @@ export default {
       this.regenerateMedia(payload).then(() => {
         window.deviseSettings.$bus.$emit('showMessage', {
           title: 'New Images Generated',
-          message: `Pro tip: Some new sizes were generated for a slice you were working on (Field: ${
-            payload.fieldName
-            }) You may need to refresh.`,
+          message: `Pro tip: Some new sizes were generated for a slice you were working on (Field: ${payload.fieldName}) You may need to refresh.`,
         });
       });
     },
-    attemptJumpToSlice (slice) {
+    attemptJumpToSlice(slice) {
       if (this.devise.metadata && slice.metadata) {
         if (this.devise.metadata.instance_id === slice.metadata.instance_id) {
-          import(/* webpackChunkName: "devise-slice-admin" */ 'mezr').then(({ default: mezr }) => {
-            try {
-              const offset = mezr.offset(this.sliceEl, 'margin');
-              window.scrollTo({
-                top: offset.top,
-                behavior: 'smooth',
-              });
-            } catch (error) {
-              /* eslint-disable no-console */
-              console.warn(
-                'Devise Warning: There may be a problem with this slice. Try wrapping the template in a single <div> to resolve and prevent children components to be at the root level.'
-              );
-            }
-          }).catch(() => 'An error occurred while loading the component');
+          import(/* webpackChunkName: "devise-slice-admin" */ 'mezr')
+            .then(({ default: mezr }) => {
+              try {
+                const offset = mezr.offset(this.sliceEl, 'margin');
+                window.scrollTo({
+                  top: offset.top,
+                  behavior: 'smooth',
+                });
+              } catch (error) {
+                /* eslint-disable no-console */
+                console.warn(
+                  'Devise Warning: There may be a problem with this slice. Try wrapping the template in a single <div> to resolve and prevent children components to be at the root level.'
+                );
+              }
+            })
+            .catch(() => 'An error occurred while loading the component');
         }
       }
     },
-    attemptOpenSliceSettings (slice) {
+    attemptOpenSliceSettings(slice) {
       if (this.devise.metadata && slice.metadata) {
         if (this.devise === slice) {
           window.deviseSettings.$bus.$emit('open-slice-settings', this.deviseForSlice);
         }
       }
     },
-    markSlice (slice, on) {
+    markSlice(slice, on) {
       if (slice === this.devise) {
         const markers = document.getElementsByClassName('devise-component-marker');
         while (markers.length > 0) {
@@ -361,9 +369,7 @@ export default {
             </div>`;
               marker.classList =
                 'devise-component-marker dvs-absolute dvs-bg-black dvs-z-60 dvs-opacity-75';
-              marker.style.cssText = `top:${offset.top}px;left:${
-                offset.left
-                }px;width:${width}px;height:${height}px`;
+              marker.style.cssText = `top:${offset.top}px;left:${offset.left}px;width:${width}px;height:${height}px`;
               document.body.appendChild(marker);
             } catch (error) {
               console.warn(
@@ -371,10 +377,10 @@ export default {
               );
             }
           }
-        })
+        });
       }
     },
-    addVisibilityScrollListeners () {
+    addVisibilityScrollListeners() {
       if (
         (typeof this.$refs.component.isVisible !== 'undefined' ||
           typeof this.$refs.component.isHidden !== 'undefined') &&
@@ -394,12 +400,12 @@ export default {
         });
       }
     },
-    checkVisible (elm) {
+    checkVisible(elm) {
       const rect = elm.getBoundingClientRect();
       const viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
       return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
     },
-    buildStyles (styles, margin, padding) {
+    buildStyles(styles, margin, padding) {
       if (typeof margin !== 'undefined') {
         if (typeof margin.top !== 'undefined') {
           styles.marginTop = `${margin.top}px`;
@@ -433,6 +439,5 @@ export default {
       return styles;
     },
   },
-  
 };
 </script>
