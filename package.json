@@ -1,20 +1,17 @@
 {
   "name": "devisephp-interface",
   "version": "2.1.0-beta.9",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/devisephp/interface"
-  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "dev": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "dev": "vue-cli-service build"
   },
+  "main": "./src/main.js",
   "dependencies": {
     "axios": "^0.18.1",
     "babel-helper-vue-jsx-merge-props": "^2.0.3",
+    "core-js": "^3.4.3",
     "cropperjs": "^1.5.1",
     "dayjs": "^1.8.4",
     "filesize": "^4.1.2",
@@ -29,7 +26,6 @@
     "qs": "^6.6.0",
     "query-string": "^6.7.0",
     "resize-observer-polyfill": "^1.5.1",
-    "set-value": "^3.0.0",
     "strict-uri-encode": "^1.1.0",
     "text-clipper": "^1.2.2",
     "tinycolor2": "^1.4.1",
@@ -49,9 +45,9 @@
     "vuex-router-sync": "^5.0.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.4.0",
-    "@vue/cli-plugin-eslint": "^3.4.0",
-    "@vue/cli-service": "^3.4.0",
+    "@vue/cli-plugin-babel": "^4.1.1",
+    "@vue/cli-plugin-eslint": "^4.1.1",
+    "@vue/cli-service": "^4.1.1",
     "@vue/eslint-config-airbnb": "^4.0.0",
     "autoprefixer": "^9.4.7",
     "babel-eslint": "^10.0.1",
@@ -61,8 +57,6 @@
     "eslint-config-prettier": "^4.0.0",
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-vue": "^5.0.0",
-    "fstream": "^1.0.12",
-    "lodash": "^4.17.15",
     "node-sass": "^4.9.0",
     "prettier": "^1.16.4",
     "sass-loader": "^7.1.0",
@@ -103,5 +97,13 @@
     "last 2 versions",
     "not ie <= 8"
   ],
-  "main": "./src/main.js"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/devisephp/interface"
+  },
+  "resolutions": {
+    "set-value": "^3.0.0",
+    "serialize-javascript": ">=2.1.1"
+  }
 }
