@@ -84,6 +84,8 @@ export default function(el, binding) {
 
           if (image.alt) {
             el.alt = image.alt;
+          } else if (image.caption) {
+            el.alt = image.caption;
           }
 
           if (!noSize && theSize !== null && theSize.settings) {

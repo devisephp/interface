@@ -8,10 +8,10 @@
         class="dvs-bg-transparent dvs-border-b-2 dvs-px-12 dvs-py-2 dvs-text-admin-fg dvs-outline-none dvs-placeholder-admin-fg dvs-text-center"
         :placeholder="value.label"
         @keyup="requestSearch"
-      >
+      />
       <div
         class="dvs-cursor-pointer"
-        :class="{'dvs-opacity-50': filter === ''}"
+        :class="{ 'dvs-opacity-50': filter === '' }"
         @click="resetSearch"
       >
         <x-icon></x-icon>
@@ -31,7 +31,9 @@
             :key="subkey"
             class="dvs-mr-4 dvs-text-xs dvs-leading-tight"
           >
-            <div class="dvs-uppercase dvs-text-xs dvs-text-admin-secondary-fg">{{ subField.label }}</div>
+            <div class="dvs-uppercase dvs-text-xs dvs-text-admin-secondary-fg">
+              {{ subField.label }}
+            </div>
             <div>{{ format(subField) }}</div>
           </li>
         </ul>
@@ -39,14 +41,14 @@
     </ul>
     <draggable
       v-bind="{
-          group: {name: 'g1'},
-          animation:200,
-          ghostClass: 'dvs-ghost',
-          handle: '.handle',
-          dragClass: 'dvs-chosen-drag-slice',
-          emptyInsertThreshold: 10,
-          removeCloneOnHide: false
-        }"
+        group: { name: 'g1' },
+        animation: 200,
+        ghostClass: 'dvs-ghost',
+        handle: '.handle',
+        dragClass: 'dvs-chosen-drag-slice',
+        emptyInsertThreshold: 10,
+        removeCloneOnHide: false,
+      }"
       :list="selected"
       tag="ul"
       class="dvs-list-reset"
@@ -56,16 +58,10 @@
         :key="key"
         class="dvs-flex dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-shadow hover:dvs-shadow-lg dvs-rounded dvs-my-4 dvs-p-4 dvs-cursor-pointer"
       >
-        <div
-          v-if="modelQuerySettings.allowSort"
-          class="dvs-mr-4 handle"
-        >
+        <div v-if="modelQuerySettings.allowSort" class="dvs-mr-4 handle">
           <menu-icon></menu-icon>
         </div>
-        <div
-          v-if="suggestion.displayFields"
-          class="dvs-w-full"
-        >
+        <div v-if="suggestion.displayFields" class="dvs-w-full">
           <div class="dvs-text-lg dvs-mb-2">{{ suggestion.displayFields[0].value }}</div>
 
           <ul class="dvs-list-reset dvs-flex">
@@ -79,10 +75,7 @@
             </li>
           </ul>
         </div>
-        <div
-          class="dvs-cursor-pointer"
-          @click="removeSuggestion(suggestion)"
-        >
+        <div class="dvs-cursor-pointer" @click="removeSuggestion(suggestion)">
           <x-icon></x-icon>
         </div>
       </li>
@@ -91,95 +84,96 @@
 </template>
 
 <script>
-import dayjs from 'dayjs'
-import { mapActions } from 'vuex'
+import dayjs from 'dayjs';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'DeviseQuerySelectorSearch',
   components: {
     draggable: () => import(/* webpackChunkName: "devise-editors" */ 'vuedraggable'),
     XIcon: () => import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/XIcon'),
-    MenuIcon: () => import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/MenuIcon'),
+    MenuIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/MenuIcon'),
   },
   props: {
     value: {
       type: Array,
-      required: true
+      required: true,
     },
     modelQuery: {
       type: Object,
-      required: true
+      required: true,
     },
     modelQuerySettings: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
-  data () {
+  data() {
     return {
       filter: null,
       autosuggest: {
         data: [],
-      }
-    }
+      },
+    };
   },
   computed: {
     selected: {
-      get () {
-        return this.value
+      get() {
+        return this.value;
       },
-      set (newValue) {
-        this.$emit('input', newValue)
-      }
+      set(newValue) {
+        this.$emit('input', newValue);
+      },
     },
-    filteredSuggestions () {
+    filteredSuggestions() {
       if (this.autosuggest.data) {
         return this.autosuggest.data.filter(suggestion => {
           return !this.selected.find(select => {
-            return suggestion === select
-          })
-        })
+            return suggestion === select;
+          });
+        });
       }
       return [];
-    }
+    },
   },
-  mounted () {
+  mounted() {
     if (this.value && this.value.length > 0) {
-      this.requestLegacySelected()
+      this.requestLegacySelected();
     }
   },
   methods: {
     ...mapActions('devise', ['appGenericSearch', 'getGeneric']),
-    selectSuggestion (suggestion) {
-      this.selected.push(suggestion)
-      this.resetSearch()
+    selectSuggestion(suggestion) {
+      this.selected.push(suggestion);
+      this.resetSearch();
     },
-    removeSuggestion (suggestion) {
-      this.resetSearch()
-      this.selected.splice(this.selected.indexOf(suggestion), 1)
+    removeSuggestion(suggestion) {
+      this.resetSearch();
+      this.selected.splice(this.selected.indexOf(suggestion), 1);
     },
-    resetSearch () {
-      this.filter = null
-      this.$set(this.autosuggest, 'data', [])
+    resetSearch() {
+      this.filter = null;
+      this.$set(this.autosuggest, 'data', []);
     },
-    requestSearch (e) {
+    requestSearch(e) {
       const term = e.target.value;
 
       if (term !== '') {
-        const selectedIds = []
+        const selectedIds = [];
 
         this.selected.forEach(s => {
-          selectedIds.push(s.id)
-        })
+          selectedIds.push(s.id);
+        });
 
         const searchData = {
           searchterm: term,
-          selected: selectedIds
+          selected: selectedIds,
         };
 
         this.appGenericSearch({
           config: { apiendpoint: this.modelQuery.params[0].api },
-          filters: searchData
+          filters: searchData,
         }).then(results => {
           this.autosuggest = results.data;
           if (results.data.length < 1) {
@@ -193,35 +187,37 @@ export default {
         this.autosuggest = Object.assign({}, {});
       }
     },
-    subLabelFields (displayFields) {
+    subLabelFields(displayFields) {
       const secondaryFields = JSON.parse(JSON.stringify(displayFields));
-      secondaryFields.shift()
+      secondaryFields.shift();
       return secondaryFields;
     },
-    format (field) {
+    format(field) {
       if (field.dateFormat) {
-        return dayjs(field.value).format(field.dateFormat)
+        return dayjs(field.value).format(field.dateFormat);
       }
-      return field.value
+      return field.value;
     },
-    requestLegacySelected () {
+    requestLegacySelected() {
       if (this.modelQuery.params[0].editApi) {
         this.getGeneric({
           config: {
             apiendpoint: this.modelQuery.params[0].editApi,
-            app: true
+            app: true,
           },
           filters: {
-            ids: this.value.join(',')
-          }
+            ids: this.value.join(','),
+          },
         }).then(response => {
-          this.selected = [...response.data.data]
-        })
+          this.selected = [...response.data.data];
+        });
       } else {
         // eslint-disable-next-line no-console
-        console.warn('Devise: You must have an editApi endpoint configured AppServiceProvider ModelQuery::set to edit model slices')
+        console.warn(
+          'Devise: You must have an editApi endpoint configured AppServiceProvider ModelQuery::set to edit model slices'
+        );
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>

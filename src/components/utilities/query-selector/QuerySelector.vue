@@ -2,34 +2,18 @@
   <div class="dvs-text-admin-fg">
     <fieldset class="dvs-fieldset">
       <label for="querykey">Data Set Query</label>
-      <select
-        id="querykey"
-        v-model="query"
-        name="querykey"
-        class="w-full"
-      >
-        <option
-          :value="null"
-          disabled
-        >
+      <select id="querykey" v-model="query" name="querykey" class="w-full">
+        <option :value="null" disabled>
           Please Select a Data Set Query
         </option>
-        <option
-          v-for="mq in modelQueries"
-          :key="mq.key"
-          :value="mq.key"
-        >{{ mq.description }}</option>
+        <option v-for="mq in modelQueries" :key="mq.key" :value="mq.key">{{
+          mq.description
+        }}</option>
       </select>
     </fieldset>
 
-    <div
-      v-if="selectedModelQuery && selectedModelQuery.params.length > 0"
-      class="dvs-mt-6"
-    >
-      <div
-        v-for="(param, key) in selectedModelQuery.params"
-        :key="key"
-      >
+    <div v-if="selectedModelQuery && selectedModelQuery.params.length > 0" class="dvs-mt-6">
+      <div v-for="(param, key) in selectedModelQuery.params" :key="key">
         <param-search
           v-if="param.type === 'search'"
           v-model="finalModelQuery.params[key]"
@@ -71,78 +55,74 @@ import { mapState } from 'vuex';
 export default {
   name: 'QuerySelector',
   components: {
-    ParamDatetime: () =>
-      import(/* webpackChunkName: "devise-query-selector" */ './Datetime.vue'),
-    ParamSearch: () =>
-      import(/* webpackChunkName: "devise-query-selector" */ './Search.vue'),
-    ParamSelect: () =>
-      import(/* webpackChunkName: "devise-query-selector" */ './Select.vue'),
-    ParamText: () =>
-      import(/* webpackChunkName: "devise-query-selector" */ './Text.vue'),
+    ParamDatetime: () => import(/* webpackChunkName: "devise-query-selector" */ './Datetime.vue'),
+    ParamSearch: () => import(/* webpackChunkName: "devise-query-selector" */ './Search.vue'),
+    ParamSelect: () => import(/* webpackChunkName: "devise-query-selector" */ './Select.vue'),
+    ParamText: () => import(/* webpackChunkName: "devise-query-selector" */ './Text.vue'),
   },
   props: {
     value: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
-  
-  data () {
+
+  data() {
     return {
       query: '',
-      params: []
-    }
+      params: [],
+    };
   },
 
   computed: {
     ...mapState('devise', ['modelQueries']),
     finalModelQuery: {
-      get () {
-        return this.value
+      get() {
+        return this.value;
       },
-      set (newValue) {
-        this.$emit('input', newValue)
+      set(newValue) {
+        this.$emit('input', newValue);
       },
-      deep: true
+      deep: true,
     },
-    selectedModelQuery () {
-      return this.modelQueries.find(mq => mq.key === this.query)
+    selectedModelQuery() {
+      return this.modelQueries.find(mq => mq.key === this.query);
     },
   },
 
   watch: {
     selectedModelQuery: {
-      handler (newValue) {
+      handler(newValue) {
         newValue.params.forEach(() => {
           // may have to change the push data type based on param.type
-          this.finalModelQuery.params.push([])
-        })
-        this.finalModelQuery.key = newValue.key
+          this.finalModelQuery.params.push([]);
+        });
+        this.finalModelQuery.key = newValue.key;
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
 
-  mounted () {
+  mounted() {
     if (this.value && this.value.key) {
-      this.loadPreviousState()
-      this.loadPreviousParams()
+      this.loadPreviousState();
+      this.loadPreviousParams();
     }
   },
   methods: {
-    loadPreviousState () {
-      this.$set(this, 'query', this.value.key)
-      this.params = Object.assign({}, this.value.params)
+    loadPreviousState() {
+      this.$set(this, 'query', this.value.key);
+      this.params = Object.assign({}, this.value.params);
     },
-    loadPreviousParams () {
-      const params = []
+    loadPreviousParams() {
+      const params = [];
       this.selectedModelQuery.params.forEach((p, key) => {
         const param = Object.assign({}, p);
-        this.$set(param, 'value', this.params[key])
-        this.selectedModelQuery.params[key] = Object.assign({}, param)
-      })
-      return params
-    }
-  }
-}
+        this.$set(param, 'value', this.params[key]);
+        this.selectedModelQuery.params[key] = Object.assign({}, param);
+      });
+      return params;
+    },
+  },
+};
 </script>

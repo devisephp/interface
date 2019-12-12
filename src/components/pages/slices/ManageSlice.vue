@@ -164,13 +164,8 @@ export default {
   computed: {
     ...mapGetters('devise', ['componentFromView']),
     ...mapState('devise', ['modelQueries']),
-    slice: {
-      get() {
-        return this.value;
-      },
-      set(newValue) {
-        this.$emit('input', Object.assign({}, newValue));
-      },
+    slice() {
+      return Object.assign({}, this.value);
     },
     modelQueryFormatted() {
       if (this.modelQuery && this.modelQuery.key) {
@@ -223,7 +218,7 @@ export default {
       // If slice is set it's an edit
       if (this.slice && this.slice.metadata) {
         this.managedSlice.type = this.slice.metadata.type;
-        this.modelQuery = this.slice.metadata.model_query;
+        this.modelQuery = JSON.parse(JSON.stringify(this.slice.metadata.model_query));
       }
     });
   },
@@ -286,7 +281,7 @@ export default {
       this.$emit('addSlice', this.buildSlice());
     },
     editSlice() {
-      this.slice = Object.assign({}, this.buildSlice());
+      this.$emit('input', Object.assign({}, this.buildSlice()));
     },
     removeSlice() {
       this.$emit('removeSlice');

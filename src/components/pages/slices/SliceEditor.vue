@@ -1,11 +1,10 @@
 <template>
   <!-- eslint-disable vue/valid-v-for -->
   <!-- eslint-disable vue/no-v-html -->
-  <li
-    class="dvs-collapsable dvs-mb-4"
-    :class="{'dvs-open': sliceOpen}"
-  >
-    <strong class="dvs-block dvs-mb-2 dvs-switch-sm dvs-text-sm dvs-flex dvs-justify-between dvs-items-center dvs-w-full">
+  <li class="dvs-collapsable dvs-mb-4" :class="{ 'dvs-open': sliceOpen }">
+    <strong
+      class="dvs-block dvs-mb-2 dvs-switch-sm dvs-text-sm dvs-flex dvs-justify-between dvs-items-center dvs-w-full"
+    >
       <div class="dvs-flex dvs-items-center dvs-justify-between dvs-w-full dvs-px-4">
         <div class="dvs-flex dvs-items-center dvs-w-full">
           <div class="handle dvs-mr-2 dvs-cursor-move dvs-text-admin-fg dvs-opacity-50">
@@ -14,7 +13,7 @@
           <div
             dusk="slice-label"
             class="dvs-relative dvs-w-full dvs-cursor-pointer dvs-text-admin-fg"
-            :class="{'dvs-opacity-75': !sliceHasFieldsOrSlices}"
+            :class="{ 'dvs-opacity-75': !sliceHasFieldsOrSlices }"
             @click="toggleSlice()"
             @mouseenter="markSlice(true, slice)"
             @mouseleave="markSlice(false, slice)"
@@ -43,22 +42,19 @@
       @removeSlice="removeSlice"
     />
 
-    <div
-      v-if="sliceOpen"
-      class="dvs-collapsed dvs-px-4"
-    >
+    <div v-if="sliceOpen" class="dvs-collapsed dvs-px-4">
       <div class="dvs-pt-2 dvs-flex dvs-items-end dvs-flex-wrap">
         <div>
           <div
             class="dvs-opacity-50 hover:dvs-opacity-100 dvs-text-xs dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-rounded dvs-mr-1 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-rounded-sm dvs-p-2"
             style="width:50px;"
-            :class="{'dvs-cursor-pointer': hasChildSlot, 'dvs-cursor-not-allowed dvs-opacity-50': !hasChildSlot}"
+            :class="{
+              'dvs-cursor-pointer': hasChildSlot,
+              'dvs-cursor-not-allowed dvs-opacity-50': !hasChildSlot,
+            }"
             @click="requestInsertSlice()"
           >
-            <add-icon
-              w="25"
-              h="25"
-            />
+            <add-icon w="25" h="25" />
             <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Slice</div>
           </div>
         </div>
@@ -69,10 +65,7 @@
             style="width:50px;"
             @click="jumpToSlice()"
           >
-            <locate-icon
-              w="25"
-              h="25"
-            />
+            <locate-icon w="25" h="25" />
             <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Find</div>
           </div>
         </div>
@@ -83,10 +76,7 @@
             style="width:50px;"
             @click="copySlice(slice, false)"
           >
-            <copy-icon
-              w="25"
-              h="25"
-            />
+            <copy-icon w="25" h="25" />
             <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Duplicate</div>
           </div>
         </div>
@@ -97,10 +87,7 @@
             style="width:50px;"
             @click="sliceSettings()"
           >
-            <cog-icon
-              w="25"
-              h="25"
-            />
+            <cog-icon w="25" h="25" />
             <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Settings</div>
           </div>
         </div>
@@ -111,10 +98,7 @@
             style="width:50px;"
             @click="requestEditSlice()"
           >
-            <create-icon
-              w="25"
-              h="25"
-            />
+            <create-icon w="25" h="25" />
             <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Edit</div>
           </div>
         </div>
@@ -125,10 +109,7 @@
             style="width:50px;"
             @click="removeSlice()"
           >
-            <remove-icon
-              w="25"
-              h="25"
-            />
+            <remove-icon w="25" h="25" />
             <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Remove</div>
           </div>
         </div>
@@ -139,10 +120,7 @@
             style="width:50px;"
             @click="requestCopyToAnotherPage()"
           >
-            <copy-icon
-              w="25"
-              h="25"
-            />
+            <copy-icon w="25" h="25" />
             <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Copy</div>
           </div>
         </div>
@@ -156,12 +134,12 @@
       />
     </div>
 
-    <div
-      v-if="slice.metadata.type === 'model'"
-      class="dvs-collapsed dvs-px-6 dvs-text-sm"
-    >
+    <div v-if="slice.metadata.type === 'model'" class="dvs-collapsed dvs-px-6 dvs-text-sm">
       <div class="dvs-mb-8">
-        <help>Be aware that these entries are model entries. That means they are managed in your database by another tool or by an admin section in your adminitration.</help>
+        <help
+          >Be aware that these entries are model entries. That means they are managed in your
+          database by another tool or by an admin section in your adminitration.</help
+        >
       </div>
 
       <div
@@ -176,19 +154,15 @@
         >
           <link-icon></link-icon>
         </div>
-        <div
-          class="dvs-mb-2 dvs-ml-4"
-          v-html="buildEditorLabel(record, null)"
-        ></div>
+        <div class="dvs-mb-2 dvs-ml-4" v-html="buildEditorLabel(record, null)"></div>
       </div>
-
     </div>
     <div
       v-if="hasChildSlot"
       class="dvs-collapsed dvs-px-4 dvs-pl-6 dvs-mt-6"
       :style="{
-          minHeight: '15px'
-        }"
+        minHeight: '15px',
+      }"
     >
       <draggable
         v-if="slice.metadata.type !== 'model'"
@@ -197,13 +171,13 @@
         tag="ul"
         class="dvs-list-reset dvs-bg-admin-secondary-bg dvs-rounded-lg dvs-py-1 dvs-pt-3 dvs-mt-1 dvs-mb-6"
         v-bind="{
-          group: {name: 'slices'},
-          animation:200,
+          group: { name: 'slices' },
+          animation: 200,
           ghostClass: 'dvs-ghost',
           handle: '.handle',
           dragClass: 'dvs-chosen-drag-slice',
           emptyInsertThreshold: 10,
-          removeCloneOnHide: false
+          removeCloneOnHide: false,
         }"
       >
         <template v-for="(s, k) in sliceSlices">
@@ -222,7 +196,8 @@
         v-if="sliceSlices.length < 1"
         class="dvs-p-4 dvs-text-xs dvs-leading-normal dvs-instructions"
       >
-        You can add child slices by dragging them here or by using the menu above and selecting "+ Slice"
+        You can add child slices by dragging them here or by using the menu above and selecting "+
+        Slice"
       </div>
     </div>
   </li>
@@ -254,7 +229,8 @@ export default {
     RemoveIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/TrashIcon'),
     SliceEditor: () => import(/* webpackChunkName: "devise-editors" */ './SliceEditor'),
-    SliceEditorFields: () => import(/* webpackChunkName: "devise-editors" */ './SliceEditorFields'),
+    SliceEditorFields: () =>
+      import(/* webpackChunkName: "devise-editors" */ './SliceEditorFields'),
     CopySliceToPage: () => import(/* webpackChunkName: "devise-editors" */ './CopySliceToPage'),
     Help: () => import(/* webpackChunkName: "devise-utilities" */ '../../utilities/Help'),
   },
@@ -262,14 +238,14 @@ export default {
   props: {
     value: {
       type: Object,
-      required: true
+      required: true,
     },
     child: {
       type: Boolean,
       default: false,
     },
   },
-  data () {
+  data() {
     return {
       showDropZone: false,
       manageSlice: false,
@@ -283,23 +259,23 @@ export default {
     ...mapGetters('devise', ['component', 'fieldConfig', 'sliceConfig']),
     ...mapState('devise', ['devMode']),
     slice: {
-      get () {
+      get() {
         return this.value;
       },
-      set (newValue) {
-        this.$emit('input', newValue)
+      set(newValue) {
+        this.$emit('input', newValue);
       },
     },
     sliceSlices: {
-      get () {
-        return (this.value.slices) ? this.value.slices : []
+      get() {
+        return this.value.slices ? this.value.slices : [];
       },
-      set (newValue) {
-        this.$emit('input', newValue)
+      set(newValue) {
+        this.$emit('input', newValue);
       },
     },
     sliceToManage: {
-      get () {
+      get() {
         if (this.manageSliceMode === 'editing') {
           // Edit
           return this.value;
@@ -307,11 +283,11 @@ export default {
         // Insert
         return {};
       },
-      set (newValue) {
-        this.$emit('input', newValue)
-      }
+      set(newValue) {
+        this.$emit('input', newValue);
+      },
     },
-    theFields () {
+    theFields() {
       const fields = {};
       for (const potentialField in this.slice) {
         if (
@@ -329,7 +305,7 @@ export default {
       }
       return fields;
     },
-    sliceHasFieldsOrSlices () {
+    sliceHasFieldsOrSlices() {
       let count = Object.keys(this.theFields).length;
       if (this.slice.slices) {
         count += this.slice.slices.length;
@@ -337,7 +313,7 @@ export default {
 
       return count > 0;
     },
-    hasChildSlot () {
+    hasChildSlot() {
       const component = this.component(this.slice.metadata.name);
 
       if (component.has_child_slot) {
@@ -346,55 +322,55 @@ export default {
 
       return false;
     },
-    editorLabel () {
-      return this.buildEditorLabel(this.theFields, this.slice.metadata.instance_id)
-    }
+    editorLabel() {
+      return this.buildEditorLabel(this.theFields, this.slice.metadata.instance_id);
+    },
   },
 
-  mounted () {
+  mounted() {
     if (this.slice.slices) {
       this.pageSlices = this.slice.slices;
     }
   },
   methods: {
-    toggleSlice () {
+    toggleSlice() {
       this.sliceOpen = !this.sliceOpen;
     },
-    toggleSliceTools () {
+    toggleSliceTools() {
       this.slice.metadata.tools = !this.slice.metadata.tools;
     },
 
     // Marking Slice
-    markSlice (on) {
+    markSlice(on) {
       window.window.deviseSettings.$bus.$emit('markSlice', this.slice, on);
     },
-    jumpToSlice () {
+    jumpToSlice() {
       window.window.deviseSettings.$bus.$emit('jumpToSlice', this.slice);
     },
-    sliceSettings () {
+    sliceSettings() {
       window.window.deviseSettings.$bus.$emit('openSliceSettings', this.slice);
     },
 
     // Navigating Models
-    goToModel (model) {
+    goToModel(model) {
       this.$router.push({ name: model.settings.admin.route, params: model.settings.admin.params });
     },
 
     // Adding, Editing and Removing Slices
-    requestInsertSlice () {
+    requestInsertSlice() {
       if (this.hasChildSlot) {
         this.manageSliceMode = 'inserting';
         this.manageSlice = true;
       }
     },
-    addSlice (slice, referringSlice) {
+    addSlice(slice, referringSlice) {
       if (typeof referringSlice === 'undefined') {
         referringSlice = this.slice;
       }
       this.$emit('addSlice', slice, referringSlice);
       this.manageSlice = false;
     },
-    requestEditSlice () {
+    requestEditSlice() {
       this.manageSliceMode = 'editing';
       this.manageSlice = true;
       this.$nextTick(() => {
@@ -403,11 +379,11 @@ export default {
         }
       });
     },
-    editSlice (slice) {
-      this.slice = Object.assign({}, slice)
+    editSlice(slice) {
+      this.slice = Object.assign({}, slice);
       this.manageSlice = false;
     },
-    copySlice (slice, referringSlice) {
+    copySlice(slice, referringSlice) {
       if (referringSlice === null) {
         referringSlice = Object.assign({}, this.slice);
       }
@@ -418,7 +394,7 @@ export default {
 
       this.$emit('copySlice', slice, referringSlice);
     },
-    removeSlice (slice, referringSlice) {
+    removeSlice(slice, referringSlice) {
       if (typeof slice === 'undefined') {
         slice = this.slice; // eslint-disable-line
       } else if (typeof referringSlice === 'undefined') {
@@ -427,18 +403,18 @@ export default {
       this.$emit('removeSlice', slice, referringSlice);
       this.manageSlice = false;
     },
-    requestCopyToAnotherPage () {
-      this.showCopyToAnotherPage = true
+    requestCopyToAnotherPage() {
+      this.showCopyToAnotherPage = true;
     },
-    editField (payload) {
-      const { key, field, value } = payload
+    editField(payload) {
+      const { key, field, value } = payload;
       // Update the slice field
       this.slice[key] = Object.assign({}, value);
 
       // Send out the notification
       window.deviseSettings.$bus.$emit('devise-field-edited', { field, value });
     },
-    buildEditorLabel (fields, instanceId) {
+    buildEditorLabel(fields, instanceId) {
       const acceptedFieldTypes = {
         text: 'text',
         number: 'text',
@@ -450,9 +426,7 @@ export default {
 
       let devMode = '';
       if (this.devMode) {
-        devMode = `<div class="dvs-text-sm dvs-uppercase dvs-opacity-75">Instance Id: ${
-          instanceId
-          }</div>`;
+        devMode = `<div class="dvs-text-sm dvs-uppercase dvs-opacity-75">Instance Id: ${instanceId}</div>`;
       }
 
       for (const field in fields) {
@@ -469,19 +443,14 @@ export default {
             }
 
             if (label) {
-              return `${devMode}<div class="dvs-text-xs dvs-opacity-25 dvs-uppercase dvs-leading-tight">${
-                this.slice.metadata.label
-                }</div>
+              return `${devMode}<div class="dvs-text-xs dvs-opacity-25 dvs-uppercase dvs-leading-tight">${this.slice.metadata.label}</div>
                 <div class="dvs-capitalize">${label}</div>`;
             }
           }
         }
       }
-      return `${devMode}<div class="dvs-capitalize">${
-        this.slice.metadata.label
-        }</div>`;
-    }
+      return `${devMode}<div class="dvs-capitalize">${this.slice.metadata.label}</div>`;
+    },
   },
-
 };
 </script>

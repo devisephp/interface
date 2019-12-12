@@ -1,14 +1,10 @@
 <template>
-  <div
-    id="devise-admin"
-    :class="[deviseOptions.adminClass]"
-  >
-
+  <div id="devise-admin" :class="[deviseOptions.adminClass]">
     <transition name="fast-fade">
       <div
         v-show="!showAdmin"
         class="dvs-sidebar-hint dvs-p-3"
-        :class="{'opacity-100': !showAdmin}"
+        :class="{ 'opacity-100': !showAdmin }"
         @click="showAdmin = true"
       >
         <power-icon></power-icon>
@@ -19,7 +15,7 @@
       <div
         v-show="showAdmin"
         class="dvs-blocker"
-        :class="{'opacity-0': fieldOpen}"
+        :class="{ 'opacity-0': fieldOpen }"
         @click="showAdmin = false"
       ></div>
     </transition>
@@ -29,25 +25,19 @@
         v-show="showAdmin && !fieldOpen"
         class="dvs-m-8 dvs-fixed dvs-pin dvs-z-9980 dvs-flex dvs-pointer-events-none"
       >
-        <div class="dvs-flex dvs-shadow dvs-flex-col dvs-relative dvs-rounded dvs-bg-admin-bg dvs-pointer-events-auto">
+        <div
+          class="dvs-flex dvs-shadow dvs-flex-col dvs-relative dvs-rounded dvs-bg-admin-bg dvs-pointer-events-auto"
+        >
           <preview-mode />
 
           <template v-for="(menuItem, key) in allowedAdminMenu">
-            <div
-              :key="key"
-              class="dvs-border-b dvs-border-admin-secondary-bg"
-            >
+            <div :key="key" class="dvs-border-b dvs-border-admin-secondary-bg">
               <button
                 :class="checkActivePanelSidebar(menuItem)"
                 class="dvs-outline-none dvs-transitions-hover-slow dvs-cursor-pointer dvs-text-admin-fg"
                 @click.prevent="loadAdminPage(menuItem)"
               >
-                <component
-                  :is="menuItem.icon"
-                  class="dvs-m-4"
-                  w="25"
-                  h="25"
-                ></component>
+                <component :is="menuItem.icon" class="dvs-m-4" w="25" h="25"></component>
               </button>
             </div>
           </template>
@@ -56,32 +46,15 @@
             class="dvs-outline-none dvs-transitions-hover-slow dvs-cursor-pointer dvs-text-admin-fg"
             onclick="event.preventDefault(); document.getElementById('dvs-logout-form').submit();"
           >
-            <power-icon
-              class="dvs-m-4"
-              w="25"
-              h="25"
-            />
+            <power-icon class="dvs-m-4" w="25" h="25" />
           </a>
 
-          <form
-            id="dvs-logout-form"
-            action="/logout"
-            method="POST"
-            style="display: none;"
-          >
-            <input
-              type="hidden"
-              name="_token"
-              :value="csrf_field"
-            >
+          <form id="dvs-logout-form" action="/logout" method="POST" style="display: none;">
+            <input type="hidden" name="_token" :value="csrf_field" />
           </form>
         </div>
         <div class="dvs-flex dvs-w-full">
-
-          <transition
-            name="dvs-fade"
-            mode="out-in"
-          >
+          <transition name="dvs-fade" mode="out-in">
             <router-view name="devise"></router-view>
           </transition>
         </div>
@@ -124,10 +97,12 @@ export default {
       import(/* webpackChunkName: "devise-previewmode" */ '../pages/PreviewMode.vue'),
     BackIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ArrowLeftIcon'),
-    CogIcon: () => import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SettingsIcon'),
+    CogIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SettingsIcon'),
     CreateIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/EditIcon'),
-    CubeIcon: () => import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/BoxIcon'),
+    CubeIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/BoxIcon'),
     DocumentIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ClipboardIcon'),
     ImageIcon: () =>
@@ -135,43 +110,44 @@ export default {
     Panel: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/Panel.vue'),
     PowerIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/PowerIcon'),
-    SaveIcon: () => import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SaveIcon'),
+    SaveIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/SaveIcon'),
     SliceSettings: () =>
       import(/* webpackChunkName: "devise-slices" */ '../slices/SliceSettings.vue'),
   },
 
-  data () {
+  data() {
     return {
       showAdmin: false,
       everythingIsLoaded: false,
       hideDeviseRootPortal: true,
-      fieldOpen: false
+      fieldOpen: false,
     };
   },
 
   computed: {
     ...mapState('devise', ['adminMenu']),
-    allowedAdminMenu () {
+    allowedAdminMenu() {
       return Object.keys(this.adminMenu)
-        .filter((menuItem) => {
+        .filter(menuItem => {
           if (!this.adminMenu[menuItem].permissions) {
-            return true
+            return true;
           }
-          return this.can(this.adminMenu[menuItem].permissions)
+          return this.can(this.adminMenu[menuItem].permissions);
         })
         .reduce((obj, key) => {
           obj[key] = this.adminMenu[key];
           return obj;
         }, {});
     },
-    user () {
+    user() {
       return window.deviseSettings.$user;
     },
-    csrf_field () {
+    csrf_field() {
       return window.axios.defaults.headers.common['X-CSRF-TOKEN'];
     },
   },
-  mounted () {
+  mounted() {
     Vue.component('help', () =>
       import(/* webpackChunkName: "devise-utilities" */ '../utilities/Help')
     );
@@ -181,19 +157,19 @@ export default {
     }, 2000);
 
     setInterval(() => {
-      this.pollIfLoggedIn()
+      this.pollIfLoggedIn();
     }, 30000);
 
     window.deviseSettings.$bus.$on('devise-showing-field-editor', () => {
-      this.fieldOpen = true
-    })
+      this.fieldOpen = true;
+    });
     window.deviseSettings.$bus.$on('devise-hiding-field-editor', () => {
-      this.fieldOpen = false
-    })
+      this.fieldOpen = false;
+    });
   },
   methods: {
     ...mapActions('devise', ['getLanguages']),
-    loadAdminPage (menuItem) {
+    loadAdminPage(menuItem) {
       if (menuItem.routeName === 'media-manager') {
         window.deviseSettings.$bus.$emit('devise-launch-media-manager', {});
       } else if (typeof menuItem.routeParams !== 'undefined') {
@@ -202,14 +178,14 @@ export default {
         this.goToPage(menuItem.routeName);
       }
     },
-    checkActivePanelSidebar (menuItem) {
+    checkActivePanelSidebar(menuItem) {
       if (this.$route.meta && this.$route.meta.parentRouteName) {
         if (
           this.$route.name === 'devise-pages-view' &&
           this.$route.params.pageId === this.currentPage.id &&
           menuItem.routeName === 'devise-pages-view'
         ) {
-          return [' dvs-bg-admin-highlight-bg dvs-text-admin-highlight-fg']
+          return [' dvs-bg-admin-highlight-bg dvs-text-admin-highlight-fg'];
         }
 
         if (
@@ -217,26 +193,27 @@ export default {
           (this.$route.name !== 'devise-pages-view' ||
             this.$route.params.pageId !== this.currentPage.id)
         ) {
-          return [' dvs-bg-admin-highlight-bg dvs-text-admin-highlight-fg']
+          return [' dvs-bg-admin-highlight-bg dvs-text-admin-highlight-fg'];
         }
       }
 
       return [];
     },
-    pollIfLoggedIn () {
-      this.getLanguages().then(() => { }, () => {
-        window.location.reload(true)
-      })
+    pollIfLoggedIn() {
+      this.getLanguages().then(
+        () => {},
+        () => {
+          window.location.reload(true);
+        }
+      );
     },
-    deviseRootPortalContentChanged (content) {
+    deviseRootPortalContentChanged(content) {
       if (!content.passengers) {
-        this.hideDeviseRootPortal = true
+        this.hideDeviseRootPortal = true;
       } else {
-        this.hideDeviseRootPortal = false
+        this.hideDeviseRootPortal = false;
       }
-    }
+    },
   },
-
-
 };
 </script>
