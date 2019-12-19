@@ -7,6 +7,8 @@
 window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.headers.xsrfHeaderName = 'X-XSRF-TOKEN2';
+window.axios.defaults.headers.xsrfCookieName = 'XSRF-TOKEN2';
 
 /**
  * CSRF Token as a common header with Axios so that

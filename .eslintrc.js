@@ -5,4 +5,7 @@ module.exports = {
   },
   plugins: ['vue'],
   extends: ['eslint:recommended', 'plugin:vue/recommended', 'prettier', 'prettier/vue'],
+  env: {
+    amd: true,
+  },
 };
