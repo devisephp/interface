@@ -42,7 +42,7 @@
             </div>
           </template>
           <a
-            href="/logout}"
+            href="#"
             class="dvs-outline-none dvs-transitions-hover-slow dvs-cursor-pointer dvs-text-admin-fg"
             onclick="event.preventDefault(); document.getElementById('dvs-logout-form').submit();"
           >
