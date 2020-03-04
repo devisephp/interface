@@ -221,10 +221,10 @@ const DevisePlugin = {
     const deviseOptions = Object.assign(
       {
         breakpoints: {
-          mobile: 575,
+          mobile: 640,
           tablet: 768,
-          desktop: 991,
-          largeDesktop: 1199,
+          desktop: 1024,
+          largeDesktop: 1120,
         },
       },
       options

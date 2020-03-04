@@ -2,17 +2,18 @@
   <div>
     <portal-target name="app-root"></portal-target>
 
-    <div
-      id="devise-container"
-      :class="[breakpoint, isPreviewFrame ? 'preview-frame' : '']"
-    >
+    <div id="devise-container" :class="[breakpoint, isPreviewFrame ? 'preview-frame' : '']">
       <administration v-if="can('access admin') && !isPreviewFrame" />
       <messages style="position:relative; z-index:9999" />
 
       <div id="dvs-app-content">
         <!-- Desktop mode in editor or just viewing page -->
         <div
-          v-if="typeof currentPage === 'undefined' || currentPage.previewMode === 'desktop' || isPreviewFrame"
+          v-if="
+            typeof currentPage === 'undefined' ||
+              currentPage.previewMode === 'desktop' ||
+              isPreviewFrame
+          "
           class="devise-content"
         >
           <slot name="on-top"></slot>
@@ -28,19 +29,27 @@
 
           <!-- Logged in - no slices yet -->
           <div
-            v-if="isLoggedIn && typeof currentPage !== 'undefined' && currentPage.slices && currentPage.slices.length < 1"
+            v-if="
+              isLoggedIn &&
+                typeof currentPage !== 'undefined' &&
+                currentPage.slices &&
+                currentPage.slices.length < 1
+            "
             class="dvs-text-center dvs-py-16"
           >
-            <img
-              src="./imgs/logo-devise-painted-1.jpg"
-              class="dvs-mb-32"
-            >
-            <h1 class="dvs-font-sans dvs-font-thin dvs-text-grey-darkest dvs-uppercase dvs-mb-4">Let's Get to Work</h1>
-            <p class="dvs-text-xl dvs-text-grey-darker">Click "Add Slice" on the admin panel to start designing this page!</p>
+            <img src="./imgs/logo-devise-painted-1.jpg" class="dvs-mb-32" />
+            <h1 class="dvs-font-sans dvs-font-thin dvs-text-grey-darkest dvs-uppercase dvs-mb-4">
+              Let's Get to Work
+            </h1>
+            <p class="dvs-text-xl dvs-text-grey-darker">
+              Click "Add Slice" on the admin panel to start designing this page!
+            </p>
           </div>
 
-          <slot name="
-            static-content-bottom"></slot>
+          <slot
+            name="
+            static-content-bottom"
+          ></slot>
           <slot name="on-bottom"></slot>
         </div>
 
@@ -70,36 +79,38 @@ export default {
 
   components: {
     Administration: () =>
-      import(/* webpackChunkName: "devise-administration" */ './components/admin/Administration.vue'),
+      import(
+        /* webpackChunkName: "devise-administration" */ './components/admin/Administration.vue'
+      ),
   },
 
-  data () {
+  data() {
     return {
-      timeToShow: false
-    }
+      timeToShow: false,
+    };
   },
 
   computed: {
     ...mapGetters('devise', ['breakpoint', 'currentUser', 'currentPage']),
-    currentUrl () {
+    currentUrl() {
       return window.location.href;
     },
-    isPreviewFrame () {
+    isPreviewFrame() {
       try {
         return window.self !== window.top;
       } catch (e) {
         return true;
       }
     },
-    isLoggedIn () {
+    isLoggedIn() {
       return this.currentUser;
     },
   },
 
-  created () {
+  created() {
     this.setSizeAndBreakpoint();
   },
-  mounted () {
+  mounted() {
     window.devise = this;
 
     if (this.can('access admin')) {
@@ -113,13 +124,14 @@ export default {
     }
 
     this.$nextTick(() => {
-      this.timeToShow = true
-    })
+      this.timeToShow = true;
+    });
 
+    this.addWatchers();
   },
   methods: {
     ...mapActions('devise', ['setBreakpoint']),
-    initDevise () {
+    initDevise() {
       try {
         if (!this.isPreviewFrame) {
           this.currentPage.previewMode = 'desktop';
@@ -146,27 +158,28 @@ export default {
         }, 10);
       });
     },
-    removeBlocker () {
+    removeBlocker() {
       const blocker = document.getElementById('devise-blocker');
       if (blocker) {
         blocker.classList.add('fade');
       }
     },
-    showMessages () {
-      const { errors } = window.deviseSettings.$messages
+    showMessages() {
+      const { errors } = window.deviseSettings.$messages;
       if (errors) {
-        const keys = Object.keys(errors)
+        const keys = Object.keys(errors);
         for (const key of keys) {
           errors[key].forEach(e => {
             window.deviseSettings.$bus.$emit('showError', `${key}: ${e}`);
-          })
+          });
         }
       }
     },
-    addWatchers () {
-      window.onresize = this.setSizeAndBreakpoint;
+    addWatchers() {
+      window.addEventListener('resize', this.setSizeAndBreakpoint);
     },
-    setSizeAndBreakpoint () {
+    setSizeAndBreakpoint() {
+      console.log('hereddfd');
       const width = window.innerWidth;
       const height = window.innerHeight;
       const breakpoint = this.findBreakpoint(width);
@@ -176,7 +189,7 @@ export default {
         diminsions: { width, height },
       });
     },
-    findBreakpoint (width) {
+    findBreakpoint(width) {
       for (const breakpoint in this.deviseOptions.breakpoints) {
         if (this.deviseOptions.breakpoints.hasOwnProperty(breakpoint)) {
           if (width < this.deviseOptions.breakpoints[breakpoint]) {
@@ -187,7 +200,5 @@ export default {
       return 'ultraWideDesktop';
     },
   },
-
-
 };
 </script>
