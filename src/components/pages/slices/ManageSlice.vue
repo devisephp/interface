@@ -21,11 +21,11 @@
                     class="dvs-flex dvs-justify-between dvs-items-stretch dvs-w-full"
                   >
                     <div
-                      class="dvs-btn dvs-btn-secondary  dvs-text-base dvs-mr-4 dvs-p-8 dvs-w-1/2 dvs-shadow-lg"
+                      class="dvs-btn dvs-btn-secondary dvs-text-base dvs-mr-4 dvs-p-8 dvs-w-1/2 dvs-shadow-lg"
                       @click="managedSlice.type = 'single'"
                     >
                       <div class="dvs-pb-2">Static Slice</div>
-                      <div class="dvs-text-4xl dvs-mb-4">
+                      <div class="dvs-text-4xl dvs-mb-4 dvs-flex dvs-justify-center">
                         <file-text-icon></file-text-icon>
                       </div>
                       <p
@@ -43,7 +43,7 @@
                       @click="managedSlice.type = 'model'"
                     >
                       <div class="dvs-pb-2">Dynamic Slice</div>
-                      <div class="dvs-text-4xl dvs-mb-4">
+                      <div class="dvs-text-4xl dvs-mb-4 dvs-flex dvs-justify-center">
                         <database-icon></database-icon>
                       </div>
                       <p

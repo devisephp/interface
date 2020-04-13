@@ -35,9 +35,8 @@
                 currentPage.slices &&
                 currentPage.slices.length < 1
             "
-            class="dvs-text-center dvs-py-16"
+            class="dvs-text-center dvs-py-16 dvs-w-full dvs-flex dvs-flex-col dvs-py-20"
           >
-            <img src="./imgs/logo-devise-painted-1.jpg" class="dvs-mb-32" />
             <h1 class="dvs-font-sans dvs-font-thin dvs-text-grey-darkest dvs-uppercase dvs-mb-4">
               Let's Get to Work
             </h1>
@@ -179,7 +178,6 @@ export default {
       window.addEventListener('resize', this.setSizeAndBreakpoint);
     },
     setSizeAndBreakpoint() {
-      console.log('hereddfd');
       const width = window.innerWidth;
       const height = window.innerHeight;
       const breakpoint = this.findBreakpoint(width);
