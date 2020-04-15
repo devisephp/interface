@@ -1,46 +1,34 @@
 <template>
-  <div
-    class="dvs-fixed dvs-z-9999"
-    style="top:30px; right:30px;"
-  >
+  <div class="dvs-fixed dvs-z-9999" style="top:30px; right:30px;">
     <div
       v-if="showEditor"
       class="dvs-z-50 dvs-min-w-96 dvs-z-50 dvs-rounded dvs-bg-admin-bg dvs-text-admin-fg dvs-shadow-lg dvs-flex dvs-items-stretch"
+      style="height: calc(100vh - 50px);"
     >
       <div
         id="dvs-admin-sidebar"
         class="dvs-pin-l dvs-z-10 dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg"
         :style="{
-          position:'relative',
+          position: 'relative',
           bottom: 'auto',
-          width:'175px',
-          margin:0
+          width: '175px',
+          margin: 0,
         }"
       >
         <ul>
-          <li
-            class="dvs-cursor-pointer"
-            @click="showType = 'desktop'"
-          >Desktop</li>
-          <li
-            class="dvs-cursor-pointer"
-            @click="showType = 'tablet'"
-          >Tablet</li>
-          <li
-            class="dvs-cursor-pointer"
-            @click="showType = 'mobile'"
-          >Mobile</li>
+          <li class="dvs-cursor-pointer" @click="showType = 'desktop'">Desktop</li>
+          <li class="dvs-cursor-pointer" @click="showType = 'tablet'">Tablet</li>
+          <li class="dvs-cursor-pointer" @click="showType = 'mobile'">Mobile</li>
         </ul>
 
         <div class="dvs-absolute dvs-text-xs dvs-pin-l dvs-pin-r dvs-pin-b dvs-p-4">
-          <button
-            class="dvs-btn dvs-btn-primary dvs-w-full dvs-mb-2"
-            @click="closeEditor"
-          >Done</button>
+          <button class="dvs-btn dvs-btn-primary dvs-w-full dvs-mb-2" @click="closeEditor">
+            Done
+          </button>
         </div>
       </div>
-      <div class="dvs-p-8">
-        <div style="height: calc(100vh - 150px);">
+      <div class="dvs-p-8   overflow-y-scroll">
+        <div>
           <div>
             <div>
               <slice-settings-section
@@ -101,7 +89,7 @@ export default {
     SliceSettingsSection,
   },
   mixins: [Strings],
-  data () {
+  data() {
     return {
       showEditor: false,
       backgroundColor: null,
@@ -114,19 +102,19 @@ export default {
       showType: 'desktop',
     };
   },
-    computed: {
+  computed: {
     ...mapGetters('devise', ['component', 'sliceConfig']),
   },
 
-  created () {
+  created() {
     this.backgroundColor = tinycolor('#fff').toRgb();
     this.color = tinycolor('#000').toRgb();
   },
-  mounted () {
+  mounted() {
     this.addListeners();
   },
   methods: {
-    addListeners () {
+    addListeners() {
       window.deviseSettings.$bus.$on('open-slice-settings', slice => {
         this.showEditor = true;
         Vue.set(this, 'slice', slice);
@@ -141,16 +129,16 @@ export default {
         this.closeEditor();
       });
     },
-    closeEditor () {
+    closeEditor() {
       this.showEditor = false;
       this.showType = 'desktop';
       Vue.set(this, 'slice', {});
     },
-    resetStyles () {
+    resetStyles() {
       this.$set(this.slice, 'settings', {});
       this.backgroundColor = tinycolor('#fff').toRgb();
     },
-    setMarginPadding (payload) {
+    setMarginPadding(payload) {
       if (payload.responsiveMode === 'desktop') {
         this.setDesktopMarginPadding(payload);
       }
@@ -163,46 +151,53 @@ export default {
         this.setMobileMarginPadding(payload);
       }
     },
-    setDesktopMarginPadding (payload) {
-      if (typeof this.slice.settings.margin === 'undefined') {
+    setDesktopMarginPadding(payload) {
+      if (payload.type === 'margin' && typeof this.slice.settings.margin === 'undefined') {
         this.$set(this.slice.settings, 'margin', {});
       }
 
-      if (typeof this.slice.settings.padding === 'undefined') {
+      if (payload.type === 'padding' && typeof this.slice.settings.padding === 'undefined') {
         this.$set(this.slice.settings, 'padding', {});
       }
+
       this.$set(this.slice.settings[payload.type], payload.position, payload.value);
     },
-    setTabletMarginPadding (payload) {
-      if (typeof this.slice.settings.tablet_margin === 'undefined') {
+    setTabletMarginPadding(payload) {
+      if (payload.type === 'margin' && typeof this.slice.settings.tablet_margin === 'undefined') {
         this.$set(this.slice.settings, 'tablet_margin', {});
       }
 
-      if (typeof this.slice.settings.tablet_padding === 'undefined') {
+      if (
+        payload.type === 'padding' &&
+        typeof this.slice.settings.tablet_padding === 'undefined'
+      ) {
         this.$set(this.slice.settings, 'tablet_padding', {});
       }
 
       this.$set(this.slice.settings[`tablet_${payload.type}`], payload.position, payload.value);
     },
-    setMobileMarginPadding (payload) {
-      if (typeof this.slice.settings.mobile_margin === 'undefined') {
+    setMobileMarginPadding(payload) {
+      if (payload.type === 'margin' && typeof this.slice.settings.mobile_margin === 'undefined') {
         this.$set(this.slice.settings, 'mobile_margin', {});
       }
 
-      if (typeof this.slice.settings.mobile_padding === 'undefined') {
+      if (
+        payload.type === 'padding' &&
+        typeof this.slice.settings.mobile_padding === 'undefined'
+      ) {
         this.$set(this.slice.settings, 'mobile_padding', {});
       }
 
       this.$set(this.slice.settings[`mobile_${payload.type}`], payload.position, payload.value);
     },
-    setBackground (color) {
+    setBackground(color) {
       this.$set(
         this.slice.settings,
         'backgroundColor',
         `rgba(${color.rgba.r},${color.rgba.g},${color.rgba.b},${color.rgba.a})`
       );
     },
-    setForeground (color) {
+    setForeground(color) {
       this.$set(
         this.slice.settings,
         'color',
@@ -210,6 +205,5 @@ export default {
       );
     },
   },
-
 };
 </script>

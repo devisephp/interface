@@ -95,7 +95,7 @@ export default {
       handler(newValue) {
         newValue.params.forEach(() => {
           // may have to change the push data type based on param.type
-          this.finalModelQuery.params.push([]);
+          this.finalModelQuery.params.push('');
         });
         this.finalModelQuery.key = newValue.key;
       },

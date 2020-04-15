@@ -75,7 +75,7 @@
             </div>
             <div
               v-if="managedSlice.type !== null"
-              class="dvs-absolute dvs-z-40 dvs-pin-b dvs-pin-r dvs-mr-1 dvs-mb-1 dvs-mr-10 dvs-text-xs dvs-z-10 dvs-p-6 dvs-bg-admin-bg dvs-text-admin-fg dvs-rounded dvs-shadow dvs-px-6"
+              class="dvs-fixed  dvs-z-40 dvs-pin-b dvs-pin-r dvs-mr-1 dvs-mb-4 dvs-mr-10 dvs-text-xs dvs-z-10 dvs-p-6 dvs-bg-admin-bg dvs-text-admin-fg dvs-rounded dvs-shadow dvs-px-6"
             >
               <button
                 v-if="mode === 'inserting' && managedSlice.type !== 'model'"
@@ -169,21 +169,7 @@ export default {
     },
     modelQueryFormatted() {
       if (this.modelQuery && this.modelQuery.key) {
-        const finalParams = [];
-        this.modelQuery.params.forEach(param => {
-          const currentIndex = this.modelQuery.params.indexOf(param);
-          finalParams.push([]);
-          param.forEach(value => {
-            finalParams[currentIndex].push(value.value);
-          });
-        });
-
-        const finalModelQuery = {
-          key: this.modelQuery.key,
-          params: finalParams,
-        };
-
-        return finalModelQuery;
+        return this.modelQuery;
       }
       return null;
     },

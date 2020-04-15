@@ -1,33 +1,34 @@
 <template>
   <div>
     <fieldset class="dvs-fieldset">
-      <label>{{value.label}}</label>
+      <label>{{ modelQuerySettings.label }}</label>
       <input
         type="text"
         class="dvs-w-full"
-        :placeholder="value.label"
+        :placeholder="modelQuerySettings.label"
         @keyup="updateValue"
-      >
+      />
     </fieldset>
   </div>
 </template>
 
 <script>
-
 export default {
   name: 'DeviseQuerySelectorText',
   props: {
     value: {
+      type: String,
+      required: true,
+    },
+    modelQuerySettings: {
       type: Object,
-      required: true
-    }
+      requered: true,
+    },
   },
   methods: {
-    updateValue (e) {
-      const newValue = this.value
-      newValue.value = e.target.value
-      this.$emit('input', newValue)
+    updateValue(e) {
+      this.$emit('input', e.target.value);
     },
-  }
-}
+  },
+};
 </script>
