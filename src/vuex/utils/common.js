@@ -3,14 +3,14 @@ import Vue from 'vue';
 
 const funcs = {
   // Build the parameters for the GET based on the filters.repertoire
-  buildFilterParams (filter) {
+  buildFilterParams(filter) {
     if (typeof filter === 'undefined') {
-      return null;
+      return '';
     }
 
     const filters = JSON.parse(JSON.stringify(filter));
 
-    Object.keys(filters).forEach((f) => {
+    Object.keys(filters).forEach(f => {
       if (filters[f] === null) {
         delete filters[f];
       }
@@ -26,7 +26,7 @@ const funcs = {
 
     if (paginated) {
       params.paginated = true;
-      delete filters.paginated
+      delete filters.paginated;
     }
 
     if (pageParams && pageParams !== '') {
@@ -43,7 +43,7 @@ const funcs = {
 
     if (cache) {
       params.cache = true;
-      delete filters.cache
+      delete filters.cache;
     }
 
     if (filters.dates && Object.keys(filters.dates).length > 0) {
@@ -91,14 +91,16 @@ const funcs = {
       Vue.set(params.filters, 'search', searchParams);
     }
 
-    params = Object.assign({}, filters, params)
+    params = Object.assign({}, filters, params);
     params = funcs.serialize(params);
+
+    console.log(params);
 
     return params;
   },
 
   // Build the sort parameters
-  buildSortParams (sorts) {
+  buildSortParams(sorts) {
     let sortString = '';
 
     for (const prop in sorts) {
@@ -114,7 +116,7 @@ const funcs = {
   },
 
   // Build the related parameters
-  buildRelatedParams (related) {
+  buildRelatedParams(related) {
     const relatedParams = {};
 
     for (const prop in related) {
@@ -127,7 +129,7 @@ const funcs = {
   },
 
   // Build the related parameters
-  buildSearchParams (search) {
+  buildSearchParams(search) {
     const searchParams = {};
 
     for (const prop in search) {
@@ -140,7 +142,7 @@ const funcs = {
   },
 
   // Build the scope parameters
-  buildScopeParams (scopes) {
+  buildScopeParams(scopes) {
     const scopeParams = [];
 
     for (const prop in scopes) {
@@ -154,7 +156,7 @@ const funcs = {
     return scopeParams;
   },
 
-  serialize (obj, prefix) {
+  serialize(obj, prefix) {
     const str = [];
     let p;
 
@@ -174,7 +176,7 @@ const funcs = {
     return str.join('&');
   },
 
-  formatMoney (n) {
+  formatMoney(n) {
     let j = 0;
     const c = 2;
     const d = '.';
@@ -189,20 +191,20 @@ const funcs = {
       i.substr(j).replace(/(\d{3})(?=\d)/g, `$1${t}`) +
       (c
         ? d +
-        Math.abs(n - i)
-          .toFixed(c)
-          .slice(2)
+          Math.abs(n - i)
+            .toFixed(c)
+            .slice(2)
         : '')}`;
   },
 
-  sanitizeField (field) {
+  sanitizeField(field) {
     if (field.type === 'link') {
       delete field.href;
     }
     return field;
   },
 
-  sanitizeSlice (slice) {
+  sanitizeSlice(slice) {
     for (const property in slice) {
       if (
         slice.hasOwnProperty(property) &&
@@ -216,7 +218,7 @@ const funcs = {
     slice.slices.map(s => this.sanitizeSlice(s));
   },
 
-  sanitizePageData (data) {
+  sanitizePageData(data) {
     return data.slices.map(slice => this.sanitizeSlice(slice));
   },
 };

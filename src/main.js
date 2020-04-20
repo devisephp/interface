@@ -222,10 +222,10 @@ const DevisePlugin = {
       {
         breakpoints: {
           mobile: 0,
-          tablet: 640,
-          desktop: 768,
-          largeDesktop: 1024,
-          extraLargeDesktop: 1120,
+          tablet: 639,
+          desktop: 767,
+          largeDesktop: 1023,
+          extraLargeDesktop: 1119,
         },
       },
       options
