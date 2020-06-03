@@ -1,7 +1,7 @@
 <template>
   <div>
     <fieldset class="dvs-fieldset">
-      <label>{{value.label}}</label>
+      <label>{{ value.label }}</label>
       <select
         type="text"
         class="dvs-w-full"
@@ -10,11 +10,7 @@
         @change="updateValue"
       >
         <option :value="null">Please Select from the Following</option>
-        <option
-          v-for="(option, key) in options"
-          :key="key"
-          :value="key"
-        >
+        <option v-for="(option, key) in options" :key="key" :value="key">
           {{ option }}
         </option>
       </select>
@@ -23,51 +19,54 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions } from 'vuex';
 
 export default {
   name: 'DeviseQuerySelectorSelect',
   props: {
     value: {
+      type: String,
+      required: true,
+    },
+    modelQuerySettings: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
-  data () {
+  data() {
     return {
-      apiOptions: []
-    }
+      apiOptions: [],
+    };
   },
   computed: {
-    options () {
-      if (this.value.options) {
-        return this.value.options
+    options() {
+      if (this.modelQuerySettings.options) {
+        return this.modelQuerySettings.options;
       }
-      return this.apiOptions
-    }
+      return this.apiOptions;
+    },
   },
-  mounted () {
-    this.value.value = null
-    if (this.value.api) {
+  mounted() {
+    if (this.modelQuerySettings.api) {
       this.requestOptions();
     }
   },
   methods: {
     ...mapActions('devise', ['getGeneric']),
 
-    updateValue (e) {
-      const newValue = this.value
-      newValue.value = e.target.value
-      this.$emit('input', newValue)
+    updateValue(e) {
+      const newValue = this.value;
+      newValue.value = e.target.value;
+      this.$emit('input', newValue);
     },
 
-    requestOptions () {
+    requestOptions() {
       this.getGeneric({
-        config: { app: true, apiendpoint: this.value.api }
+        config: { app: true, apiendpoint: this.modelQuerySettings.api },
       }).then(results => {
         this.apiOptions = results.data;
       });
-    }
-  }
-}
+    },
+  },
+};
 </script>

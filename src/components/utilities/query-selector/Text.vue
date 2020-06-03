@@ -22,7 +22,7 @@ export default {
     },
     modelQuerySettings: {
       type: Object,
-      requered: true,
+      required: true,
     },
   },
   methods: {
