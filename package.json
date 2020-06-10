@@ -61,7 +61,7 @@
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-vue": "^5.0.0",
     "kind-of": ">=6.0.3",
-    "minimist": "1.2.3",
+    "minimist": ">=1.2.3",
     "node-sass": "^4.9.0",
     "prettier": "^1.16.4",
     "sass-loader": "^7.1.0",
