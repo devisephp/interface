@@ -94,8 +94,6 @@ const funcs = {
     params = Object.assign({}, filters, params);
     params = funcs.serialize(params);
 
-    console.log(params);
-
     return params;
   },
 
