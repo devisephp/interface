@@ -30,10 +30,10 @@ const DevisePlugin = {
     // that aren't setup to take over the admin. This allows us to see the
     // page editor even if you are navigating around the application routes.
     router.options.routes.map(route => {
-      if (!route.hasOwnProperty('components')) {
+      if (!Object.prototype.hasOwnProperty.call(route, 'components')) {
         route.components = {};
       }
-      if (!route.components.hasOwnProperty('devise')) {
+      if (!Object.prototype.hasOwnProperty.call(route.components, 'devise')) {
         const EditPage = import(
           /* webpackChunkName: "devise-administration" */ './components/pages/Editor.vue'
         );
@@ -50,12 +50,12 @@ const DevisePlugin = {
 
     // Merge custom routes (admin) from application
     for (const route in routes) {
-      if (routes.hasOwnProperty(route)) {
+      if (Object.prototype.hasOwnProperty.call(routes, 'route')) {
         const routeToCheck = routes[route];
         let canAdd = true;
 
         for (const customRoute in router.options.routes) {
-          if (router.options.routes.hasOwnProperty(customRoute)) {
+          if (Object.prototype.hasOwnProperty.call(router.options.routes, 'customRoute')) {
             const routeToCheckAgainst = router.options.routes[customRoute];
             if (routeToCheckAgainst.name === routeToCheck.name) {
               canAdd = false;

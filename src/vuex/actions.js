@@ -607,7 +607,7 @@ const actions = {
   getPagesList(context, filters) {
     return new Promise(resolve => {
       const params =
-        filters && filters.hasOwnProperty('language_id')
+        filters && Object.prototype.hasOwnProperty.call(filters, 'language_id')
           ? `language_id=${filters.language_id}`
           : {};
       window.axios
