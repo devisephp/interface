@@ -63,7 +63,7 @@ const funcs = {
 
     if (relatedParams && Object.keys(relatedParams).length > 0) {
       for (const param in relatedParams) {
-        if (relatedParams.hasOwnProperty(param)) {
+        if (Object.prototype.hasOwnProperty.call(relatedParams, 'param')) {
           if (relatedParams[param] === '') {
             Vue.delete(relatedParams, param);
           }
@@ -78,7 +78,7 @@ const funcs = {
 
     if (searchParams && Object.keys(searchParams).length > 0) {
       for (const param in searchParams) {
-        if (searchParams.hasOwnProperty(param)) {
+        if (Object.prototype.hasOwnProperty.call(searchParams, 'param')) {
           if (searchParams[param] === '') {
             Vue.delete(searchParams, param);
           }
@@ -102,7 +102,7 @@ const funcs = {
     let sortString = '';
 
     for (const prop in sorts) {
-      if (sorts.hasOwnProperty(prop)) {
+      if (Object.prototype.hasOwnProperty.call(sorts, 'prop')) {
         sortString += sorts[prop] === 'desc' ? `-${prop}` : prop;
         sortString += ',';
       }
@@ -118,7 +118,7 @@ const funcs = {
     const relatedParams = {};
 
     for (const prop in related) {
-      if (related.hasOwnProperty(prop)) {
+      if (Object.prototype.hasOwnProperty.call(related, 'prop')) {
         relatedParams[prop] = related[prop].join();
       }
     }
@@ -131,7 +131,7 @@ const funcs = {
     const searchParams = {};
 
     for (const prop in search) {
-      if (search.hasOwnProperty(prop)) {
+      if (Object.prototype.hasOwnProperty.call(search, 'prop')) {
         searchParams[prop] = search[prop].join();
       }
     }
@@ -144,7 +144,7 @@ const funcs = {
     const scopeParams = [];
 
     for (const prop in scopes) {
-      if (scopes.hasOwnProperty(prop)) {
+      if (Object.prototype.hasOwnProperty.call(scopes, 'prop')) {
         const obj = {};
         obj[prop] = scopes[prop];
         scopeParams.push(obj);
@@ -159,7 +159,7 @@ const funcs = {
     let p;
 
     for (p in obj) {
-      if (obj.hasOwnProperty(p)) {
+      if (Object.prototype.hasOwnProperty.call(obj, 'p')) {
         const k = prefix ? `${prefix}[${p}]` : p;
         const v = obj[p];
 
@@ -205,8 +205,8 @@ const funcs = {
   sanitizeSlice(slice) {
     for (const property in slice) {
       if (
-        slice.hasOwnProperty(property) &&
-        slice[property].hasOwnProperty('type') &&
+        Object.prototype.hasOwnProperty.call(slice, 'property') &&
+        Object.prototype.hasOwnProperty.call(slice[property], 'type') &&
         property !== 'metadata'
       ) {
         slice[property] = this.sanitizeField(slice[property]);

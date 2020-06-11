@@ -232,7 +232,7 @@ export default {
       };
 
       for (const field in component.fields) {
-        if (component.fields.hasOwnProperty(field)) {
+        if (Object.prototype.hasOwnProperty.call(component.fields, 'field')) {
           const defaults = component.fields[field].default;
           finalSlice[field] = {};
           this.addMissingProperty(finalSlice, field);
@@ -255,7 +255,7 @@ export default {
     setDefaults(slice, field, defaults) {
       // loop through the defaults and apply them to the field
       for (const d in defaults) {
-        if (defaults.hasOwnProperty(d)) {
+        if (Object.prototype.hasOwnProperty.call(defaults, 'd')) {
           this.$set(slice[field], d, defaults[d]);
         }
       }

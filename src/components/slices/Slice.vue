@@ -148,7 +148,7 @@ export default {
         // fields are present. If they aren't it's just because they haven't been
         // hydrated via the editor yet.
         for (const field in fields) {
-          if (fields.hasOwnProperty(field)) {
+          if (Object.prototype.hasOwnProperty.call(fields, 'field')) {
             // Ok, so the property is missing from the slice.fields object so we're
             // going to add in a stub for the render.
             this.addMissingProperty(field);
@@ -182,7 +182,7 @@ export default {
         // fields are present. If they aren't it's just because they haven't been
         // hydrated via the editor yet.
         for (const field in fields) {
-          if (this.deviseForSlice.hasOwnProperty(field)) {
+          if (Object.prototype.hasOwnProperty.call(this.deviseForSlice, 'field')) {
             // If defaults are set then set them on top of the placeholder missing properties
             if (fields[field].default) {
               this.setDefaults(field, fields[field].default);
@@ -193,7 +193,7 @@ export default {
     },
     addFieldConfigurations(fields, field) {
       for (const pp in fields[field]) {
-        if (!this.deviseForSlice[field].hasOwnProperty(pp)) {
+        if (!Object.prototype.hasOwnProperty.call(this.deviseForSlice[field], 'pp')) {
           this.$set(this.deviseForSlice[field], pp, fields[field][pp]);
         }
       }
@@ -213,7 +213,7 @@ export default {
       // If the current slice even has fields
       if (typeof this.currentView.fields !== 'undefined') {
         for (const fieldName in this.currentView.fields) {
-          if (this.currentView.fields.hasOwnProperty(fieldName)) {
+          if (Object.prototype.hasOwnProperty.call(this.currentView.fields, 'fieldName')) {
             const field = this.currentView.fields[fieldName];
 
             // If the field is an image
@@ -234,7 +234,7 @@ export default {
       // If the current slice even has fields
       if (typeof this.currentView.fields !== 'undefined') {
         for (const fieldName in this.currentView.fields) {
-          if (this.currentView.fields.hasOwnProperty(fieldName)) {
+          if (Object.prototype.hasOwnProperty.call(this.currentView.fields, 'fieldName')) {
             const field = this.currentView.fields[fieldName];
 
             // If the field is an image in media mode (not a direct url)
@@ -263,7 +263,7 @@ export default {
       // Check if all the sizes in the configuration are present in the media property
       for (const sizeName in field.sizes) {
         if (
-          field.sizes.hasOwnProperty(sizeName) &&
+          Object.prototype.hasOwnProperty.call(field.sizes, 'sizeName') &&
           (typeof this.devise[fieldName].media[sizeName] === 'undefined' ||
             !this.devise[fieldName].media[sizeName])
         ) {
@@ -274,7 +274,7 @@ export default {
 
       // Check to see if any of the sizes have changed
       for (const sizeName in field.sizes) {
-        if (field.sizes.hasOwnProperty(sizeName)) {
+        if (Object.prototype.hasOwnProperty.call(field.sizes, 'sizeName')) {
           const fieldSize = field.sizes[sizeName];
           const storedSize = this.devise[fieldName].media[sizeName];
 

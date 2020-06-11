@@ -291,7 +291,7 @@ export default {
       const fields = {};
       for (const potentialField in this.slice) {
         if (
-          this.slice.hasOwnProperty(potentialField) &&
+          Object.prototype.hasOwnProperty.call(this.slice, 'potentialField') &&
           potentialField !== 'slices' &&
           potentialField !== 'metadata' &&
           potentialField !== 'settings' &&
@@ -430,7 +430,7 @@ export default {
       }
 
       for (const field in fields) {
-        if (fields.hasOwnProperty(field)) {
+        if (Object.prototype.hasOwnProperty.call(fields, 'field')) {
           const f = fields[field];
 
           if (f && f.editorLabel && f[acceptedFieldTypes[f.type]]) {

@@ -8,26 +8,26 @@ import Strings from '../../mixins/Strings';
 export default {
   name: 'DeviseMessages',
   mixins: [Strings],
-  data () {
+  data() {
     return {
-      title: null
+      title: null,
     };
   },
   computed: {
-    mainTitle () {
+    mainTitle() {
       if (this.title === null) {
         return 'There was a Problem';
       }
       return this.title;
     },
-    activeErrors () {
+    activeErrors() {
       return this.errors.filter(error => error.active === true);
     },
-    activeMessages () {
+    activeMessages() {
       return this.messages.filter(message => message.active === true);
     },
   },
-  mounted () {
+  mounted() {
     const self = this;
     window.deviseSettings.$bus.$on('showError', error => {
       self.addError(error);
@@ -38,17 +38,17 @@ export default {
     });
   },
   methods: {
-    addError (error) {
+    addError(error) {
       const self = this;
       // Error came from axios most likely
       if (
-        (typeof error.response !== 'undefined' &&
-          typeof error.response.data !== 'undefined' &&
-          typeof error.response.data.errors !== 'undefined')
+        typeof error.response !== 'undefined' &&
+        typeof error.response.data !== 'undefined' &&
+        typeof error.response.data.errors !== 'undefined'
       ) {
         this.title = error.response.data.message;
         for (const property in error.response.data.errors) {
-          if (error.response.data.errors.hasOwnProperty(property)) {
+          if (Object.prototype.hasOwnProperty.call(error.response.data.errors, 'property')) {
             const e = error.response.data.errors[property];
             self.appendError({
               id: this.genUniqueKey(error),
@@ -64,7 +64,9 @@ export default {
         error.response.data !== null &&
         error.response.data.message !== null
       ) {
-        const title = error.response.data.exception ? error.response.data.exception : error.response.data.message;
+        const title = error.response.data.exception
+          ? error.response.data.exception
+          : error.response.data.message;
         self.appendError({
           id: this.genUniqueKey(error),
           code: error.response.status,
@@ -93,7 +95,6 @@ export default {
           message: error.message,
         });
       } else {
-
         self.appendError({
           id: this.genUniqueKey(error),
           code: error.code,
@@ -102,14 +103,16 @@ export default {
         });
       }
     },
-    appendError (payload) {
-      const title = (payload.title) ? payload.title : 'Unknown Error';
-      const message = (payload.message) ? payload.message : 'We do not have any details on this error';
-      this.showErrorMsg({ title, message })
+    appendError(payload) {
+      const title = payload.title ? payload.title : 'Unknown Error';
+      const message = payload.message
+        ? payload.message
+        : 'We do not have any details on this error';
+      this.showErrorMsg({ title, message });
     },
-    addMessage (payload) {
-      this.showSuccessMsg({ title: payload.title, message: payload.message })
-    }
+    addMessage(payload) {
+      this.showSuccessMsg({ title: payload.title, message: payload.message });
+    },
   },
 };
 </script>

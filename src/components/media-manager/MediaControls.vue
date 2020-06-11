@@ -10,10 +10,7 @@
       <template v-slot:control>
         <fieldset class="dvs-fieldset dvs-mb-4">
           <label>Select a different image for {{ activeImage.name }}</label>
-          <button
-            class="dvs-btn dvs-btn-primary"
-            @click="selectSizeImage"
-          >
+          <button class="dvs-btn dvs-btn-primary" @click="selectSizeImage">
             Select image
           </button>
         </fieldset>
@@ -24,28 +21,23 @@
       <template v-slot:button>
         <maximize-icon></maximize-icon>
       </template>
-      <template v-slot:control="slotProps">
+      <template>
         <fieldset class="dvs-fieldset dvs-mb-4">
           <label>Width</label>
-          <input
-            v-model.number="edits.w"
-            type="text"
-            class="dvs-w-full"
-          >
+          <input v-model.number="edits.w" type="text" class="dvs-w-full" />
         </fieldset>
         <fieldset class="dvs-fieldset dvs-mb-4">
           <label>Height</label>
-          <input
-            v-model.number="edits.h"
-            type="text"
-            class="dvs-w-full"
-          >
+          <input v-model.number="edits.h" type="text" class="dvs-w-full" />
         </fieldset>
         <fieldset>
           <div class="flex">
             <button
               class="dvs-btn dvs-w-full dvs-btn-sm dvs-mr-2"
-              :class="{'dvs-bg-green dvs-text-white': lockAspectRatio, 'dvs-bg-grey': !lockAspectRatio}"
+              :class="{
+                'dvs-bg-green dvs-text-white': lockAspectRatio,
+                'dvs-bg-grey': !lockAspectRatio,
+              }"
               @click="lockAspectRatio = !lockAspectRatio"
             >
               <lock-icon v-show="lockAspectRatio"></lock-icon>
@@ -54,7 +46,9 @@
             <button
               class="dvs-btn dvs-w-full dvs-btn-secondary dvs-btn-sm"
               @click="setCustomSizeToOriginal"
-            >Reset Dimensions</button>
+            >
+              Reset Dimensions
+            </button>
           </div>
         </fieldset>
       </template>
@@ -65,10 +59,7 @@
         <crop-icon></crop-icon>
       </template>
       <template v-slot:control="slotProps">
-        <fieldset
-          v-if="edits.fit === 'custom'"
-          class="dvs-fieldset dvs-mb-4"
-        >
+        <fieldset v-if="edits.fit === 'custom'" class="dvs-fieldset dvs-mb-4">
           <label>Toggle Cropping</label>
           <button
             class="dvs-btn"
@@ -97,15 +88,9 @@
           </select>
         </fieldset>
 
-        <fieldset
-          v-if="edits.fit === 'fill'"
-          class="dvs-fieldset"
-        >
+        <fieldset v-if="edits.fit === 'fill'" class="dvs-fieldset">
           <label>Background Color</label>
-          <color-picker
-            v-model="editorColor"
-            @cancel="edits.bg = null"
-          />
+          <color-picker v-model="editorColor" @cancel="edits.bg = null" />
         </fieldset>
       </template>
     </editor-control>
@@ -125,7 +110,7 @@
               max="100"
               step="5"
               @dblclick="edits.q = null"
-            >
+            />
             <div class="dvs-font-bold dvs-text-xs dvs-pl-2">{{ edits.q }}</div>
           </div>
         </fieldset>
@@ -147,7 +132,7 @@
               max="100"
               step="1"
               @dblclick="edits.sharp = null"
-            >
+            />
             <div class="dvs-font-bold dvs-text-xs dvs-pl-2">{{ edits.sharp }}</div>
           </div>
         </fieldset>
@@ -220,7 +205,7 @@
               max="100"
               step="1"
               @dblclick="edits.bri = null"
-            >
+            />
             <div class="dvs-font-bold dvs-text-xs dvs-pl-2">{{ edits.bri }}</div>
           </div>
         </fieldset>
@@ -234,7 +219,7 @@
               max="100"
               step="1"
               @dblclick="edits.con = null"
-            >
+            />
             <div class="dvs-font-bold dvs-text-xs dvs-pl-2">{{ edits.con }}</div>
           </div>
         </fieldset>
@@ -248,7 +233,7 @@
               max="9.99"
               step="0.01"
               @dblclick="edits.gam = null"
-            >
+            />
             <div class="dvs-font-bold dvs-text-xs dvs-pl-2">{{ edits.gam }}</div>
           </div>
         </fieldset>
@@ -262,7 +247,7 @@
               max="20"
               step="1"
               @dblclick="edits.pixel = null"
-            >
+            />
             <div class="dvs-font-bold dvs-text-xs dvs-pl-2">{{ edits.pixel }}</div>
           </div>
         </fieldset>
@@ -275,7 +260,8 @@
 import { mapMutations, mapState } from 'vuex';
 
 // eslint-disable-next-line no-undef
-const Chrome = require(/* webpackChunkName: "vue-color" */ 'vue-color/src/components/Chrome.vue').default;
+const Chrome = require(/* webpackChunkName: "vue-color" */ 'vue-color/src/components/Chrome.vue')
+  .default;
 // eslint-disable-next-line no-undef
 const tinycolor = require(/* webpackChunkName: "tinycolor" */ 'tinycolor2');
 
@@ -310,71 +296,71 @@ export default {
   props: {
     value: {
       required: true,
-      type: Object
+      type: Object,
     },
     activeImage: {
       required: true,
-      type: Object
-    }
+      type: Object,
+    },
   },
-  data () {
+  data() {
     return {
-      lockAspectRatio: false
-    }
+      lockAspectRatio: false,
+    };
   },
 
   computed: {
     ...mapState('devise', ['isCropping']),
-    edits () {
-      return this.value
+    edits() {
+      return this.value;
     },
     editorColor: {
-      get () {
+      get() {
         if (this.edits.bg === null) {
           return '#ffffff';
         }
         return tinycolor(this.edits.bg).toRgb();
       },
-      set (newValue) {
+      set(newValue) {
         this.edits.bg = newValue.hex;
       },
     },
-    croppingButtonStyle () {
+    croppingButtonStyle() {
       if (this.isCropping) {
-        return 'dvs-btn-primary'
+        return 'dvs-btn-primary';
       }
-      return 'dvs-btn-ghost'
+      return 'dvs-btn-ghost';
     },
-    width () {
-      return this.edits.w
+    width() {
+      return this.edits.w;
     },
-    height () {
-      return this.edits.h
-    }
+    height() {
+      return this.edits.h;
+    },
   },
 
   watch: {
-    width (newValue, oldValue) {
+    width(newValue, oldValue) {
       if (this.lockAspectRatio) {
-        const aspectRatio = this.height / oldValue
-        this.edits.h = Math.round(aspectRatio * newValue)
+        const aspectRatio = this.height / oldValue;
+        this.edits.h = Math.round(aspectRatio * newValue);
       }
-    }
+    },
   },
 
   methods: {
     ...mapMutations('devise', ['toggleCropping']),
-    selectSizeImage () {
-      this.$emit('selectsizeimage')
+    selectSizeImage() {
+      this.$emit('selectsizeimage');
     },
-    setCustomSizeToOriginal () {
+    setCustomSizeToOriginal() {
       this.lockAspectRatio = false;
-      this.$emit('settooriginal')
+      this.$emit('settooriginal');
     },
-    startCropping (toggle) {
-      this.toggleCropping()
-      toggle()
-    }
-  }
-}
+    startCropping(toggle) {
+      this.toggleCropping();
+      toggle();
+    },
+  },
+};
 </script>

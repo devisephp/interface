@@ -8,49 +8,57 @@
         :style="finishedStyles"
       ></installer-finish>
 
-      <main-menu
-        :checklist="checklist"
-        :style="bodyFinishedStyles"
-      ></main-menu>
+      <main-menu :checklist="checklist" :style="bodyFinishedStyles"></main-menu>
 
       <div
         id="content"
         class="dvs-absolute dvs-pin dvs-overflow-scroll"
         :style="bodyFinishedStyles"
       >
-        <section
-          id="nav-welcome"
-          name="nav-welcome"
-        >
+        <section id="nav-welcome" name="nav-welcome">
           <div>
             <div class="dvs-w-1/2 dvs-mb-4">
               <devise-logo color="#222" />
             </div>
 
-            <p class="dvs-text-xl dvs-mb-16">We are very excited that you are giving Devise 2 a spin. We are still in the early beta stages of this product but we do believe we have settled on the final structure of things. We encourage you to send us any feedback via Github issues, submit any PR's or just let us know what you think of the project on Twitter @devisephp.</p>
+            <p class="dvs-text-xl dvs-mb-16">
+              We are very excited that you are giving Devise 2 a spin. We are still in the early
+              beta stages of this product but we do believe we have settled on the final structure
+              of things. We encourage you to send us any feedback via Github issues, submit any
+              PR's or just let us know what you think of the project on Twitter @devisephp.
+            </p>
 
             <div class="dvs-mb-16 dvs-flex dvs-flex-wrap">
               <a
                 href="https://devise.gitbook.io/cms/"
                 target="_blank"
                 class="dvs-btn dvs-bg-blue dvs-text-white dvs-m-2"
-              >Documentation</a>
+                >Documentation</a
+              >
               <a
                 href="https://devisephp.com"
                 target="_blank"
                 class="dvs-btn dvs-bg-blue dvs-text-white dvs-m-2"
-              >Website</a>
+                >Website</a
+              >
               <a
                 href="https://github.com/devisephp/cms"
                 target="_blank"
                 class="dvs-btn dvs-bg-blue dvs-text-white dvs-m-2"
-              >Github</a>
+                >Github</a
+              >
             </div>
 
             <div class="dvs-text-left dvs-w-full">
               <h2 class="dvs-mb-4">Installation</h2>
 
-              <p class="dvs-mb-4">Below we have setup an interactive installer that will continually poll to see if you have correctly configured your server and application for Devise. Once you have turned all the items in "Required Setup" green you are good to go. However, we have also provided some helpful items in "Non-required Setup" that you may want to take a look at.</p>
+              <p class="dvs-mb-4">
+                Below we have setup an interactive installer that will continually poll to see if
+                you have correctly configured your server and application for Devise. Once you have
+                turned all the items in "Required Setup" green you are good to go. However, we have
+                also provided some helpful items in "Non-required Setup" that you may want to take
+                a look at.
+              </p>
             </div>
           </div>
           <div></div>
@@ -91,25 +99,31 @@
 </template>
 
 <script>
-
 import { mapActions, mapState } from 'vuex';
 
-const Prism = import(/* webpackChunkName: "devise-installer" */ 'prismjs')
+const Prism = import(/* webpackChunkName: "devise-installer" */ 'prismjs');
 
 import(/* webpackChunkName: "devise-installer" */ 'prismjs/components/prism-clike.min');
-import(/* webpackChunkName: "devise-installer" */ 'prismjs/components/prism-markup-templating.min');
+import(
+  /* webpackChunkName: "devise-installer" */ 'prismjs/components/prism-markup-templating.min'
+);
 import(/* webpackChunkName: "devise-installer" */ 'prismjs/components/prism-php.min');
 import(/* webpackChunkName: "devise-installer" */ 'prismjs/components/prism-ini.min');
 import(/* webpackChunkName: "devise-installer" */ 'prismjs/components/prism-javascript.min');
 import(/* webpackChunkName: "devise-installer" */ 'prismjs/components/prism-bash.min');
-import(/* webpackChunkName: "devise-installer" */ 'prismjs/plugins/normalize-whitespace/prism-normalize-whitespace');
-import(/* webpackChunkName: "devise-installer" */ 'prismjs/plugins/line-numbers/prism-line-numbers');
+import(
+  /* webpackChunkName: "devise-installer" */ 'prismjs/plugins/normalize-whitespace/prism-normalize-whitespace'
+);
+import(
+  /* webpackChunkName: "devise-installer" */ 'prismjs/plugins/line-numbers/prism-line-numbers'
+);
 
 export default {
   components: {
     Messages: () => import(/* webpackChunkName: "devise-installer" */ './Messages.vue'),
     MainMenu: () => import(/* webpackChunkName: "devise-installer" */ './MainMenu.vue'),
-    DeviseLogo: () => import(/* webpackChunkName: "devise-installer" */ "../utilities/DeviseLogo.vue"),
+    DeviseLogo: () =>
+      import(/* webpackChunkName: "devise-installer" */ '../utilities/DeviseLogo.vue'),
     Database: () => import(/* webpackChunkName: "devise-installer" */ './items/Database.vue'),
     Migrations: () => import(/* webpackChunkName: "devise-installer" */ './items/Migrations.vue'),
     Auth: () => import(/* webpackChunkName: "devise-installer" */ './items/Auth.vue'),
@@ -117,20 +131,24 @@ export default {
     Site: () => import(/* webpackChunkName: "devise-installer" */ './items/Site.vue'),
     Slices: () => import(/* webpackChunkName: "devise-installer" */ './items/Slices.vue'),
     Page: () => import(/* webpackChunkName: "devise-installer" */ './items/Page.vue'),
-    ImageLibrary: () => import(/* webpackChunkName: "devise-installer" */ './items/ImageLibrary.vue'),
-    ImageOptimization: () => import(/* webpackChunkName: "devise-installer" */ './items/ImageOptimization.vue'),
+    ImageLibrary: () =>
+      import(/* webpackChunkName: "devise-installer" */ './items/ImageLibrary.vue'),
+    ImageOptimization: () =>
+      import(/* webpackChunkName: "devise-installer" */ './items/ImageOptimization.vue'),
     Config: () => import(/* webpackChunkName: "devise-installer" */ './items/Config.vue'),
-    OptionalExtras: () => import(/* webpackChunkName: "devise-installer" */ './items/OptionalExtras.vue'),
-    InstallerFinish: () => import(/* webpackChunkName: "devise-utilities" */ './InstallerFinish.vue'),
+    OptionalExtras: () =>
+      import(/* webpackChunkName: "devise-installer" */ './items/OptionalExtras.vue'),
+    InstallerFinish: () =>
+      import(/* webpackChunkName: "devise-utilities" */ './InstallerFinish.vue'),
   },
   computed: {
     ...mapState('devise', {
       checklist: state => state.checklist,
-      languages: state => state.languages.data
+      languages: state => state.languages.data,
     }),
-    finished () {
+    finished() {
       for (const task in this.checklist) {
-        if (this.checklist.hasOwnProperty(task)) {
+        if (Object.prototype.hasOwnProperty.call(this.checklist, 'task')) {
           if (!this.checklist[task]) {
             return false;
           }
@@ -139,22 +157,22 @@ export default {
 
       return true;
     },
-    finishedStyles () {
+    finishedStyles() {
       if (this.finished) {
         return { top: 0 };
       }
 
       return { top: '-200px' };
     },
-    bodyFinishedStyles () {
+    bodyFinishedStyles() {
       if (this.finished) {
         return { marginTop: '200px' };
       }
 
       return { marginTop: '0' };
-    }
+    },
   },
-  mounted () {
+  mounted() {
     this.getLanguages();
     this.startChecker();
 
@@ -164,31 +182,28 @@ export default {
   },
   methods: {
     ...mapActions('devise', ['refreshChecklist', 'getLanguages']),
-    startChecker () {
+    startChecker() {
       this.refreshChecklist();
       setInterval(() => {
         this.refreshChecklist();
       }, 5000);
     },
-    codeHighlighting () {
-
+    codeHighlighting() {
       Prism.highlightAll();
 
       Prism.plugins.NormalizeWhitespace.setDefaults({
         'remove-trailing': true,
         'remove-indent': true,
         'left-trim': true,
-        'right-trim': true
+        'right-trim': true,
         /* 'break-lines': 80,
         'indent': 2,
         'remove-initial-line-feed': false,
         'tabs-to-spaces': 4,
         'spaces-to-tabs': 4 */
       });
-    }
+    },
   },
-
-  
 };
 </script>
 

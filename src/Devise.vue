@@ -189,7 +189,7 @@ export default {
     },
     findBreakpoint(width) {
       for (const breakpoint in this.deviseOptions.breakpoints) {
-        if (this.deviseOptions.breakpoints.hasOwnProperty(breakpoint)) {
+        if (Object.prototype.hasOwnProperty.call(this.deviseOptions.breakpoints, 'breakpoint')) {
           if (width < this.deviseOptions.breakpoints[breakpoint]) {
             return breakpoint;
           }

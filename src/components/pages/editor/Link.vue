@@ -9,50 +9,31 @@
     @change="update"
   >
     <template slot="preview">
-      <span
-        v-if="value.text === null || value.text === ''"
-        class="dvs-italic"
-      >Currently No Value</span>
+      <span v-if="value.text === null || value.text === ''" class="dvs-italic"
+        >Currently No Value</span
+      >
       <div>
-        <a
-          :href="value.href"
-          :target="value.target"
-        >{{value.text}}</a>
+        <a :href="value.href" :target="value.target">{{ value.text }}</a>
       </div>
     </template>
 
     <template slot="editor">
       <fieldset class="dvs-fieldset">
         <label>Label</label>
-        <input
-          ref="focusInput"
-          v-model="text"
-          type="text"
-          class="dvs-mb-4 dvs-w-full"
-        >
+        <input ref="focusInput" v-model="text" type="text" class="dvs-mb-4 dvs-w-full" />
       </fieldset>
 
       <label>Link Mode</label>
       <div class="dvs-flex dvs-mb-4">
         <div class="dvs-flex dvs-mr-4">
           <label>
-            <input
-              v-model="mode"
-              type="radio"
-              class="dvs-w-auto dvs-mr-2"
-              value="url"
-            >
+            <input v-model="mode" type="radio" class="dvs-w-auto dvs-mr-2" value="url" />
             URL
           </label>
         </div>
         <div class="dvs-flex">
           <label>
-            <input
-              v-model="mode"
-              type="radio"
-              class="dvs-w-auto dvs-mr-2"
-              value="page"
-            >
+            <input v-model="mode" type="radio" class="dvs-w-auto dvs-mr-2" value="page" />
             Page
           </label>
         </div>
@@ -61,40 +42,24 @@
       <template v-if="mode === 'url'">
         <fieldset class="dvs-fieldset dvs-mb-4">
           <label>URL</label>
-          <input
-            v-model="url"
-            type="text"
-            class="dvs-w-full"
-          >
+          <input v-model="url" type="text" class="dvs-w-full" />
         </fieldset>
       </template>
       <template v-if="mode === 'page'">
         <fieldset class="dvs-fieldset dvs-mb-4">
           <label>Page</label>
-          <select
-            v-model="routeName"
-            class="dvs-w-full"
-            @change="selectPage()"
-          >
-            <option
-              :value="null"
-              disabled
-            >Select a Page</option>
-            <option
-              v-for="page in pagesList.data"
-              :key="page.id"
-              :value="page.route_name"
-            >{{page.title}}</option>
+          <select v-model="routeName" class="dvs-w-full" @change="selectPage()">
+            <option :value="null" disabled>Select a Page</option>
+            <option v-for="page in pagesList.data" :key="page.id" :value="page.route_name">{{
+              page.title
+            }}</option>
           </select>
         </fieldset>
       </template>
 
       <fieldset class="dvs-fieldset dvs-mb-4">
         <label>Target</label>
-        <select
-          v-model="target"
-          class="dvs-w-full"
-        >
+        <select v-model="target" class="dvs-w-full">
           <option value="_self">Same Window</option>
           <option value="_blank">New Tab / Window</option>
           <option value="_parent">Parent</option>
@@ -104,10 +69,7 @@
 
       <fieldset class="dvs-fieldset">
         <label>Relationship</label>
-        <select
-          v-model="rel"
-          class="dvs-w-full"
-        >
+        <select v-model="rel" class="dvs-w-full">
           <option :value="null">Select a Relationship</option>
           <option value="nofollow">No Follow</option>
           <option value="noopener">No Opener</option>
@@ -127,7 +89,7 @@ import Field from '../../../mixins/Field';
 
 export default {
   name: 'LinkEditor',
-    components: {
+  components: {
     FieldEditor: () => import(/* webpackChunkName: "devise-editors" */ './Field'),
   },
   mixins: [Field],
@@ -141,7 +103,7 @@ export default {
       required: true,
     },
   },
-  data () {
+  data() {
     return {
       showEditor: false,
     };
@@ -149,27 +111,27 @@ export default {
   computed: {
     ...mapGetters('devise', ['pagesList']),
     url: {
-      get () {
+      get() {
         return this.value.url;
       },
-      set (value) {
+      set(value) {
         const valueObj = Object.assign(this.value, { href: value, url: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
       },
     },
     text: {
-      get () {
+      get() {
         return this.value.text;
       },
-      set (value) {
+      set(value) {
         const valueObj = Object.assign(this.value, { text: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
       },
     },
     target: {
-      get () {
+      get() {
         if (!this.value.target) {
           const valueObj = Object.assign(this.value, { target: '_self' });
           this.$emit('input', valueObj);
@@ -177,44 +139,44 @@ export default {
         }
         return this.value.target;
       },
-      set (value) {
+      set(value) {
         const valueObj = Object.assign(this.value, { target: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
       },
     },
     rel: {
-      get () {
+      get() {
         if (!this.value.rel) {
-          return null
+          return null;
         }
         return this.value.rel;
       },
-      set (value) {
+      set(value) {
         const valueObj = Object.assign(this.value, { rel: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
       },
     },
     routeName: {
-      get () {
+      get() {
         return this.value.routeName;
       },
-      set (value) {
+      set(value) {
         const valueObj = Object.assign(this.value, { routeName: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
       },
     },
     mode: {
-      get () {
+      get() {
         if (this.value.mode) {
           return this.value.mode;
         }
         return 'page';
       },
-      set (value) {
-        if (value === "page") {
+      set(value) {
+        if (value === 'page') {
           this.url = null;
         } else {
           this.routeName = null;
@@ -226,18 +188,17 @@ export default {
       },
     },
   },
-  mounted () {
+  mounted() {
     this.originalValue = Object.assign({}, this.value);
-    this.mode = this.mode;
     this.retrieveAllPagesList();
   },
   methods: {
     ...mapActions('devise', ['getPagesList']),
-    toggleEditor () {
+    toggleEditor() {
       this.showEditor = !this.showEditor;
       this.focusForm();
     },
-    focusForm () {
+    focusForm() {
       if (this.showEditor) {
         this.$nextTick(() => {
           setTimeout(() => {
@@ -246,7 +207,7 @@ export default {
         });
       }
     },
-    retrieveAllPagesList (loadbar = true) {
+    retrieveAllPagesList(loadbar = true) {
       const filters = { language_id: window.deviseSettings.$page.language.id };
       this.getPagesList(filters).then(() => {
         if (loadbar) {
@@ -254,13 +215,13 @@ export default {
         }
       });
     },
-    selectPage () {
+    selectPage() {
       const page = this.pagesList.data.find(p => p.route_name === this.routeName);
       if (page) {
         this.url = page.url;
       }
     },
-    cancel () {
+    cancel() {
       this.mode = this.originalValue.mode;
       this.text = this.originalValue.text;
       this.url = this.originalValue.url;
@@ -270,7 +231,7 @@ export default {
       this.routeName = this.originalValue.routeName;
       this.enabled = this.originalValue.enabled;
     },
-    resetValue () {
+    resetValue() {
       this.enabled = false;
       this.target = null;
       this.rel = null;
@@ -281,6 +242,5 @@ export default {
       this.routeName = null;
     },
   },
-  
 };
 </script>

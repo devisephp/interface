@@ -1,15 +1,15 @@
 <template>
   <!-- eslint-disable vue/no-v-html -->
   <div>
-    <ul
-      id="messages"
-      class="dvs-list-reset dvs-fixed dvs-pin-l dvs-pin-b dvs-pin-r"
-    >
+    <ul id="messages" class="dvs-list-reset dvs-fixed dvs-pin-l dvs-pin-b dvs-pin-r">
       <li
         v-for="message in messages"
         :key="getHash(message)"
         class="dvs-p-4 dvs-text-white"
-        :class="{'dvs-bg-red': message.type === 'error', 'dvs-bg-green': message.type === 'message'}"
+        :class="{
+          'dvs-bg-red': message.type === 'error',
+          'dvs-bg-green': message.type === 'message',
+        }"
         v-html="message.content"
       ></li>
     </ul>
@@ -21,25 +21,25 @@
 const hash = require('object-hash');
 
 export default {
-  data () {
+  data() {
     return {
-      messages: []
+      messages: [],
     };
   },
-  mounted () {
+  mounted() {
     window.deviseSettings.$bus.$on('showMessage', this.addMessage);
     window.deviseSettings.$bus.$on('showError', this.addError);
   },
   methods: {
-    addMessage (message) {
+    addMessage(message) {
       if (!message.content) {
         message = {
-          content: 'Success!'
-        }
+          content: 'Success!',
+        };
       }
       const messageObj = {
         content: `<p>${message.content}</p>`,
-        type: 'message'
+        type: 'message',
       };
       this.messages.push(messageObj);
 
@@ -47,10 +47,10 @@ export default {
         this.messages.splice(this.messages.indexOf(messageObj), 1);
       }, 4000);
     },
-    addError (error) {
+    addError(error) {
       const errorMessage = {
         content: this.buildError(error.response),
-        type: 'error'
+        type: 'error',
       };
       this.messages.push(errorMessage);
 
@@ -58,11 +58,11 @@ export default {
         this.messages.splice(this.messages.indexOf(errorMessage), 1);
       }, 6000);
     },
-    getHash (message) {
+    getHash(message) {
       message.date = new Date();
       return hash(message);
     },
-    buildError (error) {
+    buildError(error) {
       // API Error
       if (error.data && error.data.message) {
         return this.buildValidationErrorMessage(error.data);
@@ -74,14 +74,14 @@ export default {
 
       return '<p>There was an error with your request</p>';
     },
-    buildValidationErrorMessage (errorData) {
+    buildValidationErrorMessage(errorData) {
       let errorString = `<p>${errorData.message}</p>`;
 
       if (errorData.errors) {
         errorString += `<ul>`;
 
         for (const key in errorData.errors) {
-          if (errorData.errors.hasOwnProperty(key)) {
+          if (Object.prototype.hasOwnProperty.call(errorData.errors, 'key')) {
             errorString += `<li>${errorData.errors[key]}</li>`;
           }
         }
@@ -91,14 +91,13 @@ export default {
 
       return errorString;
     },
-    buildLaravelErrorMessage () {
+    buildLaravelErrorMessage() {
       const errorString = '';
 
       return errorString;
-    }
-  }
+    },
+  },
 };
 </script>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>
