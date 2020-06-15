@@ -1,6 +1,6 @@
 <template>
-  <div class="dvs-flex dvs-items-center dvs-bg-grey-lighter dvs-p-2">
-    <div class="dvs-uppercase dvs-text-xs dvs-font-bold dvs-ml-8 dvs-mr-4 dvs-text-grey-dark">
+  <div class="dvs-flex dvs-items-center dvs-bg-gray-200 dvs-p-2">
+    <div class="dvs-uppercase dvs-text-xs dvs-font-bold dvs-ml-8 dvs-mr-4 dvs-text-gray-600">
       Edits for {{ activeImage.name }}
     </div>
     <editor-control v-model="edits">
@@ -35,8 +35,8 @@
             <button
               class="dvs-btn dvs-w-full dvs-btn-sm dvs-mr-2"
               :class="{
-                'dvs-bg-green dvs-text-white': lockAspectRatio,
-                'dvs-bg-grey': !lockAspectRatio,
+                'dvs-bg-green-500 dvs-text-white': lockAspectRatio,
+                'dvs-bg-gray-500': !lockAspectRatio,
               }"
               @click="lockAspectRatio = !lockAspectRatio"
             >

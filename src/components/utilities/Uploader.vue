@@ -2,16 +2,13 @@
   <div>
     <div
       v-show="$refs.upload && $refs.upload.dropActive"
-      class="dvs-fixed dvs-pin"
+      class="dvs-fixed dvs-inset-0"
       style="z-index:9999"
     >
       <div class="dvs-blocker"></div>
-      <div
-        class="dvs-flex dvs-justify-center dvs-items-center dvs-relative"
-        style="z-index:9999"
-      >
+      <div class="dvs-flex dvs-justify-center dvs-items-center dvs-relative" style="z-index:9999">
         <div class="dvs-bg-black dvs-p-8 dvs-rounded dvs-shadow">
-          <h3 class="dvs-text-abs-white">Drop files to upload</h3>
+          <h3 class="dvs-text-white">Drop files to upload</h3>
         </div>
       </div>
     </div>
@@ -20,51 +17,46 @@
       <vue-upload
         ref="upload"
         v-model="uploadingFiles"
-        class="dvs-w-full dvs-bg-abs-white dvs-p-4 dvs-py-6 dvs-shadow dvs-rounded-sm dvs-font-bold dvs-uppercase dvs-text-xs"
+        class="dvs-w-full dvs-bg-white dvs-p-4 dvs-py-6 dvs-shadow dvs-rounded-sm dvs-font-bold dvs-uppercase dvs-text-xs"
         :post-action="`/api/devise/media?directory=${currentDirectory}`"
         :headers="uploadHeaders"
         :drop="true"
         :multiple="true"
         @input-file="inputFile"
         @input-filter="inputFilter"
-      >Upload New Files</vue-upload>
+        >Upload New Files</vue-upload
+      >
     </div>
 
-    <div
-      v-show="uploadingFiles.length"
-      class="dvs-w-full"
-    >
+    <div v-show="uploadingFiles.length" class="dvs-w-full">
       <button
         v-show="!$refs.upload || !$refs.upload.active"
         type="button"
         class="dvs-btn dvs-btn-primary dvs-mb-4"
         @click.prevent="$refs.upload.active = true"
-      >Start upload</button>
+      >
+        Start upload
+      </button>
       <button
         v-show="$refs.upload && $refs.upload.active"
         type="button"
         class="dvs-btn dvs-btn-danger dvs-mb-4"
         @click.prevent="$refs.upload.active = false"
-      >Stop upload</button>
+      >
+        Stop upload
+      </button>
       <table class="dvs-w-full dvs-border-collapse">
         <tr class="dvs-border-b-2">
           <th class="dvs-p-2 dvs-text-xs dvs-uppercase dvs-text-left">Queued Files for Upload</th>
         </tr>
-        <tr
-          v-for="file in uploadingFiles"
-          :key="file.id"
-          class="dvs-border-b"
-        >
+        <tr v-for="file in uploadingFiles" :key="file.id" class="dvs-border-b">
           <td class="dvs-p-4">
             <div class="dvs-flex">
               <div
                 class="dvs-cursor-pointer dvs-flex dvs-justify-center dvs-items-center dvs-mr-2"
                 @click="removeFileFromQueue(file)"
               >
-                <close-icon
-                  w="40"
-                  h="40"
-                />
+                <close-icon w="40" h="40" />
               </div>
               <div
                 class="dvs-bg-cover dvs-bg-center"
@@ -75,13 +67,13 @@
               <div class="dvs-ml-4 dvs-text-sm dvs-font-normal">{{ file.name }}</div>
             </div>
             <div
-              class="dvs-bg-grey dvs-w-full dvs-mt-4 dvs-flex dvs-items-center"
+              class="dvs-bg-gray-500dvs-w-full dvs-mt-4 dvs-flex dvs-items-center"
               style="height:5px;"
             >
               <div
                 class="dvs-bg-highlight-bg"
                 style="height:3px;"
-                :style="{width: `${file.progress}%`}"
+                :style="{ width: `${file.progress}%` }"
               ></div>
             </div>
           </td>
@@ -107,13 +99,13 @@ export default {
       required: true,
     },
   },
-  data () {
+  data() {
     return {
       uploadingFiles: [],
     };
   },
   computed: {
-    uploadHeaders () {
+    uploadHeaders() {
       const token = document.head.querySelector('meta[name="csrf-token"]');
       return {
         'X-CSRF-TOKEN': token.content,
@@ -127,7 +119,7 @@ export default {
      * @param  Object|undefined   oldFile   Read only
      * @return undefined
      */
-    inputFile (newFile, oldFile) {
+    inputFile(newFile, oldFile) {
       if (newFile && oldFile && !newFile.active && oldFile.active) {
         // Get response data
         if (newFile.xhr) {
@@ -153,7 +145,7 @@ export default {
      * @param  Function           prevent   Prevent changing
      * @return undefined
      */
-    inputFilter (newFile) {
+    inputFilter(newFile) {
       // Create a blob field
       newFile.blob = '';
       const URL = window.URL || window.webkitURL;
@@ -167,7 +159,7 @@ export default {
         newFile.thumb = newFile.blob;
       }
     },
-    removeFileFromQueue (file) {
+    removeFileFromQueue(file) {
       this.uploadingFiles.splice(this.uploadingFiles.indexOf(file), 1);
     },
   },

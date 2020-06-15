@@ -5,15 +5,17 @@
       v-debounce="searchDelay"
       type="text"
       :placeholder="placeholder"
-    >
+    />
     <div class="dvs-relative">
-      <ul class="dvs-list-reset dvs-bg-white dvs-text-black dvs-absolute dvs-shadow-lg">
+      <ul class="dvs-bg-white dvs-text-black dvs-absolute dvs-shadow-lg">
         <li
           v-for="(suggestion, key) in autosuggest.data"
           :key="key"
-          class="dvs-border-b dvs-border-grey-lighter dvs-p-4 dvs-cursor-pointer"
+          class="dvs-border-b dvs-border-gray-300 dvs-p-4 dvs-cursor-pointer"
           @click="updateValue(index, key, suggestion)"
-        >{{ suggestion }}</li>
+        >
+          {{ suggestion }}
+        </li>
       </ul>
     </div>
   </fieldset>
@@ -71,7 +73,7 @@ export default {
     requestSearch(term) {
       const self = this;
       if (term !== '') {
-        this.searchPages({ term, 'multi-site': this.multisite }).then((data) => {
+        this.searchPages({ term, 'multi-site': this.multisite }).then(data => {
           self.autosuggest = data;
           if (data.data.length < 1) {
             window.deviseSettings.$bus.$emit('showMessage', {
@@ -85,6 +87,5 @@ export default {
       }
     },
   },
-
 };
 </script>

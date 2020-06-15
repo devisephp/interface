@@ -22,12 +22,12 @@
 
           <div class="dvs-fixed dvs-z-10 dvs-w-1/3">
             <ul
-              class="dvs-list-reset dvs-bg-white dvs-absolute dvs-text-black dvs-rounded-sm dvs-mt-2 dvs-text-sm"
+              class="dvs-bg-white dvs-absolute dvs-text-black dvs-rounded-sm dvs-mt-2 dvs-text-sm"
             >
               <li
                 v-for="result in searchResults"
                 :key="result.id"
-                class="dvs-px-4 dvs-py-2 dvs-border-b dvs-border-grey dvs-cursor-pointer"
+                class="dvs-px-4 dvs-py-2 dvs-border-b dvs-border-gray-500dvs-cursor-pointer"
                 @click="selectPage(result)"
               >
                 {{ result.site }}: {{ result.title }} - {{ result.verison_name }} ({{
@@ -90,7 +90,7 @@ export default {
         results => {
           this.searchResults = [];
           for (const id in results.data) {
-            if (Object.prototype.hasOwnProperty.call(results.data, 'id')) {
+            if (results.data[id]) {
               const result = results.data[id];
               if (result.site_id === this.siteToCopyTo) {
                 this.searchResults.push(result);

@@ -148,14 +148,12 @@ export default {
         // fields are present. If they aren't it's just because they haven't been
         // hydrated via the editor yet.
         for (const field in fields) {
-          if (Object.prototype.hasOwnProperty.call(fields, 'field')) {
-            // Ok, so the property is missing from the slice.fields object so we're
-            // going to add in a stub for the render.
-            this.addMissingProperty(field);
+          // Ok, so the property is missing from the slice.fields object so we're
+          // going to add in a stub for the render.
+          this.addMissingProperty(field);
 
-            // The property is present but we need to make sure all the custom set properties are moved over
-            this.addFieldConfigurations(fields, field);
-          }
+          // The property is present but we need to make sure all the custom set properties are moved over
+          this.addFieldConfigurations(fields, field);
         }
       }
     },
@@ -182,7 +180,7 @@ export default {
         // fields are present. If they aren't it's just because they haven't been
         // hydrated via the editor yet.
         for (const field in fields) {
-          if (Object.prototype.hasOwnProperty.call(this.deviseForSlice, 'field')) {
+          if (this.deviseForSlice['field']) {
             // If defaults are set then set them on top of the placeholder missing properties
             if (fields[field].default) {
               this.setDefaults(field, fields[field].default);
@@ -193,7 +191,7 @@ export default {
     },
     addFieldConfigurations(fields, field) {
       for (const pp in fields[field]) {
-        if (!Object.prototype.hasOwnProperty.call(this.deviseForSlice[field], 'pp')) {
+        if (!this.deviseForSlice[field]['pp']) {
           this.$set(this.deviseForSlice[field], pp, fields[field][pp]);
         }
       }
@@ -213,7 +211,7 @@ export default {
       // If the current slice even has fields
       if (typeof this.currentView.fields !== 'undefined') {
         for (const fieldName in this.currentView.fields) {
-          if (Object.prototype.hasOwnProperty.call(this.currentView.fields, 'fieldName')) {
+          if (this.currentView.fields[fieldName]) {
             const field = this.currentView.fields[fieldName];
 
             // If the field is an image
@@ -234,7 +232,7 @@ export default {
       // If the current slice even has fields
       if (typeof this.currentView.fields !== 'undefined') {
         for (const fieldName in this.currentView.fields) {
-          if (Object.prototype.hasOwnProperty.call(this.currentView.fields, 'fieldName')) {
+          if (this.currentView.fields[fieldName]) {
             const field = this.currentView.fields[fieldName];
 
             // If the field is an image in media mode (not a direct url)
@@ -263,7 +261,7 @@ export default {
       // Check if all the sizes in the configuration are present in the media property
       for (const sizeName in field.sizes) {
         if (
-          Object.prototype.hasOwnProperty.call(field.sizes, 'sizeName') &&
+          field.sizes[sizeName] &&
           (typeof this.devise[fieldName].media[sizeName] === 'undefined' ||
             !this.devise[fieldName].media[sizeName])
         ) {
@@ -274,7 +272,7 @@ export default {
 
       // Check to see if any of the sizes have changed
       for (const sizeName in field.sizes) {
-        if (Object.prototype.hasOwnProperty.call(field.sizes, 'sizeName')) {
+        if (field.sizes[sizeName]) {
           const fieldSize = field.sizes[sizeName];
           const storedSize = this.devise[fieldName].media[sizeName];
 
@@ -363,7 +361,7 @@ export default {
               const marker = document.createElement('div');
               marker.innerHTML = `
             <div class="dvs-absolute-center dvs-absolute">
-              <h1 class="dvs-text-grey-light dvs-font-hairline dvs-font-sans dvs-p-4 dvs-bg-abs-black dvs-rounded dvs-shadow-lg">
+              <h1 class="dvs-text-gray-400 dvs-font-hairline dvs-font-sans dvs-p-4 dvs-bg-black dvs-rounded dvs-shadow-lg">
                 ${this.devise.metadata.label}
               </h1>
             </div>`;

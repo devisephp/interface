@@ -1,12 +1,9 @@
 <template>
   <div class="dvs-bg-white dvs-rounded dvs-relative">
-
-    <editor-menu-bar
-      v-slot="{ commands, isActive }"
-      :editor="editor"
-    >
-      <div class="dvs-bg-grey-light dvs-flex dvs-flex-wrap dvs-items-center dvs-rounded dvs-rounded-b-none">
-
+    <editor-menu-bar v-slot="{ commands, isActive }" :editor="editor">
+      <div
+        class="dvs-bg-gray-400 dvs-flex dvs-flex-wrap dvs-items-center dvs-rounded dvs-rounded-b-none"
+      >
         <div
           class="wysiwyg-editor-button"
           :class="{ 'dvs-bg-grey': isActive.bold() }"
@@ -98,7 +95,6 @@
             :class="{ 'is-active': menu.isActive }"
             :style="`left: ${menu.left}px; bottom: ${menu.bottom}px;`"
           >
-
             <form
               v-if="linkMenuIsActive"
               class="menububble__form dvs-bg-admin-bg dvs-text-admin-fg dvs-absolute dvs-p-4 dvs-rounded-sm dvs-shadow dvs-mt-2 dvs-z-10"
@@ -130,7 +126,6 @@
             >
               <link-icon />
             </div>
-
           </div>
         </editor-menu-bubble>
 
@@ -169,7 +164,7 @@
           </div>
           <div
             v-if="showTextColorPicker"
-            class="dvs-absolute dvs-z-10 dvs-pin-t dvs--mt-8 dvs-bg-grey-lighter dvs-p-4 dvs-rounded dvs-shadow-lg"
+            class="dvs-absolute dvs-z-10 dvs-top-0 dvs--mt-8 dvs-bg-gray-300 dvs-p-4 dvs-rounded dvs-shadow-lg"
           >
             <color-picker
               v-model="textColor"
@@ -179,7 +174,7 @@
 
             <div class="dvs-flex dvs-items-stretch">
               <div
-                class="dvs-btn dvs-bg-black dvs-text-grey-lighter dvs-mr-2"
+                class="dvs-btn dvs-bg-black dvs-text-gray-300 dvs-mr-2"
                 @click="applyTextColor(commands)"
               >
                 Apply
@@ -192,7 +187,6 @@
               </div>
             </div>
           </div>
-
         </div>
 
         <!-- <div
@@ -226,30 +220,21 @@
           <align-right-icon />
         </div>
 
-        <div
-          class="wysiwyg-editor-button"
-          @click="commands.horizontal_rule"
-        >
+        <div class="wysiwyg-editor-button" @click="commands.horizontal_rule">
           <minus-icon />
         </div>
 
-        <div
-          class="wysiwyg-editor-button"
-          @click="commands.undo"
-        >
+        <div class="wysiwyg-editor-button" @click="commands.undo">
           <corner-up-left-icon />
         </div>
 
-        <div
-          class="wysiwyg-editor-button"
-          @click="commands.redo"
-        >
+        <div class="wysiwyg-editor-button" @click="commands.redo">
           <corner-up-right-icon />
         </div>
 
         <div
           class="wysiwyg-editor-button"
-          @click="commands.createTable({rowsCount: 3, colsCount: 3, withHeaderRow: false })"
+          @click="commands.createTable({ rowsCount: 3, colsCount: 3, withHeaderRow: false })"
         >
           <table-icon />
         </div>
@@ -262,70 +247,39 @@
           <code-icon />
         </div>
 
-        <span
-          v-if="isActive.table()"
-          class="dvs-bg-grey dvs-flex dvs-items-center"
-        >
-          <span class="dvs-text-2xs dvs-uppercase dvs-px-2 dvs-text-grey-darker">Table Controls</span>
-          <div
-            class="wysiwyg-editor-button"
-            @click="commands.deleteTable"
-          >
+        <span v-if="isActive.table()" class="dvs-bg-gray-500dvs-flex dvs-items-center">
+          <span class="dvs-text-2xs dvs-uppercase dvs-px-2 dvs-text-gray-800">Table Controls</span>
+          <div class="wysiwyg-editor-button" @click="commands.deleteTable">
             <delete-table-icon />
           </div>
-          <div
-            class="wysiwyg-editor-button"
-            @click="commands.addColumnBefore"
-          >
+          <div class="wysiwyg-editor-button" @click="commands.addColumnBefore">
             <add-col-before-icon />
           </div>
-          <div
-            class="wysiwyg-editor-button"
-            @click="commands.addColumnAfter"
-          >
+          <div class="wysiwyg-editor-button" @click="commands.addColumnAfter">
             <add-col-after-icon />
           </div>
-          <div
-            class="wysiwyg-editor-button"
-            @click="commands.deleteColumn"
-          >
+          <div class="wysiwyg-editor-button" @click="commands.deleteColumn">
             <delete-col-icon />
           </div>
-          <div
-            class="wysiwyg-editor-button"
-            @click="commands.addRowBefore"
-          >
+          <div class="wysiwyg-editor-button" @click="commands.addRowBefore">
             <add-row-before-icon />
           </div>
-          <div
-            class="wysiwyg-editor-button"
-            @click="commands.addRowAfter"
-          >
+          <div class="wysiwyg-editor-button" @click="commands.addRowAfter">
             <add-row-after-icon />
           </div>
-          <div
-            class="wysiwyg-editor-button"
-            @click="commands.deleteRow"
-          >
+          <div class="wysiwyg-editor-button" @click="commands.deleteRow">
             <delete-row-icon />
           </div>
-          <div
-            class="wysiwyg-editor-button"
-            @click="commands.toggleCellMerge"
-          >
+          <div class="wysiwyg-editor-button" @click="commands.toggleCellMerge">
             <combine-cells-icon />
           </div>
         </span>
-
       </div>
     </editor-menu-bar>
 
-    <editor-floating-menu
-      v-slot="{ commands, isActive, menu  }"
-      :editor="editor"
-    >
+    <editor-floating-menu v-slot="{ commands, isActive, menu }" :editor="editor">
       <div
-        class="editor__floating-menu dvs-bg-grey-light dvs-flex dvs-flex-wrap dvs-items-center dvs-rounded dvs-rounded-b-none"
+        class="editor__floating-menu dvs-bg-gray-400 dvs-flex dvs-flex-wrap dvs-items-center dvs-rounded dvs-rounded-b-none"
         :class="{ 'is-active': menu.isActive }"
         :style="`top: ${menu.top}px`"
       >
@@ -396,11 +350,10 @@
 
         <div
           class="wysiwyg-editor-button"
-          @click="commands.createTable({rowsCount: 3, colsCount: 3, withHeaderRow: false })"
+          @click="commands.createTable({ rowsCount: 3, colsCount: 3, withHeaderRow: false })"
         >
           <table-icon />
         </div>
-
       </div>
     </editor-floating-menu>
 
@@ -426,39 +379,27 @@
       <h4 class="dvs-pb-4">Image Positioning:</h4>
 
       <div class="dvs-flex dvs-mb-4">
-        <div
-          class="dvs-btn dvs-mr-2 dvs-btn-primary dvs-btn-sm"
-          @click="setImageFloat('left')"
-        >Float Left</div>
-        <div
-          class="dvs-btn dvs-mr-2 dvs-btn-primary dvs-btn-sm"
-          @click="setImageFloat('')"
-        >No Float</div>
-        <div
-          class="dvs-btn dvs-mr-2 dvs-btn-primary dvs-btn-sm"
-          @click="setImageFloat('right')"
-        >Float Right</div>
+        <div class="dvs-btn dvs-mr-2 dvs-btn-primary dvs-btn-sm" @click="setImageFloat('left')">
+          Float Left
+        </div>
+        <div class="dvs-btn dvs-mr-2 dvs-btn-primary dvs-btn-sm" @click="setImageFloat('')">
+          No Float
+        </div>
+        <div class="dvs-btn dvs-mr-2 dvs-btn-primary dvs-btn-sm" @click="setImageFloat('right')">
+          Float Right
+        </div>
       </div>
 
       <div class="dvs-mb-4">
         <fieldset class="dvs-fieldset">
           <label>Margin</label>
-          <input
-            ref="marginsetting"
-            type="number"
-            min="0"
-            max="200"
-            @keyup="setImageMargin"
-          >
+          <input ref="marginsetting" type="number" min="0" max="200" @keyup="setImageMargin" />
         </fieldset>
       </div>
 
       <div class="dvs-pb-8">
         <fieldset class="dvs-fieldset">
-          <div
-            class="dvs-btn dvs-btn-primary"
-            @click="doneEditingImageStyles"
-          >Done</div>
+          <div class="dvs-btn dvs-btn-primary" @click="doneEditingImageStyles">Done</div>
         </fieldset>
       </div>
 
@@ -466,10 +407,7 @@
 
       <div>
         <fieldset class="dvs-fieldset">
-          <div
-            class="dvs-btn dvs-btn-primary"
-            @click="removeImage"
-          >Remove Image</div>
+          <div class="dvs-btn dvs-btn-primary" @click="removeImage">Remove Image</div>
         </fieldset>
       </div>
     </div>
@@ -482,7 +420,13 @@
 </template>
 
 <script>
-import { Editor, EditorFloatingMenu, EditorContent, EditorMenuBar, EditorMenuBubble } from 'tiptap'
+import {
+  Editor,
+  EditorFloatingMenu,
+  EditorContent,
+  EditorMenuBar,
+  EditorMenuBubble,
+} from 'tiptap';
 import {
   Blockquote,
   CodeBlock,
@@ -506,12 +450,13 @@ import {
   TableHeader,
   TableCell,
   TableRow,
-} from 'tiptap-extensions'
-import TextAlign from './wysiwyg/tiptap/extensions/TextAlign'
-import TextColor from './wysiwyg/tiptap/extensions/TextColor'
+} from 'tiptap-extensions';
+import TextAlign from './wysiwyg/tiptap/extensions/TextAlign';
+import TextColor from './wysiwyg/tiptap/extensions/TextColor';
 
 // eslint-disable-next-line no-undef
-const Chrome = require(/* webpackChunkName: "vue-color" */ 'vue-color/src/components/Chrome.vue').default;
+const Chrome = require(/* webpackChunkName: "vue-color" */ 'vue-color/src/components/Chrome.vue')
+  .default;
 
 export default {
   components: {
@@ -548,24 +493,20 @@ export default {
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/AlignRightIcon'),
     TypeIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/TypeIcon'),
-    StrikeIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ './icons/StrikeIcon'),
-    TableIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ './icons/TableIcon'),
+    StrikeIcon: () => import(/* webpackChunkName: "devise-icons" */ './icons/StrikeIcon'),
+    TableIcon: () => import(/* webpackChunkName: "devise-icons" */ './icons/TableIcon'),
     DeleteTableIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ './icons/DeleteTableIcon'),
     AddColAfterIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ './icons/AddColAfterIcon'),
     AddColBeforeIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ './icons/AddColBeforeIcon'),
-    DeleteColIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ './icons/DeleteColIcon'),
+    DeleteColIcon: () => import(/* webpackChunkName: "devise-icons" */ './icons/DeleteColIcon'),
     AddRowAfterIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ './icons/AddRowAfterIcon'),
     AddRowBeforeIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ './icons/AddRowBeforeIcon'),
-    DeleteRowIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ './icons/DeleteRowIcon'),
+    DeleteRowIcon: () => import(/* webpackChunkName: "devise-icons" */ './icons/DeleteRowIcon'),
     CombineCellsIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ './icons/CombineCellsIcon'),
     LinkIcon: () =>
@@ -574,10 +515,10 @@ export default {
   props: {
     value: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
-  data () {
+  data() {
     return {
       editor: new Editor({
         extensions: [
@@ -609,7 +550,7 @@ export default {
           new TextColor(),
         ],
         onUpdate: this.update,
-        autoFocus: false
+        autoFocus: false,
       }),
       imageToManage: null,
       showSource: false,
@@ -618,73 +559,75 @@ export default {
       textColor: '#000000',
       linkUrl: null,
       linkMenuIsActive: false,
-    }
+    };
   },
   computed: {
     localValue: {
-      get () {
-        return this.value
+      get() {
+        return this.value;
       },
-      set (newValue) {
+      set(newValue) {
         this.$emit('input', newValue);
         this.$emit('change', newValue);
       },
-    }
+    },
   },
-  mounted () {
+  mounted() {
     if (typeof this.value !== 'undefined') {
-      this.editor.setContent(this.value)
+      this.editor.setContent(this.value);
     } else {
       // eslint-disable-next-line no-console
-      console.warn('Devise: The initial value for the WYSIWYG field was undefined. Consider wrapping it in a v-if until the model is resolved.')
+      console.warn(
+        'Devise: The initial value for the WYSIWYG field was undefined. Consider wrapping it in a v-if until the model is resolved.'
+      );
     }
   },
-  beforeDestroy () {
-    this.editor.destroy()
+  beforeDestroy() {
+    this.editor.destroy();
   },
   methods: {
-    launchMediaManager (command) {
-      this.currentCommand = command
+    launchMediaManager(command) {
+      this.currentCommand = command;
       window.deviseSettings.$bus.$emit('devise-launch-media-manager', {
         callback: this.mediaSelected,
       });
     },
-    mediaSelected (imagesAndSettings) {
+    mediaSelected(imagesAndSettings) {
       if (typeof imagesAndSettings === 'object') {
-        this.currentCommand({ src: imagesAndSettings.images.media.custom })
+        this.currentCommand({ src: imagesAndSettings.images.media.custom });
       } else {
-        this.currentCommand({ src: imagesAndSettings })
+        this.currentCommand({ src: imagesAndSettings });
       }
     },
-    update (e) {
+    update(e) {
       this.localValue = e.getHTML();
     },
-    updateSource (e) {
-      this.updateContent(e.target.value)
+    updateSource(e) {
+      this.updateContent(e.target.value);
     },
-    updateContent (content) {
-      this.editor.setContent(content)
+    updateContent(content) {
+      this.editor.setContent(content);
     },
-    applyTextColor (commands) {
+    applyTextColor(commands) {
       const { r, g, b, a } = this.textColor.rgba;
-      commands.textcolor({ color: `rgba(${r},${g},${b},${a})` })
-      this.showTextColorPicker = false
+      commands.textcolor({ color: `rgba(${r},${g},${b},${a})` });
+      this.showTextColorPicker = false;
     },
-    showLinkMenu (attrs) {
-      this.linkUrl = attrs.href
-      this.linkMenuIsActive = true
+    showLinkMenu(attrs) {
+      this.linkUrl = attrs.href;
+      this.linkMenuIsActive = true;
       this.$nextTick(() => {
-        this.$refs.linkInput.focus()
-      })
+        this.$refs.linkInput.focus();
+      });
     },
-    hideLinkMenu () {
-      this.linkUrl = null
-      this.linkMenuIsActive = false
+    hideLinkMenu() {
+      this.linkUrl = null;
+      this.linkMenuIsActive = false;
     },
-    setLinkUrl (command, url) {
-      command({ href: url })
-      this.hideLinkMenu()
+    setLinkUrl(command, url) {
+      command({ href: url });
+      this.hideLinkMenu();
     },
-  }
-}
+  },
+};
 </script>

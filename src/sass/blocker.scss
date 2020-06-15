@@ -1,5 +1,5 @@
 .dvs-blocker {
-  @apply dvs-bg-black dvs-opacity-75 dvs-fixed dvs-pin dvs-z-40;
+  @apply dvs-bg-black dvs-opacity-75 dvs-fixed dvs-inset-0 dvs-z-40;
 
   filter: blur(10px);
 
@@ -10,7 +10,7 @@
 }
 
 .dvs-sidebar-hint {
-  @apply fixed pin-t pin-l rounded-r-full rounded-b-full ml-1 mt-1 cursor-pointer shadow-lg dvs-text-grey-darkest dvs-p-3;
+  @apply dvs-fixed dvs-top-0 dvs-left-0 dvs-rounded-r-full dvs-rounded-b-full dvs-ml-1 dvs-mt-1 dvs-cursor-pointer dvs-shadow-lg dvs-text-gray-900 dvs-p-3;
   
   font-size:16px;
   top: '-100px';

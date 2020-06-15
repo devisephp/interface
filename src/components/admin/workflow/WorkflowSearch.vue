@@ -7,10 +7,10 @@
           type="text"
           class="dvs-bg-transparent dvs-bg-admin-secondary-bg dvs-px-12 dvs-py-4 dvs-text-admin-fg dvs-outline-none dvs-placeholder-admin-fg dvs-text-center"
           placeholder="Type to begin searching"
-        >
+        />
         <div
-          class="dvs-cursor-pointer dvs-absolute dvs-pin-r dvs-pin-t dvs-mt-3 dvs-mr-2"
-          :class="{'dvs-opacity-50': searchTerm === ''}"
+          class="dvs-cursor-pointer dvs-absolute dvs-right-0 dvs-top-0 dvs-mt-3 dvs-mr-2"
+          :class="{ 'dvs-opacity-50': searchTerm === '' }"
           @click="searchTerm = ''"
         >
           <x-icon></x-icon>
@@ -22,7 +22,9 @@
         v-if="step.allRecordsApiendpoint"
         class="dvs-btn dvs-btn-secondary dvs-btn-sm dvs-m4-6"
         @click="requestAll"
-      >Load All Records</button>
+      >
+        Load All Records
+      </button>
     </div>
 
     <pagination
@@ -31,7 +33,7 @@
       @changePage="changePage"
     ></pagination>
 
-    <ul class="dvs-list-reset">
+    <ul>
       <li
         v-for="(suggestion, key) in autosuggest.data"
         :key="key"
@@ -39,7 +41,7 @@
         @click="selectSuggestion(suggestion)"
       >
         <div class="dvs-text-lg dvs-mb-2 dvs-font-light">{{ suggestion[mainLabelField] }}</div>
-        <ul class="dvs-list-reset dvs-flex">
+        <ul class="dvs-flex">
           <li
             v-for="(subField, subkey) in subLabelFields"
             :key="subkey"
@@ -62,58 +64,60 @@
 
 <script>
 import { mapActions } from 'vuex';
-import dayjs from 'dayjs'
+import dayjs from 'dayjs';
 
 export default {
   name: 'DeviseWorkflowSearch',
   components: {
     XIcon: () => import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/XIcon'),
-    Pagination: () => import(/* webpackChunkName: "devise-utilities" */ '../../utilities/Pagination.vue'),
+    Pagination: () =>
+      import(/* webpackChunkName: "devise-utilities" */ '../../utilities/Pagination.vue'),
   },
   props: {
     step: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
-  data () {
+  data() {
     return {
       searchDelay: 1000,
       searchTerm: '',
       autosuggest: {
         data: [],
       },
-    }
+    };
   },
   computed: {
-    options () {
-      return this.step.options
+    options() {
+      return this.step.options;
     },
-    mainLabelField () {
-      return this.step.resultsDisplayFields[0].field
+    mainLabelField() {
+      return this.step.resultsDisplayFields[0].field;
     },
-    subLabelFields () {
+    subLabelFields() {
       const secondaryFields = JSON.parse(JSON.stringify(this.step.resultsDisplayFields));
-      secondaryFields.shift()
+      secondaryFields.shift();
       return secondaryFields;
-    }
+    },
   },
   watch: {
-    searchTerm (newValue) {
+    searchTerm(newValue) {
       this.requestSearch(newValue);
     },
   },
   methods: {
     ...mapActions('devise', ['searchGeneric']),
-    requestSearch (term) {
+    requestSearch(term) {
       if (term !== '') {
-        const isApp = this.step.app === true || typeof this.step.app === 'undefined' ? true : this.step.app;
+        const isApp =
+          this.step.app === true || typeof this.step.app === 'undefined' ? true : this.step.app;
         const searchData = {};
         searchData[this.step.searchPropertyName] = term;
 
         this.searchGeneric({
           config: { apiendpoint: this.step.apiendpoint, app: isApp },
-          filters: searchData
+          filters: searchData,
         }).then(results => {
           this.autosuggest = results.data;
           if (results.data.length < 1) {
@@ -127,28 +131,29 @@ export default {
         this.autosuggest = Object.assign({}, {});
       }
     },
-    requestAll (filters) {
-      const isApp = this.step.app === true || typeof this.step.app === 'undefined' ? true : this.step.app;
+    requestAll(filters) {
+      const isApp =
+        this.step.app === true || typeof this.step.app === 'undefined' ? true : this.step.app;
 
       this.searchGeneric({
         config: { apiendpoint: this.step.allRecordsApiendpoint, app: isApp },
-        filters
+        filters,
       }).then(results => {
         this.autosuggest = results.data;
       });
     },
-    changePage (page) {
-      this.requestAll({ page })
+    changePage(page) {
+      this.requestAll({ page });
     },
-    selectSuggestion (suggestion) {
-      this.$emit('done', suggestion)
+    selectSuggestion(suggestion) {
+      this.$emit('done', suggestion);
     },
-    format (field, data) {
+    format(field, data) {
       if (field.dateFormat) {
-        return dayjs(data).format(field.dateFormat)
+        return dayjs(data).format(field.dateFormat);
       }
-      return data
-    }
+      return data;
+    },
   },
-}
+};
 </script>

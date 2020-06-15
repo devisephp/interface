@@ -14,13 +14,13 @@
 }
 
 .dvs-panel-shine-container {
-  @apply dvs-absolute dvs-pin dvs-z-50 dvs-pointer-events-none;
+  @apply dvs-absolute dvs-inset-0 dvs-z-50 dvs-pointer-events-none;
 
   overflow:hidden;
 }
 
 .dvs-panel-shine {
-  @apply dvs-absolute dvs-pin dvs-pointer-events-none;
+  @apply dvs-absolute dvs-inset-0 dvs-pointer-events-none;
 
   width:3000px;
   height:3000px;
@@ -32,7 +32,7 @@
   @apply dvs-relative dvs-rounded dvs-text-white;
 
   &:after {
-    @apply dvs-absolute dvs-pin dvs-pointer-events-none;
+    @apply dvs-absolute dvs-inset-0 dvs-pointer-events-none;
 
     content: '';
     opacity:1;

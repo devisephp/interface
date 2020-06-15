@@ -17,7 +17,7 @@
         <x-icon></x-icon>
       </div>
     </div>
-    <ul class="dvs-list-reset">
+    <ul>
       <li
         v-for="(suggestion, key) in filteredSuggestions"
         :key="key"
@@ -25,7 +25,7 @@
         @click="selectSuggestion(suggestion)"
       >
         <div class="dvs-text-lg dvs-mb-2">{{ suggestion.displayFields[0].value }}</div>
-        <ul class="dvs-list-reset dvs-flex">
+        <ul class="dvs-flex">
           <li
             v-for="(subField, subkey) in subLabelFields(suggestion.displayFields)"
             :key="subkey"
@@ -51,7 +51,6 @@
       }"
       :list="selected"
       tag="ul"
-      class="dvs-list-reset"
     >
       <li
         v-for="(suggestion, key) in selected"
@@ -64,7 +63,7 @@
         <div v-if="suggestion.displayFields" class="dvs-w-full">
           <div class="dvs-text-lg dvs-mb-2">{{ suggestion.displayFields[0].value }}</div>
 
-          <ul class="dvs-list-reset dvs-flex">
+          <ul class="dvs-flex">
             <li
               v-for="(subField, subkey) in subLabelFields(suggestion.displayFields)"
               :key="subkey"

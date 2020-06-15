@@ -37,10 +37,10 @@
             "
             class="dvs-text-center dvs-py-16 dvs-w-full dvs-flex dvs-flex-col dvs-py-20"
           >
-            <h1 class="dvs-font-sans dvs-font-thin dvs-text-grey-darkest dvs-uppercase dvs-mb-4">
+            <h1 class="dvs-font-sans dvs-font-thin dvs-text-gray-900 dvs-uppercase dvs-mb-4">
               Let's Get to Work
             </h1>
-            <p class="dvs-text-xl dvs-text-grey-darker">
+            <p class="dvs-text-xl dvs-text-gray-800">
               Click "Add Slice" on the admin panel to start designing this page!
             </p>
           </div>
@@ -189,7 +189,7 @@ export default {
     },
     findBreakpoint(width) {
       for (const breakpoint in this.deviseOptions.breakpoints) {
-        if (Object.prototype.hasOwnProperty.call(this.deviseOptions.breakpoints, 'breakpoint')) {
+        if (this.deviseOptions.breakpoints['breakpoint']) {
           if (width < this.deviseOptions.breakpoints[breakpoint]) {
             return breakpoint;
           }

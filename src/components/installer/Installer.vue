@@ -4,7 +4,7 @@
       <installer-finish
         ref="finshline"
         :finished="finished"
-        class="dvs-fixed dvs-pin-t dvs-pin-l dvs-pin-r dvs-z-50"
+        class="dvs-fixed dvs-top-0 dvs-left-0 dvs-right-0 dvs-z-50"
         :style="finishedStyles"
       ></installer-finish>
 
@@ -12,7 +12,7 @@
 
       <div
         id="content"
-        class="dvs-absolute dvs-pin dvs-overflow-scroll"
+        class="dvs-absolute dvs-inset-0 dvs-overflow-scroll"
         :style="bodyFinishedStyles"
       >
         <section id="nav-welcome" name="nav-welcome">
@@ -55,9 +55,9 @@
               <p class="dvs-mb-4">
                 Below we have setup an interactive installer that will continually poll to see if
                 you have correctly configured your server and application for Devise. Once you have
-                turned all the items in "Required Setup" green you are good to go. However, we have
-                also provided some helpful items in "Non-required Setup" that you may want to take
-                a look at.
+                turned all the items in "Required Setup" green-500you are good to go. However, we
+                have also provided some helpful items in "Non-required Setup" that you may want to
+                take a look at.
               </p>
             </div>
           </div>
@@ -148,7 +148,7 @@ export default {
     }),
     finished() {
       for (const task in this.checklist) {
-        if (Object.prototype.hasOwnProperty.call(this.checklist, 'task')) {
+        if (this.checklist[task]) {
           if (!this.checklist[task]) {
             return false;
           }

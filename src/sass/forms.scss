@@ -39,7 +39,7 @@ fieldset.dvs-fieldset {
 
 
 .v-select-wrapper {
-  @apply dvs-bg-grey-lighter dvs-text-grey-darkest dvs-rounded-sm 
+  @apply dvs-bg-gray-300 dvs-text-gray-900 dvs-rounded-sm 
 }
 
 .dvs-toggle {
@@ -61,7 +61,7 @@ fieldset.dvs-fieldset {
   }
 
   .dvs-toggle-slider {
-    @apply dvs-cursor-pointer dvs-absolute dvs-pin;
+    @apply dvs-cursor-pointer dvs-absolute dvs-inset-0;
 
     background-color: #ccc;
     transition: .4s;
@@ -101,7 +101,7 @@ fieldset.dvs-fieldset {
   }
 
   .dvs-toggle-slider {
-    @apply dvs-cursor-pointer dvs-absolute dvs-pin;
+    @apply dvs-cursor-pointer dvs-absolute dvs-inset-0;
 
     background-color: #ccc;
     transition: .4s;
@@ -127,7 +127,7 @@ fieldset.dvs-fieldset {
     width: 34px;
     font-size: 11px;
 
-    &::-webkit-outer-spin-button, &::-webkit-inner-spin-button {
+    &::-webkit-outer-sbottom-0utton, &::-webkit-inner-sbottom-0utton {
       @apply dvs-appearance-none dvs-m-0;
     }
   }

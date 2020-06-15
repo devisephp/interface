@@ -4,7 +4,7 @@
       <div class="dvs-cursor-pointer dvs-mr-1" @click="goToHome()">Home</div>
       <template v-for="(dir, key) in directoriesObj">
         <div :key="key">
-          <span class="dvs-mr-1 dvs-text-grey">
+          <span class="dvs-mr-1 dvs-text-gray-500">
             <chevron-right-icon></chevron-right-icon>
           </span>
           <span class="dvs-cursor-pointer dvs-mr-1" @click="chooseDirectory(key)">{{ dir }}</span>
@@ -23,8 +23,8 @@ export default {
   props: {
     currentDirectory: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     directoriesObj() {

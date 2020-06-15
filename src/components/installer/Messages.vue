@@ -1,7 +1,7 @@
 <template>
   <!-- eslint-disable vue/no-v-html -->
   <div>
-    <ul id="messages" class="dvs-list-reset dvs-fixed dvs-pin-l dvs-pin-b dvs-pin-r">
+    <ul id="messages" class="dvs-fixed dvs-left-0 dvs-bottom-0 dvs-right-0">
       <li
         v-for="message in messages"
         :key="getHash(message)"
@@ -81,7 +81,7 @@ export default {
         errorString += `<ul>`;
 
         for (const key in errorData.errors) {
-          if (Object.prototype.hasOwnProperty.call(errorData.errors, 'key')) {
+          if (errorData.errors[key]) {
             errorString += `<li>${errorData.errors[key]}</li>`;
           }
         }

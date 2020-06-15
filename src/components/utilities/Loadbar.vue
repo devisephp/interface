@@ -3,7 +3,7 @@
     <transition name="dvs-fade">
       <div
         v-show="loadbarPercentage > 0 && loadbarPercentage < 1"
-        class="dvs-fixed dvs-pin dvs-z-50"
+        class="dvs-fixed dvs-inset-0 dvs-z-50"
       >
         <div class="dvs-blocker"></div>
         <div
@@ -11,7 +11,10 @@
         >
           <h6 class="dvs-mb-2 dvs-text-action dvs-uppercase dvs-text-xs">Just a moment</h6>
           <div class="dvs-loadbar">
-            <div class="dvs-bar dvs-background" :style="{width:loadbarPercentage * 100 + '%'}"></div>
+            <div
+              class="dvs-bar dvs-background"
+              :style="{ width: loadbarPercentage * 100 + '%' }"
+            ></div>
           </div>
         </div>
       </div>

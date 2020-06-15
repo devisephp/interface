@@ -5,10 +5,12 @@
       class="dvs-text-base dvs-flex dvs-rounded dvs-overflow-hidden"
       :class="{
         'dvs-text-admin-fg dvs-bg-admin-bg': subtle,
-        'dvs-text-admin-highlight-fg dvs-bg-admin-highlight-bg': !subtle
+        'dvs-text-admin-highlight-fg dvs-bg-admin-highlight-bg': !subtle,
       }"
     >
-      <div class="dvs-text-admin-highlight-bg dvs-bg-admin-highlight-fg dvs-flex dvs-items-center dvs-justify-center dvs-px-4 dvs-text-xl ">
+      <div
+        class="dvs-text-admin-highlight-bg dvs-bg-admin-highlight-fg dvs-flex dvs-items-center dvs-justify-center dvs-px-4 dvs-text-xl "
+      >
         <help-circle-icon></help-circle-icon>
       </div>
 
@@ -25,21 +27,21 @@
       @mouseleave="showHelp = false"
       @click="toggleKeepHelp"
     >
-      <span
-        class="dvs-cursor-pointer"
-        :class="{'dvs-text-admin-highlight-bg': keepHelp}"
-      >
+      <span class="dvs-cursor-pointer" :class="{ 'dvs-text-admin-highlight-bg': keepHelp }">
         <help-circle-icon></help-circle-icon>
       </span>
       <div
         v-show="showHelp || keepHelp"
-        class="dvs-roman dvs-normal-case dvs-font-normal dvs-text-xl dvs-fixed dvs-pin-b dvs-pin-l dvs-ml-4 dvs-mb-4 dvs-z-30 dvs-text-admin-highlight-fg dvs-bg-admin-highlight-bg dvs-p-8 dvs-rounded dvs-shadow-lg"
+        class="dvs-not-italic dvs-normal-case dvs-font-normal dvs-text-xl dvs-fixed dvs-bottom-0 dvs-left-0 dvs-ml-4 dvs-mb-4 dvs-z-30 dvs-text-admin-highlight-fg dvs-bg-admin-highlight-bg dvs-p-8 dvs-rounded dvs-shadow-lg"
         style="width:400px;"
       >
         <p>
           <slot></slot>
         </p>
-        <div class="dvs-text-xs"><strong>Note</strong> You can keep this window up by clicking on the hint you are mousing over</div>
+        <div class="dvs-text-xs">
+          <strong>Note</strong> You can keep this window up by clicking on the hint you are mousing
+          over
+        </div>
       </div>
     </span>
   </span>
@@ -55,23 +57,23 @@ export default {
   props: {
     compact: {
       type: Boolean,
-      default: false
+      default: false,
     },
     subtle: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
-  data () {
+  data() {
     return {
       showHelp: false,
       keepHelp: false,
-    }
+    };
   },
   methods: {
-    toggleKeepHelp () {
-      this.keepHelp = !this.keepHelp
-    }
-  }
-}
+    toggleKeepHelp() {
+      this.keepHelp = !this.keepHelp;
+    },
+  },
+};
 </script>

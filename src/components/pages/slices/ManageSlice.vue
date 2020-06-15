@@ -1,7 +1,7 @@
 <template>
   <div>
     <portal to="devise-root">
-      <div class="dvs-fixed dvs-pin dvs-flex dvs-justify-center dvs-items-center dvs-z-40">
+      <div class="dvs-fixed dvs-inset-0 dvs-flex dvs-justify-center dvs-items-center dvs-z-40">
         <div class="dvs-blocker" @click="cancelManageSlice"></div>
       </div>
 
@@ -75,7 +75,7 @@
             </div>
             <div
               v-if="managedSlice.type !== null"
-              class="dvs-fixed  dvs-z-40 dvs-pin-b dvs-pin-r dvs-mr-1 dvs-mb-4 dvs-mr-10 dvs-text-xs dvs-z-10 dvs-p-6 dvs-bg-admin-bg dvs-text-admin-fg dvs-rounded dvs-shadow dvs-px-6"
+              class="dvs-fixed  dvs-z-40 dvs-bottom-0 dvs-right-0 dvs-mr-1 dvs-mb-4 dvs-mr-10 dvs-text-xs dvs-z-10 dvs-p-6 dvs-bg-admin-bg dvs-text-admin-fg dvs-rounded dvs-shadow dvs-px-6"
             >
               <button
                 v-if="mode === 'inserting' && managedSlice.type !== 'model'"
@@ -232,7 +232,7 @@ export default {
       };
 
       for (const field in component.fields) {
-        if (Object.prototype.hasOwnProperty.call(component.fields, 'field')) {
+        if (component.fields[field]) {
           const defaults = component.fields[field].default;
           finalSlice[field] = {};
           this.addMissingProperty(finalSlice, field);
@@ -255,7 +255,7 @@ export default {
     setDefaults(slice, field, defaults) {
       // loop through the defaults and apply them to the field
       for (const d in defaults) {
-        if (Object.prototype.hasOwnProperty.call(defaults, 'd')) {
+        if (defaults[d]) {
           this.$set(slice[field], d, defaults[d]);
         }
       }

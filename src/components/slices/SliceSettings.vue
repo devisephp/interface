@@ -7,7 +7,7 @@
     >
       <div
         id="dvs-admin-sidebar"
-        class="dvs-pin-l dvs-z-10 dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg"
+        class="dvs-left-0 dvs-z-10 dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg"
         :style="{
           position: 'relative',
           bottom: 'auto',
@@ -21,7 +21,7 @@
           <li class="dvs-cursor-pointer" @click="showType = 'mobile'">Mobile</li>
         </ul>
 
-        <div class="dvs-absolute dvs-text-xs dvs-pin-l dvs-pin-r dvs-pin-b dvs-p-4">
+        <div class="dvs-absolute dvs-text-xs dvs-left-0 dvs-right-0 dvs-bottom-0 dvs-p-4">
           <button class="dvs-btn dvs-btn-primary dvs-w-full dvs-mb-2" @click="closeEditor">
             Done
           </button>

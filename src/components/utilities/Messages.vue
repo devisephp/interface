@@ -48,7 +48,7 @@ export default {
       ) {
         this.title = error.response.data.message;
         for (const property in error.response.data.errors) {
-          if (Object.prototype.hasOwnProperty.call(error.response.data.errors, 'property')) {
+          if (error.response.data.errors[property]) {
             const e = error.response.data.errors[property];
             self.appendError({
               id: this.genUniqueKey(error),

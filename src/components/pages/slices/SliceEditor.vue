@@ -169,7 +169,7 @@
         v-devise-opacity.background="0.5"
         :list="sliceSlices"
         tag="ul"
-        class="dvs-list-reset dvs-bg-admin-secondary-bg dvs-rounded-lg dvs-py-1 dvs-pt-3 dvs-mt-1 dvs-mb-6"
+        class="dvs-bg-admin-secondary-bg dvs-rounded-lg dvs-py-1 dvs-pt-3 dvs-mt-1 dvs-mb-6"
         v-bind="{
           group: { name: 'slices' },
           animation: 200,
@@ -291,7 +291,7 @@ export default {
       const fields = {};
       for (const potentialField in this.slice) {
         if (
-          Object.prototype.hasOwnProperty.call(this.slice, 'potentialField') &&
+          this.slice[potentialField] &&
           potentialField !== 'slices' &&
           potentialField !== 'metadata' &&
           potentialField !== 'settings' &&
@@ -430,7 +430,7 @@ export default {
       }
 
       for (const field in fields) {
-        if (Object.prototype.hasOwnProperty.call(fields, 'field')) {
+        if (fields['field']) {
           const f = fields[field];
 
           if (f && f.editorLabel && f[acceptedFieldTypes[f.type]]) {

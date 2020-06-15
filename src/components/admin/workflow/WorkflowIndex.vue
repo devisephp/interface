@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <ul class="dvs-list-reset">
+      <ul>
         <li
           v-for="(suggestion, key) in results.data"
           :key="key"
@@ -9,7 +9,7 @@
           @click="selectSuggestion(suggestion)"
         >
           <div class="dvs-text-lg dvs-mb-2 dvs-font-light">{{ suggestion[mainLabelField] }}</div>
-          <ul class="dvs-list-reset dvs-flex">
+          <ul class="dvs-flex">
             <li
               v-for="(subField, subkey) in subLabelFields"
               :key="subkey"
@@ -33,55 +33,56 @@
 
 <script>
 import { mapActions } from 'vuex';
-import dayjs from 'dayjs'
+import dayjs from 'dayjs';
 
 export default {
   name: 'DeviseWorkflowIndex',
   props: {
     step: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
-  data () {
+  data() {
     return {
       results: {
         data: [],
       },
-    }
+    };
   },
   computed: {
-    mainLabelField () {
-      return this.step.resultsDisplayFields[0].field
+    mainLabelField() {
+      return this.step.resultsDisplayFields[0].field;
     },
-    subLabelFields () {
+    subLabelFields() {
       const secondaryFields = JSON.parse(JSON.stringify(this.step.resultsDisplayFields));
-      secondaryFields.shift()
+      secondaryFields.shift();
       return secondaryFields;
-    }
+    },
   },
-  mounted () {
-    this.requestData()
+  mounted() {
+    this.requestData();
   },
   methods: {
     ...mapActions('devise', ['getGeneric']),
-    requestData () {
-      const isApp = this.step.app === true || typeof this.step.app === 'undefined' ? true : this.step.app;
+    requestData() {
+      const isApp =
+        this.step.app === true || typeof this.step.app === 'undefined' ? true : this.step.app;
       this.getGeneric({
-        config: { apiendpoint: this.step.apiendpoint, app: isApp }
+        config: { apiendpoint: this.step.apiendpoint, app: isApp },
       }).then(results => {
         this.results = results.data;
       });
     },
-    selectSuggestion (suggestion) {
-      this.$emit('done', suggestion)
+    selectSuggestion(suggestion) {
+      this.$emit('done', suggestion);
     },
-    format (field, data) {
+    format(field, data) {
       if (field.dateFormat) {
-        return dayjs(data).format(field.dateFormat)
+        return dayjs(data).format(field.dateFormat);
       }
-      return data
-    }
+      return data;
+    },
   },
-}
+};
 </script>

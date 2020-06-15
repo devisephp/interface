@@ -1,31 +1,25 @@
 <template>
   <admin-container>
     <template v-slot:message>
-      Welcome Back!<br>
+      Welcome Back!<br />
       What are you looking to work on?
     </template>
     <template v-slot:content>
-      <ul class="dvs-list-reset dvs-flex dvs-flex-wrap dvs-justify-between">
-        <li
-          v-for="menuItem in currentMenuItems"
-          :key="menuItem.id"
-          class="dvs-py-6 dvs-mr-8"
-        >
+      <ul class="dvs-flex dvs-flex-wrap dvs-justify-between">
+        <li v-for="menuItem in currentMenuItems" :key="menuItem.id" class="dvs-py-6 dvs-mr-8">
           <div
             v-if="menuItem.routeName"
             class="dvs-block dvs-switch-sm dvs-flex dvs-justify-between dvs-items-center dvs-cursor-pointer"
             @click="goToPage(menuItem.routeName, menuItem.parameters)"
-          >{{ menuItem.label }}</div>
-          <div
-            v-else
-            class="dvs-uppercase dvs-text-xs dvs-text-admin-secondary-fg"
-          >{{ menuItem.label }}</div>
-          <ul
-            v-if="menuItem.children"
-            class="dvs-list-reset dvs-text-sm"
           >
+            {{ menuItem.label }}
+          </div>
+          <div v-else class="dvs-uppercase dvs-text-xs dvs-text-admin-secondary-fg">
+            {{ menuItem.label }}
+          </div>
+          <ul v-if="menuItem.children" class="dvs-text-sm">
             <li
-              v-for="(childMenuItem) in filteredMenu(menuItem.children)"
+              v-for="childMenuItem in filteredMenu(menuItem.children)"
               :key="childMenuItem.id"
               class="dvs-pt-3"
             >
@@ -33,7 +27,9 @@
                 v-if="childMenuItem.routeName"
                 class="dvs-block dvs-switch-sm dvs-flex dvs-justify-between dvs-items-center dvs-cursor-pointer"
                 @click="goToPage(childMenuItem.routeName, childMenuItem.parameters)"
-              >{{ childMenuItem.label }}</div>
+              >
+                {{ childMenuItem.label }}
+              </div>
             </li>
           </ul>
         </li>
@@ -54,29 +50,29 @@ export default {
 
   computed: {
     ...mapState('devise', ['adminMenu']),
-    currentMenu () {
-      return this.findMenu(this.adminMenu)
+    currentMenu() {
+      return this.findMenu(this.adminMenu);
     },
-    currentMenuItems () {
-      return this.currentMenu.menu.filter((menuItem) => {
+    currentMenuItems() {
+      return this.currentMenu.menu.filter(menuItem => {
         if (!menuItem.permissions) {
-          return true
+          return true;
         }
-        return this.can(menuItem.permissions)
+        return this.can(menuItem.permissions);
       });
-    }
+    },
   },
 
   methods: {
-    filteredMenu (subMenu) {
-      return subMenu.filter((menuItem) => {
+    filteredMenu(subMenu) {
+      return subMenu.filter(menuItem => {
         if (!menuItem.permissions) {
-          return true
+          return true;
         }
-        return this.can(menuItem.permissions)
+        return this.can(menuItem.permissions);
       });
     },
-    findMenu (menu) {
+    findMenu(menu) {
       let safeMenu = menu;
       if (typeof menu === 'object') {
         safeMenu = Object.keys(menu).map(i => menu[i]);
@@ -97,6 +93,5 @@ export default {
       return false;
     },
   },
-
 };
 </script>

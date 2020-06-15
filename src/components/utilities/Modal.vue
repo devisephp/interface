@@ -1,22 +1,14 @@
 <template>
-  <div class="dvs-fixed dvs-pin dvs-flex dvs-justify-center dvs-items-center">
-
-    <div
-      class="dvs-blocker dvs-fixed dvs-pin"
-      @click="close"
-    ></div>
+  <div class="dvs-fixed dvs-inset-0 dvs-flex dvs-justify-center dvs-items-center">
+    <div class="dvs-blocker dvs-fixed dvs-inset-0" @click="close"></div>
     <div class="dvs-z-50 dvs-min-w-2/3 dvs-max-h-screen">
       <panel class="dvs-w-full">
         <div class="dvs-p-8">
           <div
-            class="dvs-absolute dvs-pin-t dvs-pin-r dvs-mt-4 dvs-mr-8 dvs-cursor-pointer z-10"
+            class="dvs-absolute dvs-top-0 dvs-right-0 dvs-mt-4 dvs-mr-8 dvs-cursor-pointer z-10"
             @click="close"
           >
-            <close-icon
-              w="40"
-              h="40"
-              class="dvs-text-admin-fg"
-            />
+            <close-icon w="40" h="40" class="dvs-text-admin-fg" />
           </div>
           <slot></slot>
         </div>
@@ -35,7 +27,7 @@ export default {
     Panel,
   },
   methods: {
-    close () {
+    close() {
       this.$emit('close');
     },
   },

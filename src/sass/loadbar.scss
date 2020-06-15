@@ -1,6 +1,6 @@
 .dvs-loadbar {
   height:8px;
-  @apply dvs-bg-grey-lighter dvs-rounded dvs-w-3/5 dvs-relative;
+  @apply dvs-bg-gray-300 dvs-rounded dvs-w-3/5 dvs-relative;
 
   .dvs-bar {
     height: 6px;
@@ -8,7 +8,7 @@
     left:1px;
     right:1px;
     bottom:1px;
-    @apply dvs-absolute dvs-bg-blue-dark dvs-rounded;
+    @apply dvs-absolute dvs-bg-blue-700 dvs-rounded;
 
     transition: 0.3s width ease;
   }

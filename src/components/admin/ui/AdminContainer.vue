@@ -7,7 +7,7 @@
     </div>
     <div
       class="dvs-relative dvs-bg-admin-bg dvs-rounded dvs-shadow-lg dvs-max-w-3/4 dvs-min-w-1/2 dvs-py-10 dvs-px-16 dvs-pointer-events-auto overflow-y-scroll"
-      style="max-height:70vh"
+      style="max-height:70vh; min-width:800px;"
     >
       <slot name="content"></slot>
     </div>

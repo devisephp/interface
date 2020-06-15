@@ -50,12 +50,12 @@ const DevisePlugin = {
 
     // Merge custom routes (admin) from application
     for (const route in routes) {
-      if (Object.prototype.hasOwnProperty.call(routes, 'route')) {
+      if (routes[route]) {
         const routeToCheck = routes[route];
         let canAdd = true;
 
         for (const customRoute in router.options.routes) {
-          if (Object.prototype.hasOwnProperty.call(router.options.routes, 'customRoute')) {
+          if (router.options.routes[customRoute]) {
             const routeToCheckAgainst = router.options.routes[customRoute];
             if (routeToCheckAgainst.name === routeToCheck.name) {
               canAdd = false;

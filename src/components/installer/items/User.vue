@@ -1,12 +1,11 @@
 <template>
-  <devise-installer-item
-    id="nav-user"
-    :item="item"
-    title="First Administration User (required)"
-  >
+  <devise-installer-item id="nav-user" :item="item" title="First Administration User (required)">
     <template slot="instructions">
       <p>You need to update the User.php model to add the HasPermissions trait</p>
-      <p>Also, for the first user to login you will need to create a user. You can either enter one directly into the database manually or add one using the form to the right.</p>
+      <p>
+        Also, for the first user to login you will need to create a user. You can either enter one
+        directly into the database manually or add one using the form to the right.
+      </p>
     </template>
 
     <template slot="example">
@@ -51,47 +50,34 @@
         </pre>
       </div>
 
-      <h3 class="dvs-mb-4">Create Your first User
+      <h3 class="dvs-mb-4">
+        Create Your first User
         <template v-if="item">(Already Created)</template>
       </h3>
-      <form :class="{'dvs-opacity-50': item}">
+      <form :class="{ 'dvs-opacity-50': item }">
         <fieldset class="dvs-fieldset dvs-mb-4">
           <label>Name</label>
-          <input
-            v-model="newUser.name"
-            type="text"
-            :disabled="item"
-          >
+          <input v-model="newUser.name" type="text" :disabled="item" />
         </fieldset>
         <fieldset class="dvs-fieldset dvs-mb-4">
           <label>Email</label>
-          <input
-            v-model="newUser.email"
-            type="email"
-            :disabled="item"
-          >
+          <input v-model="newUser.email" type="email" :disabled="item" />
         </fieldset>
         <fieldset class="dvs-fieldset dvs-mb-6">
           <label>Password</label>
-          <input
-            v-model="newUser.password"
-            type="text"
-            :disabled="item"
-          >
+          <input v-model="newUser.password" type="text" :disabled="item" />
         </fieldset>
         <fieldset class="dvs-fieldset dvs-mb-6">
           <label>Confirm Password</label>
-          <input
-            v-model="newUser.password_confirmation"
-            type="text"
-            :disabled="item"
-          >
+          <input v-model="newUser.password_confirmation" type="text" :disabled="item" />
         </fieldset>
         <button
-          class="dvs-btn dvs-bg-green dvs-text-white"
+          class="dvs-btn dvs-bg-green-500 dvs-text-white"
           :disabled="item"
           @click.prevent="attemptCreateUser()"
-        >Create User</button>
+        >
+          Create User
+        </button>
       </form>
     </template>
   </devise-installer-item>
@@ -102,34 +88,33 @@ import { mapActions } from 'vuex';
 
 export default {
   components: {
-    DeviseInstallerItem: () => import(/* webpackChunkName: "devise-installer" */ "../Item.vue"),
+    DeviseInstallerItem: () => import(/* webpackChunkName: "devise-installer" */ '../Item.vue'),
   },
 
   props: {
     item: {
       type: Boolean,
-      required: true
-    }
+      required: true,
+    },
   },
 
-  data () {
+  data() {
     return {
       newUser: {
         name: '',
         email: '',
         password: '',
-        password_confirmation: ''
-      }
+        password_confirmation: '',
+      },
     };
   },
   methods: {
     ...mapActions('devise', ['createUser', 'login']),
-    attemptCreateUser () {
+    attemptCreateUser() {
       this.createUser(this.newUser).then(() => {
-        this.login(this.newUser)
+        this.login(this.newUser);
       });
-    }
+    },
   },
-
 };
 </script>

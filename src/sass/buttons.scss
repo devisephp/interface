@@ -14,10 +14,10 @@
   }
 
   &.dvs-toggle {
-    @apply dvs-bg-grey-dark;
+    @apply dvs-bg-gray-600;
 
     &.dvs-on {
-      @apply dvs-bg-green;
+      @apply dvs-bg-green-500;
     }
   }
 
@@ -52,7 +52,7 @@
   }
 
   &:disabled {
-    @apply dvs-bg-grey-light
+    @apply dvs-bg-gray-400
   }
 
   &.dvs-btn-primary {
@@ -80,10 +80,10 @@
   }
 
   &.dvs-btn-danger {
-    @apply dvs-bg-red-dark dvs-text-white;
+    @apply dvs-bg-red-600 dvs-text-white;
 
     &:hover {
-      @apply dvs-bg-red dvs-text-white;
+      @apply dvs-bg-red-500 dvs-text-white;
     }
   }
 

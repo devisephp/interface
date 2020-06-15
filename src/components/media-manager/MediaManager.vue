@@ -1,15 +1,11 @@
 <template>
   <div
     v-if="show"
-    class="dvs-min-h-screen dvs-fixed dvs-pin dvs-flex dvs-justify-center dvs-items-center dvs-z-60 dvs-text-grey-darker"
+    class="dvs-min-h-screen dvs-fixed dvs-inset-0 dvs-flex dvs-justify-center dvs-items-center dvs-z-60 dvs-text-gray-500"
   >
-    <div
-      class="dvs-blocker dvs-z-30"
-      @click="close"
-    ></div>
+    <div class="dvs-blocker dvs-z-30" @click="close"></div>
 
     <div class="media-manager dvs-min-w-4/5 dvs-max-h-screenpad dvs-overflow-hidden">
-
       <media-selector
         v-if="defaultImage === null || selectingFile"
         @selectSourceFile="selectedFile"
@@ -55,7 +51,7 @@ export default {
     MediaEditor: () => import(/* webpackChunkName: "devise-media" */ './MediaEditor.vue'),
     MediaSelector: () => import(/* webpackChunkName: "devise-media" */ './MediaSelector.vue'),
   },
-  data () {
+  data() {
     return {
       show: false,
       mode: 'list',
@@ -75,13 +71,13 @@ export default {
   },
   computed: {
     ...mapGetters('devise', ['files', 'directories', 'currentDirectory', 'searchableMedia']),
-    currentFiles () {
+    currentFiles() {
       if (this.searchResults.length > 0) {
         return this.searchResults;
       }
       return this.files;
     },
-    uploadHeaders () {
+    uploadHeaders() {
       const token = document.head.querySelector('meta[name="csrf-token"]');
       return {
         'X-CSRF-TOKEN': token.content,
@@ -89,13 +85,13 @@ export default {
     },
   },
   watch: {
-    loaded (newValue) {
+    loaded(newValue) {
       if (newValue === true) {
         this.$nextTick(() => {
           if (this.$refs.search) {
-            this.$refs.search.focus()
+            this.$refs.search.focus();
           }
-        })
+        });
       }
     },
     cookieSettings: newValue => {
@@ -104,42 +100,43 @@ export default {
         Cookies.remove('devise-mediamanager-mode');
       }
     },
-    mode (newValue) {
+    mode(newValue) {
       if (this.cookieSettings) {
         Cookies.set('devise-mediamanager-mode', newValue);
       }
     },
   },
-  mounted () {
+  mounted() {
     this.startOpenerListener();
   },
   methods: {
-    setValue (value) {
+    setValue(value) {
       if (typeof this.target !== 'undefined') {
         this.target.value = value;
       }
       if (typeof this.callback !== 'undefined') {
         this.callback(value);
       }
-      this.close()
+      this.close();
     },
-    selectedFile (file) {
+    selectedFile(file) {
       if (this.defaultImage === null) {
-        this.defaultImage = file
+        this.defaultImage = file;
       }
-      this.selectingFile = false
+      this.selectingFile = false;
 
       this.$nextTick(() => {
         if (
-          !this.defaultImage
-          || this.defaultImage.type !== 'image'
-          || typeof this.options === 'undefined'
-          || !this.options.sizes) {
-          this.setValue(file.url)
+          !this.defaultImage ||
+          this.defaultImage.type !== 'image' ||
+          typeof this.options === 'undefined' ||
+          !this.options.sizes
+        ) {
+          this.setValue(file.url);
         }
-      })
+      });
     },
-    startOpenerListener () {
+    startOpenerListener() {
       window.deviseSettings.$bus.$on(
         'devise-launch-media-manager',
         ({ target, callback, options }) => {
@@ -169,17 +166,15 @@ export default {
       );
     },
 
-    close () {
+    close() {
       this.selectingFile = false;
       this.$set(this, 'defaultImage', null);
       this.imageSettings = Object.assign({});
       this.show = false;
     },
-    selectSizeImage () {
-      this.selectingFile = true
-    }
+    selectSizeImage() {
+      this.selectingFile = true;
+    },
   },
-
-
 };
 </script>

@@ -24,7 +24,7 @@ const routes = [
     meta: {
       parentRouteName: 'devise-settings',
     },
-    permissions: 'manage settings'
+    permissions: 'manage settings',
   },
   {
     path: '/devise-models',
@@ -116,7 +116,7 @@ const routes = [
     meta: {
       parentRouteName: 'devise-settings',
     },
-  }
+  },
 ];
 
 export default routes;

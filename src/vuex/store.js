@@ -77,7 +77,7 @@ const state = {
               routeName: 'devise-redirects-admin',
               permissions: 'manage redirects',
             },
-          ]
+          ],
         },
       ],
     },
@@ -161,9 +161,9 @@ const state = {
       optipng: false,
       pngquant: false,
       svgo: false,
-      gifsicle: false
-    }
-  }
+      gifsicle: false,
+    },
+  },
 };
 
 // A Vuex instance is created by combining the state, the actions,

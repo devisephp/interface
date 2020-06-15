@@ -1,88 +1,75 @@
 <template>
   <!-- eslint-disable vue/no-v-html -->
-  <devise-installer-item
-    id="nav-page"
-    :item="item"
-    title="First Page (required)"
-  >
+  <devise-installer-item id="nav-page" :item="item" title="First Page (required)">
     <template slot="instructions">
-      <p>It's time to create your first page. We'd suggest maybe making your homepage. There's a lot to cover here but don't be intimidated. We will walk you through each step.</p>
+      <p>
+        It's time to create your first page. We'd suggest maybe making your homepage. There's a lot
+        to cover here but don't be intimidated. We will walk you through each step.
+      </p>
       <p>
         A Devise page is built on two parts: A layout file which follows
-        <a
-          href="https://laravel.com/docs/5.7/blade"
-          target="_blank"
-        >Laravel's Blade System</a> and slices.
+        <a href="https://laravel.com/docs/5.7/blade" target="_blank">Laravel's Blade System</a> and
+        slices.
       </p>
       <p>
-        <strong>What a Layout Is:</strong> A layout blade file is a file that is intended to be used across many pages. This way you don't have to set the &lt;head&gt;, Javascript includes, style inclues, etc on every single page. Each page that is assigned that layout extends it placing it's content where you see fit. We have provided a boilerplate for you to the right. Copy the contents and save them to "/resources/views/main.blade.php".
-      </p>
-
-      <p>
-        <strong>Language:</strong>: The language should be pretty obvious: What language is this page in? But what is exciting is that if you have multiple languages you'll be able to quickly deploy localized content based on whatever language the user has selected. More on that in the official documention. For now: select your first language you created above in the sites section.
+        <strong>What a Layout Is:</strong> A layout blade file is a file that is intended to be
+        used across many pages. This way you don't have to set the &lt;head&gt;, Javascript
+        includes, style inclues, etc on every single page. Each page that is assigned that layout
+        extends it placing it's content where you see fit. We have provided a boilerplate for you
+        to the right. Copy the contents and save them to "/resources/views/main.blade.php".
       </p>
 
       <p>
-        <strong>Slug:</strong> Finally, the slug is just the url the page lives on. The homepage slug would be "/" while an about page might live at "/about" or "/about-us". The important thing is that it is lower case, has no spaces and is prefixed with a slash.
+        <strong>Language:</strong>: The language should be pretty obvious: What language is this
+        page in? But what is exciting is that if you have multiple languages you'll be able to
+        quickly deploy localized content based on whatever language the user has selected. More on
+        that in the official documention. For now: select your first language you created above in
+        the sites section.
+      </p>
+
+      <p>
+        <strong>Slug:</strong> Finally, the slug is just the url the page lives on. The homepage
+        slug would be "/" while an about page might live at "/about" or "/about-us". The important
+        thing is that it is lower case, has no spaces and is prefixed with a slash.
       </p>
     </template>
 
     <template slot="example">
-      <h3 class="dvs-mb-4">Create Your first Page
+      <h3 class="dvs-mb-4">
+        Create Your first Page
         <template v-if="item">(Already Created)</template>
       </h3>
-      <form
-        class="dvs-mb-8"
-        :class="{'dvs-opacity-50': item}"
-      >
+      <form class="dvs-mb-8" :class="{ 'dvs-opacity-50': item }">
         <fieldset class="dvs-fieldset dvs-mb-4">
           <label>Page Title</label>
-          <input
-            v-model="newPage.title"
-            type="text"
-            :disabled="item"
-          >
+          <input v-model="newPage.title" type="text" :disabled="item" />
         </fieldset>
         <fieldset class="dvs-fieldset dvs-mb-8">
           <label>Layout</label>
           <select v-model="newPage.layout">
-            <option
-              v-for="layout in layouts"
-              :key="layout"
-              :value="layout"
-            >{{ layout }}</option>
+            <option v-for="layout in layouts" :key="layout" :value="layout">{{ layout }}</option>
           </select>
         </fieldset>
-        <fieldset
-          v-if="languages.length"
-          class="dvs-fieldset dvs-mb-6"
-        >
+        <fieldset v-if="languages.length" class="dvs-fieldset dvs-mb-6">
           <label>Language</label>
-          <select
-            v-model="newPage.language_id"
-            :disabled="item"
-          >
-            <option
-              v-for="language in languages"
-              :key="language.id"
-              :value="language.id"
-            >{{ language.code }}</option>
+          <select v-model="newPage.language_id" :disabled="item">
+            <option v-for="language in languages" :key="language.id" :value="language.id">{{
+              language.code
+            }}</option>
           </select>
         </fieldset>
         <fieldset class="dvs-fieldset dvs-mb-6">
           <label>Slug</label>
-          <input
-            v-model="newPage.slug"
-            type="text"
-            :disabled="item"
-          >
+          <input v-model="newPage.slug" type="text" :disabled="item" />
         </fieldset>
         <button
           type="submit"
-          class="dvs-btn dvs-bg-green dvs-text-white"
+          class="dvs-btn dvs-bg-green-500 dvs-text-white"
           :disabled="item"
           @click.prevent="attemptCreatePage()"
-        >Create Page</button>
+        >
+          Create Page
+        </button>
       </form>
 
       <h3 class="dvs-mb-4">A solid boilerplate for your first layout file</h3>
@@ -102,15 +89,15 @@ import { mapActions, mapState } from 'vuex';
 
 export default {
   components: {
-    DeviseInstallerItem: () => import(/* webpackChunkName: "devise-installer" */ "../Item.vue"),
+    DeviseInstallerItem: () => import(/* webpackChunkName: "devise-installer" */ '../Item.vue'),
   },
   props: {
     item: {
       type: Boolean,
-      required: true
-    }
+      required: true,
+    },
   },
-  data () {
+  data() {
     return {
       newPage: {
         site_id: 1,
@@ -119,7 +106,7 @@ export default {
         title: 'Homepage',
         layout: 'main',
         language: null,
-        slug: '/'
+        slug: '/',
       },
       layoutTemplate: `
         &lt;!doctype html&gt;
@@ -162,24 +149,22 @@ export default {
             &lt;script rel="prefetch" src="{{vuemix('js/main.js', '/devise')}}"&gt;&lt;/script&gt;
           &lt;/body&gt;
         &lt;/html&gt;
-        `
+        `,
     };
   },
   computed: {
     ...mapState('devise', {
-      languages: state => state.languages.data
+      languages: state => state.languages.data,
     }),
-    layouts () {
+    layouts() {
       return window.deviseSettings.$config.layouts;
-    }
+    },
   },
   methods: {
     ...mapActions('devise', ['createPage']),
-    attemptCreatePage () {
+    attemptCreatePage() {
       this.createPage(this.newPage);
-    }
+    },
   },
-
-
 };
 </script>
