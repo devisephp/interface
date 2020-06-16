@@ -1,7 +1,7 @@
 <template>
   <div class="dvs-mb-8 dvs-w-full">
     <div class="dvs-flex dvs-items-center dvs-mb-4 dvs-text-admin-fg">
-      <h3>{{ labelText }}asdfasdf</h3>
+      <h3>{{ labelText }}</h3>
       <div @click="showMediaManager">
         <images-icon class="dvs-ml-4 dvs-cursor-pointer" w="30px" h="30px" />
       </div>

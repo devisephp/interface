@@ -19,7 +19,7 @@ export default function(el, binding) {
       }
 
       for (const size in sizes) {
-        if (Object.prototype.hasOwnProperty.call(sizes, 'size')) {
+        if (sizes[size]) {
           const sizeSettings = sizes[size];
 
           if (sizeSettings.breakpoints) {

@@ -115,8 +115,6 @@ export default {
         const searchData = {};
         searchData[this.step.searchPropertyName] = term;
 
-        console.log(searchData);
-
         this.searchGeneric({
           config: { apiendpoint: this.step.apiendpoint, app: isApp },
           filters: searchData,
