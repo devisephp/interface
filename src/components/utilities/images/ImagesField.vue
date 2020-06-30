@@ -135,7 +135,6 @@ export default {
     },
 
     mediaSelected(imagesAndSettings) {
-      console.log('images and settings', imagesAndSettings);
       const value = {};
 
       if (typeof imagesAndSettings === 'object') {

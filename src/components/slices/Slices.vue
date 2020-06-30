@@ -35,8 +35,8 @@ export default {
             const slicesData = JSON.parse(JSON.stringify(s.slices));
 
             // Sort the slices by a sort function if it was provided
-            if (ctx.props.sortFunction) {
-              slicesData.sort(ctx.props.sortFunction);
+            if (ctx.props.modifyData) {
+              ctx.props.modifyData(slicesData);
             }
 
             // Build the Array of VNODES that will actually be displayed
@@ -78,7 +78,7 @@ export default {
       default: false,
     },
 
-    sortFunction: {
+    modifyData: {
       type: Function,
       default: null,
     },

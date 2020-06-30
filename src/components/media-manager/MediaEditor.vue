@@ -103,7 +103,6 @@ export default {
 
   computed: {
     activeImage() {
-      console.log('activeImage', this.active, this.sizeEdits, this.sizeEdits[this.active]);
       if (this.active && typeof this.sizeEdits !== 'undefined' && this.sizeEdits[this.active]) {
         return {
           url: `/styled/preview/${this.sizeEdits[this.active].url}?${this.encodeEdits(

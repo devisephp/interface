@@ -189,7 +189,7 @@ export default {
     },
     findBreakpoint(width) {
       for (const breakpoint in this.deviseOptions.breakpoints) {
-        if (this.deviseOptions.breakpoints['breakpoint']) {
+        if (this.deviseOptions.breakpoints[breakpoint]) {
           if (width < this.deviseOptions.breakpoints[breakpoint]) {
             return breakpoint;
           }
