@@ -24,20 +24,29 @@ const genUniqueKey = obj => {
 export default {
   name: 'DeviseSlices',
   functional: true,
-  render (h, ctx) {
+  render(h, ctx) {
     if (ctx.props.slices && ctx.props.slices.length) {
       return ctx.props.slices.map((s, index) => {
         // If it's a placeholder for model we need to dig down
         // one level and use the placeholder's slices.
         if (s.metadata.type === 'model') {
           if (s.slices) {
-            const slices = s.slices.map((s, modelIndex) =>
+            // Deep clone the slices data
+            const slicesData = JSON.parse(JSON.stringify(s.slices));
+
+            // Sort the slices by a sort function if it was provided
+            if (ctx.props.sortFunction) {
+              slicesData.sort(ctx.props.sortFunction);
+            }
+
+            // Build the Array of VNODES that will actually be displayed
+            const slices = slicesData.map((ss, modelIndex) =>
               h(
                 Slice,
                 Object.assign({}, ctx.data, {
-                  key: genUniqueKey(s),
+                  key: genUniqueKey(ss),
                   props: {
-                    devise: s,
+                    devise: ss,
                     sliceIndex: modelIndex,
                     editorMode: ctx.props.editorMode,
                   },
@@ -62,13 +71,25 @@ export default {
       });
     }
   },
-  mounted () {
+
+  props: {
+    editorMode: {
+      type: Boolean,
+      default: false,
+    },
+
+    sortFunction: {
+      type: Function,
+      default: null,
+    },
+  },
+
+  mounted() {
     // Emit the bus event to notifify that we are done loading
     this.$nextTick(() => {
       // Emit the bus event to notifify that we are done loading
       window.deviseSettings.$bus.$emit('devise-loaded');
     });
   },
-  props: ['editorMode'],
 };
 </script>
