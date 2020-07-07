@@ -13,11 +13,11 @@
       </div>
     </div>
 
-    <div class="dvs-m-4 dvs-flex">
+    <div class="dvs-mb-6 dvs-flex">
       <vue-upload
         ref="upload"
         v-model="uploadingFiles"
-        class="dvs-w-full dvs-bg-white dvs-p-4 dvs-py-6 dvs-shadow dvs-rounded-sm dvs-font-bold dvs-uppercase dvs-text-xs"
+        class="dvs-w-full dvs-bg-gray-100 dvs-p-4 dvs-py-6 dvs-shadow dvs-rounded-sm dvs-font-bold dvs-uppercase dvs-text-xs"
         :post-action="`/api/devise/media?directory=${currentDirectory}`"
         :headers="uploadHeaders"
         :drop="true"
@@ -28,11 +28,11 @@
       >
     </div>
 
-    <div v-show="uploadingFiles.length" class="dvs-w-full">
+    <div v-show="uploadingFiles.length" class="dvs-w-full dvs-flex dvs-justify-center">
       <button
         v-show="!$refs.upload || !$refs.upload.active"
         type="button"
-        class="dvs-btn dvs-btn-primary dvs-mb-4"
+        class="dvs-btn dvs-btn-primary dvs-text-xs dvs-mb-4"
         @click.prevent="$refs.upload.active = true"
       >
         Start upload
@@ -40,46 +40,47 @@
       <button
         v-show="$refs.upload && $refs.upload.active"
         type="button"
-        class="dvs-btn dvs-btn-danger dvs-mb-4"
+        class="dvs-btn dvs-btn-danger dvs-text-xs dvs-mb-4"
         @click.prevent="$refs.upload.active = false"
       >
-        Stop upload
+        Cancel upload
       </button>
-      <table class="dvs-w-full dvs-border-collapse">
-        <tr class="dvs-border-b-2">
-          <th class="dvs-p-2 dvs-text-xs dvs-uppercase dvs-text-left">Queued Files for Upload</th>
-        </tr>
-        <tr v-for="file in uploadingFiles" :key="file.id" class="dvs-border-b">
-          <td class="dvs-p-4">
-            <div class="dvs-flex">
-              <div
-                class="dvs-cursor-pointer dvs-flex dvs-justify-center dvs-items-center dvs-mr-2"
-                @click="removeFileFromQueue(file)"
-              >
-                <close-icon w="40" h="40" />
-              </div>
-              <div
-                class="dvs-bg-cover dvs-bg-center"
-                :style="`width:40px;height:40px;background-image:url(${file.thumb})`"
-              >
-                <span v-if="!file.thumb">No Image</span>
-              </div>
-              <div class="dvs-ml-4 dvs-text-sm dvs-font-normal">{{ file.name }}</div>
+    </div>
+
+    <table v-show="uploadingFiles.length" class="dvs-w-full dvs-border-collapse">
+      <tr class="dvs-border-b-2">
+        <th class="dvs-p-2 dvs-text-xs dvs-uppercase dvs-text-left">Queued Files for Upload</th>
+      </tr>
+      <tr v-for="file in uploadingFiles" :key="file.id" class="dvs-border-b">
+        <td class="dvs-p-4">
+          <div class="dvs-flex">
+            <div
+              class="dvs-cursor-pointer dvs-flex dvs-justify-center dvs-items-center dvs-mr-2"
+              @click="removeFileFromQueue(file)"
+            >
+              <close-icon w="40" h="40" />
             </div>
             <div
-              class="dvs-bg-gray-500dvs-w-full dvs-mt-4 dvs-flex dvs-items-center"
-              style="height:5px;"
+              class="dvs-bg-cover dvs-bg-center"
+              :style="`width:40px;height:40px;background-image:url(${file.thumb})`"
             >
-              <div
-                class="dvs-bg-highlight-bg"
-                style="height:3px;"
-                :style="{ width: `${file.progress}%` }"
-              ></div>
+              <span v-if="!file.thumb">No Image</span>
             </div>
-          </td>
-        </tr>
-      </table>
-    </div>
+            <div class="dvs-ml-4 dvs-text-sm dvs-font-normal">{{ file.name }}</div>
+          </div>
+          <div
+            class="dvs-bg-gray-500dvs-w-full dvs-mt-4 dvs-flex dvs-items-center"
+            style="height:5px;"
+          >
+            <div
+              class="dvs-bg-highlight-bg"
+              style="height:3px;"
+              :style="{ width: `${file.progress}%` }"
+            ></div>
+          </div>
+        </td>
+      </tr>
+    </table>
   </div>
 </template>
 

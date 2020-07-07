@@ -139,20 +139,20 @@
 
           <div
             v-if="can('manage slices')"
-            class="dvs-absolute dvs-bottom-0 dvs-left-0 dvs-right-0 dvs-mb-3 dvs-flex dvs-justify-around dvs-p-2 dvs-px-8"
+            class="dvs-absolute dvs-bottom-0 dvs-left-0 dvs-right-0 dvs-mb-3 dvs-flex dvs-justify-around dvs-items-stretch dvs-p-2 dvs-px-8"
           >
             <button
-              class="dvs-btn dvs-btn-sm dvs-btn-primary dvs-w-3/5 dvs-mr-2"
+              class="dvs-btn dvs-btn-sm dvs-btn-primary dvs-w-2/5 dvs-mr-2 dvs-flex dvs-justify-center dvs-items-center"
               @click.prevent="requestSavePage()"
             >
               <refresh-icon v-if="saving" w="15" h="15" class="dvs-mr-2 dvs-rotate-ccw" />Save Page
             </button>
 
             <button
-              class="dvs-btn dvs-btn-sm dvs-flex dvs-justify-center dvs-items-center dvs-uppercase dvs-font-bold dvs-w-2/5 dvs-btn-secondary"
+              class="dvs-btn dvs-btn-sm dvs-btn-secondary dvs-w-3/5 dvs-flex dvs-justify-center dvs-items-center dvs-uppercase dvs-font-bold dvs-w-2/5"
               @click.prevent="requestAddSlice"
             >
-              <add-icon class="dvs-text-xl dvs-mr-1" />Add Slice
+              Add Slice
             </button>
           </div>
         </div>
@@ -173,8 +173,6 @@ export default {
   name: 'PageEditor',
   components: {
     DatePicker,
-    AddIcon: () =>
-      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/PlusCircleIcon'),
     RefreshIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/RefreshCcwIcon'),
     draggable: () => import(/* webpackChunkName: "devise-editors" */ 'vuedraggable'),

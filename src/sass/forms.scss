@@ -2,7 +2,7 @@ fieldset.dvs-fieldset {
   box-sizing:border-box;
 
   label {
-    @apply dvs-block dvs-mb-2 dvs-text-xs dvs-uppercase dvs-font-bold dvs-tracking-superwide;
+    @apply dvs-block dvs-mb-2 dvs-text-sm dvs-font-bold dvs-normal-case;
 
     &.dvs-large-label {
       @apply dvs-text-base dvs-font-normal dvs-normal-case dvs-tracking-normal;
@@ -23,7 +23,7 @@ fieldset.dvs-fieldset {
   input[type="number"],
   input[type="email"],
   input[type="phone"] {
-    @apply border-0 dvs-px-4 dvs-py-3 dvs-leading-tight dvs-text-sm dvs-rounded dvs-appearance-none dvs-outline-none;
+    @apply dvs-bg-gray-100 dvs-text-gray-900 dvs-border-0 dvs-px-4 dvs-py-3 dvs-leading-tight dvs-text-sm dvs-rounded dvs-appearance-none dvs-outline-none;
   }
 
   input[type="checkbox"] {
@@ -35,8 +35,6 @@ fieldset.dvs-fieldset {
     height:8em;
   }
 }
-
-
 
 .v-select-wrapper {
   @apply dvs-bg-gray-300 dvs-text-gray-900 dvs-rounded-sm 
@@ -124,7 +122,7 @@ fieldset.dvs-fieldset {
   input {
     @apply dvs-p-2 dvs-text-center dvs-rounded-sm;
 
-    width: 34px;
+    width: 50px;
     font-size: 11px;
 
     &::-webkit-outer-sbottom-0utton, &::-webkit-inner-sbottom-0utton {

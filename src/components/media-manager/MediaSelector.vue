@@ -1,14 +1,13 @@
 <template>
-  <div class="media-manager-interface dvs-shadow-lg  dvs-text-gray-800" style="max-width:95vw">
+  <div class="media-manager-interface dvs-text-gray-800" style="max-width:95vw">
     <div
       style="min-height:70px;"
-      class="dvs-py-4 dvs-px-8 dvs-rounded-tl dvs-rounded-tr dvs-flex dvs-justify-between dvs-items-center dvs-bg-gray-300 dvs-border-b dvs-border-lighter dvs-relative"
+      class="dvs-py-4 dvs-px-8 dvs-rounded-tl dvs-rounded-tr dvs-flex dvs-justify-between dvs-items-center dvs-bg-gray-300 dvs-relative"
     >
-      <div>
-        <div class="dvs-font-bold">Media Manager</div>
+      <div class="pr-16">
         <div
           v-if="currentDirectory !== ''"
-          class="dvs-flex dvs-mt-2 dvs-justify-between dvs-items-center dvs-font-mono dvs-text-sm dvs-tracking-tight"
+          class="dvs-flex dvs-justify-between dvs-items-center dvs-font-bold dvs-text-sm dvs-tracking-tight"
         >
           <breadcrumbs
             :current-directory="currentDirectory"
@@ -16,7 +15,7 @@
           ></breadcrumbs>
         </div>
       </div>
-      <div class="dvs-flex dvs-items-center">
+      <div class="dvs-flex dvs-items-center dvs-text-gray-600">
         <fieldset class="dvs-fieldset dvs-mr-8">
           <div class="dvs-flex dvs-items-center">
             <label class="dvs-mr-2 dvs-my-2">Remember Location?</label>
@@ -70,7 +69,7 @@
           </form>
 
           <vue-scrollbar ref="Scrollbar" class="dvs-w-full dvs-flex-grow">
-            <ul class="dvs-pb-8 dvs-font-mono dvs-text-sm dvs-tracking-tight">
+            <ul class="dvs-pb-8 dvs-font-bold dvs-text-gray-600 dvs-text-sm dvs-tracking-tight">
               <li
                 v-for="directory in directories"
                 :key="directory.id"
@@ -152,14 +151,13 @@
                 directories.length < 1 &&
                 currentDirectory !== ''
             "
-            class="dvs-absolute dvs-absolute-center-x dvs-bottom-0 dvs-mb-8"
           >
             <div
-              class="dvs-bg-white dvs-text-gray-600 dvs-rounded dvs-p-8 dvs--mt-15 dvs-text-center dvs-shadow dvs-cursor-pointer"
+              class=" dvs-bg-gray-100 dvs-text-gray-600 dvs-rounded dvs-p-8 dvs-text-center dvs-shadow dvs-cursor-pointer dvs-flex dvs-justify-center dvs-items-center"
               @click="requestDeleteDirectory()"
             >
-              <trash-icon h="40" w="40" class="dvs-text-admin-bg" />
-              <h6 class="dvs-mt-2 dvs-text-sm">Delete this directory</h6>
+              <trash-icon h="60" w="60" class="dvs-mr-2" />
+              <h6 class="dvs-text-sm">Delete this directory</h6>
             </div>
           </div>
         </transition>

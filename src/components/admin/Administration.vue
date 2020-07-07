@@ -63,10 +63,11 @@
 
     <portal-target
       v-show="!hideDeviseRootPortal"
-      class="dvs-fixed dvs-pin dvs-z-9999"
+      class="dvs-fixed dvs-pin dvs-z-9999 dvs-w-full"
       name="devise-root"
       @change="deviseRootPortalContentChanged"
     ></portal-target>
+
     <media-manager class="dvs-z-9999" />
     <slice-settings />
     <loadbar class="dvs-relative dvs-z-9999" />

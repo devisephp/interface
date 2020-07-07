@@ -3,7 +3,7 @@
     <template v-if="currentDirectory !== ''">
       <div class="dvs-cursor-pointer dvs-mr-1" @click="goToHome()">Home</div>
       <template v-for="(dir, key) in directoriesObj">
-        <div :key="key">
+        <div :key="key" class="dvs-flex dvs-items-center">
           <span class="dvs-mr-1 dvs-text-gray-500">
             <chevron-right-icon></chevron-right-icon>
           </span>

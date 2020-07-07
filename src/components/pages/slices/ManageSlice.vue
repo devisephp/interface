@@ -5,7 +5,7 @@
         <div class="dvs-blocker" @click="cancelManageSlice"></div>
       </div>
 
-      <div class="relative dvs-z-50 dvs-pt-6">
+      <div class="relative dvs-z-50 dvs-w-full dvs-pt-6">
         <admin-container>
           <template v-slot:message>
             Adding new slices builds up your page. Below you will find the settings that will

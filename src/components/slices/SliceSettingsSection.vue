@@ -15,7 +15,7 @@
           <div class="dvs-text-xs dvs-uppercase dvs-w-1/3">Margin</div>
           <div class="dvs-w-1/3 dvs-text-center">
             <input
-              type="number"
+              type="text"
               class="dvs-text-black"
               :value="getStyle('margin', 'top')"
               @keyup="setMargin('top', $event)"
@@ -26,7 +26,7 @@
         <div class="dvs-flex dvs-items-center dvs-px-2">
           <div>
             <input
-              type="number"
+              type="text"
               class="dvs-text-black"
               :value="getStyle('margin', 'left')"
               @keyup="setMargin('left', $event)"
@@ -39,7 +39,7 @@
                 <div class="dvs-text-xs dvs-uppercase dvs-w-1/3">Padding</div>
                 <div class="dvs-w-1/3 dvs-text-center">
                   <input
-                    type="number"
+                    type="text"
                     class="dvs-text-black"
                     :value="getStyle('padding', 'top')"
                     @keyup="setPadding('top', $event)"
@@ -50,7 +50,7 @@
               <div class="dvs-flex dvs-items-center dvs-px-2">
                 <div>
                   <input
-                    type="number"
+                    type="text"
                     class="dvs-text-black"
                     :value="getStyle('padding', 'left')"
                     @keyup="setPadding('left', $event)"
@@ -62,7 +62,7 @@
                 </div>
                 <div>
                   <input
-                    type="number"
+                    type="text"
                     class="dvs-text-black"
                     :value="getStyle('padding', 'right')"
                     @keyup="setPadding('right', $event)"
@@ -73,7 +73,7 @@
               <div class="dvs-flex dvs-justify-center dvs-p-2 dvs-pt-0">
                 <div class="dvs-text-center">
                   <input
-                    type="number"
+                    type="text"
                     class="dvs-text-black"
                     :value="getStyle('padding', 'bottom')"
                     @keyup="setPadding('bottom', $event)"
@@ -85,7 +85,7 @@
           </div>
           <div>
             <input
-              type="number"
+              type="text"
               class="dvs-text-black"
               :value="getStyle('margin', 'right')"
               @keyup="setMargin('right', $event)"
@@ -96,7 +96,7 @@
         <div class="dvs-flex dvs-justify-center dvs-p-2 dvs-pt-0">
           <div class="dvs-text-center">
             <input
-              type="number"
+              type="text"
               class="dvs-text-black"
               :value="getStyle('margin', 'bottom')"
               @keyup="setMargin('bottom', $event)"
