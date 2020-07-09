@@ -53,7 +53,7 @@
             <input type="hidden" name="_token" :value="csrf_field" />
           </form>
         </div>
-        <div class="dvs-flex dvs-w-full ml-16">
+        <div class="dvs-flex dvs-w-full dvs-ml-16">
           <transition name="dvs-fade" mode="out-in">
             <router-view name="devise"></router-view>
           </transition>

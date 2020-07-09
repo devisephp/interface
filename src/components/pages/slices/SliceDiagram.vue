@@ -185,11 +185,11 @@ export default {
         let dims = height * 0.75;
         if (settings.includes('s')) {
           dims = height * 0.5;
-          iconClasses += 'mt-1 ml-1';
+          iconClasses += 'dvs-mt-1 dvs-ml-1';
         }
         if (settings.includes('xs')) {
           dims = height * 0.25;
-          iconClasses += 'm-0';
+          iconClasses += 'dvs-m-0';
         }
 
         styles += `height:${dims}px;color:rgba(0,0,0,0.5);`;
@@ -205,11 +205,11 @@ export default {
         let dims = height * 0.75;
         if (settings.includes('s')) {
           dims = height * 0.5;
-          iconClasses += 'mt-1 ml-1';
+          iconClasses += 'dvs-mt-1 dvs-ml-1';
         }
         if (settings.includes('xs')) {
           dims = height * 0.25;
-          iconClasses += 'm-0';
+          iconClasses += 'dvs-m-0';
         }
 
         styles += `height:${dims}px;color:rgba(0,0,0,0.5);`;
