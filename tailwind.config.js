@@ -328,6 +328,7 @@ module.exports = {
     }),
     maxHeight: {
       full: '100%',
+      screenpad: '85vh',
       screen: '100vh',
     },
     maxWidth: (theme, { breakpoints }) => ({

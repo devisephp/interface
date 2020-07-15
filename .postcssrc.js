@@ -25,6 +25,8 @@ module.exports = {
             path.join(__dirname, 'node_modules/v-calendar/**/*.js'),
             path.join(__dirname, 'node_modules/v-calendar/**/*.vue'),
             path.join(__dirname, 'node_modules/v-calendar/**/*.css'),
+            path.join(__dirname, 'node_modules/vue2-scrollbar/**/*.vue'),
+            path.join(__dirname, 'node_modules/vue2-scrollbar/**/*.css'),
           ]),
           whitelistPatterns: [
             /mobile/,
