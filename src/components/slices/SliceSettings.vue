@@ -27,7 +27,7 @@
           </button>
         </div>
       </div>
-      <div class="dvs-p-8   overflow-y-scroll">
+      <div class="dvs-p-8 dvs-overflow-y-scroll">
         <div>
           <div>
             <div>
