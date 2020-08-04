@@ -6,7 +6,7 @@
       >
         <div
           class="wysiwyg-editor-button"
-          :class="{ 'dvs-bg-grey': isActive.bold() }"
+          :class="{ 'dvs-bg-gray-500': isActive.bold() }"
           @click="commands.bold"
         >
           <bold-icon />
@@ -14,7 +14,7 @@
 
         <div
           class="wysiwyg-editor-button"
-          :class="{ 'dvs-bg-grey': isActive.italic() }"
+          :class="{ 'dvs-bg-gray-500': isActive.italic() }"
           @click="commands.italic"
         >
           <italic-icon />
@@ -22,7 +22,7 @@
 
         <div
           class="wysiwyg-editor-button"
-          :class="{ 'dvs-bg-grey': isActive.strike() }"
+          :class="{ 'dvs-bg-gray-500': isActive.strike() }"
           @click="commands.strike"
         >
           <strike-icon />
@@ -30,7 +30,7 @@
 
         <div
           class="wysiwyg-editor-button"
-          :class="{ 'dvs-bg-grey': isActive.underline() }"
+          :class="{ 'dvs-bg-gray-500': isActive.underline() }"
           @click="commands.underline"
         >
           <underline-icon />
@@ -38,7 +38,15 @@
 
         <div
           class="wysiwyg-editor-button"
-          :class="{ 'dvs-bg-grey': isActive.underline() }"
+          :class="{ 'dvs-bg-gray-500': isActive.superscript() }"
+          @click="commands.superscript"
+        >
+          <sup>2</sup>
+        </div>
+
+        <div
+          class="wysiwyg-editor-button"
+          :class="{ 'dvs-bg-gray-500': isActive.underline() }"
           @click="launchMediaManager(commands.image)"
         >
           <image-icon />
@@ -46,7 +54,7 @@
 
         <!-- <div
           class="wysiwyg-editor-button"
-          :class="{ 'dvs-bg-grey': isActive.code() }"
+          :class="{ 'dvs-bg-gray-500': isActive.code() }"
           @click="commands.code"
         >
           <code-icon />
@@ -54,7 +62,7 @@
 
         <div
           class="wysiwyg-editor-button"
-          :class="{ 'dvs-bg-grey': isActive.paragraph() }"
+          :class="{ 'dvs-bg-gray-500': isActive.paragraph() }"
           @click="commands.paragraph"
         >
           P
@@ -62,7 +70,7 @@
 
         <div
           class="wysiwyg-editor-button"
-          :class="{ 'dvs-bg-grey': isActive.heading({ level: 1 }) }"
+          :class="{ 'dvs-bg-gray-500': isActive.heading({ level: 1 }) }"
           @click="commands.heading({ level: 1 })"
         >
           H1
@@ -70,7 +78,7 @@
 
         <div
           class="wysiwyg-editor-button"
-          :class="{ 'dvs-bg-grey': isActive.heading({ level: 2 }) }"
+          :class="{ 'dvs-bg-gray-500': isActive.heading({ level: 2 }) }"
           @click="commands.heading({ level: 2 })"
         >
           H2
@@ -78,7 +86,7 @@
 
         <div
           class="wysiwyg-editor-button"
-          :class="{ 'dvs-bg-grey': isActive.heading({ level: 3 }) }"
+          :class="{ 'dvs-bg-gray-500': isActive.heading({ level: 3 }) }"
           @click="commands.heading({ level: 3 })"
         >
           H3
@@ -121,7 +129,7 @@
 
             <div
               class="wysiwyg-editor-button"
-              :class="{ 'dvs-bg-grey': isActive.underline() }"
+              :class="{ 'dvs-bg-gray-500': isActive.underline() }"
               @click="showLinkMenu(getMarkAttrs('link'))"
             >
               <link-icon />
@@ -131,7 +139,7 @@
 
         <div
           class="wysiwyg-editor-button"
-          :class="{ 'dvs-bg-grey': isActive.bullet_list() }"
+          :class="{ 'dvs-bg-gray-500': isActive.bullet_list() }"
           @click="commands.bullet_list"
         >
           <menu-icon />
@@ -139,7 +147,7 @@
 
         <div
           class="wysiwyg-editor-button"
-          :class="{ 'dvs-bg-grey': isActive.ordered_list() }"
+          :class="{ 'dvs-bg-gray-500': isActive.ordered_list() }"
           @click="commands.ordered_list"
         >
           <list-icon />
@@ -148,7 +156,7 @@
         <div
           class="dvs-p-2 dvs-text-2xl dvs-font-bold dvs-font-display wysiwyg-editor-button"
           style="line-height:0.5; font-family:Verdana"
-          :class="{ 'dvs-bg-grey': isActive.blockquote() }"
+          :class="{ 'dvs-bg-gray-500': isActive.blockquote() }"
           @click="commands.blockquote"
         >
           &quot;
@@ -191,7 +199,7 @@
 
         <!-- <div
           class="wysiwyg-editor-button"
-          :class="{ 'dvs-bg-grey': isActive.code_block() }"
+          :class="{ 'dvs-bg-gray-500': isActive.code_block() }"
           @click="commands.code_block"
         >
           <code-icon />
@@ -241,7 +249,7 @@
 
         <div
           class="wysiwyg-editor-button"
-          :class="{ 'dvs-bg-grey': showSource }"
+          :class="{ 'dvs-bg-gray-500': showSource }"
           @click="showSource = !showSource"
         >
           <code-icon />
@@ -285,7 +293,7 @@
       >
         <div
           class="wysiwyg-editor-button"
-          :class="{ 'dvs-bg-grey': isActive.underline() }"
+          :class="{ 'dvs-bg-gray-500': isActive.underline() }"
           @click="launchMediaManager(commands.image)"
         >
           <image-icon />
@@ -293,7 +301,7 @@
 
         <div
           class="wysiwyg-editor-button"
-          :class="{ 'dvs-bg-grey': isActive.paragraph() }"
+          :class="{ 'dvs-bg-gray-500': isActive.paragraph() }"
           @click="commands.paragraph"
         >
           P
@@ -301,7 +309,7 @@
 
         <div
           class="wysiwyg-editor-button"
-          :class="{ 'dvs-bg-grey': isActive.heading({ level: 1 }) }"
+          :class="{ 'dvs-bg-gray-500': isActive.heading({ level: 1 }) }"
           @click="commands.heading({ level: 1 })"
         >
           H1
@@ -309,7 +317,7 @@
 
         <div
           class="wysiwyg-editor-button"
-          :class="{ 'dvs-bg-grey': isActive.heading({ level: 2 }) }"
+          :class="{ 'dvs-bg-gray-500': isActive.heading({ level: 2 }) }"
           @click="commands.heading({ level: 2 })"
         >
           H2
@@ -317,7 +325,7 @@
 
         <div
           class="wysiwyg-editor-button"
-          :class="{ 'dvs-bg-grey': isActive.heading({ level: 3 }) }"
+          :class="{ 'dvs-bg-gray-500': isActive.heading({ level: 3 }) }"
           @click="commands.heading({ level: 3 })"
         >
           H3
@@ -325,7 +333,7 @@
 
         <div
           class="wysiwyg-editor-button"
-          :class="{ 'dvs-bg-grey': isActive.bullet_list() }"
+          :class="{ 'dvs-bg-gray-500': isActive.bullet_list() }"
           @click="commands.bullet_list"
         >
           <menu-icon />
@@ -333,7 +341,7 @@
 
         <div
           class="wysiwyg-editor-button"
-          :class="{ 'dvs-bg-grey': isActive.ordered_list() }"
+          :class="{ 'dvs-bg-gray-500': isActive.ordered_list() }"
           @click="commands.ordered_list"
         >
           <list-icon />
@@ -342,7 +350,7 @@
         <div
           class="dvs-p-2 dvs-text-2xl dvs-font-bold dvs-font-display wysiwyg-editor-button"
           style="line-height:0.5;"
-          :class="{ 'dvs-bg-grey': isActive.blockquote() }"
+          :class="{ 'dvs-bg-gray-500': isActive.blockquote() }"
           @click="commands.blockquote"
         >
           &quot;
@@ -366,7 +374,7 @@
     <textarea
       v-if="showSource"
       v-model="localValue"
-      class="dvs-h-full dvs-p-8 dvs-w-full dvs-font-mono dvs-text-sm"
+      class="dvs-h-full dvs-p-8 dvs-w-full dvs-font-mono dvs-text-sm dvs-text-gray-800"
       style="height:300px"
       @keyup="updateSource"
     >
@@ -453,6 +461,7 @@ import {
 } from 'tiptap-extensions';
 import TextAlign from './wysiwyg/tiptap/extensions/TextAlign';
 import TextColor from './wysiwyg/tiptap/extensions/TextColor';
+import Superscript from './wysiwyg/tiptap/extensions/Superscript';
 
 // eslint-disable-next-line no-undef
 const Chrome = require(/* webpackChunkName: "vue-color" */ 'vue-color/src/components/Chrome.vue')
@@ -525,6 +534,7 @@ export default {
           new Blockquote(),
           new BulletList(),
           new CodeBlock(),
+          new Superscript(),
           new HardBreak(),
           new Heading({ levels: [1, 2, 3] }),
           new HorizontalRule(),
