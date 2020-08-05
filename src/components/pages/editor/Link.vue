@@ -108,6 +108,7 @@ export default {
       showEditor: false,
     };
   },
+
   computed: {
     ...mapGetters('devise', ['pagesList']),
     url: {
@@ -188,10 +189,17 @@ export default {
       },
     },
   },
+
   mounted() {
+    if (!this.value.mode) {
+      const valueObj = Object.assign(this.value, { mode: 'page' });
+      this.$emit('input', valueObj);
+      this.$emit('change', valueObj);
+    }
     this.originalValue = Object.assign({}, this.value);
     this.retrieveAllPagesList();
   },
+
   methods: {
     ...mapActions('devise', ['getPagesList']),
     toggleEditor() {
@@ -237,7 +245,7 @@ export default {
       this.rel = null;
       this.url = null;
       this.href = null;
-      this.mode = null;
+      this.mode = 'page';
       this.text = null;
       this.routeName = null;
     },
