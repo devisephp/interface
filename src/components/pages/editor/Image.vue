@@ -36,7 +36,11 @@
       </fieldset>
       <fieldset v-else class="dvs-fieldset">
         <div class="flex">
-          <div v-if="value.url" class="dvs-mb-8 dvs-mr-4" @click="launchMediaEditor($event)">
+          <div
+            v-if="value.url && Object.keys(media).length > 0"
+            class="dvs-mb-8 dvs-mr-4"
+            @click="launchMediaEditor($event)"
+          >
             <button class="dvs-btn dvs-btn-sm dvs-btn-primary">Edit Current Media</button>
           </div>
           <div class="dvs-mb-8 dvs-mr-4" @click="launchMediaManager($event)">

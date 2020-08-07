@@ -22,7 +22,7 @@
         @select="setActive"
       ></media-thumbnails>
 
-      <vue-scrollbar class="dvs-flex-grow">
+      <vue-scrollbar class="dvs-flex-grow" style="height:80vh">
         <div class="dvs-relative">
           <media-controls
             v-if="sizeEdits[activeImage.name]"

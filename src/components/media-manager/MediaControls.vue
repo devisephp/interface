@@ -21,7 +21,7 @@
       <template v-slot:button>
         <maximize-icon></maximize-icon>
       </template>
-      <template>
+      <template v-slot:control>
         <fieldset class="dvs-fieldset dvs-mb-4">
           <label>Width</label>
           <input v-model.number="edits.w" type="text" class="dvs-w-full" />
@@ -36,7 +36,7 @@
               class="dvs-btn dvs-w-full dvs-btn-sm dvs-mr-2"
               :class="{
                 'dvs-bg-green-500 dvs-text-white': lockAspectRatio,
-                'dvs-bg-gray-500': !lockAspectRatio,
+                'dvs-bg-gray-200': !lockAspectRatio,
               }"
               @click="lockAspectRatio = !lockAspectRatio"
             >
@@ -74,9 +74,10 @@
           <select v-model="edits.fit">
             <option :value="null">No Crop</option>
             <option value="custom">Custom</option>
+            <option value="max">Fit</option>
             <option value="fill">Fill</option>
             <option value="stretch">Stretch</option>
-            <option value="crop">Crop Center (Recommended)</option>
+            <option value="crop">Crop Center (Most Used)</option>
             <option value="crop-left">Crop Center Left</option>
             <option value="crop-right">Crop Center Right</option>
             <option value="crop-top">Crop Bottom</option>
