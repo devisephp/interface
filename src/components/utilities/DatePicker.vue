@@ -14,29 +14,28 @@ const dayjs = require(/* webpackChunkName: "dayjs" */ 'dayjs');
 
 export default {
   components: {
-    flatPickr: () =>
-      import(/* webpackChunkName: "devise-flatpickr" */ 'vue-flatpickr-component'),
+    flatPickr: () => import(/* webpackChunkName: "devise-flatpickr" */ 'vue-flatpickr-component'),
   },
   props: {
+    // eslint-disable-next-line vue/require-prop-types
     value: {
-      type: Object,
-      required: true
+      required: true,
     },
     settings: {
       type: Object,
       default: () => {
         return {
           date: true,
-          time: true
-        }
-      }
+          time: true,
+        };
+      },
     },
     placeholder: {
       type: String,
-      default: 'Please select from the calendar'
-    }
+      default: 'Please select from the calendar',
+    },
   },
-  data () {
+  data() {
     return {
       config: {
         noCalendar: !this.settings.date,
@@ -47,21 +46,21 @@ export default {
   },
   computed: {
     localDateTime: {
-      get () {
+      get() {
         return this.value;
       },
-      set (value) {
+      set(value) {
         this.$emit('input', value);
         this.$emit('change', value);
       },
     },
   },
   methods: {
-    updateValue (value) {
+    updateValue(value) {
       value = this.formatValue(value);
       this.localDateTime = value;
     },
-    formatValue (value) {
+    formatValue(value) {
       if (this.settings.format) {
         return dayjs(value).format(this.settings.format);
       }
@@ -81,6 +80,6 @@ export default {
 
       return null;
     },
-  }
+  },
 };
 </script>

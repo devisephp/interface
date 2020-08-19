@@ -24,8 +24,8 @@ const funcs = {
     const pageParams = filters.page;
     const { paginated, cache } = filters;
 
-    if (paginated) {
-      params.paginated = true;
+    if (typeof paginated !== 'undefined') {
+      params.paginated = paginated;
       delete filters.paginated;
     }
 
@@ -159,7 +159,7 @@ const funcs = {
     let p;
 
     for (p in obj) {
-      if (obj[p]) {
+      if (typeof obj[p] !== 'undefined') {
         const k = prefix ? `${prefix}[${p}]` : p;
         const v = obj[p];
 
