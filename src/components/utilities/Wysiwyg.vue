@@ -584,7 +584,9 @@ export default {
   },
   mounted() {
     if (typeof this.value !== 'undefined') {
-      this.editor.setContent(this.value);
+      setTimeout(() => {
+        this.editor.setContent(this.value);
+      }, 1000);
     } else {
       // eslint-disable-next-line no-console
       console.warn(
