@@ -25,7 +25,7 @@
     "query-string": "^6.7.0",
     "resize-observer-polyfill": "^1.5.1",
     "serialize-javascript": ">=2.1.1",
-    "set-value": "^3.0.0",
+    "set-value": "^4.0.1",
     "strict-uri-encode": "^1.1.0",
     "text-clipper": "^1.2.2",
     "tinycolor2": "^1.4.1",
