@@ -23,7 +23,7 @@
     <transition name="fast-fade">
       <panel
         v-show="showAdmin && !fieldOpen"
-        class="dvs-m-8 dvs-fixed dvs-pin dvs-z-9980 dvs-flex dvs-pointer-events-none"
+        class="dvs-m-8 dvs-fixed dvs-inset-0 dvs-z-9980 dvs-flex dvs-pointer-events-none"
       >
         <div
           class="dvs-flex dvs-shadow dvs-flex-col dvs-relative dvs-rounded dvs-bg-admin-bg dvs-pointer-events-auto"
@@ -63,7 +63,7 @@
 
     <portal-target
       v-show="!hideDeviseRootPortal"
-      class="dvs-fixed dvs-pin dvs-z-9999 dvs-w-full"
+      class="dvs-fixed dvs-inset-0 dvs-z-9999 dvs-w-full"
       name="devise-root"
       @change="deviseRootPortalContentChanged"
     ></portal-target>

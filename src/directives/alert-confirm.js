@@ -29,7 +29,7 @@ export default {
           },
         },
         template: `
-        <div v-if="show" class="dvs-fixed dvs-pin dvs-z-9999">
+        <div v-if="show" class="dvs-fixed dvs-inset-0 dvs-z-9999">
           <div class="dvs-blocker"></div>
           <div class="dvs-fixed dvs-absolute-center dvs-z-50 dvs-p-8 dvs-rounded dvs-shadow-lg dvs-bg-admin-bg dvs-text-admin-fg">
             <h3 class="dvs-mb-8 dvs-text-white">Please Confirm</h3>
