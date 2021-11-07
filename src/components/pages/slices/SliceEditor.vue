@@ -154,7 +154,7 @@
         >
           <link-icon></link-icon>
         </div>
-        <div class="dvs-mb-2 dvs-ml-4" v-html="buildEditorLabel(record, null)"></div>
+        <div class="dvs-mb-2 dvs-ml-4" v-html="buildEditorLabelForModel(record, null)"></div>
       </div>
     </div>
     <div
@@ -449,7 +449,22 @@ export default {
           }
         }
       }
+
       return `${devMode}<div class="dvs-capitalize">${this.slice.metadata.label}</div>`;
+    },
+
+    buildEditorLabelForModel(record) {
+      // It's a model slice instance
+      for (const property in record) {
+        if (property === 'title' || property === 'name') {
+          // eslint-disable-next-line no-prototype-builtins
+          if (record.hasOwnProperty(property)) {
+            return `<div class="dvs-capitalize">${this.slice.metadata.label}: ${record[property].text}</div>`;
+          }
+        }
+      }
+
+      return `<div class="dvs-capitalize">${this.slice.metadata.label}</div>`;
     },
   },
 };
