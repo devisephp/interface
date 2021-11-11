@@ -169,7 +169,26 @@ export default {
     },
     modelQueryFormatted() {
       if (this.modelQuery && this.modelQuery.key) {
-        return this.modelQuery;
+        const finalParams = [];
+        this.modelQuery.params.forEach(param => {
+          const currentIndex = this.modelQuery.params.indexOf(param);
+          finalParams.push([]);
+
+          if (typeof param === 'object') {
+            param.forEach(p => {
+              finalParams[currentIndex].push(p.dvs_ref);
+            });
+          } else {
+            finalParams[currentIndex] = param;
+          }
+        });
+
+        const finalModelQuery = {
+          key: this.modelQuery.key,
+          params: finalParams,
+        };
+
+        return finalModelQuery;
       }
       return null;
     },
@@ -177,13 +196,11 @@ export default {
       if (!this.modelQueryConfig) {
         return true;
       }
-      this.modelQueryConfig.params.forEach(param => {
-        if (!param.allowedNull && !param.value) {
-          return true;
-        }
-        return false;
+      const invalidParams = this.modelQueryConfig.params.filter((param, index) => {
+        return !param.allowedNull && this.modelQueryFormatted.params[index].length < 1;
       });
-      return false;
+
+      return invalidParams.length > 0;
     },
     modelQueryConfig() {
       if (this.modelQuery) {

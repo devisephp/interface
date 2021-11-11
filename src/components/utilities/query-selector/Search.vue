@@ -136,6 +136,15 @@ export default {
       return [];
     },
   },
+
+  watch: {
+    value(newValue) {
+      if (newValue && newValue.length > 0 && typeof newValue[0] === 'number') {
+        this.requestLegacySelected();
+      }
+    },
+  },
+
   mounted() {
     if (this.value && this.value.length > 0) {
       this.requestLegacySelected();

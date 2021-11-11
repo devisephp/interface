@@ -2,7 +2,7 @@
   <div>
     <fieldset class="dvs-fieldset">
       <label>Please Select</label>
-      <select type="text" class="dvs-w-full" :value="value" @change="updateValue">
+      <select v-model="localValue" type="text" class="dvs-w-full" :value="value">
         <option :value="null">Please Select from the Following</option>
         <option v-for="(option, key) in options" :key="key" :value="key">
           {{ option }}
@@ -19,10 +19,8 @@ export default {
   name: 'DeviseQuerySelectorSelect',
   props: {
     value: {
-      type: Object,
-      default: () => {
-        return { value: null, label: '' };
-      },
+      type: String,
+      required: true,
     },
     modelQuerySettings: {
       type: Object,
@@ -35,6 +33,15 @@ export default {
     };
   },
   computed: {
+    localValue: {
+      get() {
+        return this.value;
+      },
+      set(newValue) {
+        this.$emit('input', newValue);
+      },
+    },
+
     options() {
       if (this.modelQuerySettings.options) {
         return this.modelQuerySettings.options;

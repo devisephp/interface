@@ -70,7 +70,6 @@ export default {
   data() {
     return {
       query: '',
-      params: [],
     };
   },
 
@@ -81,6 +80,7 @@ export default {
         return this.value;
       },
       set(newValue) {
+        console.log('setting new value');
         this.$emit('input', newValue);
       },
       deep: true,
@@ -93,9 +93,15 @@ export default {
   watch: {
     selectedModelQuery: {
       handler(newValue) {
-        newValue.params.forEach(() => {
+        this.finalModelQuery.params = [];
+        console.log('clearing');
+        newValue.params.forEach(param => {
           // may have to change the push data type based on param.type
-          this.finalModelQuery.params.push('');
+          if (param.type === 'search') {
+            this.finalModelQuery.params.push([]);
+          } else {
+            this.finalModelQuery.params.push('');
+          }
         });
         this.finalModelQuery.key = newValue.key;
       },
@@ -106,22 +112,27 @@ export default {
   mounted() {
     if (this.value && this.value.key) {
       this.loadPreviousState();
-      this.loadPreviousParams();
+      // this.loadPreviousParams();
     }
   },
   methods: {
     loadPreviousState() {
+      const ogParams = JSON.parse(JSON.stringify(this.value.params));
       this.$set(this, 'query', this.value.key);
-      this.params = Object.assign({}, this.value.params);
-    },
-    loadPreviousParams() {
-      const params = [];
-      this.selectedModelQuery.params.forEach((p, key) => {
-        const param = Object.assign({}, p);
-        this.$set(param, 'value', this.params[key]);
-        this.selectedModelQuery.params[key] = Object.assign({}, param);
+      // Jank solution to the watcher resetting the data
+      this.delay(1000).then(() => {
+        this.value.params = ogParams;
       });
-      return params;
+    },
+    loadPreviousParams(ogParams) {
+      console.log('inLoadPreviousParams', ogParams);
+      ogParams.forEach((p, key) => {
+        console.log('loop', p, key);
+        this.finalModelQuery.params[key] = p;
+      });
+    },
+    delay(time) {
+      return new Promise(resolve => setTimeout(resolve, time));
     },
   },
 };

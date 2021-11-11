@@ -3,10 +3,10 @@
     <fieldset class="dvs-fieldset">
       <label>{{ modelQuerySettings.label }}</label>
       <input
+        v-model="localValue"
         type="text"
         class="dvs-w-full"
         :placeholder="modelQuerySettings.label"
-        @keyup="updateValue"
       />
     </fieldset>
   </div>
@@ -25,9 +25,24 @@ export default {
       required: true,
     },
   },
-  methods: {
-    updateValue(e) {
-      this.$emit('input', e.target.value);
+
+  // watch: {
+  //   value(newValue) {
+  //     console.log(typeof newValue[0]);
+  //     if (newValue && newValue.length > 0 && typeof newValue[0] === 'number') {
+  //       this.requestLegacySelected();
+  //     }
+  //   },
+  // },
+
+  computed: {
+    localValue: {
+      get() {
+        return this.value;
+      },
+      set(newValue) {
+        this.$emit('input', newValue);
+      },
     },
   },
 };

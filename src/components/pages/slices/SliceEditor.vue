@@ -458,7 +458,7 @@ export default {
       for (const property in record) {
         if (property === 'title' || property === 'name') {
           // eslint-disable-next-line no-prototype-builtins
-          if (record.hasOwnProperty(property)) {
+          if (record.hasOwnProperty(property) && record[property]) {
             return `<div class="dvs-capitalize">${this.slice.metadata.label}: ${record[property].text}</div>`;
           }
         }
