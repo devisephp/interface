@@ -6,8 +6,8 @@
         <div
           class="dvs-rounded-full dvs-mr-2 dvs-w-2 dvs-h-2 dvs-mr-2"
           :class="{
-            'dvs-bg-green': value.enabled,
-            'dvs-bg-white': !value.enabled,
+            'dvs-bg-green': value && value.enabled,
+            'dvs-bg-white': value && !value.enabled,
             'dvs-invisible': !options.enabler,
           }"
           @click="toggleEnabled"
@@ -160,7 +160,9 @@ export default {
       return 'This field is not enabled. Edit the field and toggle the enable switch to turn it on.';
     },
     toggleEnabled() {
-      this.value.enabled = !this.value.enabled;
+      if (this.value) {
+        this.value.enabled = !this.value.enabled;
+      }
     },
     resetValue() {
       this.showErase = false;
