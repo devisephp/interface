@@ -26,15 +26,6 @@ export default {
     },
   },
 
-  // watch: {
-  //   value(newValue) {
-  //     console.log(typeof newValue[0]);
-  //     if (newValue && newValue.length > 0 && typeof newValue[0] === 'number') {
-  //       this.requestLegacySelected();
-  //     }
-  //   },
-  // },
-
   computed: {
     localValue: {
       get() {
