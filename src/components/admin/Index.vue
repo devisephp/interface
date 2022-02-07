@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   name: 'DeviseIndex',
@@ -63,7 +63,12 @@ export default {
     },
   },
 
+  mounted() {
+    this.loadLanguages();
+  },
+
   methods: {
+    ...mapActions('devise', ['getGeneric']),
     filteredMenu(subMenu) {
       return subMenu.filter(menuItem => {
         if (!menuItem.permissions) {
@@ -91,6 +96,15 @@ export default {
         }
       }
       return false;
+    },
+
+    loadLanguages() {
+      this.getGeneric({
+        config: {
+          apiendpoint: 'languages',
+          store: 'languages',
+        },
+      });
     },
   },
 };

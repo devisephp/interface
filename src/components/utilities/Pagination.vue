@@ -24,7 +24,7 @@
       </button>
       <select
         :value="meta.current_page"
-        class="dvs-p-2 dvs-mr-1 dvs-text-xs dvs-appearance-none"
+        class="dvs-p-2 dvs-mr-1 dvs-text-xs dvs-appearance-none dvs-text-gray-800 rounded"
         @change="changePage($event.target.value)"
       >
         <option v-for="n in meta.last_page" :key="n" :value="n">

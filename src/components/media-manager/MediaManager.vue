@@ -5,7 +5,7 @@
   >
     <div class="dvs-blocker dvs-z-30" @click="close"></div>
 
-    <div class="media-manager dvs-min-w-4/5 dvs-max-h-screenpad dvs-overflow-hidden">
+    <div class="media-manager min-w-3/4 dvs-max-h-screenpad dvs-overflow-hidden">
       <media-selector
         v-if="defaultImage === null || selectingFile"
         @selectSourceFile="selectedFile"

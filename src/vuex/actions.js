@@ -17,7 +17,7 @@ const actions = {
       window.axios
         .get(url)
         .then(response => {
-          context.commit('devise/setGeneric', { config: payload.config, response }, { root });
+          context.commit('setGeneric', { config: payload.config, response }, { root });
           resolve(response);
         })
         .catch(error => {

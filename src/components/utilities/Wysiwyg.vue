@@ -571,6 +571,7 @@ export default {
       linkMenuIsActive: false,
     };
   },
+
   computed: {
     localValue: {
       get() {
@@ -582,12 +583,21 @@ export default {
       },
     },
   },
+
+  watch: {
+    value: {
+      handler(newValue) {
+        // if the value changes on init or from outside the component update the editor
+        if (newValue !== this.editor.getHTML()) {
+          this.editor.setContent(newValue);
+        }
+      },
+      immediate: true,
+    },
+  },
+
   mounted() {
-    if (typeof this.value !== 'undefined') {
-      setTimeout(() => {
-        this.editor.setContent(this.value);
-      }, 1000);
-    } else {
+    if (typeof this.value === 'undefined') {
       // eslint-disable-next-line no-console
       console.warn(
         'Devise: The initial value for the WYSIWYG field was undefined. Consider wrapping it in a v-if until the model is resolved.'

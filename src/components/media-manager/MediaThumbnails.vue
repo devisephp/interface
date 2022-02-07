@@ -2,7 +2,7 @@
   <!-- eslint-disable vue/no-v-html -->
   <div
     class="dvs-border-r dvs-border-lighter dvs-bg-gray-200 dvs-p-2 dvs-py-4 "
-    style="width:118px;min-width:118px;"
+    style="width:50px;"
   >
     <div>
       <div class="dvs-flex dvs-flex-col">

@@ -32,11 +32,9 @@
 
         <!-- Thumbnails Mode -->
         <div v-else-if="mode === 'thumbnails'" class="p-1 flex-grow">
-          <div
-            :style="
-              `height: 300px; background-size:cover;background-image:url('${`/styled/preview/${file.url}?w=300&h=300&q=100&sharp=2`}')`
-            "
-          ></div>
+          <div :style="`width:300px;height: 300px;`">
+            <img :src="`${`/styled/preview/${file.url}?w=300&h=300&q=100&sharp=2`}`" />
+          </div>
         </div>
 
         <!-- List Mode -->

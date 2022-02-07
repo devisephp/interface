@@ -4,11 +4,10 @@
     <div
       v-for="(option, key) in options"
       :key="key"
-      class="dvs-bg-white dvs-cursor-pointer dvs-text-admin-bg dvs-text-center dvs-py-3 dvs-px-8 dvs-my-4 dvs-shadow dvs-rounded"
+      class="dvs-bg-gray-300 text-sm dvs-cursor-pointer dvs-text-admin-bg dvs-text-center dvs-py-3 dvs-px-8 dvs-my-4 dvs-shadow dvs-rounded"
       @click="chooseOption(option)"
       v-html="option.label"
-    >
-    </div>
+    ></div>
   </div>
 </template>
 
@@ -18,18 +17,18 @@ export default {
   props: {
     step: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
-    options () {
-      return this.step.options
-    }
+    options() {
+      return this.step.options;
+    },
   },
   methods: {
-    chooseOption (option) {
-      this.$emit('done', option)
-    }
-  }
-}
+    chooseOption(option) {
+      this.$emit('done', option);
+    },
+  },
+};
 </script>

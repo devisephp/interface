@@ -100,7 +100,7 @@
       </div>
 
       <div
-        class="dvs-flex-grow dvs-relative dvs-overflow-y-scroll dvs-p-4 dvs-max-h-full"
+        class="dvs-flex-grow dvs-relative dvs-overflow-y-scroll dvs-p-4 dvs-pl-16 dvs-max-h-full"
         :class="{ 'w-full': directories.length < 1 }"
       >
         <div v-if="searchResults.length > 0" class="dvs-p-8 dvs-flex">
