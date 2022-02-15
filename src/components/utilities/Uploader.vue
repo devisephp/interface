@@ -3,10 +3,10 @@
     <div
       v-show="$refs.upload && $refs.upload.dropActive"
       class="dvs-fixed dvs-inset-0"
-      style="z-index:9999"
+      style="z-index: 9999"
     >
       <div class="dvs-blocker"></div>
-      <div class="dvs-flex dvs-justify-center dvs-items-center dvs-relative" style="z-index:9999">
+      <div class="dvs-flex dvs-justify-center dvs-items-center dvs-relative" style="z-index: 9999">
         <div class="dvs-bg-black dvs-p-8 dvs-rounded dvs-shadow">
           <h3 class="dvs-text-white">Drop files to upload</h3>
         </div>
@@ -49,7 +49,9 @@
 
     <table v-show="uploadingFiles.length" class="dvs-w-full dvs-border-collapse">
       <tr class="dvs-border-b-2">
-        <th class="dvs-p-2 dvs-text-xs dvs-uppercase dvs-text-left">Queued Files for Upload</th>
+        <th class="dvs-p-2 dvs-text-xs dvs-uppercase dvs-text-left">
+          Queued Files for Upload
+        </th>
       </tr>
       <tr v-for="file in uploadingFiles" :key="file.id" class="dvs-border-b">
         <td class="dvs-p-4">
@@ -70,11 +72,11 @@
           </div>
           <div
             class="dvs-bg-gray-500dvs-w-full dvs-mt-4 dvs-flex dvs-items-center"
-            style="height:5px;"
+            style="height: 5px"
           >
             <div
               class="dvs-bg-highlight-bg"
-              style="height:3px;"
+              style="height: 3px"
               :style="{ width: `${file.progress}%` }"
             ></div>
           </div>

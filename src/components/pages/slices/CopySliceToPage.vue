@@ -1,57 +1,71 @@
 <template>
-  <admin-container class="dvs-mt-16">
-    <template v-slot:message>
-      This allows you to copy slice (field data and all!) to another page.
-    </template>
-    <template v-slot:content>
-      <div class="dvs-p-8 dvs-text-admin-fg">
-        <div class="dvs-mb-8">
-          <fieldset class="dvs-fieldset dvs-mb-4">
-            <label>Site to copy to</label>
-            <select v-model="siteToCopyTo" class="dvs-w-full" @change="clearSearch">
-              <option v-for="site in sites.data" :key="site.id" :value="site.id">{{
-                site.name
-              }}</option>
-            </select>
-          </fieldset>
+  <div class="flex justify-center ">
+    <admin-container class="dvs-mt-16 max-w-2xl">
+      <template v-slot:message>
+        This allows you to copy slice (field data and all!) to another page.
+      </template>
+      <template v-slot:content>
+        <div class="dvs-p-8 dvs-text-admin-fg">
+          <div class="dvs-mb-8">
+            <fieldset class="dvs-fieldset dvs-mb-4">
+              <label>Site to copy to</label>
+              <select v-model="siteToCopyTo" class="dvs-w-full" @change="clearSearch">
+                <option v-for="site in sites.data" :key="site.id" :value="site.id">{{
+                  site.name
+                }}</option>
+              </select>
+            </fieldset>
 
-          <fieldset class="dvs-fieldset">
-            <label>Search for Page</label>
-            <input v-model="searchTerm" type="text" class="dvs-w-full" @keyup="requestSearch" />
-          </fieldset>
+            <fieldset class="dvs-fieldset">
+              <label>Search for Page</label>
+              <input v-model="searchTerm" type="text" class="dvs-w-full" @keyup="requestSearch" />
+            </fieldset>
 
-          <div class="dvs-fixed dvs-z-10 dvs-w-1/3">
-            <ul
-              class="dvs-bg-white dvs-absolute dvs-text-black dvs-rounded-sm dvs-mt-2 dvs-text-sm"
-            >
-              <li
-                v-for="result in searchResults"
-                :key="result.id"
-                class="dvs-px-4 dvs-py-2 dvs-border-b dvs-border-gray-500dvs-cursor-pointer"
-                @click="selectPage(result)"
+            <div class="dvs-fixed dvs-z-10 dvs-w-1/3">
+              <ul
+                class="dvs-bg-white dvs-absolute dvs-text-black dvs-rounded-sm dvs-mt-2 dvs-text-sm"
               >
-                {{ result.site }}: {{ result.title }} - {{ result.verison_name }} ({{
-                  result.language
-                }})
-              </li>
-            </ul>
+                <li
+                  v-for="result in searchResults"
+                  :key="result.id"
+                  class="dvs-px-4 dvs-py-2 dvs-border-b dvs-border-b-gray-500 dvs-cursor-pointer hover:bg-hover-gray-100"
+                  @click="selectPage(result)"
+                >
+                  <span class="font-bold text-base text-gray-800">{{ result.title }}</span
+                  ><br />
+                  <span class="text-gray-500">
+                    Became Live
+                    <span class="font-bold">{{ result.starts_at }}</span> - Language
+                    <span class="font-bold"> {{ result.language }}</span>
+                  </span>
+                </li>
+              </ul>
+            </div>
           </div>
+          <div
+            v-if="pageToCopyTo.site"
+            class="dvs-mb-8 dvs-bg-admin-fg dvs-text-admin-bg dvs-p-4 dvs-rounded-lg"
+          >
+            <div>
+              <div class="dvs-uppercase dvs-text-xs">Copying to:</div>
+              <div class="dvs-font-bold">
+                {{ pageToCopyTo.site }} {{ pageToCopyTo.title }}
+                {{ pageToCopyTo.verison_name }} ({{ pageToCopyTo.language }})
+              </div>
+            </div>
+          </div>
+          <button
+            class="dvs-btn dvs-btn-primary dvs-mr-2"
+            :disabled="!pageToCopyTo.site"
+            @click="confirmCopy"
+          >
+            Confirm
+          </button>
+          <button class="dvs-btn dvs-btn-secondary" @click="close">Cancel</button>
         </div>
-        <div v-if="pageToCopyTo.site" class="dvs-mb-8">
-          Copying to: {{ pageToCopyTo.site }} {{ pageToCopyTo.title }}
-          {{ pageToCopyTo.verison_name }} ({{ pageToCopyTo.language }})
-        </div>
-        <button
-          class="dvs-btn dvs-btn-primary dvs-mr-2"
-          :disabled="!pageToCopyTo.site"
-          @click="confirmCopy"
-        >
-          Confirm
-        </button>
-        <button class="dvs-btn dvs-btn-secondary" @click="close">Cancel</button>
-      </div>
-    </template>
-  </admin-container>
+      </template>
+    </admin-container>
+  </div>
 </template>
 
 <script>

@@ -1,7 +1,7 @@
 <template>
-  <div class="media-manager-interface dvs-text-gray-800" style="max-width:95vw">
+  <div class="media-manager-interface dvs-text-gray-800" style="max-width: 95vw">
     <div
-      style="min-height:70px;"
+      style="min-height: 70px"
       class="dvs-py-4 dvs-px-8 dvs-rounded-tl dvs-rounded-tr dvs-flex dvs-justify-between dvs-items-center dvs-bg-gray-300 dvs-relative"
     >
       <div class="pr-16">
@@ -48,8 +48,8 @@
       </div>
     </div>
 
-    <div class="dvs-flex dvs-items-stretch" style="max-height:80vh">
-      <div class="dvs-relative dvs-max-h-full dvs-flex" style="min-width:300px;">
+    <div class="dvs-flex dvs-items-stretch" style="max-height: 80vh">
+      <div class="dvs-relative dvs-max-h-full dvs-flex" style="min-width: 300px">
         <div
           class="dvs-h-full dvs-p-8 dvs-bg-gray-400est dvs-flex dvs-flex-col dvs-justify-start dvs-border-r dvs-border-lighter"
         >
@@ -64,7 +64,9 @@
                   class="mr-2"
                 />
               </fieldset>
-              <button type="submit" class="dvs-btn dvs-btn-primary dvs-btn-sm">Search</button>
+              <button type="submit" class="dvs-btn dvs-btn-primary dvs-btn-sm">
+                Search
+              </button>
             </div>
           </form>
 
@@ -153,7 +155,7 @@
             "
           >
             <div
-              class=" dvs-bg-gray-100 dvs-text-gray-600 dvs-rounded dvs-p-8 dvs-text-center dvs-shadow dvs-cursor-pointer dvs-flex dvs-justify-center dvs-items-center"
+              class="dvs-bg-gray-100 dvs-text-gray-600 dvs-rounded dvs-p-8 dvs-text-center dvs-shadow dvs-cursor-pointer dvs-flex dvs-justify-center dvs-items-center"
               @click="requestDeleteDirectory()"
             >
               <trash-icon h="60" w="60" class="dvs-mr-2" />

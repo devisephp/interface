@@ -111,6 +111,7 @@ export default {
   },
 
   setCurrentPageVersionLastUpdate(state, page) {
+    state.currentPage.slices = page.slices;
     state.currentPage.version_last_updated_at = page.version_last_updated_at;
   },
 

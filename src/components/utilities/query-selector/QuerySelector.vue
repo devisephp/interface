@@ -80,7 +80,6 @@ export default {
         return this.value;
       },
       set(newValue) {
-        console.log('setting new value');
         this.$emit('input', newValue);
       },
       deep: true,
@@ -94,7 +93,6 @@ export default {
     selectedModelQuery: {
       handler(newValue) {
         this.finalModelQuery.params = [];
-        console.log('clearing');
         newValue.params.forEach(param => {
           // may have to change the push data type based on param.type
           if (param.type === 'search') {
@@ -125,9 +123,7 @@ export default {
       });
     },
     loadPreviousParams(ogParams) {
-      console.log('inLoadPreviousParams', ogParams);
       ogParams.forEach((p, key) => {
-        console.log('loop', p, key);
         this.finalModelQuery.params[key] = p;
       });
     },
