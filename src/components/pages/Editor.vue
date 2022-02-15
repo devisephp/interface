@@ -5,159 +5,157 @@
     class="dvs-relative dvs-max-w-1/2 dvs-self-center dvs-shadow-lg dvs-bg-admin-bg dvs-text-admin-fg dvs-rounded dvs-pointer-events-auto"
     style="min-width:400px"
   >
-    <vue-scrollbar ref="Scrollbar" class="dvs-max-h-screenpad">
+    <div>
       <div>
-        <div>
-          <div v-if="can('manage slices')" class="dvs-pt-8 dvs-pb-16 dvs-relative">
-            <div class="dvs-absolute dvs-top-0 dvs-right-0 dvs-mt-4 dvs-mr-4">
-              <toggle :id="randomString(8)" :mini="true" @change="setDevMode"></toggle>
-            </div>
+        <div v-if="can('manage slices')" class="dvs-pt-8 dvs-pb-16 dvs-relative">
+          <div class="dvs-absolute dvs-top-0 dvs-right-0 dvs-mt-4 dvs-mr-4">
+            <toggle :id="randomString(8)" :mini="true" @change="setDevMode"></toggle>
+          </div>
 
-            <div class="dvs-px-8 dvs-mb-8 dvs-text-xl dvs-font-sans">
-              <div class="dvs-cursor-pointer dvs-flex dvs-items-center" @click="goToEditPage()">
-                <span class="dvs-text-xs dvs-mr-2">
-                  <edit-icon></edit-icon>
-                </span>
-                {{ currentPage.title }}
-              </div>
+          <div class="dvs-px-8 dvs-mb-8 dvs-text-xl dvs-font-sans">
+            <div class="dvs-cursor-pointer dvs-flex dvs-items-center" @click="goToEditPage()">
+              <span class="dvs-text-xs dvs-mr-2">
+                <edit-icon></edit-icon>
+              </span>
+              {{ currentPage.title }}
             </div>
+          </div>
 
-            <div class="dvs-p-8 dvs-pt-0">
-              <fieldset v-if="!showTimeTravel" class="dvs-fieldset">
-                <div class="flex flex-col items-stretch">
-                  <label class="dvs-opacity-75">Page Version</label>
-                  <select
-                    class="dvs-small dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg"
-                    @change="selectVersion"
-                  >
-                    <option
-                      v-for="version in currentPage.versions"
-                      :key="version.id"
-                      :value="version.id"
-                      :selected="version.current"
-                    >
-                      {{ version.name }}
-                      <template v-if="version.current">(Currently Viewing)</template>
-                      <template v-if="version.is_live"> (Live)</template>
-                    </option>
-                    <option value="timetravel">Time Travel Preview</option>
-                  </select>
-                </div>
-              </fieldset>
-              <fieldset v-else class="dvs-fieldset">
-                <label>Preview Date Time</label>
-                <div class="dvs-flex">
-                  <date-picker
-                    ref="datepicker"
-                    v-model="timeTravelDate"
-                    :settings="{ date: true, time: true }"
-                    class="dvs-mr-2"
-                  />
-                  <button
-                    class="dvs-rounded dvs-btn dvs-btn-primary dvs-btn-sm dvs-flex dvs-justify-center dvs-items-center dvs-uppercase dvs-text-xs dvs-font-bold"
-                    @click="timeTravel"
-                  >
-                    Go
-                  </button>
-                </div>
-              </fieldset>
-            </div>
-
-            <div class="dvs-px-8">
-              <fieldset class="dvs-fieldset">
-                <label class="dvs-opacity-75">Page Slices</label>
-              </fieldset>
-            </div>
-
-            <div class="dvs-flex dvs-flex-col dvs-items-center">
-              <draggable
-                v-bind="{
-                  group: { name: 'slices' },
-                  animation: 200,
-                  ghostClass: 'dvs-ghost',
-                  handle: '.handle',
-                  dragClass: 'dvs-chosen-drag-slice',
-                  emptyInsertThreshold: 10,
-                  removeCloneOnHide: false,
-                }"
-                :list="currentPageSlices"
-                tag="ul"
-                class="dvs-w-full dvs-px-4"
-              >
-                <template v-for="(slice, key) in currentPageSlices">
-                  <slice-editor
-                    :key="randomString(8, key)"
-                    v-model="currentPageSlices[key]"
-                    :depth="1"
-                    @opened="openSlice(slice)"
-                    @addSlice="addSlice"
-                    @editSlice="editSlice"
-                    @removeSlice="removeSlice"
-                    @copySlice="copySlice"
-                  />
-                </template>
-              </draggable>
-            </div>
-
-            <div v-if="additionalPageSettings" class="dvs-px-8">
-              <fieldset class="dvs-fieldset dvs-mb-2">
-                <label
-                  class="dvs-mb-2 dvs-cursor-pointer"
-                  @click="additionalSettingsOpen = !additionalSettingsOpen"
-                  >Additional Page Settings</label
+          <div class="dvs-p-8 dvs-pt-0">
+            <fieldset v-if="!showTimeTravel" class="dvs-fieldset">
+              <div class="flex flex-col items-stretch">
+                <label class="dvs-opacity-75">Page Version</label>
+                <select
+                  class="dvs-small dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg"
+                  @change="selectVersion"
                 >
-              </fieldset>
-
-              <slice-editor-fields
-                v-show="additionalSettingsOpen"
-                v-model="currentPage.settings.fields"
-                :the-fields="additionalPageSettings"
-              />
-            </div>
-
-            <div class="dvs-relative dvs-flex dvs-flex-col dvs-items-center dvs-px-8">
-              <manage-slice
-                v-if="createSlice === true"
-                ref="manageSlice"
-                mode="inserting"
-                @addSlice="addSlice"
-                @cancel="createSlice = false"
-              />
-            </div>
+                  <option
+                    v-for="version in currentPage.versions"
+                    :key="version.id"
+                    :value="version.id"
+                    :selected="version.current"
+                  >
+                    {{ version.name }}
+                    <template v-if="version.current">(Currently Viewing)</template>
+                    <template v-if="version.is_live"> (Live)</template>
+                  </option>
+                  <option value="timetravel">Time Travel Preview</option>
+                </select>
+              </div>
+            </fieldset>
+            <fieldset v-else class="dvs-fieldset">
+              <label>Preview Date Time</label>
+              <div class="dvs-flex">
+                <date-picker
+                  ref="datepicker"
+                  v-model="timeTravelDate"
+                  :settings="{ date: true, time: true }"
+                  class="dvs-mr-2"
+                />
+                <button
+                  class="dvs-rounded dvs-btn dvs-btn-primary dvs-btn-sm dvs-flex dvs-justify-center dvs-items-center dvs-uppercase dvs-text-xs dvs-font-bold"
+                  @click="timeTravel"
+                >
+                  Go
+                </button>
+              </div>
+            </fieldset>
           </div>
 
-          <div v-else>
-            <div class="dvs-p-8">
-              <fieldset class="dvs-fieldset">
-                <div class="dvs-flex dvs-flex-col dvs-items-stretch">
-                  <h4>Administration</h4>
-                  <p class="dvs-mt-4">Use the icons along the left column to navigate.</p>
-                </div>
-              </fieldset>
-            </div>
+          <div class="dvs-px-8">
+            <fieldset class="dvs-fieldset">
+              <label class="dvs-opacity-75">Page Slices</label>
+            </fieldset>
           </div>
 
-          <div
-            v-if="can('manage slices')"
-            class="dvs-absolute dvs-bottom-0 dvs-left-0 dvs-right-0 dvs-mb-3 dvs-flex dvs-justify-around dvs-items-stretch dvs-p-2 dvs-px-8"
-          >
-            <button
-              class="dvs-btn dvs-btn-sm dvs-btn-primary dvs-w-2/5 dvs-mr-2 dvs-flex dvs-justify-center dvs-items-center"
-              @click.prevent="requestSavePage()"
+          <div class="dvs-flex dvs-flex-col dvs-items-center">
+            <draggable
+              v-bind="{
+                group: { name: 'slices' },
+                animation: 200,
+                ghostClass: 'dvs-ghost',
+                handle: '.handle',
+                dragClass: 'dvs-chosen-drag-slice',
+                emptyInsertThreshold: 10,
+                removeCloneOnHide: false,
+              }"
+              :list="currentPageSlices"
+              tag="ul"
+              class="dvs-w-full dvs-px-4"
             >
-              <refresh-icon v-if="saving" w="15" h="15" class="dvs-mr-2 dvs-rotate-ccw" />Save Page
-            </button>
+              <template v-for="(slice, key) in currentPageSlices">
+                <slice-editor
+                  :key="randomString(8, key)"
+                  v-model="currentPageSlices[key]"
+                  :depth="1"
+                  @opened="openSlice(slice)"
+                  @addSlice="addSlice"
+                  @editSlice="editSlice"
+                  @removeSlice="removeSlice"
+                  @copySlice="copySlice"
+                />
+              </template>
+            </draggable>
+          </div>
 
-            <button
-              class="dvs-btn dvs-btn-sm dvs-btn-secondary dvs-w-3/5 dvs-flex dvs-justify-center dvs-items-center dvs-uppercase dvs-font-bold dvs-w-2/5"
-              @click.prevent="requestAddSlice"
-            >
-              Add Slice
-            </button>
+          <div v-if="additionalPageSettings" class="dvs-px-8">
+            <fieldset class="dvs-fieldset dvs-mb-2">
+              <label
+                class="dvs-mb-2 dvs-cursor-pointer"
+                @click="additionalSettingsOpen = !additionalSettingsOpen"
+                >Additional Page Settings</label
+              >
+            </fieldset>
+
+            <slice-editor-fields
+              v-show="additionalSettingsOpen"
+              v-model="currentPage.settings.fields"
+              :the-fields="additionalPageSettings"
+            />
+          </div>
+
+          <div class="dvs-relative dvs-flex dvs-flex-col dvs-items-center dvs-px-8">
+            <manage-slice
+              v-if="createSlice === true"
+              ref="manageSlice"
+              mode="inserting"
+              @addSlice="addSlice"
+              @cancel="createSlice = false"
+            />
           </div>
         </div>
+
+        <div v-else>
+          <div class="dvs-p-8">
+            <fieldset class="dvs-fieldset">
+              <div class="dvs-flex dvs-flex-col dvs-items-stretch">
+                <h4>Administration</h4>
+                <p class="dvs-mt-4">Use the icons along the left column to navigate.</p>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+
+        <div
+          v-if="can('manage slices')"
+          class="dvs-absolute dvs-bottom-0 dvs-left-0 dvs-right-0 dvs-mb-3 dvs-flex dvs-justify-around dvs-items-stretch dvs-p-2 dvs-px-8"
+        >
+          <button
+            class="dvs-btn dvs-btn-sm dvs-btn-primary dvs-w-2/5 dvs-mr-2 dvs-flex dvs-justify-center dvs-items-center"
+            @click.prevent="requestSavePage()"
+          >
+            <refresh-icon v-if="saving" w="15" h="15" class="dvs-mr-2 dvs-rotate-ccw" />Save Page
+          </button>
+
+          <button
+            class="dvs-btn dvs-btn-sm dvs-btn-secondary dvs-w-3/5 dvs-flex dvs-justify-center dvs-items-center dvs-uppercase dvs-font-bold dvs-w-2/5"
+            @click.prevent="requestAddSlice"
+          >
+            Add Slice
+          </button>
+        </div>
       </div>
-    </vue-scrollbar>
+    </div>
   </div>
 </template>
 
@@ -181,7 +179,6 @@ export default {
     SliceEditorFields: () =>
       import(/* webpackChunkName: "devise-editors" */ './slices/SliceEditorFields'),
     Toggle: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/Toggle'),
-    VueScrollbar: () => import(/* webpackChunkName: "devise-administration" */ 'vue2-scrollbar'),
     EditIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/EditIcon'),
   },

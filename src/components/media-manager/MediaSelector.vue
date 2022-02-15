@@ -70,20 +70,18 @@
             </div>
           </form>
 
-          <vue-scrollbar ref="Scrollbar" class="dvs-w-full dvs-flex-grow">
-            <ul class="dvs-pb-8 dvs-font-bold dvs-text-gray-600 dvs-text-sm dvs-tracking-tight">
-              <li
-                v-for="directory in directories"
-                :key="directory.id"
-                class="dvs-flex items center dvs-cursor-pointer dvs-mt-2 dvs-text-bold"
-                @click="changeDirectories(directory.path)"
-              >
-                <folder-icon class="dvs-mr-2"></folder-icon>
-                {{ directory.name }}
-              </li>
-              <li v-if="directories.length < 1">No directories within this directory</li>
-            </ul>
-          </vue-scrollbar>
+          <ul class="dvs-pb-8 dvs-font-bold dvs-text-gray-600 dvs-text-sm dvs-tracking-tight">
+            <li
+              v-for="directory in directories"
+              :key="directory.id"
+              class="dvs-flex items center dvs-cursor-pointer dvs-mt-2 dvs-text-bold"
+              @click="changeDirectories(directory.path)"
+            >
+              <folder-icon class="dvs-mr-2"></folder-icon>
+              {{ directory.name }}
+            </li>
+            <li v-if="directories.length < 1">No directories within this directory</li>
+          </ul>
 
           <div class="dvs-flex dvs-flex-col">
             <fieldset class="dvs-fieldset dvs-mb-4">
@@ -219,7 +217,6 @@ export default {
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/TrashIcon'),
     CloseIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/XIcon'),
-    VueScrollbar: () => import(/* webpackChunkName: "devise-administration" */ 'vue2-scrollbar'),
   },
   data() {
     return {
@@ -256,12 +253,6 @@ export default {
     },
     mode(newValue) {
       Cookies.set('devise-mediamanager-mode', newValue);
-    },
-    directories() {
-      if (typeof this.$refs.Scrollbar !== 'undefined') {
-        this.$refs.Scrollbar.calculateSize();
-        this.$refs.Scrollbar.scrollToY(0);
-      }
     },
   },
   mounted() {

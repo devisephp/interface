@@ -22,29 +22,27 @@
         @select="setActive"
       ></media-thumbnails>
 
-      <vue-scrollbar class="dvs-flex-grow" style="height:80vh">
-        <div class="dvs-relative">
-          <media-controls
-            v-if="sizeEdits[activeImage.name]"
-            v-model="sizeEdits[activeImage.name]"
-            :active-image="activeImage"
-            @settooriginal="setCustomSizeToOriginal"
-            @selectsizeimage="selectSizeImage"
-          ></media-controls>
+      <div class="dvs-relative">
+        <media-controls
+          v-if="sizeEdits[activeImage.name]"
+          v-model="sizeEdits[activeImage.name]"
+          :active-image="activeImage"
+          @settooriginal="setCustomSizeToOriginal"
+          @selectsizeimage="selectSizeImage"
+        ></media-controls>
 
-          <media-editor-preview
-            v-if="sizeEdits[active]"
-            :sizes="sizes"
-            :custom-size="{ w: sizeEdits[active].w, h: sizeEdits[active].h }"
-            :active="active"
-            :active-image="activeImage"
-            :encode-edits="encodeEdits"
-            :warning="showWarning"
-            @applycrop="applyCrop"
-            @removecrop="removeCrop"
-          ></media-editor-preview>
-        </div>
-      </vue-scrollbar>
+        <media-editor-preview
+          v-if="sizeEdits[active]"
+          :sizes="sizes"
+          :custom-size="{ w: sizeEdits[active].w, h: sizeEdits[active].h }"
+          :active="active"
+          :active-image="activeImage"
+          :encode-edits="encodeEdits"
+          :warning="showWarning"
+          @applycrop="applyCrop"
+          @removecrop="removeCrop"
+        ></media-editor-preview>
+      </div>
     </div>
   </div>
 </template>
@@ -59,7 +57,6 @@ export default {
     MediaThumbnails: () => import(/* webpackChunkName: "devise-media" */ './MediaThumbnails'),
     MediaEditorPreview: () =>
       import(/* webpackChunkName: "devise-media" */ './MediaEditorPreview'),
-    VueScrollbar: () => import(/* webpackChunkName: "devise-administration" */ 'vue2-scrollbar'),
   },
   props: {
     defaultImage: {
