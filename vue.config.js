@@ -29,8 +29,14 @@ module.exports = {
     plugins: [
       new WebpackAssetsManifest(),
       new CopyPlugin([
-        { from: 'node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css', to: 'css/prism-line-numbers.css' },
-        { from: 'node_modules/prismjs/themes/prism-okaidia.css', to: 'css/themes/prism-okaidia.css' },
+        {
+          from: 'node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css',
+          to: 'css/prism-line-numbers.css',
+        },
+        {
+          from: 'node_modules/prismjs/themes/prism-okaidia.css',
+          to: 'css/themes/prism-okaidia.css',
+        },
       ]),
     ],
   },
@@ -43,6 +49,4 @@ module.exports = {
       config.plugins.delete(`prefetch-${page}`);
     });
   },
-
-
 };
