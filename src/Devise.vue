@@ -4,15 +4,15 @@
 
     <div id="devise-container" :class="[breakpoint, isPreviewFrame ? 'preview-frame' : '']">
       <administration v-if="can('access admin') && !isPreviewFrame" />
-      <messages style="position:relative; z-index:9999" />
+      <messages style="position: relative; z-index: 9999" />
 
       <div id="dvs-app-content">
         <!-- Desktop mode in editor or just viewing page -->
         <div
           v-if="
             typeof currentPage === 'undefined' ||
-              currentPage.previewMode === 'desktop' ||
-              isPreviewFrame
+            currentPage.previewMode === 'desktop' ||
+            isPreviewFrame
           "
           class="devise-content"
         >
@@ -31,9 +31,9 @@
           <div
             v-if="
               isLoggedIn &&
-                typeof currentPage !== 'undefined' &&
-                currentPage.slices &&
-                currentPage.slices.length < 1
+              typeof currentPage !== 'undefined' &&
+              currentPage.slices &&
+              currentPage.slices.length < 1
             "
             class="dvs-text-center dvs-py-16 dvs-w-full dvs-flex dvs-flex-col dvs-py-20"
           >
@@ -168,7 +168,7 @@ export default {
       if (errors) {
         const keys = Object.keys(errors);
         for (const key of keys) {
-          errors[key].forEach(e => {
+          errors[key].forEach((e) => {
             window.deviseSettings.$bus.$emit('showError', `${key}: ${e}`);
           });
         }
