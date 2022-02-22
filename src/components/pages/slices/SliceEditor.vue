@@ -47,7 +47,7 @@
         <div>
           <div
             class="dvs-opacity-50 hover:dvs-opacity-100 dvs-text-xs dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-rounded dvs-mr-1 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-rounded-sm dvs-p-2"
-            style="width:50px;"
+            style="width: 50px"
             :class="{
               'dvs-cursor-pointer': hasChildSlot,
               'dvs-cursor-not-allowed dvs-opacity-50': !hasChildSlot,
@@ -62,7 +62,7 @@
         <div>
           <div
             class="dvs-opacity-50 hover:dvs-opacity-100 dvs-text-xs dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-rounded dvs-mr-1 dvs-cursor-pointer dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-rounded-sm dvs-p-2"
-            style="width:50px;"
+            style="width: 50px"
             @click="jumpToSlice()"
           >
             <locate-icon w="25" h="25" />
@@ -73,7 +73,7 @@
         <div>
           <div
             class="dvs-opacity-50 hover:dvs-opacity-100 dvs-text-xs dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-rounded dvs-cursor-pointer dvs-mr-1 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-rounded-sm dvs-p-2"
-            style="width:50px;"
+            style="width: 50px"
             @click="copySlice(slice, false)"
           >
             <copy-icon w="25" h="25" />
@@ -84,7 +84,7 @@
         <div>
           <div
             class="dvs-opacity-50 hover:dvs-opacity-100 dvs-text-xs dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-rounded dvs-cursor-pointer dvs-mr-1 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-rounded-sm dvs-p-2"
-            style="width:50px;"
+            style="width: 50px"
             @click="sliceSettings()"
           >
             <cog-icon w="25" h="25" />
@@ -95,7 +95,7 @@
         <div>
           <div
             class="dvs-opacity-50 hover:dvs-opacity-100 dvs-text-xs dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-rounded dvs-cursor-pointer dvs-mr-1 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-rounded-sm dvs-p-2"
-            style="width:50px;"
+            style="width: 50px"
             @click="requestEditSlice()"
           >
             <create-icon w="25" h="25" />
@@ -106,7 +106,7 @@
         <div>
           <div
             class="dvs-opacity-50 hover:dvs-opacity-100 dvs-text-xs dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-rounded dvs-cursor-pointer dvs-mr-1 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-rounded-sm dvs-p-2"
-            style="width:50px;"
+            style="width: 50px"
             @click="removeSlice()"
           >
             <remove-icon w="25" h="25" />
@@ -117,7 +117,7 @@
         <div>
           <div
             class="dvs-opacity-50 hover:dvs-opacity-100 dvs-text-xs dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-rounded dvs-cursor-pointer dvs-mr-1 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-rounded-sm dvs-p-2"
-            style="width:50px;"
+            style="width: 50px"
             @click="requestCopyToAnotherPage()"
           >
             <copy-icon w="25" h="25" />
@@ -169,7 +169,7 @@
         v-devise-opacity.background="0.5"
         :list="sliceSlices"
         tag="ul"
-        class="dvs-bg-admin-secondary-bg dvs-rounded-lg dvs-py-1 dvs-pt-3 dvs-mt-1 dvs-mb-6"
+        class="dvs-rounded-lg dvs-py-8 dvs-pt-3 dvs-mt-1 dvs-mb-6"
         v-bind="{
           group: { name: 'slices' },
           animation: 200,
@@ -192,12 +192,8 @@
           />
         </template>
       </draggable>
-      <div
-        v-if="sliceSlices.length < 1"
-        class="dvs-p-4 dvs-text-xs dvs-leading-normal dvs-instructions"
-      >
-        You can add child slices by dragging them here or by using the menu above and selecting "+
-        Slice"
+      <div v-if="sliceSlices.length < 1" class="px-4 text-center text-sm">
+        Drag and Drop slices or click the add slice button above.
       </div>
     </div>
   </li>

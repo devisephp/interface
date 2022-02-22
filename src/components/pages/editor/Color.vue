@@ -28,8 +28,8 @@
 import Field from '../../../mixins/Field';
 
 // eslint-disable-next-line no-undef
-const Chrome = require(/* webpackChunkName: "vue-color" */ 'vue-color/src/components/Chrome.vue')
-  .default;
+const Chrome =
+  require(/* webpackChunkName: "vue-color" */ 'vue-color/src/components/Chrome.vue').default;
 // eslint-disable-next-line no-undef
 const tinycolor = require(/* webpackChunkName: "tinycolor" */ 'tinycolor2');
 

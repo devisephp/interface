@@ -19,7 +19,7 @@
                 v-show="file.loaded"
                 :src="`/styled/preview/${file.url}?w=500&h=500`"
                 class="dvs-cursor-pointer dvs-mb-4"
-                @load="file.loaded = true"
+                @load="localFile.loaded = true"
               />
             </transition>
 
@@ -71,7 +71,7 @@
           <fieldset class="dvs-fieldset dvs-mb-4">
             <label class="dvs-text-xs dvs-uppercase dvs-mb-1">Global Caption</label>
             <div class="dvs-flex">
-              <input v-model="file.alt" type="text" class="dvs-mr-4" />
+              <input v-model="localFile.alt" type="text" class="dvs-mr-4" />
               <button class="dvs-btn dvs-btn-sm dvs-btn-primary" @click="requestSaveCaption(file)">
                 Save Caption
               </button>
@@ -117,12 +117,25 @@ export default {
     DownloadIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/DownloadCloudIcon'),
   },
+
   props: {
-    file: {
+    value: {
       type: Object,
       default: null,
     },
   },
+
+  computed: {
+    localFile: {
+      get() {
+        return this.value;
+      },
+      set(file) {
+        this.$emit('input', file);
+      },
+    },
+  },
+
   methods: {
     ...mapActions('devise', ['saveCaption', 'deleteFile']),
     selectSourceFile(file) {

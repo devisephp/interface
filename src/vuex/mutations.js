@@ -9,11 +9,6 @@ export default {
     state.devMode = payload;
   },
 
-  // Installer Checklist
-  updateChecklist(state, checklist) {
-    state.checklist = Object.assign({}, state.checklist, checklist);
-  },
-
   // Generic
   setGeneric(state, payload) {
     state[payload.config.store] = payload.response.data;
@@ -150,12 +145,12 @@ export default {
   },
 
   deletePageVersion(state, { page, version }) {
-    const theVersion = page.versions.find(ver => ver.id === version.id);
+    const theVersion = page.versions.find((ver) => ver.id === version.id);
     page.versions.splice(page.versions.indexOf(theVersion), 1);
   },
 
   updatePageVersion(state, { page, version, data }) {
-    let theVersion = page.versions.find(ver => ver.id === version.id);
+    let theVersion = page.versions.find((ver) => ver.id === version.id);
     theVersion = data;
     return theVersion;
   },

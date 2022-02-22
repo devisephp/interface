@@ -1,6 +1,6 @@
 table {
   &.dvs-table {
-    @apply .dvs-w-full;
+    @apply dvs-w-full;
     border-collapse: collapse;
 
     th {
@@ -22,7 +22,7 @@ table {
     @apply dvs-border-b;
 
     &:last-child {
-      @apply dvs-border-b-0
+      @apply dvs-border-b-0;
     }
   }
 }

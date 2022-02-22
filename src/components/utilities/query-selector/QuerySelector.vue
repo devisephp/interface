@@ -3,12 +3,10 @@
     <fieldset class="dvs-fieldset">
       <label for="querykey">Data Set Query</label>
       <select id="querykey" v-model="query" name="querykey" class="w-full">
-        <option :value="null" disabled>
-          Please Select a Data Set Query
+        <option :value="null" disabled>Please Select a Data Set Query</option>
+        <option v-for="mq in modelQueries" :key="mq.key" :value="mq.key">
+          {{ mq.description }}
         </option>
-        <option v-for="mq in modelQueries" :key="mq.key" :value="mq.key">{{
-          mq.description
-        }}</option>
       </select>
     </fieldset>
 
@@ -85,7 +83,7 @@ export default {
       deep: true,
     },
     selectedModelQuery() {
-      return this.modelQueries.find(mq => mq.key === this.query);
+      return this.modelQueries.find((mq) => mq.key === this.query);
     },
   },
 
@@ -93,7 +91,7 @@ export default {
     selectedModelQuery: {
       handler(newValue) {
         this.finalModelQuery.params = [];
-        newValue.params.forEach(param => {
+        newValue.params.forEach((param) => {
           // may have to change the push data type based on param.type
           if (param.type === 'search') {
             this.finalModelQuery.params.push([]);
@@ -113,13 +111,14 @@ export default {
       // this.loadPreviousParams();
     }
   },
+
   methods: {
     loadPreviousState() {
       const ogParams = JSON.parse(JSON.stringify(this.value.params));
       this.$set(this, 'query', this.value.key);
       // Jank solution to the watcher resetting the data
       this.delay(1000).then(() => {
-        this.value.params = ogParams;
+        this.finalModelQuery.params = ogParams;
       });
     },
     loadPreviousParams(ogParams) {
@@ -128,7 +127,7 @@ export default {
       });
     },
     delay(time) {
-      return new Promise(resolve => setTimeout(resolve, time));
+      return new Promise((resolve) => setTimeout(resolve, time));
     },
   },
 };

@@ -1,6 +1,6 @@
 <template>
   <field-editor
-    v-model="value"
+    v-model="localValue"
     :options="options"
     :show-editor="showEditor"
     @toggleShowEditor="toggleEditor"
@@ -62,7 +62,7 @@
             </div>
           </div>
           <div v-if="hasSingleImage">
-            <img :src="value.url" style="max-width:200px;" />
+            <img :src="value.url" style="max-width: 200px" />
           </div>
         </div>
       </fieldset>
@@ -102,6 +102,14 @@ export default {
     };
   },
   computed: {
+    localValue: {
+      get() {
+        return this.value;
+      },
+      set(val) {
+        this.$emit('input', val);
+      },
+    },
     defaultImage: {
       get() {
         return this.value.defaultImage;
@@ -209,7 +217,7 @@ export default {
       this.mode = 'media';
     },
     launchMediaManager() {
-      this.options.type = 'image';
+      // this.options.type = 'image';
       window.deviseSettings.$bus.$emit('devise-launch-media-manager', {
         callback: this.mediaSelected,
         options: this.options,
@@ -227,7 +235,7 @@ export default {
       }
     },
     launchMediaEditor() {
-      this.options.type = 'image';
+      // this.options.type = 'image';
       const image = this.value.defaultImage ? this.value.defaultImage : this.value.url;
 
       window.deviseSettings.$bus.$emit('devise-launch-media-editor', {

@@ -10,12 +10,12 @@ body.dvs-admin-open {
 
   #dvs-admin-panels {
     > div > div > div {
-      @apply pointer-events-auto;
+      pointer-events: auto;
     }
   }
 }
 
-@responsive {
+@layer utilities {
   .dvs-border-box {
     box-sizing: border-box;
   }

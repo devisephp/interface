@@ -71,7 +71,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import { setTimeout } from 'timers';
+// import { setTimeout } from 'timers';
 
 export default {
   name: 'Devise',

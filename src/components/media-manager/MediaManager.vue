@@ -94,7 +94,7 @@ export default {
         });
       }
     },
-    cookieSettings: newValue => {
+    cookieSettings(newValue) {
       if (!newValue) {
         Cookies.remove('devise-mediamanager-location');
         Cookies.remove('devise-mediamanager-mode');

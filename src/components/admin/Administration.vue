@@ -49,7 +49,7 @@
             <power-icon class="dvs-m-4" w="25" h="25" />
           </a>
 
-          <form id="dvs-logout-form" action="/logout" method="POST" style="display: none;">
+          <form id="dvs-logout-form" action="/logout" method="POST" style="display: none">
             <input type="hidden" name="_token" :value="csrf_field" />
           </form>
         </div>
@@ -79,7 +79,7 @@
 <script>
 import Vue from 'vue';
 import { mapState, mapActions } from 'vuex';
-import { setInterval } from 'timers';
+// import { setInterval } from 'timers';
 
 export default {
   name: 'Administration',
@@ -130,7 +130,7 @@ export default {
     ...mapState('devise', ['adminMenu']),
     allowedAdminMenu() {
       return Object.keys(this.adminMenu)
-        .filter(menuItem => {
+        .filter((menuItem) => {
           if (!this.adminMenu[menuItem].permissions) {
             return true;
           }
@@ -209,7 +209,7 @@ export default {
       );
     },
     deviseRootPortalContentChanged(content) {
-      if (!content.passengers) {
+      if (!content) {
         this.hideDeviseRootPortal = true;
       } else {
         this.hideDeviseRootPortal = false;

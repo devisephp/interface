@@ -29,7 +29,7 @@ const DevisePlugin = {
     // Set the devise route to Edit Page for any application routes
     // that aren't setup to take over the admin. This allows us to see the
     // page editor even if you are navigating around the application routes.
-    router.options.routes.map(route => {
+    router.options.routes.map((route) => {
       if (!Object.prototype.hasOwnProperty.call(route, 'components')) {
         route.components = {};
       }
@@ -64,7 +64,7 @@ const DevisePlugin = {
         }
 
         if (canAdd) {
-          router.addRoutes([routeToCheck]);
+          router.addRoute(routeToCheck);
         }
       }
     }
@@ -91,11 +91,6 @@ const DevisePlugin = {
 
     // Directives
     Vue.directive('devise-alert-confirm', alertConfirm);
-
-    // Register installer
-    Vue.component('devise-installer', () =>
-      import(/* webpackChunkName: "devise-installer" */ './components/installer/Installer.vue')
-    );
 
     // Users Admin
     Vue.component('devise-user-create', () =>
@@ -273,18 +268,18 @@ const DevisePlugin = {
           deviseOptions,
         };
       },
-      notifications: {
-        showSuccessMsg: {
-          type: VueNotifications.types.success,
-          title: 'Success',
-          message: 'Your Request was successful',
-        },
-        showErrorMsg: {
-          type: VueNotifications.types.error,
-          title: 'Wow-wow',
-          message: "That's the error",
-        },
-      },
+      // notifications: {
+      //   showSuccessMsg: {
+      //     type: VueNotifications.types.success,
+      //     title: 'Success',
+      //     message: 'Your Request was successful',
+      //   },
+      //   showErrorMsg: {
+      //     type: VueNotifications.types.error,
+      //     title: 'Wow-wow',
+      //     message: "That's the error",
+      //   },
+      // },
       computed: {
         ...mapGetters('devise', ['breakpoint', 'currentPage', 'currentUser', 'lang']),
         isLoggedIn() {
@@ -313,7 +308,7 @@ const DevisePlugin = {
               ? window.deviseSettings.$user.permissions_list
               : [];
             for (let i = 0; i < toCheck.length; i += 1) {
-              const found = allowed.find(perm => perm === toCheck[i]);
+              const found = allowed.find((perm) => perm === toCheck[i]);
 
               if (found) return true;
             }

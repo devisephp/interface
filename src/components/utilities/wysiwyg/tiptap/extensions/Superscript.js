@@ -19,7 +19,7 @@ export default class Bold extends Mark {
 
   keys({ type }) {
     return {
-      'Mod-b': toggleMark(type),
+      'Mod-.': toggleMark(type),
     };
   }
 

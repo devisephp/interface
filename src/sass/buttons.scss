@@ -1,6 +1,6 @@
 .dvs-outline-none {
   &:focus {
-    outline:0;
+    outline: 0;
   }
 }
 
@@ -24,7 +24,7 @@
   &.dvs-btn-round {
     @apply dvs-rounded-full;
 
-    line-height:1em;
+    line-height: 1em;
   }
 
   &.dvs-btn-sm {
@@ -52,7 +52,7 @@
   }
 
   &:disabled {
-    @apply dvs-bg-gray-400
+    @apply dvs-bg-gray-400;
   }
 
   &.dvs-btn-primary {
@@ -93,5 +93,5 @@
 }
 
 .dvs-chosen-drag-slice {
-    background-color:rgba(0,0,0,0.5)
+  background-color: rgba(0, 0, 0, 0.5);
 }

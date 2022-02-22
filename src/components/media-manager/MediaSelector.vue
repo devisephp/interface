@@ -64,9 +64,7 @@
                   class="mr-2"
                 />
               </fieldset>
-              <button type="submit" class="dvs-btn dvs-btn-primary dvs-btn-sm">
-                Search
-              </button>
+              <button type="submit" class="dvs-btn dvs-btn-primary dvs-btn-sm">Search</button>
             </div>
           </form>
 
@@ -147,9 +145,9 @@
           <div
             v-if="
               !loadingDirectory &&
-                currentFiles.length < 1 &&
-                directories.length < 1 &&
-                currentDirectory !== ''
+              currentFiles.length < 1 &&
+              directories.length < 1 &&
+              currentDirectory !== ''
             "
           >
             <div
@@ -182,7 +180,7 @@
 
             <!-- Open File -->
             <media-selector-open-file
-              :file="currentlyOpenFile"
+              :value="currentlyOpenFile"
               @fileDeleted="changeDirectories(currentDirectory)"
               @close="currentlyOpenFile = null"
               @selectSourceFile="selectSourceFile"
@@ -246,7 +244,7 @@ export default {
     },
   },
   watch: {
-    cookieSettings: newValue => {
+    cookieSettings(newValue) {
       if (!newValue) {
         Cookies.remove('devise-mediamanager-location');
       }
@@ -333,7 +331,9 @@ export default {
       const self = this;
 
       // check to see if the directory already exists in the current location
-      const existingMatches = this.directories.filter(dir => dir.name === self.directoryToCreate);
+      const existingMatches = this.directories.filter(
+        (dir) => dir.name === self.directoryToCreate
+      );
 
       if (existingMatches.length === 0) {
         this.createDirectory({
@@ -357,7 +357,7 @@ export default {
       });
     },
     search() {
-      this.mediaSearch(this.searchTerms).then(results => {
+      this.mediaSearch(this.searchTerms).then((results) => {
         this.searchResults = results;
         if (results.length < 1) {
           window.deviseSettings.$bus.$emit('showError', {

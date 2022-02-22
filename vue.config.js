@@ -1,6 +1,6 @@
 const WebpackAssetsManifest = require('webpack-assets-manifest');
-const CopyPlugin = require('copy-webpack-plugin');
 
+const { defineConfig } = require('@vue/cli-service');
 const pagesObject = {
   main: {
     // entry for the *public* page
@@ -20,33 +20,20 @@ const pagesObject = {
   },
 };
 
-module.exports = {
+module.exports = defineConfig({
+  transpileDependencies: false,
   outputDir: './dist',
   publicPath: '/devise',
-  runtimeCompiler: false,
-  filenameHashing: process.env.NODE_ENV === 'production',
+  runtimeCompiler: true,
+  pages: pagesObject,
+  css: {
+    extract: true,
+  },
   configureWebpack: {
     plugins: [
-      new WebpackAssetsManifest(),
-      new CopyPlugin([
-        {
-          from: 'node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css',
-          to: 'css/prism-line-numbers.css',
-        },
-        {
-          from: 'node_modules/prismjs/themes/prism-okaidia.css',
-          to: 'css/themes/prism-okaidia.css',
-        },
-      ]),
+      new WebpackAssetsManifest({
+        output: 'manifest.json',
+      }),
     ],
   },
-  pages: pagesObject,
-  chainWebpack: config => {
-    // TODO: Remove this workaround once https://github.com/vuejs/vue-cli/issues/2463 is fixed
-    // Remove preload plugins for multi-page build to prevent infinite recursion
-    Object.keys(pagesObject).forEach(page => {
-      config.plugins.delete(`preload-${page}`);
-      config.plugins.delete(`prefetch-${page}`);
-    });
-  },
-};
+});

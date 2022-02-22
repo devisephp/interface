@@ -13,7 +13,7 @@
           @click="toggleEnabled"
         ></div>
         <div
-          class="dvs-flex dvs-items-center dvs-justify-stretch dvs-w-3/4 dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-px-4 dvs-rounded"
+          class="dvs-flex py-1 px-2 dvs-items-center dvs-justify-stretch dvs-w-3/4 dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-px-4 dvs-rounded"
           @click="toggleShowEditor"
         >
           {{ devLabel }} {{ options.label }}
@@ -48,7 +48,7 @@
             <div class="dvs-flex dvs-items-center dvs-mt-4 dvs-mb-4 dvs-justify-between">
               <div
                 class="dvs-flex dvs-items-center dvs-w-full dvs-text-xs"
-                style="max-width:300px;"
+                style="max-width: 300px"
               >
                 <button
                   class="dvs-btn dvs-btn-primary dvs-mr-2 dvs-w-1/2"
@@ -63,7 +63,7 @@
               <div
                 v-if="options.enabler"
                 class="dvs-flex dvs-items-center dvs-justify-between"
-                style="min-width:175px;"
+                style="min-width: 175px"
               >
                 <label class="dvs-mr-2">Field Enabled</label>
                 <toggle :id="randomString(8)" v-model="enabled"></toggle>
@@ -72,7 +72,7 @@
             <div
               v-if="!showErase && !noReset"
               class="dvs-absolute dvs-bottom-0 dvs-left-0 dvs-right-0 dvs-uppercase dvs-text-center dvs-text-xs dvs-p-2 dvs-cursor-pointer dvs-bg-admin-highlight-bg dvs-text-admin-highlight-fg"
-              style="height:30px;"
+              style="height: 30px"
               @click="showErase = true"
             >
               reset

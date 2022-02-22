@@ -155,7 +155,7 @@
 
         <div
           class="dvs-p-2 dvs-text-2xl dvs-font-bold dvs-font-display wysiwyg-editor-button"
-          style="line-height:0.5; font-family:Verdana"
+          style="line-height: 0.5; font-family: Verdana"
           :class="{ 'dvs-bg-gray-500': isActive.blockquote() }"
           @click="commands.blockquote"
         >
@@ -349,7 +349,7 @@
 
         <div
           class="dvs-p-2 dvs-text-2xl dvs-font-bold dvs-font-display wysiwyg-editor-button"
-          style="line-height:0.5;"
+          style="line-height: 0.5"
           :class="{ 'dvs-bg-gray-500': isActive.blockquote() }"
           @click="commands.blockquote"
         >
@@ -367,7 +367,7 @@
 
     <editor-content
       v-if="!showSource"
-      style="max-height:50vh"
+      style="max-height: 50vh"
       class="dvs-overflow-y-scroll"
       :editor="editor"
     />
@@ -375,7 +375,7 @@
       v-if="showSource"
       v-model="localValue"
       class="dvs-h-full dvs-p-8 dvs-w-full dvs-font-mono dvs-text-sm dvs-text-gray-800"
-      style="height:300px"
+      style="height: 300px"
       @keyup="updateSource"
     >
     </textarea>
@@ -464,8 +464,8 @@ import TextColor from './wysiwyg/tiptap/extensions/TextColor';
 import Superscript from './wysiwyg/tiptap/extensions/Superscript';
 
 // eslint-disable-next-line no-undef
-const Chrome = require(/* webpackChunkName: "vue-color" */ 'vue-color/src/components/Chrome.vue')
-  .default;
+const Chrome =
+  require(/* webpackChunkName: "vue-color" */ 'vue-color/src/components/Chrome.vue').default;
 
 export default {
   components: {
