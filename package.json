@@ -24,6 +24,7 @@
     "tinycolor2": "^1.4.1",
     "tiptap": "^1.32.2",
     "tiptap-extensions": "^1.35.2",
+    "v-debounce": "^0.1.2",
     "vue": "^2.6.14",
     "vue-color": "^2.8.1",
     "vue-feather-icons": "^5.1.0",

@@ -2,12 +2,12 @@
   <div>
     <transition name="fast-fade">
       <div
-        v-if="file"
-        class="dvs-flex dvs-p-4 dvs-overflow-hidden dvs-fixed dvs-absolute-center dvs-z-50 dvs-bg-white dvs-p-8 dvs-rounded dvs-shadow-lg"
+        v-if="localFile"
+        class="dvs-flex dvs-p-4 dvs-overflow-hidden dvs-fixed dvs-absolute-center dvs-z-50 dvs-bg-white dvs-rounded dvs-shadow-lg"
       >
         <div
           class="dvs-absolute z-10 dvs-top-0 dvs-right-0 dvs-mt-4 dvs-mr-4 dvs-cursor-pointer"
-          @click.stop.prevent="closeFile(file)"
+          @click.stop.prevent="closeFile(localFile)"
         >
           <close-icon w="30" h="30" />
         </div>
@@ -16,15 +16,15 @@
           <div>
             <transition name="dvs-fade" mode="out-in">
               <img
-                v-show="file.loaded"
-                :src="`/styled/preview/${file.url}?w=500&h=500`"
+                v-show="localFile.loaded"
+                :src="`/styled/preview/${localFile.url}?w=500&h=500`"
                 class="dvs-cursor-pointer dvs-mb-4"
                 @load="localFile.loaded = true"
               />
             </transition>
 
             <loading-screen
-              v-if="!file.loaded"
+              v-if="!localFile.loaded"
               key="loadingscreen"
               :inline="true"
               inline-message="Loading Large Preview"
@@ -35,7 +35,7 @@
             <div
               v-devise-alert-confirm="{
                 callback: confirmedDeleteFile,
-                arguments: file,
+                arguments: localFile,
                 message: 'Are you sure you want to delete this media?',
               }"
               class="dvs-mr-4 dvs-cursor-pointer dvs-text-admin-bg"
@@ -44,13 +44,13 @@
             </div>
             <a
               class="dvs-mr-4 dvs-text-admin-bg"
-              :href="`/styled/preview/${file.url}`"
+              :href="`/styled/preview/${localFile.url}`"
               target="_blank"
             >
               <link-icon h="20" w="20" />
             </a>
             <a
-              :href="`/styled/preview/${file.url}`"
+              :href="`/styled/preview/${localFile.url}`"
               target="_blank"
               class="dvs-text-admin-bg"
               download
@@ -61,33 +61,39 @@
         </div>
         <div class="dvs-w-1/2">
           <h6 class="dvs-text-xs dvs-uppercase dvs-mb-1">Filename</h6>
-          <p class="dvs-text-sm">{{ file.name }}</p>
+          <p class="dvs-text-sm">{{ localFile.name }}</p>
 
           <fieldset class="dvs-fieldset dvs-mb-4">
             <label class="dvs-text-xs dvs-uppercase dvs-mb-1">URL</label>
-            <input type="text" class="w-full" :value="file.url" readonly />
+            <input type="text" class="w-full" :value="localFile.url" readonly />
           </fieldset>
 
           <fieldset class="dvs-fieldset dvs-mb-4">
             <label class="dvs-text-xs dvs-uppercase dvs-mb-1">Global Caption</label>
             <div class="dvs-flex">
               <input v-model="localFile.alt" type="text" class="dvs-mr-4" />
-              <button class="dvs-btn dvs-btn-sm dvs-btn-primary" @click="requestSaveCaption(file)">
+              <button
+                class="dvs-btn dvs-btn-sm dvs-btn-primary"
+                @click="requestSaveCaption(localFile)"
+              >
                 Save Caption
               </button>
             </div>
           </fieldset>
 
           <p>
-            <button class="dvs-btn dvs-btn-sm dvs-btn-primary" @click="selectSourceFile(file)">
+            <button
+              class="dvs-btn dvs-btn-sm dvs-btn-primary"
+              @click="selectSourceFile(localFile)"
+            >
               Select
             </button>
           </p>
 
-          <template v-if="isActive(file)">
+          <template v-if="isActive(localFile)">
             <h6 class="dvs-my-2 dvs-text-sm">Appears On</h6>
             <ul>
-              <li v-for="field in file.fields" :key="field.id" class="dvs-py-2">
+              <li v-for="field in localFile.fields" :key="field.id" class="dvs-py-2">
                 <a :href="field.page_slug" target="_blank" class="dvs-btn dvs-btn-sm"
                   >{{ field.page_title }} - {{ field.field_name }}</a
                 >
