@@ -27,7 +27,7 @@ module.exports = defineConfig({
   runtimeCompiler: true,
   pages: pagesObject,
   css: {
-    extract: false,
+    extract: true,
   },
   configureWebpack: {
     plugins: [
