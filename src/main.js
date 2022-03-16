@@ -42,11 +42,6 @@ const DevisePlugin = {
       return route;
     });
 
-    router.beforeEach((to, from, next) => {
-      window.axios.defaults.headers.common['Devise-UI-Referrer'] = JSON.stringify(to);
-      next();
-    });
-
     // Merge custom routes (admin) from application
     for (const route in routes) {
       if (routes[route]) {

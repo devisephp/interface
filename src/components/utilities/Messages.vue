@@ -108,11 +108,12 @@ export default {
       const message = payload.message
         ? payload.message
         : 'We do not have any details on this error';
-      this.showErrorMsg({ title, message });
+      let theMessage = `${title}: ${message}`;
+
+      this.$toast.open({ message: theMessage, type: 'error', duration: 5000 });
     },
     addMessage(payload) {
       let theMessage = `${payload.title}: ${payload.message}`;
-      console.log(this.$toast);
       this.$toast.open({ message: theMessage, type: 'success', duration: 5000 });
     },
   },

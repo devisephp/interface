@@ -55,7 +55,7 @@
         </div>
         <div class="dvs-flex dvs-w-full dvs-ml-16">
           <transition name="dvs-fade" mode="out-in">
-            <router-view name="devise"></router-view>
+            <router-view :key="$route.fullPath" name="devise"></router-view>
           </transition>
         </div>
       </panel>
@@ -149,7 +149,7 @@ export default {
     },
   },
   mounted() {
-    Vue.component('help', () =>
+    Vue.component('Help', () =>
       import(/* webpackChunkName: "devise-utilities" */ '../utilities/Help')
     );
 
