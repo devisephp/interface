@@ -1,8 +1,8 @@
 <template>
   <!-- eslint-disable vue/no-v-html -->
   <div
-    class="dvs-border-r dvs-border-lighter dvs-bg-gray-200 dvs-p-2 dvs-py-4 "
-    style="width:50px;"
+    class="dvs-border-r dvs-border-lighter dvs-bg-gray-200 dvs-p-2 dvs-py-4 dvs-flex-none"
+    style="width: 125px"
   >
     <div>
       <div class="dvs-flex dvs-flex-col">
@@ -10,13 +10,13 @@
           v-for="(size, key) in sizeEdits"
           :key="key"
           class="dvs-text-center dvs-cursor-pointer dvs-mb-3 dvs-rounded"
-          style="width:100px"
+          style="width: 100px"
           :class="{
             'dvs-bg-black dvs-text-gray-400': active === key,
             'dvs-bg-gray-400': active !== key,
           }"
         >
-          <div v-if="getWarning(key)" class=" dvs-relative" @click="showWarning = key">
+          <div v-if="getWarning(key)" class="dvs-relative" @click="showWarning = key">
             <div
               class="dvs-absolute dvs-top-0 dvs-right-0 dvs-rounded-full dvs-p-2 dvs-flex dvs-justify-center dvs-items-center dvs-text-xs dvs-mr-1 dvs-mt-1 dvs-btn-sm dvs-btn-primary"
             >
@@ -42,7 +42,7 @@
 
           <div
             class="dvs-overflow-hidden dvs-rounded-t dvs-flex dvs-justify-center dvs-items-center dvs-bg-white"
-            style="width:100px;height:100px;line-height:0px;"
+            style="width: 100px; height: 100px; line-height: 0px"
             @click="setActive(key)"
           >
             <transition name="dvs-fade">

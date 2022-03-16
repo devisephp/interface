@@ -1,49 +1,54 @@
 <template>
   <!-- Files -->
-  <ul class="dvs-flex dvs-items-start dvs-justify-center dvs-flex-wrap">
+  <ul
+    class="dvs-items-start dvs-justify-center grid"
+    :class="{
+      'lg:dvs-grid-cols-2  xl:dvs-grid-cols-3 dvs-gap-8': mode === 'thumbnails',
+      'dvs-grid-cols-2 md:dvs-grid-cols-4 lg:dvs-grid-cols-6 xl:dvs-grid-cols-8 2xl:dvs-grid-cols-12 dvs-gap-6':
+        mode === 'contactSheet',
+      'lg:dvs-grid-cols-2 dvs-gap-6': mode === 'list',
+    }"
+  >
     <li
       v-for="file in currentFiles"
       :key="file.id"
-      class="dvs-relative dvs-bg-white"
+      class="dvs-relative dvs-bg-white dvs-h-full dvs-w-full"
       :class="{
         'dvs-cursor-pointer': !file.on,
-        'dvs-p-0 dvs-mx-0 dvs-w-1/4 dvs-flex-grow': mode === 'thumbnails',
-        'dvs-p-0 dvs-mb-4 dvs-mt-2': mode !== 'thumbnails',
-        'dvs-mx-2 dvs-card': mode === 'contactSheet',
         'dvs-w-full': mode === 'list',
       }"
       :style="indexStyles"
       @click="openFile(file)"
     >
       <!-- Closed File -->
-      <div class="dvs-overflow-hidden">
+      <div class="dvs-overflow-hidden dvs-w-full dvs-h-full dvs-rounded">
         <!-- Contact Sheet -->
-        <div
-          v-if="mode === 'contactSheet'"
-          class="dvs-overflow-hidden dvs-text-center"
-          style="width:100px;height:105px"
-        >
-          <img
-            :src="`/styled/preview/${file.url}?w=100&h=100&fit=crop`"
-            style="min-width:75px;height:75px"
-          />
-          <div class="dvs-text-xs dvs-font-bold dvs-px-2">{{ file.name }}</div>
-        </div>
-
-        <!-- Thumbnails Mode -->
-        <div v-else-if="mode === 'thumbnails'" class="p-1 flex-grow">
-          <div :style="`width:300px;height: 300px;`">
-            <img :src="`${`/styled/preview/${file.url}?w=300&h=300&q=100&sharp=2`}`" />
+        <div v-if="mode === 'contactSheet'">
+          <div class="dvs-overflow-hidden dvs-rounded dvs-h-full dvs-w-full">
+            <img
+              :src="`/styled/preview/${file.url}?w=200&h=200&fit=crop`"
+              style="min-width: 100px; height: 100px"
+              class="dvs-object-cover dvs-object-center dvs-w-full dvs-h-full"
+            />
           </div>
         </div>
 
+        <!-- Thumbnails Mode -->
+        <img
+          v-else-if="mode === 'thumbnails'"
+          :src="`${`/styled/preview/${file.url}?w=300&h=300&q=100&sharp=2`}`"
+          class="dvs-object-cover dvs-object-center dvs-w-full dvs-h-full"
+        />
+
         <!-- List Mode -->
-        <div v-else class="dvs-w-full dvs-flex dvs-items-center">
-          <img
-            :src="`/styled/preview/${file.url}?w=100&h=100`"
-            style="min-width:75px;height:75px"
-          />
-          <div class="dvs-px-4 dvs-font-bold">{{ file.name }}</div>
+        <div v-else class="dvs-flex dvs-items-center dvs-mt-6">
+          <div class="dvs-overflow-hidden dvs-rounded dvs-w-1/3" style="height: 100px">
+            <img
+              :src="`/styled/preview/${file.url}?w=100&h=100`"
+              class="dvs-object-cover dvs-object-center dvs-w-full dvs-h-full"
+            />
+          </div>
+          <div class="dvs-px-4 dvs-font-bold dvs-w-1/2">{{ file.name }}</div>
         </div>
       </div>
     </li>
@@ -62,14 +67,6 @@ export default {
     mode: {
       type: String,
       required: true,
-    },
-  },
-  computed: {
-    indexStyles() {
-      if (this.mode === 'thumbnails') {
-        return { minWidth: '300px' };
-      }
-      return {};
     },
   },
   methods: {

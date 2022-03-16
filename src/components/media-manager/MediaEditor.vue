@@ -165,7 +165,7 @@ export default {
       };
 
       img.src = file;
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         img.onload = () => {
           this.$nextTick(() => {
             resolve(img);
@@ -198,7 +198,7 @@ export default {
       return new Promise(() => {
         window.deviseSettings.$bus.$emit('showLoadScreen', 'Images being generated');
         this.generateImages({ defaultImage: this.defaultImage, sizes: this.sizeEdits })
-          .then(response => {
+          .then((response) => {
             this.$emit('generatedImages', {
               images: response.data,
               settings: this.sizeEdits,
@@ -251,7 +251,7 @@ export default {
         // from the admin. Let's get the sizes from the selected image and populate
         // those if they aren't already loaded from the db.
       } else if (this.sizeEdits[name].w === null || !this.sizeEdits[name].h === null) {
-        this.getOriginalDimentions().then(img => {
+        this.getOriginalDimentions().then((img) => {
           this.sizeEdits[name].w = img.width;
           this.sizeEdits[name].h = img.height;
           this.sizeEdits[name].originalw = img.width;
