@@ -21,19 +21,19 @@ export default {
       return this.title;
     },
     activeErrors() {
-      return this.errors.filter(error => error.active === true);
+      return this.errors.filter((error) => error.active === true);
     },
     activeMessages() {
-      return this.messages.filter(message => message.active === true);
+      return this.messages.filter((message) => message.active === true);
     },
   },
   mounted() {
     const self = this;
-    window.deviseSettings.$bus.$on('showError', error => {
+    window.deviseSettings.$bus.$on('showError', (error) => {
       self.addError(error);
     });
 
-    window.deviseSettings.$bus.$on('showMessage', payload => {
+    window.deviseSettings.$bus.$on('showMessage', (payload) => {
       self.addMessage(payload);
     });
   },
@@ -111,7 +111,9 @@ export default {
       this.showErrorMsg({ title, message });
     },
     addMessage(payload) {
-      this.showSuccessMsg({ title: payload.title, message: payload.message });
+      let theMessage = `${payload.title}: ${payload.message}`;
+      console.log(this.$toast);
+      this.$toast.open({ message: theMessage, type: 'success', duration: 5000 });
     },
   },
 };

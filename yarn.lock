@@ -3856,11 +3856,6 @@ isobject@^3.0.1:
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
   integrity sha1-TkMekrEalzFjaqH5yNHMvP2reN8=
 
-izitoast@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/izitoast/-/izitoast-1.4.0.tgz#1aa4e3408b7159fba743506af66d8be54fd929fb"
-  integrity sha512-Oc1X2wiQtPp39i5VpIjf3GJf5sfCtHKXZ5szx7RareyEeFLUlcEW0FSfBni28+Ul6KNKZRKzhVuWzSP4Xngh0w==
-
 javascript-stringify@^2.0.1:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/javascript-stringify/-/javascript-stringify-2.1.0.tgz#27c76539be14d8bd128219a2d731b09337904e79"
@@ -6303,11 +6298,6 @@ vue-loader@^17.0.0:
     hash-sum "^2.0.0"
     loader-utils "^2.0.0"
 
-vue-notifications@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/vue-notifications/-/vue-notifications-1.0.2.tgz#988a0f42b472eb28afdcae4d7300307da3de1734"
-  integrity sha512-D9a3bhqW18tf4uRqFwh3Q0vIlcP9ipVnieyX2hAb/bqrGyVAx/JWPTqky7py9mU/DDaL5BY49MJzsctIDr7i2g==
-
 vue-router@^3.5.3:
   version "3.5.3"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.5.3.tgz#041048053e336829d05dafacf6a8fb669a2e7999"
@@ -6333,6 +6323,11 @@ vue-template-es2015-compiler@^1.9.0:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
+
+vue-toast-notification@^0.6:
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/vue-toast-notification/-/vue-toast-notification-0.6.2.tgz#44bb164505c310f6a721ff96921761b006ebb5cc"
+  integrity sha512-fIsgALA3yQAtTnZjyUg5Y1tbVrYkLNBCET/ZvvDTS7tnmaWz8L1IzkESrRs1KIiqIGRVbBbiZAzUImrVBEziDA==
 
 vue-upload-component@^2.8.22:
   version "2.8.22"

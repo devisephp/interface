@@ -1,7 +1,6 @@
 import PortalVue from 'portal-vue';
 import { mapGetters } from 'vuex';
-import VueNotifications from 'vue-notifications';
-import iziToast from 'izitoast';
+import VueToast from 'vue-toast-notification';
 import Devise from './Devise.vue';
 import DeviseStore from './vuex/store';
 import DeviseBus from './event-bus';
@@ -84,97 +83,100 @@ const DevisePlugin = {
     // Portals to render items outside of their component
     Vue.use(PortalVue);
 
+    // Message toasts
+    Vue.use(VueToast);
+
     // Register global components
-    Vue.component('devise', Devise);
-    Vue.component('slices', Slices);
-    Vue.component('messages', Messages);
+    Vue.component('Devise', Devise);
+    Vue.component('Slices', Slices);
+    Vue.component('Messages', Messages);
 
     // Directives
     Vue.directive('devise-alert-confirm', alertConfirm);
 
     // Users Admin
-    Vue.component('devise-user-create', () =>
+    Vue.component('DeviseUserCreate', () =>
       import(
         /* webpackChunkName: "devise-administration-users" */ './components/users/steps/Create.vue'
       )
     );
-    Vue.component('devise-user-edit', () =>
+    Vue.component('DeviseUserEdit', () =>
       import(
         /* webpackChunkName: "devise-administration-users" */ './components/users/steps/Edit.vue'
       )
     );
-    Vue.component('devise-user-delete', () =>
+    Vue.component('DeviseUserDelete', () =>
       import(
         /* webpackChunkName: "devise-administration-users" */ './components/users/steps/Delete.vue'
       )
     );
 
     // Pages Admin
-    Vue.component('devise-page-create', () =>
+    Vue.component('DevisePageCreate', () =>
       import(
         /* webpackChunkName: "devise-administration-pages" */ './components/pages/steps/Create.vue'
       )
     );
-    Vue.component('devise-page-copy', () =>
+    Vue.component('DevisePageCopy', () =>
       import(
         /* webpackChunkName: "devise-administration-pages" */ './components/pages/steps/Copy.vue'
       )
     );
-    Vue.component('devise-page-translate', () =>
+    Vue.component('DevisePageTranslate', () =>
       import(
         /* webpackChunkName: "devise-administration-pages" */ './components/pages/steps/Translate.vue'
       )
     );
-    Vue.component('devise-page-settings', () =>
+    Vue.component('DevisePageSettings', () =>
       import(
         /* webpackChunkName: "devise-administration-pages" */ './components/pages/steps/EditSettings.vue'
       )
     );
-    Vue.component('devise-page-versions', () =>
+    Vue.component('DevisePageVersions', () =>
       import(
         /* webpackChunkName: "devise-administration-pages" */ './components/pages/steps/EditVersions.vue'
       )
     );
-    Vue.component('devise-page-delete', () =>
+    Vue.component('DevisePageDelete', () =>
       import(
         /* webpackChunkName: "devise-administration-pages" */ './components/pages/steps/Delete.vue'
       )
     );
-    Vue.component('devise-page-jump-to-edit', () =>
+    Vue.component('DevisePageJumpToEdit', () =>
       import(
         /* webpackChunkName: "devise-administration-pages" */ './components/pages/steps/JumptoEditPage.vue'
       )
     );
 
     // Sites Admin
-    Vue.component('devise-site-create', () =>
+    Vue.component('DeviseSiteCreate', () =>
       import(
         /* webpackChunkName: "devise-administration-sites" */ './components/sites/steps/Create.vue'
       )
     );
-    Vue.component('devise-site-edit', () =>
+    Vue.component('DeviseSiteEdit', () =>
       import(
         /* webpackChunkName: "devise-administration-sites" */ './components/sites/steps/Edit.vue'
       )
     );
-    Vue.component('devise-site-delete', () =>
+    Vue.component('DeviseSiteDelete', () =>
       import(
         /* webpackChunkName: "devise-administration-sites" */ './components/sites/steps/Delete.vue'
       )
     );
 
     // Redirect Admin
-    Vue.component('devise-redirect-create', () =>
+    Vue.component('DeviseRedirectCreate', () =>
       import(
         /* webpackChunkName: "devise-administration-redirects" */ './components/redirects/steps/Create.vue'
       )
     );
-    Vue.component('devise-redirect-edit', () =>
+    Vue.component('DeviseRedirectEdit', () =>
       import(
         /* webpackChunkName: "devise-administration-redirects" */ './components/redirects/steps/Edit.vue'
       )
     );
-    Vue.component('devise-redirect-delete', () =>
+    Vue.component('DeviseRedirectDelete', () =>
       import(
         /* webpackChunkName: "devise-administration-redirects" */ './components/redirects/steps/Delete.vue'
       )
@@ -226,24 +228,6 @@ const DevisePlugin = {
       options
     );
 
-    // Register Messages
-    function toast({ title, message, type, timeout }) {
-      if (type === VueNotifications.types.warn) type = 'warning';
-      return iziToast[type]({ title, message, timeout });
-    }
-
-    const vueNotificationsOptions = {
-      success: toast,
-      error: toast,
-      info: toast,
-      warn: toast,
-    };
-
-    Vue.use(VueNotifications, vueNotificationsOptions);
-
-    // enables passive event listeners by default for some events
-    // require('default-passive-events');
-
     // We call Vue.mixin() here to inject functionality into all components.
     Vue.mixin({
       // This sets a prop to be accepted by all components in a custom Vue
@@ -268,18 +252,6 @@ const DevisePlugin = {
           deviseOptions,
         };
       },
-      // notifications: {
-      //   showSuccessMsg: {
-      //     type: VueNotifications.types.success,
-      //     title: 'Success',
-      //     message: 'Your Request was successful',
-      //   },
-      //   showErrorMsg: {
-      //     type: VueNotifications.types.error,
-      //     title: 'Wow-wow',
-      //     message: "That's the error",
-      //   },
-      // },
       computed: {
         ...mapGetters('devise', ['breakpoint', 'currentPage', 'currentUser', 'lang']),
         isLoggedIn() {
@@ -314,6 +286,11 @@ const DevisePlugin = {
             }
           }
           return false;
+        },
+
+        toast({ title, message, type, timeout }) {
+          let theMessage = `${title}: ${message}`;
+          Vue.$toast.open({ message: theMessage, type, duration: timeout });
         },
       },
       store,

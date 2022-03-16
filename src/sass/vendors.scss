@@ -1,9 +1,15 @@
 @import './../../node_modules/flatpickr/dist/flatpickr.min.css';
-@import './../../node_modules/izitoast/dist/css/iziToast.css';
 @import './../../node_modules/cropperjs/dist/cropper.min.css';
+@import './../../node_modules/vue-toast-notification/dist/theme-sugar.css';
 
 .vue-scrollbar__wrapper {
   @apply dvs-bg-transparent;
+}
+
+// Notifications
+.v-toast {
+  z-index: 9999;
+  @apply dvs-font-sans;
 }
 
 // Vuebar
