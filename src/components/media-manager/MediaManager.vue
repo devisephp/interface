@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="show"
-    class="dvs-min-h-screen dvs-fixed dvs-inset-0 dvs-flex dvs-justify-center dvs-items-center dvs-z-60 dvs-text-gray-500"
+    class="dvs-min-h-screen dvs-fixed dvs-inset-0 dvs-flex dvs-justify-center dvs-items-center dvs-z-9998 dvs-text-gray-500"
   >
     <div class="dvs-blocker dvs-z-30" @click="close"></div>
 
