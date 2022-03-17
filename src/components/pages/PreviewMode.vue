@@ -1,6 +1,6 @@
 <template>
   <div
-    class="dvs-relative dvs-cursor-pointer dvs-border-b dvs-border-admin-secondary-bg dvs-text-admin-fg dvs-transitions-hover-slow"
+    class="dvs-relative dvs-cursor-pointer dvs-border-b dvs-border-admin-secondary-bg dvs-text-gray-200 dvs-transitions-hover-slow"
     @mouseenter="openPreviewSelector"
     @mouseleave="closePreviewSelector"
   >
@@ -16,13 +16,13 @@
     <div
       v-if="previewMode === 'mobile-landscape'"
       class="dvs-m-4 dvs-cursor-pointer"
-      style="transform:rotate(90deg)"
+      style="transform: rotate(90deg)"
     >
       <phone-icon w="25" h="25" />
     </div>
     <div
       ref="previewSelector"
-      class="dvs-flex dvs-overflow-hidden dvs-flex-col dvs-rounded-sm dvs-absolute dvs-top-0 dvs-left-0 dvs-mt-2 dvs-ml-10 dvs-z-10 dvs-bg-admin-bg"
+      class="dvs-flex dvs-overflow-hidden dvs-flex-col dvs-rounded-sm dvs-absolute dvs-top-0 dvs-left-0 dvs-mt-2 dvs-ml-10 dvs-z-10 dvs-bg-gray-800"
     >
       <div
         class="dvs-p-3 dvs-cursor-pointer dvs-border-b dvs-border-admin-secondary-bg"
@@ -31,20 +31,20 @@
         <desktop-icon w="20" h="20" />
       </div>
       <div
-        class="dvs-p-3 dvs-cursor-pointer dvs-border-b  dvs-border-admin-secondary-bg"
+        class="dvs-p-3 dvs-cursor-pointer dvs-border-b dvs-border-admin-secondary-bg"
         @click="setPreviewMode('tablet')"
       >
         <tablet-icon w="20" h="20" />
       </div>
       <div
-        class="dvs-p-3 dvs-cursor-pointer dvs-border-b  dvs-border-admin-secondary-bg"
+        class="dvs-p-3 dvs-cursor-pointer dvs-border-b dvs-border-admin-secondary-bg"
         @click="setPreviewMode('mobile-portrait')"
       >
         <phone-icon w="20" h="20" />
       </div>
       <div
         class="dvs-p-3 dvs-cursor-pointer"
-        style="transform:rotate(90deg)"
+        style="transform: rotate(90deg)"
         @click="setPreviewMode('mobile-landscape')"
       >
         <phone-icon w="20" h="20" />

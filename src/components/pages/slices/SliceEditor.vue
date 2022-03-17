@@ -7,12 +7,12 @@
     >
       <div class="dvs-flex dvs-items-center dvs-justify-between dvs-w-full dvs-px-4">
         <div class="dvs-flex dvs-items-center dvs-w-full">
-          <div class="handle dvs-mr-2 dvs-cursor-move dvs-text-admin-fg dvs-opacity-50">
+          <div class="handle dvs-mr-2 dvs-cursor-move dvs-text-gray-200 dvs-opacity-50">
             <menu-icon />
           </div>
           <div
             dusk="slice-label"
-            class="dvs-relative dvs-w-full dvs-cursor-pointer dvs-text-admin-fg"
+            class="dvs-relative dvs-w-full dvs-cursor-pointer dvs-text-gray-200"
             :class="{ 'dvs-opacity-75': !sliceHasFieldsOrSlices }"
             @click="toggleSlice()"
             @mouseenter="markSlice(true, slice)"

@@ -7,12 +7,12 @@
 
       <div class="relative dvs-z-50 dvs-w-full dvs-pt-6">
         <admin-container>
-          <template v-slot:message>
+          <template #message>
             Adding new slices builds up your page. Below you will find the settings that will
             effect what template to use and if it is static or dynamic.
           </template>
-          <template v-slot:content>
-            <div class="dvs-w-full dvs-relative dvs-z-40 ">
+          <template #content>
+            <div class="dvs-w-full dvs-relative dvs-z-40">
               <div class="dvs-p-8">
                 <transition name="dvs-fade">
                   <!-- Choose the type of the slice -->
@@ -75,7 +75,7 @@
             </div>
             <div
               v-if="managedSlice.type !== null"
-              class="dvs-fixed  dvs-z-40 dvs-bottom-0 dvs-right-0 dvs-mr-1 dvs-mb-4 dvs-mr-10 dvs-text-xs dvs-z-10 dvs-p-6 dvs-bg-admin-bg dvs-text-admin-fg dvs-rounded dvs-shadow dvs-px-6"
+              class="dvs-fixed dvs-z-40 dvs-bottom-0 dvs-right-0 dvs-mr-1 dvs-mb-4 dvs-mr-10 dvs-text-xs dvs-z-10 dvs-p-6 dvs-bg-gray-800 dvs-text-gray-200 dvs-rounded dvs-shadow dvs-px-6"
             >
               <button
                 v-if="mode === 'inserting' && managedSlice.type !== 'model'"
@@ -170,12 +170,12 @@ export default {
     modelQueryFormatted() {
       if (this.modelQuery && this.modelQuery.key) {
         const finalParams = [];
-        this.modelQuery.params.forEach(param => {
+        this.modelQuery.params.forEach((param) => {
           const currentIndex = this.modelQuery.params.indexOf(param);
           finalParams.push([]);
 
           if (typeof param === 'object') {
-            param.forEach(p => {
+            param.forEach((p) => {
               finalParams[currentIndex].push(p.dvs_ref);
             });
           } else {
@@ -204,7 +204,7 @@ export default {
     },
     modelQueryConfig() {
       if (this.modelQuery) {
-        const mqc = this.modelQueries.find(mq => {
+        const mqc = this.modelQueries.find((mq) => {
           return mq.key === this.modelQuery.key;
         });
         return mqc;

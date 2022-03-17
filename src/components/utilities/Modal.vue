@@ -8,7 +8,7 @@
             class="dvs-absolute dvs-top-0 dvs-right-0 dvs-mt-4 dvs-mr-8 dvs-cursor-pointer z-10"
             @click="close"
           >
-            <close-icon w="40" h="40" class="dvs-text-admin-fg" />
+            <close-icon w="40" h="40" class="dvs-text-gray-200" />
           </div>
           <slot></slot>
         </div>

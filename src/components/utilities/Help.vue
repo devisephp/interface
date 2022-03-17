@@ -4,17 +4,17 @@
       v-if="!compact"
       class="dvs-text-base dvs-flex dvs-rounded dvs-overflow-hidden"
       :class="{
-        'dvs-text-admin-fg dvs-bg-admin-bg': subtle,
+        'dvs-text-gray-200 dvs-bg-gray-800': subtle,
         'dvs-text-admin-highlight-fg dvs-bg-admin-highlight-bg': !subtle,
       }"
     >
       <div
-        class="dvs-text-admin-highlight-bg dvs-bg-admin-highlight-fg dvs-flex dvs-items-center dvs-justify-center dvs-px-4 dvs-text-xl "
+        class="dvs-text-admin-highlight-bg dvs-bg-admin-highlight-fg dvs-flex dvs-items-center dvs-justify-center dvs-px-4 dvs-text-xl"
       >
         <help-circle-icon></help-circle-icon>
       </div>
 
-      <div class=" dvs-p-4 ">
+      <div class="dvs-p-4">
         <p>
           <slot></slot>
         </p>
@@ -33,7 +33,7 @@
       <div
         v-show="showHelp || keepHelp"
         class="dvs-not-italic dvs-normal-case dvs-font-normal dvs-text-xl dvs-fixed dvs-bottom-0 dvs-left-0 dvs-ml-4 dvs-mb-4 dvs-z-30 dvs-text-admin-highlight-fg dvs-bg-admin-highlight-bg dvs-p-8 dvs-rounded dvs-shadow-lg"
-        style="width:400px;"
+        style="width: 400px"
       >
         <p>
           <slot></slot>

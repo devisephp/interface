@@ -1,9 +1,9 @@
 <template>
-  <div class="dvs-fixed dvs-z-9999" style="top:30px; right:30px;">
+  <div class="dvs-fixed dvs-z-9999" style="top: 30px; right: 30px">
     <div
       v-if="showEditor"
-      class="dvs-z-50 dvs-min-w-96 dvs-z-50 dvs-rounded dvs-bg-admin-bg dvs-text-admin-fg dvs-shadow-lg dvs-flex dvs-items-stretch"
-      style="height: calc(100vh - 50px);"
+      class="dvs-z-50 dvs-min-w-96 dvs-z-50 dvs-rounded dvs-bg-gray-800 dvs-text-gray-200 dvs-shadow-lg dvs-flex dvs-items-stretch"
+      style="height: calc(100vh - 50px)"
     >
       <div
         id="dvs-admin-sidebar"
@@ -115,7 +115,7 @@ export default {
   },
   methods: {
     addListeners() {
-      window.deviseSettings.$bus.$on('open-slice-settings', slice => {
+      window.deviseSettings.$bus.$on('open-slice-settings', (slice) => {
         this.showEditor = true;
         Vue.set(this, 'slice', slice);
         if (this.slice.settings.backgroundColor) {

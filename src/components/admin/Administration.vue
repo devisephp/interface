@@ -26,7 +26,7 @@
         class="dvs-m-8 dvs-fixed dvs-inset-0 dvs-z-9980 dvs-flex dvs-pointer-events-none"
       >
         <div
-          class="dvs-flex dvs-shadow dvs-flex-col dvs-relative dvs-rounded dvs-bg-admin-bg dvs-pointer-events-auto"
+          class="dvs-flex dvs-shadow dvs-flex-col dvs-relative dvs-rounded dvs-bg-gray-800 dvs-pointer-events-auto"
         >
           <preview-mode />
 
@@ -34,7 +34,7 @@
             <div :key="key" class="dvs-border-b dvs-border-admin-secondary-bg">
               <button
                 :class="checkActivePanelSidebar(menuItem)"
-                class="dvs-outline-none dvs-transitions-hover-slow dvs-cursor-pointer dvs-text-admin-fg"
+                class="dvs-outline-none dvs-transitions-hover-slow dvs-cursor-pointer dvs-text-gray-200"
                 @click.prevent="loadAdminPage(menuItem)"
               >
                 <component :is="menuItem.icon" class="dvs-m-4" w="25" h="25"></component>
@@ -43,7 +43,7 @@
           </template>
           <a
             href="#"
-            class="dvs-outline-none dvs-transitions-hover-slow dvs-cursor-pointer dvs-text-admin-fg"
+            class="dvs-outline-none dvs-transitions-hover-slow dvs-cursor-pointer dvs-text-gray-200"
             onclick="event.preventDefault(); document.getElementById('dvs-logout-form').submit();"
           >
             <power-icon class="dvs-m-4" w="25" h="25" />

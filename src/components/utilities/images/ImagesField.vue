@@ -1,6 +1,6 @@
 <template>
   <div class="dvs-mb-8 dvs-w-full">
-    <div class="dvs-flex dvs-items-center dvs-mb-4 dvs-text-admin-fg">
+    <div class="dvs-flex dvs-items-center dvs-mb-4 dvs-text-gray-200">
       <h3>{{ labelText }}</h3>
       <div @click="showMediaManager">
         <images-icon class="dvs-ml-4 dvs-cursor-pointer" w="30px" h="30px" />
@@ -14,7 +14,7 @@
         class="dvs-w-1/5 dvs-max-w-1/4 dvs-pr-4 dvs-pb-4 dvs-flex"
       >
         <div
-          class="dvs-p-4 dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-text-xs dvs-overflow-hidden dvs-bg-admin-bg dvs-text-admin-fg"
+          class="dvs-p-4 dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-text-xs dvs-overflow-hidden dvs-bg-gray-800 dvs-text-gray-200"
         >
           <div
             class="dvs-flex dvs-justify-center dvs-bg-cover dvs-rounded-lg dvs-relative"
@@ -53,7 +53,7 @@
         <div
           v-for="(image, key) in images"
           :key="key"
-          class="dvs-modal dvs-fixed dvs-bottom-0 dvs-right-0 dvs-mx-8 dvs-mb-8 dvs-z-40 dvs-bg-admin-bg dvs-text-admin-fg"
+          class="dvs-modal dvs-fixed dvs-bottom-0 dvs-right-0 dvs-mx-8 dvs-mb-8 dvs-z-40 dvs-bg-gray-800 dvs-text-gray-200"
         >
           <img :src="previewImagePath" />
           <h6 class="dvs-text-base dvs-mb-4 dvs-mt-4">

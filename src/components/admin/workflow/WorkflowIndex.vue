@@ -13,7 +13,7 @@
             <li
               v-for="(subField, subkey) in subLabelFields"
               :key="subkey"
-              class="dvs-mr-4 dvs-text-xs dvs-leading-tight dvs-w-1/4 dvs-bg-admin-bg dvs-text-admin-fg dvs-rounded dvs-p-3 opacity-75"
+              class="dvs-mr-4 dvs-text-xs dvs-leading-tight dvs-w-1/4 dvs-bg-gray-800 dvs-text-gray-200 dvs-rounded dvs-p-3 opacity-75"
             >
               <div class="dvs-uppercase dvs-text-xs">{{ subField.label }}</div>
               <div>{{ format(subField, suggestion[subField.field]) }}</div>
@@ -70,7 +70,7 @@ export default {
         this.step.app === true || typeof this.step.app === 'undefined' ? true : this.step.app;
       this.getGeneric({
         config: { apiendpoint: this.step.apiendpoint, app: isApp },
-      }).then(results => {
+      }).then((results) => {
         this.results = results.data;
       });
     },

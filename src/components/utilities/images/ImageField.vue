@@ -25,9 +25,9 @@
           <div
             v-for="(media, size) in image.media"
             :key="size"
-            class="dvs-uppercase dvs-text-center dvs-mr-4 dvs-mb-4 dvs-p-4 dvs-bg-admin-bg dvs-text-admin-fg"
+            class="dvs-uppercase dvs-text-center dvs-mr-4 dvs-mb-4 dvs-p-4 dvs-bg-gray-800 dvs-text-gray-200"
           >
-            <img :src="media" class="mb-2" style="width:100px; height:auto" />
+            <img :src="media" class="mb-2" style="width: 100px; height: auto" />
             <div class="dvs-text-xs">{{ getSizeName(size) }} {{ getDimensions(size) }}</div>
           </div>
         </div>
@@ -42,7 +42,7 @@
           @click="showPreview = false"
         ></div>
         <div
-          class="dvs-modal dvs-fixed dvs-bottom-0 dvs-right-0 dvs-mx-8 dvs-mb-8 dvs-z-40 dvs-w-1/2 dvs-bg-admin-bg dvs-text-admin-fg"
+          class="dvs-modal dvs-fixed dvs-bottom-0 dvs-right-0 dvs-mx-8 dvs-mb-8 dvs-z-40 dvs-w-1/2 dvs-bg-gray-800 dvs-text-gray-200"
         >
           <img :src="imageUrl" />
           <h6 class="dvs-text-base dvs-mb-4 dvs-mt-4">

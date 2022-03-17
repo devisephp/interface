@@ -1,11 +1,11 @@
 <template>
   <div class="dvs-relative dvs-mb-8">
-    <div class="dvs-flex dvs-justify-center dvs-p-4 dvs-pb-8 dvs-text-admin-fg dvs-w-full">
+    <div class="dvs-flex dvs-justify-center dvs-p-4 dvs-pb-8 dvs-text-gray-200 dvs-w-full">
       <input
         ref="filter"
         v-model="filter"
         type="text"
-        class="dvs-bg-transparent dvs-border-b-2 dvs-px-12 dvs-py-2 dvs-text-admin-fg dvs-outline-none dvs-placeholder-admin-fg dvs-text-center"
+        class="dvs-bg-transparent dvs-border-b-2 dvs-px-12 dvs-py-2 dvs-text-gray-200 dvs-outline-none dvs-placeholder-admin-fg dvs-text-center"
         placeholder="Type to begin searching"
       />
       <div

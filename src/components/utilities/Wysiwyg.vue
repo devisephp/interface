@@ -105,7 +105,7 @@
           >
             <form
               v-if="linkMenuIsActive"
-              class="menububble__form dvs-bg-admin-bg dvs-text-admin-fg dvs-absolute dvs-p-4 dvs-rounded-sm dvs-shadow dvs-mt-2 dvs-z-10"
+              class="menububble__form dvs-bg-gray-800 dvs-text-gray-200 dvs-absolute dvs-p-4 dvs-rounded-sm dvs-shadow dvs-mt-2 dvs-z-10"
               @submit.prevent="setLinkUrl(commands.link, linkUrl)"
             >
               <fieldset class="dvs-fieldset">

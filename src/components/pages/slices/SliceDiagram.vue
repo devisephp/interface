@@ -2,7 +2,7 @@
   <!-- eslint-disable vue/no-v-html -->
   <div>
     <div
-      class="dvs-relative dvs-w-full dvs-rounded-sm dvs-overflow-hidden dvs-bg-gray-800 dvs-text-gray-700"
+      class="dvs-relative dvs-w-full dvs-rounded-sm dvs-overflow-hidden dvs-bg-gray-700 dvs-text-gray-600"
       style="height: 250px"
     >
       <div class="dvs-absolute dvs-z-0 dvs-inset-0 dvs-flex dvs-items-center dvs-justify-center">
@@ -40,7 +40,15 @@
         class="dvs-absolute dvs-inset-0 dvs-backdrop-blur dvs-flex dvs-justify-center dvs-items-center"
         @click="zoom = false"
       >
-        asdfasdfasdf
+        <div style="height: 500px; width: 500px">
+          <img
+            :src="`storage/slice-previews/${sliceComponent.name}.png`"
+            alt="Preview Image"
+            width="500"
+            height="500"
+            class="dvs-w-full dvs-h-full dvs-object-contain rounded-lg"
+          />
+        </div>
       </div>
     </div>
   </div>

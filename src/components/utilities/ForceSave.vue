@@ -5,7 +5,7 @@
   >
     <div class="dvs-blocker dvs-z-30" @click="show = false"></div>
 
-    <admin-container class="dvs-z-40 dvs-text-admin-fg">
+    <admin-container class="dvs-z-40 dvs-text-gray-200">
       <template v-slot:message>
         Uh-oh! There was an error saving your page.<br />
         There were two editors at the same time...

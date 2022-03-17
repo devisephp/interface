@@ -38,7 +38,7 @@
     <help v-if="value.length == 0 && !adding" :subtle="true" class="dvs-mb-8">
       <p>You currently do not have any meta tags at this time.</p>
 
-      <button class="dvs-btn dvs-btn-ghost dvs-text-admin-fg dvs-btn-sm" @click="adding = true">
+      <button class="dvs-btn dvs-btn-ghost dvs-text-gray-200 dvs-btn-sm" @click="adding = true">
         Add Some Now
       </button>
     </help>
@@ -50,7 +50,7 @@
         class="dvs-flex dvs-justify-between dvs-items-center dvs-mb-2"
       >
         <div
-          class="dvs-font-mono dvs-p-4 leading-loose dvs-text-sm dvs-bg-admin-fg dvs-text-admin-bg dvs-rounded dvs-shadow dvs-flex-grow"
+          class="dvs-font-mono dvs-p-4 leading-loose dvs-text-sm dvs-bg-gray-200 dvs-text-gray-800 dvs-rounded dvs-shadow dvs-flex-grow"
         >
           <template
             >&lt;meta {{ meta.attribute_name }}="{{ meta.attribute_value }}" content="{{
@@ -67,7 +67,7 @@
                 arguments: meta,
                 message: 'Are you sure you want to delete this meta?',
               }"
-              class="dvs-btn dvs-btn-xs dvs-ml-4 dvs-btn-ghost dvs-text-admin-fg"
+              class="dvs-btn dvs-btn-xs dvs-ml-4 dvs-btn-ghost dvs-text-gray-200"
             >
               <trash-icon w="20" h="20" />
             </button>

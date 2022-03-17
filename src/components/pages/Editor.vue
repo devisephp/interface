@@ -2,7 +2,7 @@
   <div
     id="dvs-admin-content-container"
     ref="admin-route-wrapper"
-    class="dvs-relative dvs-max-w-1/2 dvs-self-center dvs-shadow-lg dvs-bg-admin-bg dvs-text-admin-fg dvs-rounded dvs-pointer-events-auto"
+    class="dvs-relative dvs-max-w-1/2 dvs-self-center dvs-shadow-lg dvs-bg-gray-800 dvs-text-gray-200 dvs-rounded dvs-pointer-events-auto"
     style="min-width: 400px"
   >
     <vue-scrollbar ref="Scrollbar" class="dvs-max-h-screenpad">

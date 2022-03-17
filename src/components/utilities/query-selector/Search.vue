@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="dvs-flex dvs-justify-center dvs-p-4 dvs-pb-8  dvs-text-admin-fg  dvs-w-full">
+    <div class="dvs-flex dvs-justify-center dvs-p-4 dvs-pb-8 dvs-text-gray-200 dvs-w-full">
       <input
         ref="filter"
         v-model="filter"
         type="text"
-        class="dvs-bg-transparent dvs-border-b-2 dvs-px-12 dvs-py-2 dvs-text-admin-fg dvs-outline-none dvs-placeholder-admin-fg dvs-text-center"
+        class="dvs-bg-transparent dvs-border-b-2 dvs-px-12 dvs-py-2 dvs-text-gray-200 dvs-outline-none dvs-placeholder-admin-fg dvs-text-center"
         :placeholder="value.label"
         @keyup="requestSearch"
       />
@@ -21,7 +21,7 @@
       <li
         v-for="(suggestion, key) in filteredSuggestions"
         :key="key"
-        class="dvs-bg-admin-bg dvs-shadow hover:dvs-shadow-lg dvs-rounded dvs-my-4 dvs-p-2 dvs-cursor-pointer"
+        class="dvs-bg-gray-800 dvs-shadow hover:dvs-shadow-lg dvs-rounded dvs-my-4 dvs-p-2 dvs-cursor-pointer"
         @click="selectSuggestion(suggestion)"
       >
         <div class="dvs-text-lg dvs-mb-2">{{ suggestion.displayFields[0].value }}</div>
@@ -67,7 +67,7 @@
             <li
               v-for="(subField, subkey) in subLabelFields(suggestion.displayFields)"
               :key="subkey"
-              class="dvs-mr-4 dvs-text-xs dvs-leading-tight dvs-w-1/4 dvs-bg-admin-bg dvs-text-admin-fg dvs-rounded dvs-p-3 opacity-75"
+              class="dvs-mr-4 dvs-text-xs dvs-leading-tight dvs-w-1/4 dvs-bg-gray-800 dvs-text-gray-200 dvs-rounded dvs-p-3 opacity-75"
             >
               <div class="dvs-uppercase dvs-text-xs">{{ subField.label }}</div>
               <div>{{ format(subField) }}</div>
@@ -127,8 +127,8 @@ export default {
     },
     filteredSuggestions() {
       if (this.autosuggest.data) {
-        return this.autosuggest.data.filter(suggestion => {
-          return !this.selected.find(select => {
+        return this.autosuggest.data.filter((suggestion) => {
+          return !this.selected.find((select) => {
             return suggestion === select;
           });
         });
@@ -170,7 +170,7 @@ export default {
       if (term !== '') {
         const selectedIds = [];
 
-        this.selected.forEach(s => {
+        this.selected.forEach((s) => {
           selectedIds.push(s.id);
         });
 
@@ -182,7 +182,7 @@ export default {
         this.appGenericSearch({
           config: { apiendpoint: this.modelQuery.params[0].api },
           filters: searchData,
-        }).then(results => {
+        }).then((results) => {
           this.autosuggest = results.data;
           if (results.data.length < 1) {
             window.deviseSettings.$bus.$emit('showMessage', {
@@ -216,7 +216,7 @@ export default {
           filters: {
             ids: this.value.join(','),
           },
-        }).then(response => {
+        }).then((response) => {
           this.selected = [...response.data.data];
         });
       } else {

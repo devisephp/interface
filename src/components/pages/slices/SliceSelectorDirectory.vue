@@ -1,5 +1,5 @@
 <template>
-  <div v-if="currentDirectoryFiles.length > 0" class="dvs-mb-8 dvs-w-full dvs-text-admin-fg">
+  <div v-if="currentDirectoryFiles.length > 0" class="dvs-mb-8 dvs-w-full dvs-text-gray-200">
     <div class="dvs-uppercase dvs-text-sm dvs-ml-2 dvs-mb-2 dvs-w-full dvs-pb-2 dvs-opacity-75">
       {{ name }}
     </div>
@@ -11,8 +11,8 @@
         @click="toggleSelectSlice(file)"
       >
         <div
-          class="dvs-w-full dvs-flex dvs-flex-col dvs-h-full dvs-shadow dvs-rounded"
-          :class="isSelected(file)"
+          class="dvs-w-full dvs-flex dvs-flex-col dvs-h-full dvs-shadow dvs-rounded dvs-overflow-hidden dvs-bg-gray-500 dvs-text-gray-100"
+          :class="{ 'dvs-ring-2 dvs-ring-offset-2 dvs-ring-red-300': isSelected(file) }"
         >
           <slice-selector-slice :file="file" class="dvs-mr-4"></slice-selector-slice>
         </div>
@@ -66,11 +66,11 @@ export default {
     isSelected(file) {
       if (this.value !== null) {
         if (file.value === this.value.value) {
-          return ['dvs-bg-admin-highlight-bg dvs-text-admin-highlight-fg'];
+          return true;
         }
       }
 
-      return ['dvs-bg-admin-fg dvs-text-admin-bg'];
+      return false;
     },
     toggleSelectSlice(slice) {
       if (!this.value || slice.value !== this.value.value) {

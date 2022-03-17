@@ -1,18 +1,18 @@
 <template>
-  <div class="flex justify-center ">
+  <div class="flex justify-center">
     <admin-container class="dvs-mt-16 max-w-2xl">
-      <template v-slot:message>
+      <template #message>
         This allows you to copy slice (field data and all!) to another page.
       </template>
-      <template v-slot:content>
-        <div class="dvs-p-8 dvs-text-admin-fg">
+      <template #content>
+        <div class="dvs-p-8 dvs-text-gray-200">
           <div class="dvs-mb-8">
             <fieldset class="dvs-fieldset dvs-mb-4">
               <label>Site to copy to</label>
               <select v-model="siteToCopyTo" class="dvs-w-full" @change="clearSearch">
-                <option v-for="site in sites.data" :key="site.id" :value="site.id">{{
-                  site.name
-                }}</option>
+                <option v-for="site in sites.data" :key="site.id" :value="site.id">
+                  {{ site.name }}
+                </option>
               </select>
             </fieldset>
 
@@ -44,7 +44,7 @@
           </div>
           <div
             v-if="pageToCopyTo.site"
-            class="dvs-mb-8 dvs-bg-admin-fg dvs-text-admin-bg dvs-p-4 dvs-rounded-lg"
+            class="dvs-mb-8 dvs-bg-gray-200 dvs-text-gray-800 dvs-p-4 dvs-rounded-lg"
           >
             <div>
               <div class="dvs-uppercase dvs-text-xs">Copying to:</div>
@@ -101,7 +101,7 @@ export default {
     ...mapActions('devise', ['searchPageVersions', 'copyPageSlice']),
     requestSearch() {
       this.searchPageVersions({ term: this.searchTerm, site_id: this.siteToCopyTo }).then(
-        results => {
+        (results) => {
           this.searchResults = [];
           for (const id in results.data) {
             if (results.data[id]) {
