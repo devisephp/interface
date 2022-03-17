@@ -124,10 +124,11 @@
             <div class="dvs-text-2xs dvs-text-center dvs-leading-none dvs-pt-2">Capture</div>
           </div>
           <div
+            v-show="screenshotGenerating"
             class="dvs-absolute dvs-z-10 dvs-inset-0 dvs-flex dvs-justify-center dvs-items-center"
           >
             <svg
-              class="dvs-animate-spin dvs-w-6 dvs-h-6"
+              class="dvs-animate-spin dvs-w-6 dvs-h-6 dvs-transform"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -280,7 +281,7 @@ export default {
       pageSlices: [],
       sliceOpen: false,
       showCopyToAnotherPage: false,
-      screenshotGenerating: true,
+      screenshotGenerating: false,
     };
   },
   computed: {

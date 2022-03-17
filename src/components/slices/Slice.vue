@@ -357,17 +357,22 @@ export default {
                   window_height: windowHeight,
                   offset_top: offset.top,
                   offset_left: offset.left,
+                  url: window.location.href,
                 },
               })
               .then(() => {
-                window.deviseSettings.$bus.$emit('screenshotDone', this.slice);
+                window.deviseSettings.$bus.$emit('screenshotDone', slice);
 
                 window.deviseSettings.$bus.$emit('showMessage', {
                   title: 'Screenshot Generated',
                   message: `Pro tip: A screenshot of this slice has been generated.`,
                 });
+              })
+              .finally(() => {
+                window.deviseSettings.$bus.$emit('screenshotDone', slice);
               });
           } catch (error) {
+            window.deviseSettings.$bus.$emit('screenshotDone', slice);
             console.warn(
               'Devise Warning: There may be a problem with this slice. Try wrapping the template in a single <div> to resolve and prevent children components to be at the root level.'
             );
