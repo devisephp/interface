@@ -12,6 +12,7 @@
     :component="sliceComponent"
     :slice-index="sliceIndex"
     v-bind="$attrs"
+    :class="[devise.metadata.name]"
     v-on="$listeners"
   ></component>
 </template>
@@ -20,6 +21,7 @@
 import { mapGetters, mapActions } from 'vuex';
 import Strings from '../../mixins/Strings';
 import Slice from './Slice.vue'; // eslint-disable-line
+import mezr from 'mezr';
 
 export default {
   /* eslint-disable camelcase */
@@ -135,6 +137,7 @@ export default {
     ...mapActions('devise', ['regenerateMedia']),
     addListeners() {
       window.deviseSettings.$bus.$on('jumpToSlice', this.attemptJumpToSlice);
+      window.deviseSettings.$bus.$on('screenshotSlice', this.attemptScreenshotSlice);
       window.deviseSettings.$bus.$on('openSliceSettings', this.attemptOpenSliceSettings);
       window.deviseSettings.$bus.$on('markSlice', this.markSlice);
 
@@ -318,25 +321,59 @@ export default {
     attemptJumpToSlice(slice) {
       if (this.devise.metadata && slice.metadata) {
         if (this.devise.metadata.instance_id === slice.metadata.instance_id) {
-          import(/* webpackChunkName: "devise-slice-admin" */ 'mezr')
-            .then(({ default: mezr }) => {
-              try {
-                const offset = mezr.offset(this.sliceEl, 'margin');
-                window.scrollTo({
-                  top: offset.top,
-                  behavior: 'smooth',
-                });
-              } catch (error) {
-                /* eslint-disable no-console */
-                console.warn(
-                  'Devise Warning: There may be a problem with this slice. Try wrapping the template in a single <div> to resolve and prevent children components to be at the root level.'
-                );
-              }
-            })
-            .catch(() => 'An error occurred while loading the component');
+          try {
+            const offset = mezr.offset(this.sliceEl, 'margin');
+            window.scrollTo({
+              top: offset.top,
+              behavior: 'smooth',
+            });
+          } catch (error) {
+            /* eslint-disable no-console */
+            console.warn(
+              'Devise Warning: There may be a problem with this slice. Try wrapping the template in a single <div> to resolve and prevent children components to be at the root level.'
+            );
+          }
         }
       }
     },
+
+    attemptScreenshotSlice(slice) {
+      if (this.devise.metadata && slice.metadata) {
+        if (this.devise.metadata.instance_id === slice.metadata.instance_id) {
+          try {
+            const offset = mezr.offset(this.sliceEl, 'margin');
+            const width = mezr.width(this.sliceEl, 'margin');
+            const height = mezr.height(this.sliceEl, 'margin');
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+
+            window.axios
+              .get(`/api/devise/slice-preview`, {
+                params: {
+                  file_name: slice.metadata.name,
+                  width,
+                  height,
+                  window_width: windowWidth,
+                  window_height: windowHeight,
+                  offset_top: offset.top,
+                  offset_left: offset.left,
+                },
+              })
+              .then(() => {
+                window.deviseSettings.$bus.$emit('showMessage', {
+                  title: 'Screenshot Generated',
+                  message: `Pro tip: A screenshot of this slice has been generated.`,
+                });
+              });
+          } catch (error) {
+            console.warn(
+              'Devise Warning: There may be a problem with this slice. Try wrapping the template in a single <div> to resolve and prevent children components to be at the root level.'
+            );
+          }
+        }
+      }
+    },
+
     attemptOpenSliceSettings(slice) {
       if (this.devise.metadata && slice.metadata) {
         if (this.devise === slice) {
@@ -351,31 +388,29 @@ export default {
           markers[0].parentNode.removeChild(markers[0]);
         }
 
-        import(/* webpackChunkName: "devise-slice-admin" */ 'mezr').then(({ default: mezr }) => {
-          if (on) {
-            try {
-              const offset = mezr.offset(this.sliceEl, 'margin');
-              const width = mezr.width(this.sliceEl, 'margin');
-              const height = mezr.height(this.sliceEl, 'margin');
+        if (on) {
+          try {
+            const offset = mezr.offset(this.sliceEl, 'margin');
+            const width = mezr.width(this.sliceEl, 'margin');
+            const height = mezr.height(this.sliceEl, 'margin');
 
-              const marker = document.createElement('div');
-              marker.innerHTML = `
+            const marker = document.createElement('div');
+            marker.innerHTML = `
             <div class="dvs-absolute-center dvs-absolute">
               <h1 class="dvs-text-gray-400 dvs-font-hairline dvs-font-sans dvs-p-4 dvs-bg-black dvs-rounded dvs-shadow-lg">
                 ${this.devise.metadata.label}
               </h1>
             </div>`;
-              marker.classList =
-                'devise-component-marker dvs-absolute dvs-bg-black dvs-z-60 dvs-opacity-75';
-              marker.style.cssText = `top:${offset.top}px;left:${offset.left}px;width:${width}px;height:${height}px`;
-              document.body.appendChild(marker);
-            } catch (error) {
-              console.warn(
-                'Devise Warning: There may be a problem with this slice. Try wrapping the template in a single <div> to resolve and prevent children components to be at the root level.'
-              );
-            }
+            marker.classList =
+              'devise-component-marker dvs-absolute dvs-bg-black dvs-z-60 dvs-opacity-75';
+            marker.style.cssText = `top:${offset.top}px;left:${offset.left}px;width:${width}px;height:${height}px`;
+            document.body.appendChild(marker);
+          } catch (error) {
+            console.warn(
+              'Devise Warning: There may be a problem with this slice. Try wrapping the template in a single <div> to resolve and prevent children components to be at the root level.'
+            );
           }
-        });
+        }
       }
     },
     addVisibilityScrollListeners() {
