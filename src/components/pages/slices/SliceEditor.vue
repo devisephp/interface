@@ -114,7 +114,7 @@
           </div>
         </div>
 
-        <div v-if="can('generate slice preview')">
+        <div class="dvs-relative">
           <div
             class="dvs-opacity-50 hover:dvs-opacity-100 dvs-text-xs dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-cursor-pointer dvs-mr-1 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-rounded-sm dvs-p-2"
             style="width: 50px"
@@ -122,6 +122,24 @@
           >
             <image-icon w="25" h="25" />
             <div class="dvs-text-2xs dvs-text-center dvs-leading-none dvs-pt-2">Capture</div>
+          </div>
+          <div
+            class="dvs-absolute dvs-z-10 dvs-inset-0 dvs-flex dvs-justify-center dvs-items-center"
+          >
+            <svg
+              class="dvs-animate-spin dvs-w-6 dvs-h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+              ></path>
+            </svg>
           </div>
         </div>
 
@@ -262,6 +280,7 @@ export default {
       pageSlices: [],
       sliceOpen: false,
       showCopyToAnotherPage: false,
+      screenshotGenerating: true,
     };
   },
   computed: {
@@ -351,13 +370,13 @@ export default {
 
     // Marking Slice
     markSlice(on) {
-      window.window.deviseSettings.$bus.$emit('markSlice', this.slice, on);
+      window.deviseSettings.$bus.$emit('markSlice', this.slice, on);
     },
     jumpToSlice() {
-      window.window.deviseSettings.$bus.$emit('jumpToSlice', this.slice);
+      window.deviseSettings.$bus.$emit('jumpToSlice', this.slice);
     },
     sliceSettings() {
-      window.window.deviseSettings.$bus.$emit('openSliceSettings', this.slice);
+      window.deviseSettings.$bus.$emit('openSliceSettings', this.slice);
     },
 
     // Navigating Models
@@ -394,7 +413,13 @@ export default {
     },
 
     requestGenerateScreenshotFromSlice() {
-      window.window.deviseSettings.$bus.$emit('screenshotSlice', this.slice);
+      this.screenshotGenerating = true;
+      window.deviseSettings.$bus.$emit('screenshotSlice', this.slice);
+      window.deviseSettings.$bus.$on('screenshotDone', (slice) => {
+        if (slice.id === this.slice.id) {
+          this.screenshotGenerating = false;
+        }
+      });
     },
 
     copySlice(slice, referringSlice) {

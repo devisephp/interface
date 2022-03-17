@@ -360,6 +360,8 @@ export default {
                 },
               })
               .then(() => {
+                window.deviseSettings.$bus.$emit('screenshotDone', this.slice);
+
                 window.deviseSettings.$bus.$emit('showMessage', {
                   title: 'Screenshot Generated',
                   message: `Pro tip: A screenshot of this slice has been generated.`,
