@@ -7,6 +7,7 @@
     >
       <div class="dvs-absolute dvs-z-0 dvs-inset-0 dvs-flex dvs-items-center dvs-justify-center">
         <svg
+          v-if="!loaded"
           class="w-16 h-16"
           fill="none"
           stroke="currentColor"
