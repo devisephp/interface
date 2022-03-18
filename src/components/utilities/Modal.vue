@@ -1,7 +1,7 @@
 <template>
   <div class="dvs-fixed dvs-inset-0 dvs-flex dvs-justify-center dvs-items-center">
     <div class="dvs-blocker dvs-fixed dvs-inset-0" @click="close"></div>
-    <div class="dvs-z-50 dvs-min-w-2/3 dvs-max-h-screen">
+    <div class="dvs-z-50 dvs-min-w-2/3 dvs-max-h-[90vh]">
       <panel class="dvs-w-full">
         <div class="dvs-p-8">
           <div

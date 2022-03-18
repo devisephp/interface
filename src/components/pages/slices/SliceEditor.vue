@@ -116,6 +116,7 @@
 
         <div class="dvs-relative">
           <div
+            v-if="can('capture slice image')"
             class="dvs-opacity-50 hover:dvs-opacity-100 dvs-text-xs dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-cursor-pointer dvs-mr-1 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-rounded-sm dvs-p-2"
             style="width: 50px"
             @click="requestGenerateScreenshotFromSlice()"

@@ -1,13 +1,13 @@
 <template>
   <div class="dvs-flex dvs-flex-col dvs-justify-between dvs-w-full dvs-bg-gray-700 dvs-border-box">
-    <slice-diagram v-if="preview" :slice-component="sliceComponent"></slice-diagram>
+    <slice-diagram :slice-component="sliceComponent"></slice-diagram>
     <div
       class="dvs-flex dvs-flex-col dvs-justify-between dvs-p-4 dvs-bg-gray-500 dvs-text-gray-100"
     >
       <div class="dvs-cursor-pointer dvs-text-sm dvs-font-bold">{{ file.name }}</div>
       <div class="flex-none">
-        <div v-if="description" class="dvs-text-2xs dvs-mb-2 dvs-opacity-75">
-          {{ description }}
+        <div class="dvs-text-2xs dvs-mb-2 dvs-opacity-75">
+          {{ description ? description : 'No description' }}
         </div>
         <div v-if="childSlot" class="dvs-text-xs dvs-flex dvs-items-align dvs-opacity-75">
           <information-circle-icon class="dvs-mr-1" />Can contain sub-slices

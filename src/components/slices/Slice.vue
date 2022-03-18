@@ -1,7 +1,6 @@
 <template>
   <component
     :is="currentView"
-    v-if="sliceComponent !== null"
     :id="id"
     ref="component"
     :style="styles"
@@ -14,7 +13,8 @@
     v-bind="$attrs"
     :class="[devise.metadata.name]"
     v-on="$listeners"
-  ></component>
+  >
+  </component>
 </template>
 
 <script>
