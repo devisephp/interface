@@ -1,6 +1,9 @@
 <template>
   <div class="dvs-flex dvs-flex-col dvs-justify-between dvs-w-full dvs-bg-gray-700 dvs-border-box">
-    <slice-diagram :slice-component="sliceComponent"></slice-diagram>
+    <slice-diagram
+      :slice-component="sliceComponent"
+      :thumbnail-base="thumbnailBase"
+    ></slice-diagram>
     <div
       class="dvs-flex dvs-flex-col dvs-justify-between dvs-p-4 dvs-bg-gray-500 dvs-text-gray-100"
     >
@@ -39,6 +42,10 @@ export default {
     file: {
       required: true,
       type: Object,
+    },
+    thumbnailBase: {
+      type: String,
+      default: null,
     },
   },
 

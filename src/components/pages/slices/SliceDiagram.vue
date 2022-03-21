@@ -29,7 +29,7 @@
           'dvs-opacity-0': !loaded,
           'dvs-opacity-100': loaded,
         }"
-        :src="`storage/slice-previews/${sliceComponent.name}.png`"
+        :src="`${thumbnailBase}/${sliceComponent.name}.png`"
         alt="Preview Image"
         @load="loaded = true"
         @click="zoom = true"
@@ -63,6 +63,10 @@ export default {
     sliceComponent: {
       type: Object,
       required: true,
+    },
+    thumbnailBase: {
+      type: String,
+      default: null,
     },
   },
 

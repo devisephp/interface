@@ -3,7 +3,7 @@
   <!-- eslint-disable vue/no-v-html -->
   <li class="dvs-collapsable dvs-mb-4" :class="{ 'dvs-open': sliceOpen }">
     <strong
-      class="dvs-block dvs-mb-2 dvs-switch-sm dvs-text-sm dvs-flex dvs-justify-between dvs-items-center dvs-w-full"
+      class="dvs-mb-2 dvs-switch-sm dvs-text-sm dvs-flex dvs-justify-between dvs-items-center dvs-w-full"
     >
       <div class="dvs-flex dvs-items-center dvs-justify-between dvs-w-full dvs-px-4">
         <div class="dvs-flex dvs-items-center dvs-w-full">
@@ -116,7 +116,7 @@
 
         <div class="dvs-relative">
           <div
-            v-if="can('capture slice image')"
+            v-if="can('manage slices')"
             class="dvs-opacity-50 hover:dvs-opacity-100 dvs-text-xs dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-cursor-pointer dvs-mr-1 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-rounded-sm dvs-p-2"
             style="width: 50px"
             @click="requestGenerateScreenshotFromSlice()"

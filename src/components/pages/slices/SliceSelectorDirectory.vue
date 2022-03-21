@@ -14,7 +14,11 @@
           class="dvs-w-full dvs-flex dvs-flex-col dvs-h-full dvs-shadow dvs-rounded dvs-overflow-hidden dvs-bg-gray-500 dvs-text-gray-100"
           :class="{ 'dvs-ring-2 dvs-ring-offset-2 dvs-ring-red-300': isSelected(file) }"
         >
-          <slice-selector-slice :file="file" class="dvs-mr-4"></slice-selector-slice>
+          <slice-selector-slice
+            :file="file"
+            :thumbnail-base="directory.thumbnailBase"
+            class="dvs-mr-4"
+          ></slice-selector-slice>
         </div>
       </div>
     </div>

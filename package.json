@@ -1,4 +1,5 @@
 {
+  "license": "MIT",
   "name": "devisephp-interface",
   "version": "2.3.2",
   "private": false,
