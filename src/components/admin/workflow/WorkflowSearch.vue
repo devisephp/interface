@@ -5,7 +5,7 @@
         <input
           v-model="searchTerm"
           type="text"
-          class="dvs-bg-transparent dvs-bg-admin-secondary-bg dvs-px-12 dvs-py-4 dvs-text-admin-fg dvs-outline-none dvs-placeholder-admin-fg dvs-text-center"
+          class="dvs-bg-transparent dvs-bg-admin-secondary-bg dvs-px-12 dvs-py-4 dvs-text-gray-200 dvs-outline-none dvs-placeholder-admin-fg dvs-text-center"
           placeholder="Type to begin searching"
         />
         <div
@@ -45,7 +45,7 @@
           <li
             v-for="(subField, subkey) in subLabelFields"
             :key="subkey"
-            class="dvs-mr-4 dvs-text-xs dvs-leading-tight dvs-w-1/4 dvs-bg-admin-bg dvs-text-admin-fg dvs-rounded dvs-p-3 dvs-opacity-75 dvs-break-words"
+            class="dvs-mr-4 dvs-text-xs dvs-leading-tight dvs-w-1/4 dvs-bg-gray-800 dvs-text-gray-200 dvs-rounded dvs-p-3 dvs-opacity-75 dvs-break-words"
           >
             <div class="dvs-uppercase dvs-text-xs">{{ subField.label }}</div>
             <div>{{ format(subField, suggestion[subField.field]) }}</div>
@@ -118,7 +118,7 @@ export default {
         this.searchGeneric({
           config: { apiendpoint: this.step.apiendpoint, app: isApp },
           filters: searchData,
-        }).then(results => {
+        }).then((results) => {
           this.autosuggest = results.data;
           if (results.data.length < 1) {
             window.deviseSettings.$bus.$emit('showMessage', {
@@ -138,7 +138,7 @@ export default {
       this.searchGeneric({
         config: { apiendpoint: this.step.allRecordsApiendpoint, app: isApp },
         filters,
-      }).then(results => {
+      }).then((results) => {
         this.autosuggest = results.data;
       });
     },

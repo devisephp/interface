@@ -7,9 +7,9 @@ const KEY_PREFIX = `__devise__${Date.now()}_`;
 
 let uid = 0;
 
-const isObject = val => val !== null && typeof val === 'object';
+const isObject = (val) => val !== null && typeof val === 'object';
 
-const genUniqueKey = obj => {
+const genUniqueKey = (obj) => {
   if (isObject(obj)) {
     if (UNIQUE_KEY_PROP in obj) {
       return obj[UNIQUE_KEY_PROP];

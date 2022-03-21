@@ -7,12 +7,12 @@
     >
       <div class="dvs-flex dvs-items-center dvs-justify-between dvs-w-full dvs-px-4">
         <div class="dvs-flex dvs-items-center dvs-w-full">
-          <div class="handle dvs-mr-2 dvs-cursor-move dvs-text-admin-fg dvs-opacity-50">
+          <div class="handle dvs-mr-2 dvs-cursor-move dvs-text-gray-200 dvs-opacity-50">
             <menu-icon />
           </div>
           <div
             dusk="slice-label"
-            class="dvs-relative dvs-w-full dvs-cursor-pointer dvs-text-admin-fg"
+            class="dvs-relative dvs-w-full dvs-cursor-pointer dvs-text-gray-200"
             :class="{ 'dvs-opacity-75': !sliceHasFieldsOrSlices }"
             @click="toggleSlice()"
             @mouseenter="markSlice(true, slice)"
@@ -46,7 +46,7 @@
       <div class="dvs-pt-2 dvs-flex dvs-items-end dvs-flex-wrap">
         <div>
           <div
-            class="dvs-opacity-50 hover:dvs-opacity-100 dvs-text-xs dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-rounded dvs-mr-1 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-rounded-sm dvs-p-2"
+            class="dvs-opacity-50 hover:dvs-opacity-100 dvs-text-xs dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-mr-1 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-rounded-sm dvs-p-2"
             style="width: 50px"
             :class="{
               'dvs-cursor-pointer': hasChildSlot,
@@ -55,73 +55,104 @@
             @click="requestInsertSlice()"
           >
             <add-icon w="25" h="25" />
-            <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Slice</div>
+            <div class="dvs-text-2xs dvs-text-center dvs-leading-none dvs-pt-2">Slice</div>
           </div>
         </div>
 
         <div>
           <div
-            class="dvs-opacity-50 hover:dvs-opacity-100 dvs-text-xs dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-rounded dvs-mr-1 dvs-cursor-pointer dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-rounded-sm dvs-p-2"
+            class="dvs-opacity-50 hover:dvs-opacity-100 dvs-text-xs dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-mr-1 dvs-cursor-pointer dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-rounded-sm dvs-p-2"
             style="width: 50px"
             @click="jumpToSlice()"
           >
             <locate-icon w="25" h="25" />
-            <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Find</div>
+            <div class="dvs-text-2xs dvs-text-center dvs-leading-none dvs-pt-2">Find</div>
           </div>
         </div>
 
         <div>
           <div
-            class="dvs-opacity-50 hover:dvs-opacity-100 dvs-text-xs dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-rounded dvs-cursor-pointer dvs-mr-1 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-rounded-sm dvs-p-2"
+            class="dvs-opacity-50 hover:dvs-opacity-100 dvs-text-xs dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-cursor-pointer dvs-mr-1 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-rounded-sm dvs-p-2"
             style="width: 50px"
             @click="copySlice(slice, false)"
           >
             <copy-icon w="25" h="25" />
-            <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Duplicate</div>
+            <div class="dvs-text-2xs dvs-text-center dvs-leading-none dvs-pt-2">Duplicate</div>
           </div>
         </div>
 
         <div>
           <div
-            class="dvs-opacity-50 hover:dvs-opacity-100 dvs-text-xs dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-rounded dvs-cursor-pointer dvs-mr-1 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-rounded-sm dvs-p-2"
+            class="dvs-opacity-50 hover:dvs-opacity-100 dvs-text-xs dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-cursor-pointer dvs-mr-1 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-rounded-sm dvs-p-2"
             style="width: 50px"
             @click="sliceSettings()"
           >
             <cog-icon w="25" h="25" />
-            <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Settings</div>
+            <div class="dvs-text-2xs dvs-text-center dvs-leading-none dvs-pt-2">Settings</div>
           </div>
         </div>
 
         <div>
           <div
-            class="dvs-opacity-50 hover:dvs-opacity-100 dvs-text-xs dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-rounded dvs-cursor-pointer dvs-mr-1 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-rounded-sm dvs-p-2"
+            class="dvs-opacity-50 hover:dvs-opacity-100 dvs-text-xs dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-cursor-pointer dvs-mr-1 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-rounded-sm dvs-p-2"
             style="width: 50px"
             @click="requestEditSlice()"
           >
             <create-icon w="25" h="25" />
-            <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Edit</div>
+            <div class="dvs-text-2xs dvs-text-center dvs-leading-none dvs-pt-2">Edit</div>
           </div>
         </div>
 
         <div>
           <div
-            class="dvs-opacity-50 hover:dvs-opacity-100 dvs-text-xs dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-rounded dvs-cursor-pointer dvs-mr-1 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-rounded-sm dvs-p-2"
+            class="dvs-opacity-50 hover:dvs-opacity-100 dvs-text-xs dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-cursor-pointer dvs-mr-1 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-rounded-sm dvs-p-2"
             style="width: 50px"
             @click="removeSlice()"
           >
             <remove-icon w="25" h="25" />
-            <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Remove</div>
+            <div class="dvs-text-2xs dvs-text-center dvs-leading-none dvs-pt-2">Remove</div>
+          </div>
+        </div>
+
+        <div class="dvs-relative">
+          <div
+            v-if="can('capture slice image')"
+            class="dvs-opacity-50 hover:dvs-opacity-100 dvs-text-xs dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-cursor-pointer dvs-mr-1 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-rounded-sm dvs-p-2"
+            style="width: 50px"
+            @click="requestGenerateScreenshotFromSlice()"
+          >
+            <image-icon w="25" h="25" />
+            <div class="dvs-text-2xs dvs-text-center dvs-leading-none dvs-pt-2">Capture</div>
+          </div>
+          <div
+            v-show="screenshotGenerating"
+            class="dvs-absolute dvs-z-10 dvs-inset-0 dvs-flex dvs-justify-center dvs-items-center"
+          >
+            <svg
+              class="dvs-animate-spin dvs-w-6 dvs-h-6 dvs-transform"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+              ></path>
+            </svg>
           </div>
         </div>
 
         <div>
           <div
-            class="dvs-opacity-50 hover:dvs-opacity-100 dvs-text-xs dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-rounded dvs-cursor-pointer dvs-mr-1 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-rounded-sm dvs-p-2"
+            class="dvs-opacity-50 hover:dvs-opacity-100 dvs-text-xs dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg dvs-cursor-pointer dvs-mr-1 dvs-items-center dvs-flex dvs-flex-col dvs-mb-2 dvs-rounded-sm dvs-p-2"
             style="width: 50px"
             @click="requestCopyToAnotherPage()"
           >
             <copy-icon w="25" h="25" />
-            <div class="dvs-text-xs dvs-text-center dvs-leading-none dvs-pt-2">Copy</div>
+            <div class="dvs-text-2xs dvs-text-center dvs-leading-none dvs-pt-2">Copy</div>
           </div>
         </div>
       </div>
@@ -224,6 +255,8 @@ export default {
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/MenuIcon'),
     RemoveIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/TrashIcon'),
+    ImageIcon: () =>
+      import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/ImageIcon'),
     SliceEditor: () => import(/* webpackChunkName: "devise-editors" */ './SliceEditor'),
     SliceEditorFields: () =>
       import(/* webpackChunkName: "devise-editors" */ './SliceEditorFields'),
@@ -249,6 +282,7 @@ export default {
       pageSlices: [],
       sliceOpen: false,
       showCopyToAnotherPage: false,
+      screenshotGenerating: false,
     };
   },
   computed: {
@@ -338,13 +372,13 @@ export default {
 
     // Marking Slice
     markSlice(on) {
-      window.window.deviseSettings.$bus.$emit('markSlice', this.slice, on);
+      window.deviseSettings.$bus.$emit('markSlice', this.slice, on);
     },
     jumpToSlice() {
-      window.window.deviseSettings.$bus.$emit('jumpToSlice', this.slice);
+      window.deviseSettings.$bus.$emit('jumpToSlice', this.slice);
     },
     sliceSettings() {
-      window.window.deviseSettings.$bus.$emit('openSliceSettings', this.slice);
+      window.deviseSettings.$bus.$emit('openSliceSettings', this.slice);
     },
 
     // Navigating Models
@@ -379,6 +413,17 @@ export default {
       this.slice = Object.assign({}, slice);
       this.manageSlice = false;
     },
+
+    requestGenerateScreenshotFromSlice() {
+      this.screenshotGenerating = true;
+      window.deviseSettings.$bus.$emit('screenshotSlice', this.slice);
+      window.deviseSettings.$bus.$on('screenshotDone', (slice) => {
+        if (slice.id === this.slice.id) {
+          this.screenshotGenerating = false;
+        }
+      });
+    },
+
     copySlice(slice, referringSlice) {
       if (referringSlice === null) {
         referringSlice = Object.assign({}, this.slice);

@@ -4,7 +4,7 @@
     <div
       v-for="(option, key) in options"
       :key="key"
-      class="dvs-bg-gray-300 text-sm dvs-cursor-pointer dvs-text-admin-bg dvs-text-center dvs-py-3 dvs-px-8 dvs-my-4 dvs-shadow dvs-rounded"
+      class="dvs-bg-gray-300 text-sm dvs-cursor-pointer dvs-text-gray-800 dvs-text-center dvs-py-3 dvs-px-8 dvs-my-4 dvs-shadow dvs-rounded"
       @click="chooseOption(option)"
       v-html="option.label"
     ></div>

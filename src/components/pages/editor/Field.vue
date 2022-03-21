@@ -30,7 +30,7 @@
         ></div>
         <panel
           id="field-panel"
-          class="dvs-fixed dvs-bottom-0 dvs-right-0 dvs-mx-8 dvs-mb-8 dvs-z-40 dvs-max-w-full dvs-bg-admin-bg dvs-text-admin-fg dvs-rounded"
+          class="dvs-fixed dvs-bottom-0 dvs-right-0 dvs-mx-8 dvs-mb-8 dvs-z-40 dvs-max-w-full dvs-bg-gray-800 dvs-text-gray-200 dvs-rounded"
         >
           <div class="dvs-p-8 dvs-flex dvs-flex-col">
             <h6 class="dvs-text-base dvs-mb-2 dvs-w-full uppercase">

@@ -38,12 +38,12 @@
                 arguments: localFile,
                 message: 'Are you sure you want to delete this media?',
               }"
-              class="dvs-mr-4 dvs-cursor-pointer dvs-text-admin-bg"
+              class="dvs-mr-4 dvs-cursor-pointer dvs-text-gray-800"
             >
               <trash-icon h="20" w="20" />
             </div>
             <a
-              class="dvs-mr-4 dvs-text-admin-bg"
+              class="dvs-mr-4 dvs-text-gray-800"
               :href="`/styled/preview/${localFile.url}`"
               target="_blank"
             >
@@ -52,7 +52,7 @@
             <a
               :href="`/styled/preview/${localFile.url}`"
               target="_blank"
-              class="dvs-text-admin-bg"
+              class="dvs-text-gray-800"
               download
             >
               <download-icon h="20" w="20" />

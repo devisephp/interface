@@ -1,5 +1,5 @@
 <template>
-  <div class="dvs-text-admin-fg">
+  <div class="dvs-text-gray-200">
     <fieldset class="dvs-fieldset">
       <label for="querykey">Data Set Query</label>
       <select id="querykey" v-model="query" name="querykey" class="w-full">

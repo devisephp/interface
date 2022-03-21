@@ -168,7 +168,7 @@
               class="dvs-flex dvs-justify-center dvs-items-center dvs-absolute dvs-absolute-center"
             >
               <div class="dvs-bg-white dvs-rounded dvs-p-8 dvs--mt-15 dvs-text-center dvs-shadow">
-                <folder-icon h="40" w="40" class="dvs-text-admin-bg" />
+                <folder-icon h="40" w="40" class="dvs-text-gray-800" />
                 <h6 class="dvs-mt-2 dvs-text-sm">
                   <span>No files in this directory</span>
                 </h6>
