@@ -12,6 +12,7 @@
     :component="sliceComponent"
     :slice-index="sliceIndex"
     v-bind="$attrs"
+    :class="[devise.metadata.name]"
     v-on="$listeners"
   ></component>
 </template>
