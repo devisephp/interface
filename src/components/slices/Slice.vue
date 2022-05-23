@@ -427,15 +427,17 @@ export default {
         typeof this.$refs.component !== 'undefined'
       ) {
         window.addEventListener('scroll', () => {
-          if (this.checkVisible(this.$refs.component.$el)) {
-            if (this.$refs.component && typeof this.$refs.component.isVisible !== 'undefined') {
-              this.$refs.component.isVisible();
+          if (this.$refs.component) {
+            if (this.checkVisible(this.$refs.component.$el)) {
+              if (this.$refs.component && typeof this.$refs.component.isVisible !== 'undefined') {
+                this.$refs.component.isVisible();
+              }
+            } else if (
+              this.$refs.component &&
+              typeof this.$refs.component.isHidden !== 'undefined'
+            ) {
+              this.$refs.component.isHidden();
             }
-          } else if (
-            this.$refs.component &&
-            typeof this.$refs.component.isHidden !== 'undefined'
-          ) {
-            this.$refs.component.isHidden();
           }
         });
       }

@@ -51,7 +51,7 @@
     <div class="dvs-flex dvs-items-stretch" style="max-height: 80vh">
       <div class="dvs-relative dvs-max-h-full dvs-flex" style="min-width: 300px">
         <div
-          class="dvs-h-full dvs-p-8 dvs-bg-gray-400est dvs-flex dvs-flex-col dvs-justify-start dvs-border-r dvs-border-lighter"
+          class="dvs-h-full dvs-p-8 dvs-flex dvs-flex-col dvs-justify-start dvs-border-r dvs-border-lighter dvs-overflow-y-scroll"
         >
           <form @submit.prevent="search">
             <div class="dvs-mb-8 flex">
@@ -61,7 +61,7 @@
                   v-model="searchTerms"
                   type="text"
                   placeholder="Search"
-                  class="mr-2"
+                  class="dvs-mr-2 dvs-w-full"
                 />
               </fieldset>
               <button type="submit" class="dvs-btn dvs-btn-primary dvs-btn-sm">Search</button>
@@ -72,10 +72,10 @@
             <li
               v-for="directory in directories"
               :key="directory.id"
-              class="dvs-flex items center dvs-cursor-pointer dvs-mt-2 dvs-text-bold"
+              class="dvs-flex items center dvs-cursor-pointer dvs-mt-2 dvs-text-bold dvs-truncate"
               @click="changeDirectories(directory.path)"
             >
-              <folder-icon class="dvs-mr-2"></folder-icon>
+              <folder-icon class="dvs-mr-2 dvs-flex-none"></folder-icon>
               {{ directory.name }}
             </li>
             <li v-if="directories.length < 1">No directories within this directory</li>
@@ -87,7 +87,7 @@
                 v-model="directoryToCreate"
                 type="text"
                 placeholder="New Directory"
-                class="mr-2"
+                class="dvs-w-full"
               />
             </fieldset>
             <button class="dvs-btn dvs-btn-primary dvs-btn-sm" @click="requestCreateDirectory()">

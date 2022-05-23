@@ -17,7 +17,6 @@
         'dvs-cursor-pointer': !file.on,
         'dvs-w-full': mode === 'list',
       }"
-      :style="indexStyles"
       @click="openFile(file)"
     >
       <!-- Closed File -->

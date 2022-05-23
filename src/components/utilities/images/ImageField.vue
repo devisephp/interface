@@ -173,14 +173,15 @@ export default {
       });
     },
     mediaSelected(imagesAndSettings) {
-      if (typeof this.image !== 'object') {
+      if (typeof this.image !== 'object' && imagesAndSettings.images) {
         this.image = imagesAndSettings.images.defaultImage;
         return imagesAndSettings.images.defaultImage;
       }
 
-      const value = {
-        url: imagesAndSettings.images.defaultImage,
-      };
+      const value = {};
+      if (imagesAndSettings.images) {
+        value.url = imagesAndSettings.images.defaultImage;
+      }
 
       if (typeof imagesAndSettings === 'object') {
         value.alt = imagesAndSettings.images.alt;
