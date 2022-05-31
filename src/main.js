@@ -217,7 +217,7 @@ const DevisePlugin = {
           tablet: 639,
           desktop: 767,
           largeDesktop: 1023,
-          extraLargeDesktop: 1119,
+          ultraWideDesktop: 1119,
         },
       },
       options
