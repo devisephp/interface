@@ -97,8 +97,10 @@ export default {
   data() {
     return {
       showPreview: false,
+      mode: 'object',
     };
   },
+
   computed: {
     image: {
       get() {
@@ -128,15 +130,15 @@ export default {
         return this.value;
       },
       set(newValue) {
-        if (typeof newValue === 'object') {
+        if (this.mode === 'object') {
           newValue.sizes = this.sizes;
           // Expects an object
           this.$emit('input', newValue);
           this.$emit('change', newValue);
         } else {
           // Expects just the string
-          this.$emit('input', newValue);
-          this.$emit('change', newValue);
+          this.$emit('input', newValue.url);
+          this.$emit('change', newValue.url);
         }
       },
     },
@@ -163,6 +165,17 @@ export default {
       return this.imageUrl !== '' && this.imageUrl !== null;
     },
   },
+
+  mounted() {
+    try {
+      JSON.parse(this.value);
+      this.mode = 'object';
+      this.image = JSON.parse(this.value);
+    } catch (e) {
+      this.mode = 'string';
+    }
+  },
+
   methods: {
     showMediaManager() {
       window.deviseSettings.$bus.$emit('devise-launch-media-manager', {
