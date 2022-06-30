@@ -135,6 +135,7 @@ export default {
   },
   methods: {
     ...mapActions('devise', ['regenerateMedia']),
+
     addListeners() {
       window.deviseSettings.$bus.$on('jumpToSlice', this.attemptJumpToSlice);
       window.deviseSettings.$bus.$on('screenshotSlice', this.attemptScreenshotSlice);
@@ -143,6 +144,7 @@ export default {
 
       this.addVisibilityScrollListeners();
     },
+
     hydrateMissingProperties() {
       const { fields } = this.sliceConfig(this.devise);
 
@@ -160,6 +162,7 @@ export default {
         }
       }
     },
+
     addMissingProperty(field) {
       // We just add all the properties to ensure there are not undefined props down the line
       const defaultProperties = {
@@ -175,6 +178,7 @@ export default {
       const mergedData = Object.assign({}, defaultProperties, this.deviseForSlice[field]);
       this.$set(this.deviseForSlice, field, mergedData);
     },
+
     checkDefaults() {
       const { fields } = this.sliceConfig(this.devise);
 
@@ -183,7 +187,7 @@ export default {
         // fields are present. If they aren't it's just because they haven't been
         // hydrated via the editor yet.
         for (const field in fields) {
-          if (this.deviseForSlice['field']) {
+          if (this.deviseForSlice[field]) {
             // If defaults are set then set them on top of the placeholder missing properties
             if (fields[field].default) {
               this.setDefaults(field, fields[field].default);
@@ -192,6 +196,7 @@ export default {
         }
       }
     },
+
     addFieldConfigurations(fields, field) {
       for (const pp in fields[field]) {
         if (!this.deviseForSlice[field]['pp']) {
@@ -199,6 +204,7 @@ export default {
         }
       }
     },
+
     setDefaults(property, defaults) {
       // loop through the defaults and apply them to the field
       for (const d in defaults) {
@@ -210,6 +216,7 @@ export default {
         }
       }
     },
+
     cleanupImageFields() {
       // If the current slice even has fields
       if (typeof this.currentView.fields !== 'undefined') {
@@ -231,6 +238,7 @@ export default {
         }
       }
     },
+
     checkMediaSizesForRegeneration() {
       // If the current slice even has fields
       if (typeof this.currentView.fields !== 'undefined') {
@@ -260,6 +268,7 @@ export default {
         }
       }
     },
+
     determineMediaRegenerationNeeds(field, fieldName) {
       // Check if all the sizes in the configuration are present in the media property
       for (const sizeName in field.sizes) {
@@ -302,6 +311,7 @@ export default {
 
       return false;
     },
+
     makeMediaRegenerationRequest(field, fieldName) {
       // Build the request payload
       const payload = {
@@ -318,6 +328,7 @@ export default {
         });
       });
     },
+
     attemptJumpToSlice(slice) {
       if (this.devise.metadata && slice.metadata) {
         if (this.devise.metadata.instance_id === slice.metadata.instance_id) {
@@ -388,6 +399,7 @@ export default {
         }
       }
     },
+
     markSlice(slice, on) {
       if (slice === this.devise) {
         const markers = document.getElementsByClassName('devise-component-marker');
@@ -442,11 +454,13 @@ export default {
         });
       }
     },
+
     checkVisible(elm) {
       const rect = elm.getBoundingClientRect();
       const viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
       return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
     },
+
     buildStyles(styles, margin, padding) {
       if (typeof margin !== 'undefined') {
         if (typeof margin.top !== 'undefined') {

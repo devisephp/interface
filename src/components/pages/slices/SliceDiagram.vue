@@ -32,25 +32,7 @@
         :src="`${thumbnailBase}/${sliceComponent.name}.png`"
         alt="Preview Image"
         @load="loaded = true"
-        @click="zoom = true"
       />
-    </div>
-
-    <div v-if="loaded && zoom" class="dvs-fixed dvs-inset-0 dvs-z-9999">
-      <div
-        class="dvs-absolute dvs-inset-0 dvs-backdrop-blur dvs-flex dvs-justify-center dvs-items-center"
-        @click="zoom = false"
-      >
-        <div style="height: 500px; width: 500px">
-          <img
-            :src="`storage/slice-previews/${sliceComponent.name}.png`"
-            alt="Preview Image"
-            width="500"
-            height="500"
-            class="dvs-w-full dvs-h-full dvs-object-contain rounded-lg"
-          />
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -72,7 +54,6 @@ export default {
 
   data() {
     return {
-      zoom: false,
       loaded: false,
     };
   },
