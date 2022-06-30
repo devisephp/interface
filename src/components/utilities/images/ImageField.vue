@@ -167,11 +167,10 @@ export default {
   },
 
   mounted() {
-    try {
-      JSON.parse(this.value);
+    if (this.sizes) {
       this.mode = 'object';
-      this.image = JSON.parse(this.value);
-    } catch (e) {
+      this.image = this.value;
+    } else {
       this.mode = 'string';
     }
   },
