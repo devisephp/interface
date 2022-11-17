@@ -452,6 +452,15 @@ export default {
             }
           }
         });
+
+        // Initial Check
+        if (this.$refs.component) {
+          if (this.checkVisible(this.$refs.component.$el)) {
+            if (this.$refs.component && typeof this.$refs.component.isVisible !== 'undefined') {
+              this.$refs.component.isVisible();
+            }
+          }
+        }
       }
     },
 
