@@ -442,6 +442,7 @@ export default {
           if (this.$refs.component) {
             if (this.checkVisible(this.$refs.component.$el)) {
               if (this.$refs.component && typeof this.$refs.component.isVisible !== 'undefined') {
+                console.log('here');
                 this.$refs.component.isVisible();
               }
             } else if (
@@ -454,13 +455,17 @@ export default {
         });
 
         // Initial Check
-        if (this.$refs.component) {
-          if (this.checkVisible(this.$refs.component.$el)) {
-            if (this.$refs.component && typeof this.$refs.component.isVisible !== 'undefined') {
-              this.$refs.component.isVisible();
+
+        setTimeout(() => {
+          if (this.$refs.component) {
+            if (this.checkVisible(this.$refs.component.$el)) {
+              if (this.$refs.component && typeof this.$refs.component.isVisible !== 'undefined') {
+                console.log('here');
+                this.$refs.component.isVisible();
+              }
             }
           }
-        }
+        }, 1000);
       }
     },
 
