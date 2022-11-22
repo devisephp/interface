@@ -179,7 +179,7 @@ export default {
       return file.used_count > 0;
     },
 
-    imageLoaded(e) {
+    imageLoaded() {
       this.localFile.loaded = true;
       this.calculateImageSize();
     },

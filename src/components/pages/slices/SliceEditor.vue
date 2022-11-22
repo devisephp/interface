@@ -185,6 +185,7 @@
         >
           <link-icon></link-icon>
         </div>
+
         <div class="dvs-mb-2 dvs-ml-4" v-html="buildEditorLabelForModel(record, null)"></div>
       </div>
     </div>
@@ -215,7 +216,6 @@
           <slice-editor
             :key="randomString(8, k)"
             v-model="sliceSlices[k]"
-            :child="true"
             @addSlice="addSlice"
             @editSlice="editSlice"
             @removeSlice="removeSlice"
@@ -296,6 +296,7 @@ export default {
         this.$emit('input', newValue);
       },
     },
+
     sliceSlices: {
       get() {
         return this.value.slices ? this.value.slices : [];
@@ -304,6 +305,7 @@ export default {
         this.$emit('input', newValue);
       },
     },
+
     sliceToManage: {
       get() {
         if (this.manageSliceMode === 'editing') {
@@ -393,6 +395,7 @@ export default {
         this.manageSlice = true;
       }
     },
+
     addSlice(slice, referringSlice) {
       if (typeof referringSlice === 'undefined') {
         referringSlice = this.slice;
@@ -400,6 +403,7 @@ export default {
       this.$emit('addSlice', slice, referringSlice);
       this.manageSlice = false;
     },
+
     requestEditSlice() {
       this.manageSliceMode = 'editing';
       this.manageSlice = true;
@@ -409,6 +413,7 @@ export default {
         }
       });
     },
+
     editSlice(slice) {
       this.slice = Object.assign({}, slice);
       this.manageSlice = false;
@@ -465,17 +470,19 @@ export default {
         select: 'value',
       };
 
+      let component = this.component(this.slice.metadata.name);
+
       let devMode = '';
       if (this.devMode) {
         devMode = `<div class="dvs-text-sm dvs-uppercase dvs-opacity-75">Instance Id: ${instanceId}</div>`;
       }
 
       for (const field in fields) {
-        if (fields[field]) {
-          const f = fields[field];
+        if (component.fields[field]) {
+          const f = component.fields[field];
 
-          if (f && f.editorLabel && f[acceptedFieldTypes[f.type]]) {
-            let label = f[acceptedFieldTypes[f.type]];
+          if (f && f.editorLabel && acceptedFieldTypes[f.type]) {
+            let label = fields[field][acceptedFieldTypes[f.type]];
 
             if (f.type === 'image') {
               label = `<div class="dvs-rounded dvs-bg-cover" style="background-image: url('${label}'); height:100px; width:200px;"></div>`;

@@ -88,7 +88,6 @@
                   <slice-editor
                     :key="randomString(8, key)"
                     v-model="currentPageSlices[key]"
-                    :depth="1"
                     @opened="openSlice(slice)"
                     @addSlice="addSlice"
                     @editSlice="editSlice"
