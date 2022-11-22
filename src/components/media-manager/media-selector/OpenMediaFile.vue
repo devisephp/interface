@@ -19,7 +19,7 @@
                 v-show="localFile.loaded"
                 :src="`/styled/preview/${localFile.url}?w=500&h=500`"
                 class="dvs-cursor-pointer dvs-mb-4"
-                @load="localFile.loaded = true"
+                @load="imageLoaded"
               />
             </transition>
 
@@ -31,32 +31,38 @@
             ></loading-screen>
           </div>
 
-          <div class="dvs-flex">
-            <div
-              v-devise-alert-confirm="{
-                callback: confirmedDeleteFile,
-                arguments: localFile,
-                message: 'Are you sure you want to delete this media?',
-              }"
-              class="dvs-mr-4 dvs-cursor-pointer dvs-text-gray-800"
-            >
-              <trash-icon h="20" w="20" />
+          <div class="dvs-flex dvs-justify-between">
+            <div class="dvs-flex">
+              <div
+                v-devise-alert-confirm="{
+                  callback: confirmedDeleteFile,
+                  arguments: localFile,
+                  message: 'Are you sure you want to delete this media?',
+                }"
+                class="dvs-mr-4 dvs-cursor-pointer dvs-text-gray-800"
+              >
+                <trash-icon h="20" w="20" />
+              </div>
+              <a
+                class="dvs-mr-4 dvs-text-gray-800"
+                :href="`/styled/preview/${localFile.url}`"
+                target="_blank"
+              >
+                <link-icon h="20" w="20" />
+              </a>
+              <a
+                :href="`/styled/preview/${localFile.url}`"
+                target="_blank"
+                class="dvs-text-gray-800"
+                download
+              >
+                <download-icon h="20" w="20" />
+              </a>
             </div>
-            <a
-              class="dvs-mr-4 dvs-text-gray-800"
-              :href="`/styled/preview/${localFile.url}`"
-              target="_blank"
-            >
-              <link-icon h="20" w="20" />
-            </a>
-            <a
-              :href="`/styled/preview/${localFile.url}`"
-              target="_blank"
-              class="dvs-text-gray-800"
-              download
-            >
-              <download-icon h="20" w="20" />
-            </a>
+
+            <div class="dvs-text-gray-600 dvs-text-sm dvs-uppercase dvs-font-bold">
+              {{ width }} x {{ height }}
+            </div>
           </div>
         </div>
         <div class="dvs-w-1/2">
@@ -131,6 +137,13 @@ export default {
     },
   },
 
+  data() {
+    return {
+      width: 0,
+      height: 0,
+    };
+  },
+
   computed: {
     localFile: {
       get() {
@@ -164,6 +177,20 @@ export default {
     },
     isActive(file) {
       return file.used_count > 0;
+    },
+
+    imageLoaded(e) {
+      this.localFile.loaded = true;
+      this.calculateImageSize();
+    },
+
+    calculateImageSize() {
+      const img = new Image();
+      img.src = `/styled/preview/${this.localFile.url}`;
+      img.onload = () => {
+        this.width = img.width;
+        this.height = img.height;
+      };
     },
   },
 };

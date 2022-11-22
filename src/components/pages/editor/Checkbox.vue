@@ -9,19 +9,13 @@
     @change="update"
   >
     <template slot="preview">
-      <span
-        v-if="checked === null || checked === ''"
-        class="dvs-italic"
-      >Currently No Value</span>
+      <span v-if="checked === null || checked === ''" class="dvs-italic">Currently No Value</span>
       <div>{{ checked ? 'On' : 'Off' }}</div>
     </template>
 
     <template slot="editor">
       <div class="dvs-flex dvs-items-center">
-        <toggle
-          :id="randomString(8)"
-          v-model="checked"
-        ></toggle>
+        <toggle :id="randomString(8)" v-model="checked"></toggle>
       </div>
     </template>
   </field-editor>
@@ -41,14 +35,14 @@ export default {
   props: {
     value: {
       type: Object,
-      required: true,
+      default: () => ({}),
     },
     options: {
       type: Object,
       required: true,
     },
   },
-  data () {
+  data() {
     return {
       originalValue: null,
       showEditor: false,
@@ -56,7 +50,7 @@ export default {
   },
   computed: {
     checked: {
-      get () {
+      get() {
         if (this.value) {
           return this.value.checked;
         }
@@ -65,21 +59,21 @@ export default {
         }
         return false;
       },
-      set (value) {
+      set(value) {
         const valueObj = Object.assign({}, this.value, { checked: value });
         this.$emit('input', valueObj);
         this.$emit('change', valueObj);
       },
     },
   },
-  mounted () {
+  mounted() {
     this.originalValue = Object.assign({}, this.value);
   },
   methods: {
-    toggleEditor () {
+    toggleEditor() {
       this.showEditor = !this.showEditor;
     },
-    cancel () {
+    cancel() {
       this.checked = this.originalValue.checked;
       this.enabled = this.originalValue.enabled;
     },

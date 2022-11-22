@@ -471,7 +471,7 @@ export default {
       }
 
       for (const field in fields) {
-        if (fields['field']) {
+        if (fields[field]) {
           const f = fields[field];
 
           if (f && f.editorLabel && f[acceptedFieldTypes[f.type]]) {
