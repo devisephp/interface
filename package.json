@@ -1,7 +1,7 @@
 {
   "license": "MIT",
   "name": "devisephp-interface",
-  "version": "2.3.13",
+  "version": "2.3.14",
   "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
