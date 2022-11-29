@@ -484,13 +484,13 @@ export default {
           if (f && f.editorLabel && acceptedFieldTypes[f.type]) {
             let label = fields[field][acceptedFieldTypes[f.type]];
 
-            if (f.type === 'image') {
-              label = `<div class="dvs-rounded dvs-bg-cover" style="background-image: url('${label}'); height:100px; width:200px;"></div>`;
-            } else if (f.type !== 'number') {
-              label = `${label.toLowerCase()}`;
-            }
-
             if (label) {
+              if (f.type === 'image') {
+                label = `<div class="dvs-rounded dvs-bg-cover" style="background-image: url('${label}'); height:100px; width:200px;"></div>`;
+              } else if (f.type !== 'number') {
+                label = `${label.toLowerCase()}`;
+              }
+
               return `${devMode}<div class="dvs-text-xs dvs-opacity-25 dvs-uppercase dvs-leading-tight">${this.slice.metadata.label}</div>
                 <div class="dvs-capitalize">${label}</div>`;
             }
