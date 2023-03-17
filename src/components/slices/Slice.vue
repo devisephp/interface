@@ -421,7 +421,7 @@ export default {
               </h1>
             </div>`;
             marker.classList =
-              'devise-component-marker dvs-absolute dvs-bg-black dvs-z-60 dvs-opacity-75';
+              'devise-component-marker dvs-absolute dvs-bg-black dvs-z-60 dvs-opacity-75 pointer-events-none';
             marker.style.cssText = `top:${offset.top}px;left:${offset.left}px;width:${width}px;height:${height}px`;
             document.body.appendChild(marker);
           } catch (error) {
@@ -442,7 +442,6 @@ export default {
           if (this.$refs.component) {
             if (this.checkVisible(this.$refs.component.$el)) {
               if (this.$refs.component && typeof this.$refs.component.isVisible !== 'undefined') {
-                console.log('here');
                 this.$refs.component.isVisible();
               }
             } else if (
@@ -460,7 +459,6 @@ export default {
           if (this.$refs.component) {
             if (this.checkVisible(this.$refs.component.$el)) {
               if (this.$refs.component && typeof this.$refs.component.isVisible !== 'undefined') {
-                console.log('here');
                 this.$refs.component.isVisible();
               }
             }

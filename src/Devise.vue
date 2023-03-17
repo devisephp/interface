@@ -2,10 +2,11 @@
   <div>
     <portal-target name="app-root"></portal-target>
 
-    <div id="devise-container" :class="[breakpoint, isPreviewFrame ? 'preview-frame' : '']">
-      <administration v-if="can('access admin') && !isPreviewFrame" />
-      <messages style="position: relative; z-index: 9999" />
-
+    <div
+      id="devise-container"
+      class="relative z-10"
+      :class="[breakpoint, isPreviewFrame ? 'preview-frame' : '']"
+    >
       <div id="dvs-app-content">
         <!-- Desktop mode in editor or just viewing page -->
         <div
@@ -66,6 +67,12 @@
         </div>
       </div>
     </div>
+
+    <administration
+      v-if="can('access admin') && !isPreviewFrame"
+      style="position: relative; z-index: 9999"
+    />
+    <messages style="position: relative; z-index: 9999" />
   </div>
 </template>
 

@@ -7,7 +7,7 @@
     >
       <div class="dvs-flex dvs-items-center dvs-justify-between dvs-w-full dvs-px-4">
         <div class="dvs-flex dvs-items-center dvs-w-full">
-          <div class="handle dvs-mr-2 dvs-cursor-move dvs-text-gray-200 dvs-opacity-50">
+          <div class="dvs-handle dvs-mr-2 dvs-cursor-move dvs-text-gray-200 dvs-opacity-50">
             <menu-icon />
           </div>
           <div

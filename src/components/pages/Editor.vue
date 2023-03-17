@@ -5,7 +5,7 @@
     class="dvs-relative dvs-max-w-1/2 dvs-self-center dvs-shadow-lg dvs-bg-gray-800 dvs-text-gray-200 dvs-rounded dvs-pointer-events-auto"
     style="min-width: 400px"
   >
-    <vue-scrollbar ref="Scrollbar" class="dvs-max-h-[90vh]">
+    <div ref="Scrollbar" class="dvs-max-h-[90vh]">
       <div>
         <div>
           <div v-if="can('manage slices')" class="dvs-pt-8 dvs-pb-16 dvs-relative">
@@ -25,7 +25,7 @@
             <div class="dvs-p-8 dvs-pt-0">
               <fieldset v-if="!showTimeTravel" class="dvs-fieldset">
                 <div class="flex flex-col items-stretch">
-                  <label class="dvs-opacity-75">Page Version</label>
+                  <label class="dvs-opacity-75 dvs-font-sans">Page Version</label>
                   <select
                     class="dvs-small dvs-bg-admin-secondary-bg dvs-text-admin-secondary-fg"
                     @change="selectVersion"
@@ -65,7 +65,7 @@
 
             <div class="dvs-px-8">
               <fieldset class="dvs-fieldset">
-                <label class="dvs-opacity-75">Page Slices</label>
+                <label class="dvs-opacity-75 dvs-font-sans">Page Slices</label>
               </fieldset>
             </div>
 
@@ -75,14 +75,14 @@
                   group: { name: 'slices' },
                   animation: 200,
                   ghostClass: 'dvs-ghost',
-                  handle: '.handle',
+                  handle: '.dvs-handle',
                   dragClass: 'dvs-chosen-drag-slice',
                   emptyInsertThreshold: 10,
                   removeCloneOnHide: false,
                 }"
                 :list="currentPageSlices"
                 tag="ul"
-                class="dvs-w-full dvs-px-4"
+                class="dvs-w-full dvs-px-4 dvs-relative dvs-z-[1000000]"
               >
                 <template v-for="(slice, key) in currentPageSlices">
                   <slice-editor
@@ -156,7 +156,7 @@
           </div>
         </div>
       </div>
-    </vue-scrollbar>
+    </div>
   </div>
 </template>
 
@@ -180,7 +180,6 @@ export default {
     SliceEditorFields: () =>
       import(/* webpackChunkName: "devise-editors" */ './slices/SliceEditorFields'),
     Toggle: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/Toggle'),
-    VueScrollbar: () => import(/* webpackChunkName: "devise-administration" */ 'vue2-scrollbar'),
     EditIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/EditIcon'),
   },
@@ -212,6 +211,7 @@ export default {
       return false;
     },
   },
+
   mounted() {
     if (this.additionalPageSettings) {
       this.currentPage.settings.fields = Object.assign(
