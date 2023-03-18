@@ -5,7 +5,7 @@
     class="dvs-relative dvs-max-w-1/2 dvs-self-center dvs-shadow-lg dvs-bg-gray-800 dvs-text-gray-200 dvs-rounded dvs-pointer-events-auto"
     style="min-width: 400px"
   >
-    <div ref="Scrollbar" class="dvs-max-h-[90vh]">
+    <vue-scrollbar ref="Scrollbar" class="dvs-max-h-[90vh]">
       <div>
         <div>
           <div v-if="can('manage slices')" class="dvs-pt-8 dvs-pb-16 dvs-relative">
@@ -73,7 +73,7 @@
               <draggable
                 v-bind="{
                   group: { name: 'slices' },
-                  animation: 200,
+                  animation: 100,
                   ghostClass: 'dvs-ghost',
                   handle: '.dvs-handle',
                   dragClass: 'dvs-chosen-drag-slice',
@@ -82,7 +82,7 @@
                 }"
                 :list="currentPageSlices"
                 tag="ul"
-                class="dvs-w-full dvs-px-4 dvs-relative dvs-z-[1000000]"
+                class="dvs-w-full dvs-px-4"
               >
                 <template v-for="(slice, key) in currentPageSlices">
                   <slice-editor
@@ -148,7 +148,7 @@
             </button>
 
             <button
-              class="dvs-btn dvs-btn-sm dvs-btn-secondary dvs-w-3/5 dvs-flex dvs-justify-center dvs-items-center dvs-uppercase dvs-font-bold dvs-w-2/5"
+              class="dvs-btn dvs-btn-sm dvs-btn-secondary dvs-flex dvs-justify-center dvs-items-center dvs-uppercase dvs-font-bold dvs-w-2/5"
               @click.prevent="requestAddSlice"
             >
               Add Slice
@@ -156,7 +156,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </vue-scrollbar>
   </div>
 </template>
 
@@ -180,6 +180,7 @@ export default {
     SliceEditorFields: () =>
       import(/* webpackChunkName: "devise-editors" */ './slices/SliceEditorFields'),
     Toggle: () => import(/* webpackChunkName: "devise-utilities" */ '../utilities/Toggle'),
+    VueScrollbar: () => import(/* webpackChunkName: "devise-administration" */ 'vue2-scrollbar'),
     EditIcon: () =>
       import(/* webpackChunkName: "devise-icons" */ 'vue-feather-icons/icons/EditIcon'),
   },
