@@ -206,7 +206,7 @@
           group: { name: 'slices' },
           animation: 200,
           ghostClass: 'dvs-ghost',
-          handle: '.handle',
+          handle: '.dvs-handle',
           dragClass: 'dvs-chosen-drag-slice',
           emptyInsertThreshold: 10,
           removeCloneOnHide: false,
